@@ -38,6 +38,9 @@
       "url": "http://github.com/aexmachina/factory-girl/raw/master/LICENSE"
     }
   ],
+  "engines": {
+    "node": ">=18.12.0"
+  },
   "dependencies": {
     "babel-runtime": "^6.11.6",
     "chance": "^1.0.4"

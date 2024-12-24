@@ -1,3 +1,13 @@
+## v6.0.0
+
+Fork from the original https://github.com/simonexmachina/factory-girl.
+
+Contains the following changes:
+
+- Drop support for node < 18.12.0, making the minimum required version 18.12.0.
+
+
+
 ## v4.0.0
 
 Total rewrite. Should preserve backwards compatibility except as noted below.
