@@ -1,4 +1,4 @@
-import DefaultAdapter from '../../src/adapters/DefaultAdapter.js';
+import DefaultAdapter from '../../src/adapters/DefaultAdapter';
 
 /**
  * Adapter that writes to an object

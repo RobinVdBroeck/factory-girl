@@ -1,7 +1,7 @@
-import '../test-helper/testUtils';
-import Sequence from '../../src/generators/Sequence';
+import '../test-helper/testUtils.js';
+import Sequence from '../../src/generators/Sequence.js';
 import { expect } from 'chai';
-import asyncFunction from '../test-helper/asyncFunction';
+import asyncFunction from '../test-helper/asyncFunction.js';
 import sinon from 'sinon';
 
 describe('Sequence', function () {

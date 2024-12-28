@@ -1,9 +1,9 @@
-import './test-helper/testUtils';
-import Factory from '../src/Factory';
+import './test-helper/testUtils.js';
+import Factory from '../src/Factory.js';
 import { expect } from 'chai';
-import DummyModel from './test-helper/DummyModel';
-import DummyAdapter from './test-helper/DummyAdapter';
-import asyncFunction from './test-helper/asyncFunction';
+import DummyModel from './test-helper/DummyModel.js';
+import DummyAdapter from './test-helper/DummyAdapter.js';
+import asyncFunction from './test-helper/asyncFunction.js';
 import sinon from 'sinon';
 
 describe('Factory', function () {

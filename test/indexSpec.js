@@ -1,4 +1,4 @@
-import './test-helper/testUtils';
+import './test-helper/testUtils.js';
 import { expect } from 'chai';
 import Factory, { DefaultAdapter } from '../src/index';
 

@@ -1,7 +1,7 @@
-import '../test-helper/testUtils';
-import asyncPopulate from '../../src/utils/asyncPopulate';
+import '../test-helper/testUtils.js';
+import asyncPopulate from '../../src/utils/asyncPopulate.js';
 import { expect } from 'chai';
-import asyncFunction from '../test-helper/asyncFunction';
+import asyncFunction from '../test-helper/asyncFunction.js';
 
 describe('asyncPopulate', function () {
   it('returns a promise', function () {

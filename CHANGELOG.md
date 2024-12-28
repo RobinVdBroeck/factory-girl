@@ -15,9 +15,11 @@ Contains the following public changes:
 And the following internal changes:
 
 - Add CI
-- Bump serveral dev dependencies
-- Move from a custom build script to rollup
-- Added prettier for formatting
+- Bump serveral dev dependencies.
+- Move from a custom build script to pkgroll.
+- Added prettier for formatting.
+- Use .js imports inside in the original source code to be spec compliant. Tests
+  are not affected.
 
 ## v4.0.0
 

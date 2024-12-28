@@ -1,8 +1,8 @@
-import '../test-helper/testUtils';
-import AssocAttrsMany from '../../src/generators/AssocAttrsMany';
+import '../test-helper/testUtils.js';
+import AssocAttrsMany from '../../src/generators/AssocAttrsMany.js';
 import { expect } from 'chai';
-import DummyFactoryGirl from '../test-helper/DummyFactoryGirl';
-import asyncFunction from '../test-helper/asyncFunction';
+import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
+import asyncFunction from '../test-helper/asyncFunction.js';
 import sinon from 'sinon';
 
 describe('AssocAttrsMany', function () {

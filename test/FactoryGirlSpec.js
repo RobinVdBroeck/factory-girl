@@ -1,12 +1,12 @@
-import './test-helper/testUtils';
-import FactoryGirl from '../src/FactoryGirl';
-import Factory from '../src/Factory';
-import DefaultAdapter from '../src/adapters/DefaultAdapter';
-import Sequence from '../src/generators/Sequence';
+import './test-helper/testUtils.js';
+import FactoryGirl from '../src/FactoryGirl.js';
+import Factory from '../src/Factory.js';
+import DefaultAdapter from '../src/adapters/DefaultAdapter.js';
+import Sequence from '../src/generators/Sequence.js';
 import { expect } from 'chai';
-import DummyModel from './test-helper/DummyModel';
-import DummyAdapter from './test-helper/DummyAdapter';
-import asyncFunction from './test-helper/asyncFunction';
+import DummyModel from './test-helper/DummyModel.js';
+import DummyAdapter from './test-helper/DummyAdapter.js';
+import asyncFunction from './test-helper/asyncFunction.js';
 import sinon from 'sinon';
 
 describe('FactoryGirl', function () {
