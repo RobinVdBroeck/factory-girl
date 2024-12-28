@@ -2,10 +2,14 @@
 
 Fork from the original https://github.com/simonexmachina/factory-girl.
 
-Contains the following changes:
+Contains the following public changes:
 
 - Drop support for node < 18.12.0, making the minimum required version 18.12.0.
 
+And the following internal changes:
+
+- Add CI
+- Bump serveral dev dependencies
 
 
 ## v4.0.0
