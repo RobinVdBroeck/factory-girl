@@ -1,9 +1,6 @@
-
-
-import '../test-helper/testUtils';
-import asyncPopulate from '../../src/utils/asyncPopulate';
+import '../test-helper/testUtils.js';
+import asyncPopulate from '../../src/utils/asyncPopulate.js';
 import { expect } from 'chai';
-import asyncFunction from '../test-helper/asyncFunction';
 
 describe('asyncPopulate', function () {
   it('returns a promise', function () {
@@ -22,38 +19,28 @@ describe('asyncPopulate', function () {
     ]);
   });
 
-  it('populates objects correctly', asyncFunction(async function () {
+  it('populates objects correctly', async function () {
     function Foo() {}
     const source = {
       num: 1,
       nullValue: null,
       undefinedValue: undefined,
       str: 'hello',
-      date: new Date,
-      foo: new Foo,
+      date: new Date(),
+      foo: new Foo(),
       funcs: {
         sync: () => 'shouldHaveThisValue',
-        /* eslint-disable arrow-parens */
+
         async: async () => 'shouldHaveResolvedValue',
-        /* eslint-enable arrow-parens */
+
         promise: () => Promise.resolve('shouldWorkWithPromises'),
       },
       arrays: {
         simple: [1, 2, 3],
-        funcs: [
-          () => 1,
-          /* eslint-disable arrow-parens */
-          async() => 2,
-          /* eslint-enable arrow-parens */
-          () => Promise.resolve(3),
-        ],
+        funcs: [() => 1, async () => 2, () => Promise.resolve(3)],
         nested: [
           1,
-          [
-            { a: 1, b: 2 },
-            { c: 3, d: 4 },
-            [{ p: () => 20, q: [6, 7] }],
-          ],
+          [{ a: 1, b: 2 }, { c: 3, d: 4 }, [{ p: () => 20, q: [6, 7] }]],
         ],
       },
     };
@@ -77,20 +64,23 @@ describe('asyncPopulate', function () {
         simple: [1, 2, 3],
         funcs: [1, 2, 3],
         nested: [
-          1, [
+          1,
+          [
             { a: 1, b: 2 },
             { c: 3, d: 4 },
-            [{
-              p: 20,
-              q: [6, 7],
-            }],
+            [
+              {
+                p: 20,
+                q: [6, 7],
+              },
+            ],
           ],
         ],
       },
     });
-  }));
+  });
 
-  it('overrides only provided data', asyncFunction(async function () {
+  it('overrides only provided data', async function () {
     const target = {
       x: {
         y: 1,
@@ -114,5 +104,5 @@ describe('asyncPopulate', function () {
       },
       p: [4],
     });
-  }));
+  });
 });

@@ -1,6 +1,5 @@
-
-import '../test-helper/testUtils';
-import Generator from '../../src/generators/Generator';
+import '../test-helper/testUtils.js';
+import Generator from '../../src/generators/Generator.js';
 import { expect } from 'chai';
 // import _debug from 'debug';
 
@@ -15,7 +14,6 @@ describe('Generator', function () {
 
     it('throws an error if factoryGirl is not passed', function () {
       function noFactoryGirl() {
-        // eslint-disable-next-line no-new
         new Generator();
       }
 

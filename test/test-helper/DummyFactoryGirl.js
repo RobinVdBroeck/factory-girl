@@ -1,9 +1,7 @@
-
-import DummyModel from './DummyModel';
-import DummyAdapter from './DummyAdapter';
+import DummyModel from './DummyModel.js';
+import DummyAdapter from './DummyAdapter.js';
 
 export default class DummyFactoryGirl {
-
   async create(/* name, attrs, buildOptions */) {
     return new DummyModel({
       name: 'Wayne',
@@ -65,6 +63,6 @@ export default class DummyFactoryGirl {
   }
 
   getAdapter(/* name */) {
-    return new DummyAdapter;
+    return new DummyAdapter();
   }
 }

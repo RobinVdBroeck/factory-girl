@@ -1,10 +1,12 @@
-
 export default class DummyModel {
   constructor(attrs = {}) {
-    this.attrs = Object.assign({
-      name: attrs.name || 'George',
-      age: attrs.age || 27,
-    }, attrs);
+    this.attrs = Object.assign(
+      {
+        name: attrs.name || 'George',
+        age: attrs.age || 27,
+      },
+      attrs,
+    );
     this.constructorCalled = true;
   }
   async save() {
