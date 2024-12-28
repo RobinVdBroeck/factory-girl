@@ -8,6 +8,9 @@ Contains the following public changes:
 - Dropped babel-runtime requirement
 - Dropped UMD and browser bundles. If you need browser support, use https://unpkg.com/
 - Dropped bower support
+- Removed all but the default and object adapter. If you are using on the previous existing
+  onces, just implement a class extending DefaultAdapter yourself, which is
+  trivial.
 
 And the following internal changes:
 

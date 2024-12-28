@@ -551,81 +551,10 @@ function deprecate(method, see) {
   };
 }
 
-/* eslint-disable no-unused-vars */
-class ObjectAdapter extends DefaultAdapter {
-  build(Model, props) {
-    const model = new Model();
-    this.set(props, model, Model);
-    return model;
-  }
-  async save(model, Model) {
-    return model;
-  }
-  async destroy(model, Model) {
-    return model;
-  }
-  get(model, attr, Model) {
-    return model[attr];
-  }
-  set(props, model, Model) {
-    return Object.assign(model, props);
-  }
-}
-
-/* eslint-disable no-unused-vars */
-class BookshelfAdapter extends DefaultAdapter {
-  save(doc, Model) {
-    return doc.save(null, { method: 'insert' });
-  }
-}
-
-/* eslint-disable no-unused-vars */
-class MongooseAdapter extends DefaultAdapter {
-  async destroy(model, Model) {
-    return model.remove();
-  }
-}
-
-/* eslint-disable no-unused-vars */
-class SequelizeAdapter extends DefaultAdapter {
-  build(Model, props) {
-    return Model.build(props);
-  }
-}
-
-/* eslint-disable no-unused-vars */
-class ReduxORMAdapter extends DefaultAdapter {
-  constructor(session) {
-    super();
-    this.session = session;
-  }
-
-  build(modelName, props) {
-    return this.session[modelName].create(props);
-  }
-
-  get(model, attr) {
-    return model[attr];
-  }
-
-  async save(model, Model) {
-    return model;
-  }
-
-  async destroy(model, Model) {
-    return Promise.resolve(model.delete()).then(() => true);
-  }
-}
-
 const factory = new FactoryGirl();
 factory.FactoryGirl = FactoryGirl;
 
-exports.BookshelfAdapter = BookshelfAdapter;
 exports.DefaultAdapter = DefaultAdapter;
-exports.MongooseAdapter = MongooseAdapter;
-exports.ObjectAdapter = ObjectAdapter;
-exports.ReduxORMAdapter = ReduxORMAdapter;
-exports.SequelizeAdapter = SequelizeAdapter;
 exports.default = factory;
 exports.factory = factory;
 //# sourceMappingURL=index.cjs.map
