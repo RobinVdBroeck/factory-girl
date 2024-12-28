@@ -1,22 +1,24 @@
-import DefaultAdapter from './DefaultAdapter';
+import DefaultAdapter from '../../src/adapters/DefaultAdapter.js';
 
-/* eslint-disable no-unused-vars */
+/**
+ * Adapter that writes to an object
+ */
 export default class ObjectAdapter extends DefaultAdapter {
   build(Model, props) {
     const model = new Model();
     this.set(props, model, Model);
     return model;
   }
-  async save(model, Model) {
+  async save(model) {
     return model;
   }
-  async destroy(model, Model) {
+  async destroy(model) {
     return model;
   }
-  get(model, attr, Model) {
+  get(model, attr) {
     return model[attr];
   }
-  set(props, model, Model) {
+  set(props, model) {
     return Object.assign(model, props);
   }
 }

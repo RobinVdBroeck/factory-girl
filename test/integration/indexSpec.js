@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import Factory, { ObjectAdapter } from '../../src';
-import '../test-helper/dummyFactories';
+import Factory from '../../src/index';
 import asyncFunction from '../test-helper/asyncFunction';
+import ObjectAdapter from '../test-helper/ObjectAdapter';
+import '../test-helper/dummyFactories';
 
 describe('indexIntegration', function () {
   Factory.setAdapter(new ObjectAdapter());
