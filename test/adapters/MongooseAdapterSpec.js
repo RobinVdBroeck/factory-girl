@@ -1,8 +1,8 @@
-import '../test-helper/testUtils';
-import MongooseAdapter from '../../src/adapters/MongooseAdapter';
+import '../test-helper/testUtils.js';
+import MongooseAdapter from '../../src/adapters/MongooseAdapter.js';
 import { expect } from 'chai';
-import DummyMongooseModel from '../test-helper/DummyMongooseModel';
-import asyncFunction from '../test-helper/asyncFunction';
+import DummyMongooseModel from '../test-helper/DummyMongooseModel.js';
+import asyncFunction from '../test-helper/asyncFunction.js';
 
 describe('MongooseAdapter', function () {
   it('can be created', function () {

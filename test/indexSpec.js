@@ -1,4 +1,4 @@
-import './test-helper/testUtils';
+import './test-helper/testUtils.js';
 import { expect } from 'chai';
 import Factory, {
   BookshelfAdapter,
@@ -6,14 +6,14 @@ import Factory, {
   DefaultAdapter,
   MongooseAdapter,
   ObjectAdapter,
-} from '../src';
+} from '../src/index.js';
 
-import FactoryGirl from '../src/FactoryGirl';
-import BA from '../src/adapters/BookshelfAdapter';
-import SA from '../src/adapters/SequelizeAdapter';
-import DA from '../src/adapters/DefaultAdapter';
-import MA from '../src/adapters/MongooseAdapter';
-import OA from '../src/adapters/ObjectAdapter';
+import FactoryGirl from '../src/FactoryGirl.js';
+import BA from '../src/adapters/BookshelfAdapter.js';
+import SA from '../src/adapters/SequelizeAdapter.js';
+import DA from '../src/adapters/DefaultAdapter.js';
+import MA from '../src/adapters/MongooseAdapter.js';
+import OA from '../src/adapters/ObjectAdapter.js';
 
 describe('index', function () {
   it('exports correctly', function () {

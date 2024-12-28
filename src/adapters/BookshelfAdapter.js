@@ -1,4 +1,4 @@
-import DefaultAdapter from './DefaultAdapter';
+import DefaultAdapter from './DefaultAdapter.js';
 
 /* eslint-disable no-unused-vars */
 export default class BookshelfAdapter extends DefaultAdapter {

@@ -1,5 +1,5 @@
-import '../test-helper/testUtils';
-import BookshelfAdapter from '../../src/adapters/BookshelfAdapter';
+import '../test-helper/testUtils.js';
+import BookshelfAdapter from '../../src/adapters/BookshelfAdapter.js';
 import _bookshelf from 'bookshelf';
 import _knex from 'knex';
 import { expect } from 'chai';

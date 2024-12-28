@@ -1,6 +1,6 @@
-import '../test-helper/testUtils';
-import MongooseAdapter from '../../src/adapters/MongooseAdapter';
-import { factory } from '../../src/index';
+import '../test-helper/testUtils.js';
+import MongooseAdapter from '../../src/adapters/MongooseAdapter.js';
+import { factory } from '../../src/index.js';
 import mongoose from 'mongoose';
 import { expect } from 'chai';
 

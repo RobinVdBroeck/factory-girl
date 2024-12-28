@@ -1,6 +1,6 @@
-import OneOf from '../../src/generators/OneOf';
+import OneOf from '../../src/generators/OneOf.js';
 import { expect } from 'chai';
-import asyncFunction from '../test-helper/asyncFunction';
+import asyncFunction from '../test-helper/asyncFunction.js';
 
 describe('OneOf', function () {
   describe('#constructor', function () {

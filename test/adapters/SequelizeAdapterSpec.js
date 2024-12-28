@@ -1,8 +1,8 @@
-import '../test-helper/testUtils';
-import SequelizeAdapter from '../../src/adapters/SequelizeAdapter';
+import '../test-helper/testUtils.js';
+import SequelizeAdapter from '../../src/adapters/SequelizeAdapter.js';
 import { expect } from 'chai';
-import DummySequelizeModel from '../test-helper/DummySequelizeModel';
-import asyncFunction from '../test-helper/asyncFunction';
+import DummySequelizeModel from '../test-helper/DummySequelizeModel.js';
+import asyncFunction from '../test-helper/asyncFunction.js';
 
 describe('SequelizeAdapter', function () {
   it('can be created', function () {

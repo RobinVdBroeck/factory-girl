@@ -1,12 +1,12 @@
-import Factory from './Factory';
-import Sequence from './generators/Sequence';
-import Assoc from './generators/Assoc';
-import AssocAttrs from './generators/AssocAttrs';
-import AssocMany from './generators/AssocMany';
-import AssocAttrsMany from './generators/AssocAttrsMany';
-import ChanceGenerator from './generators/ChanceGenerator';
-import OneOf from './generators/OneOf';
-import DefaultAdapter from './adapters/DefaultAdapter';
+import Factory from './Factory.js';
+import Sequence from './generators/Sequence.js';
+import Assoc from './generators/Assoc.js';
+import AssocAttrs from './generators/AssocAttrs.js';
+import AssocMany from './generators/AssocMany.js';
+import AssocAttrsMany from './generators/AssocAttrsMany.js';
+import ChanceGenerator from './generators/ChanceGenerator.js';
+import OneOf from './generators/OneOf.js';
+import DefaultAdapter from './adapters/DefaultAdapter.js';
 
 export default class FactoryGirl {
   factories = {};

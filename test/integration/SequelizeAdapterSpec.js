@@ -1,5 +1,5 @@
-import '../test-helper/testUtils';
-import SequelizeAdapter from '../../src/adapters/SequelizeAdapter';
+import '../test-helper/testUtils.js';
+import SequelizeAdapter from '../../src/adapters/SequelizeAdapter.js';
 import Sequelize from 'sequelize';
 import { expect } from 'chai';
 

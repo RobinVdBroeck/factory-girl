@@ -1,9 +1,9 @@
-import '../test-helper/testUtils';
-import { generatorThunk } from '../../src/FactoryGirl';
+import '../test-helper/testUtils.js';
+import { generatorThunk } from '../../src/FactoryGirl.js';
 import { expect } from 'chai';
-import DummyFactoryGirl from '../test-helper/DummyFactoryGirl';
-import DummyGenerator from '../test-helper/DummyGenerator';
-import asyncFunction from '../test-helper/asyncFunction';
+import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
+import DummyGenerator from '../test-helper/DummyGenerator.js';
+import asyncFunction from '../test-helper/asyncFunction.js';
 import sinon from 'sinon';
 
 describe('generatorThunk', function () {

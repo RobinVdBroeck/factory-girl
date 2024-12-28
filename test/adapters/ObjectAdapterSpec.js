@@ -1,8 +1,8 @@
-import '../test-helper/testUtils';
-import ObjectAdapter from '../../src/adapters/ObjectAdapter';
+import '../test-helper/testUtils.js';
+import ObjectAdapter from '../../src/adapters/ObjectAdapter.js';
 import { expect } from 'chai';
-import DummyModel from '../test-helper/DummyModel';
-import asyncFunction from '../test-helper/asyncFunction';
+import DummyModel from '../test-helper/DummyModel.js';
+import asyncFunction from '../test-helper/asyncFunction.js';
 
 describe('ObjectAdapter', function () {
   it('can be created', function () {

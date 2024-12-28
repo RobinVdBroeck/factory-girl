@@ -1,8 +1,8 @@
-import '../test-helper/testUtils';
-import ReduxORMAdapter from '../../src/adapters/ReduxORMAdapter';
+import '../test-helper/testUtils.js';
+import ReduxORMAdapter from '../../src/adapters/ReduxORMAdapter.js';
 import { expect } from 'chai';
-import DummyReduxORMModel from '../test-helper/DummyReduxORMModel';
-import asyncFunction from '../test-helper/asyncFunction';
+import DummyReduxORMModel from '../test-helper/DummyReduxORMModel.js';
+import asyncFunction from '../test-helper/asyncFunction.js';
 import { ORM } from 'redux-orm';
 
 const orm = new ORM();
