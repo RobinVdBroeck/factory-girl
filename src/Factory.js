@@ -37,7 +37,7 @@ export default class Factory {
     const modelAttrs = {};
 
     const filteredAttrs = Object.keys(factoryAttrs).reduce((attrs, name) => {
-      if (!extraAttrs.hasOwnProperty(name)) attrs[name] = factoryAttrs[name];
+      if (!Object.hasOwn(extraAttrs, name)) attrs[name] = factoryAttrs[name];
       return attrs;
     }, {});
 

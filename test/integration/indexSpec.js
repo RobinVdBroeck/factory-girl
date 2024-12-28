@@ -6,6 +6,7 @@ import asyncFunction from '../test-helper/asyncFunction.js';
 
 describe('indexIntegration', function () {
   Factory.setAdapter(new ObjectAdapter());
+
   beforeEach(function () {
     Factory.cleanUp();
   });

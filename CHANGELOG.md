@@ -19,6 +19,7 @@ And the following internal changes:
 - Move from a custom build script to rollup
 - Added prettier for formatting
 - Add .js imports everywhere to be spec compliant
+- Updated eslint to v9
 
 ## v4.0.0
 

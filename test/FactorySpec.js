@@ -23,7 +23,6 @@ describe('Factory', function () {
     });
 
     it('validates Model', function () {
-      /* eslint-disable no-new */
       function noModel() {
         new Factory();
       }
@@ -36,15 +35,12 @@ describe('Factory', function () {
         new Factory(DummyModel, {});
       }
 
-      /* eslint-enable no-new */
-
       expect(noModel).to.throw(Error);
       expect(invalidModel).to.throw(Error);
       expect(validModel).to.not.throw(Error);
     });
 
     it('validates initializer', function () {
-      /* eslint-disable no-new */
       function noInitializer() {
         new Factory(DummyModel);
       }
@@ -60,8 +56,6 @@ describe('Factory', function () {
       function functionInitializer() {
         new Factory(DummyModel, function () {});
       }
-
-      /* eslint-enable no-new */
 
       expect(noInitializer).to.throw(Error);
       expect(invalidInitializer).to.throw(Error);

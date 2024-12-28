@@ -1,6 +1,5 @@
 import Chance from 'chance';
 
-/* eslint-disable no-underscore-dangle */
 function asyncPopulate(target, source) {
   if (typeof target !== 'object') {
     return Promise.reject(new Error('Invalid target passed'));
@@ -32,7 +31,6 @@ function asyncPopulate(target, source) {
   });
   return Promise.all(promises);
 }
-/* eslint-enable no-underscore-dangle */
 
 const objectProto = Object.getPrototypeOf({});
 function isPlainObject(o) {
@@ -76,7 +74,7 @@ class Factory {
     const modelAttrs = {};
 
     const filteredAttrs = Object.keys(factoryAttrs).reduce((attrs, name) => {
-      if (!extraAttrs.hasOwnProperty(name)) attrs[name] = factoryAttrs[name];
+      if (!Object.hasOwn(extraAttrs, name)) attrs[name] = factoryAttrs[name];
       return attrs;
     }, {});
 
