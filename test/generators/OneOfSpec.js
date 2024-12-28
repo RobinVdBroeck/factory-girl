@@ -1,6 +1,5 @@
 import OneOf from '../../src/generators/OneOf.js';
 import { expect } from 'chai';
-import asyncFunction from '../test-helper/asyncFunction.js';
 
 describe('OneOf', function () {
   describe('#constructor', function () {
@@ -33,62 +32,47 @@ describe('OneOf', function () {
       return expect(valP).to.be.eventually.fulfilled;
     });
 
-    it(
-      'always generates one of the passed values',
-      asyncFunction(async function () {
-        const possibleValues = [1, 'two', 'III'];
-        const oneOf = new OneOf({});
+    it('always generates one of the passed values', async function () {
+      const possibleValues = [1, 'two', 'III'];
+      const oneOf = new OneOf({});
 
-        for (let i = 0; i < 5; i++) {
-          const aValue = await oneOf.generate(possibleValues);
-          expect(possibleValues.indexOf(aValue) > -1).to.be.true;
-        }
-      }),
-    );
+      for (let i = 0; i < 5; i++) {
+        const aValue = await oneOf.generate(possibleValues);
+        expect(possibleValues.indexOf(aValue) > -1).to.be.true;
+      }
+    });
 
-    it(
-      'can accept functions as values',
-      asyncFunction(async function () {
-        const possibleValues = [() => 23];
-        const oneOf = new OneOf({});
+    it('can accept functions as values', async function () {
+      const possibleValues = [() => 23];
+      const oneOf = new OneOf({});
 
-        const val = await oneOf.generate(possibleValues);
-        expect(val).to.be.equal(23);
-      }),
-    );
+      const val = await oneOf.generate(possibleValues);
+      expect(val).to.be.equal(23);
+    });
 
-    it(
-      'can accept async functions as values',
-      asyncFunction(async function () {
-        const possibleValues = [async () => 23];
+    it('can accept async functions as values', async function () {
+      const possibleValues = [async () => 23];
 
-        const oneOf = new OneOf({});
+      const oneOf = new OneOf({});
 
-        const val = await oneOf.generate(possibleValues);
-        expect(val).to.be.equal(23);
-      }),
-    );
+      const val = await oneOf.generate(possibleValues);
+      expect(val).to.be.equal(23);
+    });
 
-    it(
-      'can accept functions returning promises as values',
-      asyncFunction(async function () {
-        const possibleValues = [() => Promise.resolve(23)];
-        const oneOf = new OneOf({});
+    it('can accept functions returning promises as values', async function () {
+      const possibleValues = [() => Promise.resolve(23)];
+      const oneOf = new OneOf({});
 
-        const val = await oneOf.generate(possibleValues);
-        expect(val).to.be.equal(23);
-      }),
-    );
+      const val = await oneOf.generate(possibleValues);
+      expect(val).to.be.equal(23);
+    });
 
-    it(
-      'can accept promises as values',
-      asyncFunction(async function () {
-        const possibleValues = [Promise.resolve(23)];
-        const oneOf = new OneOf({});
+    it('can accept promises as values', async function () {
+      const possibleValues = [Promise.resolve(23)];
+      const oneOf = new OneOf({});
 
-        const val = await oneOf.generate(possibleValues);
-        expect(val).to.be.equal(23);
-      }),
-    );
+      const val = await oneOf.generate(possibleValues);
+      expect(val).to.be.equal(23);
+    });
   });
 });

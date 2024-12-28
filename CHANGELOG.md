@@ -20,6 +20,7 @@ And the following internal changes:
 - Added prettier for formatting
 - Add .js imports everywhere to be spec compliant
 - Updated eslint to v9
+- Update mocha and other test dependencies to latest version and don't use babel to run tests
 
 ## v4.0.0
 

@@ -3,7 +3,6 @@ import { generatorThunk } from '../../src/FactoryGirl.js';
 import { expect } from 'chai';
 import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
 import DummyGenerator from '../test-helper/DummyGenerator.js';
-import asyncFunction from '../test-helper/asyncFunction.js';
 import sinon from 'sinon';
 
 describe('generatorThunk', function () {
@@ -16,21 +15,15 @@ describe('generatorThunk', function () {
     const factory = new DummyFactoryGirl();
     const generatorFunc = sinon.spy(generatorThunk(factory, DummyGenerator));
 
-    it(
-      'passes arguments to Generator',
-      asyncFunction(async function () {
-        await generatorFunc(1, 2, 3);
-        expect(generatorFunc).to.have.been.calledWith(1, 2, 3);
-      }),
-    );
+    it('passes arguments to Generator', async function () {
+      await generatorFunc(1, 2, 3);
+      expect(generatorFunc).to.have.been.calledWith(1, 2, 3);
+    });
 
-    it(
-      'resolves to generator#generate value',
-      asyncFunction(async function () {
-        const valueFunction = await generatorFunc();
-        const value = valueFunction();
-        expect(value).to.be.equal('hello');
-      }),
-    );
+    it('resolves to generator#generate value', async function () {
+      const valueFunction = await generatorFunc();
+      const value = valueFunction();
+      expect(value).to.be.equal('hello');
+    });
   });
 });
