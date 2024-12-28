@@ -1,28 +1,28 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.FactoryGirl = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.FactoryGirl = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/get-iterator"), __esModule: true };
-},{"core-js/library/fn/get-iterator":25}],2:[function(require,module,exports){
+},{"core-js/library/fn/get-iterator":28}],2:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/is-iterable"), __esModule: true };
-},{"core-js/library/fn/is-iterable":26}],3:[function(require,module,exports){
+},{"core-js/library/fn/is-iterable":29}],3:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/assign"), __esModule: true };
-},{"core-js/library/fn/object/assign":27}],4:[function(require,module,exports){
+},{"core-js/library/fn/object/assign":30}],4:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/create"), __esModule: true };
-},{"core-js/library/fn/object/create":28}],5:[function(require,module,exports){
+},{"core-js/library/fn/object/create":31}],5:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/define-property"), __esModule: true };
-},{"core-js/library/fn/object/define-property":29}],6:[function(require,module,exports){
+},{"core-js/library/fn/object/define-property":32}],6:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/get-prototype-of"), __esModule: true };
-},{"core-js/library/fn/object/get-prototype-of":30}],7:[function(require,module,exports){
+},{"core-js/library/fn/object/get-prototype-of":33}],7:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/keys"), __esModule: true };
-},{"core-js/library/fn/object/keys":31}],8:[function(require,module,exports){
+},{"core-js/library/fn/object/keys":34}],8:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/set-prototype-of"), __esModule: true };
-},{"core-js/library/fn/object/set-prototype-of":32}],9:[function(require,module,exports){
+},{"core-js/library/fn/object/set-prototype-of":35}],9:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/promise"), __esModule: true };
-},{"core-js/library/fn/promise":33}],10:[function(require,module,exports){
+},{"core-js/library/fn/promise":36}],10:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/set"), __esModule: true };
-},{"core-js/library/fn/set":34}],11:[function(require,module,exports){
+},{"core-js/library/fn/set":37}],11:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/symbol"), __esModule: true };
-},{"core-js/library/fn/symbol":35}],12:[function(require,module,exports){
+},{"core-js/library/fn/symbol":38}],12:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/symbol/iterator"), __esModule: true };
-},{"core-js/library/fn/symbol/iterator":36}],13:[function(require,module,exports){
+},{"core-js/library/fn/symbol/iterator":39}],13:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -250,9 +250,775 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
   return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
 };
 },{"../core-js/symbol":11,"../core-js/symbol/iterator":12}],21:[function(require,module,exports){
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+// This method of obtaining a reference to the global object needs to be
+// kept identical to the way it is obtained in runtime.js
+var g = (function() { return this })() || Function("return this")();
+
+// Use `getOwnPropertyNames` because not all browsers support calling
+// `hasOwnProperty` on the global `self` object in a worker. See #183.
+var hadRuntime = g.regeneratorRuntime &&
+  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
+
+// Save the old regeneratorRuntime in case it needs to be restored later.
+var oldRuntime = hadRuntime && g.regeneratorRuntime;
+
+// Force reevalutation of runtime.js.
+g.regeneratorRuntime = undefined;
+
+module.exports = require("./runtime");
+
+if (hadRuntime) {
+  // Restore the original runtime.
+  g.regeneratorRuntime = oldRuntime;
+} else {
+  // Remove the global property added by runtime.js.
+  try {
+    delete g.regeneratorRuntime;
+  } catch(e) {
+    g.regeneratorRuntime = undefined;
+  }
+}
+
+},{"./runtime":22}],22:[function(require,module,exports){
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+!(function(global) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  var inModule = typeof module === "object";
+  var runtime = global.regeneratorRuntime;
+  if (runtime) {
+    if (inModule) {
+      // If regeneratorRuntime is defined globally and we're in a module,
+      // make the exports object identical to regeneratorRuntime.
+      module.exports = runtime;
+    }
+    // Don't bother evaluating the rest of this file if the runtime was
+    // already defined globally.
+    return;
+  }
+
+  // Define the runtime globally (as expected by generated code) as either
+  // module.exports (if we're in a module) or a new, empty object.
+  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  runtime.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  runtime.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  runtime.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  runtime.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration. If the Promise is rejected, however, the
+          // result for this iteration will be rejected with the same
+          // reason. Note that rejections of yielded Promises are not
+          // thrown back into the generator function, as is the case
+          // when an awaited Promise is rejected. This difference in
+          // behavior between yield and await is important, because it
+          // allows the consumer to decide what to do with the yielded
+          // rejection (swallow it and continue, manually .throw it back
+          // into the generator, abandon iteration, whatever). With
+          // await, by contrast, there is no opportunity to examine the
+          // rejection reason outside the generator function, so the
+          // only option is to throw it from the await expression, and
+          // let the generator function handle the exception.
+          result.value = unwrapped;
+          resolve(result);
+        }, reject);
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  runtime.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return runtime.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        if (delegate.iterator.return) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  runtime.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  runtime.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+})(
+  // In sloppy mode, unbound `this` refers to the global object, fallback to
+  // Function constructor if we're in global strict mode. That is sadly a form
+  // of indirect eval which violates Content Security Policy.
+  (function() { return this })() || Function("return this")()
+);
+
+},{}],23:[function(require,module,exports){
 module.exports = require("regenerator-runtime");
 
-},{"regenerator-runtime":137}],22:[function(require,module,exports){
+},{"regenerator-runtime":21}],24:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -269,68 +1035,103 @@ for (var i = 0, len = code.length; i < len; ++i) {
   revLookup[code.charCodeAt(i)] = i
 }
 
+// Support decoding URL-safe base64 strings, as Node.js does.
+// See: https://en.wikipedia.org/wiki/Base64#URL_applications
 revLookup['-'.charCodeAt(0)] = 62
 revLookup['_'.charCodeAt(0)] = 63
 
-function placeHoldersCount (b64) {
+function getLens (b64) {
   var len = b64.length
+
   if (len % 4 > 0) {
     throw new Error('Invalid string. Length must be a multiple of 4')
   }
 
-  // the number of equal signs (place holders)
-  // if there are two placeholders, than the two characters before it
-  // represent one byte
-  // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
-  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+  // Trim off extra bytes after placeholder bytes are found
+  // See: https://github.com/beatgammit/base64-js/issues/42
+  var validLen = b64.indexOf('=')
+  if (validLen === -1) validLen = len
+
+  var placeHoldersLen = validLen === len
+    ? 0
+    : 4 - (validLen % 4)
+
+  return [validLen, placeHoldersLen]
 }
 
+// base64 is 4/3 + up to two characters of the original data
 function byteLength (b64) {
-  // base64 is 4/3 + up to two characters of the original data
-  return b64.length * 3 / 4 - placeHoldersCount(b64)
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+}
+
+function _byteLength (b64, validLen, placeHoldersLen) {
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
 }
 
 function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
-  var len = b64.length
-  placeHolders = placeHoldersCount(b64)
+  var tmp
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
 
-  arr = new Arr(len * 3 / 4 - placeHolders)
+  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen))
+
+  var curByte = 0
 
   // if there are placeholders, only get up to the last complete 4 chars
-  l = placeHolders > 0 ? len - 4 : len
+  var len = placeHoldersLen > 0
+    ? validLen - 4
+    : validLen
 
-  var L = 0
-
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-    arr[L++] = (tmp >> 16) & 0xFF
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
+  var i
+  for (i = 0; i < len; i += 4) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 18) |
+      (revLookup[b64.charCodeAt(i + 1)] << 12) |
+      (revLookup[b64.charCodeAt(i + 2)] << 6) |
+      revLookup[b64.charCodeAt(i + 3)]
+    arr[curByte++] = (tmp >> 16) & 0xFF
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
   }
 
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
+  if (placeHoldersLen === 2) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 2) |
+      (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  if (placeHoldersLen === 1) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 10) |
+      (revLookup[b64.charCodeAt(i + 1)] << 4) |
+      (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
   }
 
   return arr
 }
 
 function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+  return lookup[num >> 18 & 0x3F] +
+    lookup[num >> 12 & 0x3F] +
+    lookup[num >> 6 & 0x3F] +
+    lookup[num & 0x3F]
 }
 
 function encodeChunk (uint8, start, end) {
   var tmp
   var output = []
   for (var i = start; i < end; i += 3) {
-    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    tmp =
+      ((uint8[i] << 16) & 0xFF0000) +
+      ((uint8[i + 1] << 8) & 0xFF00) +
+      (uint8[i + 2] & 0xFF)
     output.push(tripletToBase64(tmp))
   }
   return output.join('')
@@ -340,7 +1141,6 @@ function fromByteArray (uint8) {
   var tmp
   var len = uint8.length
   var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var output = ''
   var parts = []
   var maxChunkLength = 16383 // must be multiple of 3
 
@@ -352,28 +1152,30 @@ function fromByteArray (uint8) {
   // pad the end with zeros, but make sure to not forget the extra bytes
   if (extraBytes === 1) {
     tmp = uint8[len - 1]
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
+    parts.push(
+      lookup[tmp >> 2] +
+      lookup[(tmp << 4) & 0x3F] +
+      '=='
+    )
   } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-    output += lookup[tmp >> 10]
-    output += lookup[(tmp >> 4) & 0x3F]
-    output += lookup[(tmp << 2) & 0x3F]
-    output += '='
+    tmp = (uint8[len - 2] << 8) + uint8[len - 1]
+    parts.push(
+      lookup[tmp >> 10] +
+      lookup[(tmp >> 4) & 0x3F] +
+      lookup[(tmp << 2) & 0x3F] +
+      '='
+    )
   }
-
-  parts.push(output)
 
   return parts.join('')
 }
 
-},{}],23:[function(require,module,exports){
-(function (global){
+},{}],25:[function(require,module,exports){
+(function (global,Buffer){(function (){
 /*!
  * The buffer module from node.js, for the browser.
  *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @author   Feross Aboukhadijeh <http://feross.org>
  * @license  MIT
  */
 /* eslint-disable no-proto */
@@ -2160,11 +2962,18 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":22,"ieee754":134,"isarray":135}],24:[function(require,module,exports){
-(function (Buffer){
-//  Chance.js 1.0.6
-//  http://chancejs.com
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
+},{"base64-js":24,"buffer":25,"ieee754":147,"isarray":26}],26:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],27:[function(require,module,exports){
+(function (Buffer){(function (){
+//  Chance.js 1.1.12
+//  https://chancejs.com
 //  (c) 2013 Victor Quinn
 //  Chance may be freely distributed or modified under the MIT license.
 
@@ -2176,7 +2985,16 @@ function isnan (val) {
     var NUMBERS = '0123456789';
     var CHARS_LOWER = 'abcdefghijklmnopqrstuvwxyz';
     var CHARS_UPPER = CHARS_LOWER.toUpperCase();
-    var HEX_POOL  = NUMBERS + "abcdef";
+    var HEX_POOL = NUMBERS + "abcdef";
+
+    // Errors
+    function UnsupportedError(message) {
+        this.name = 'UnsupportedError';
+        this.message = message || 'This feature is not supported on this platform';
+    }
+
+    UnsupportedError.prototype = new Error();
+    UnsupportedError.prototype.constructor = UnsupportedError;
 
     // Cached array helpers
     var slice = Array.prototype.slice;
@@ -2184,7 +3002,8 @@ function isnan (val) {
     // Constructor
     function Chance (seed) {
         if (!(this instanceof Chance)) {
-            return seed == null ? new Chance() : new Chance(seed);
+            if (!seed) { seed = null; } // handle other non-truthy seeds, as described in issue #322
+            return seed === null ? new Chance() : new Chance(seed);
         }
 
         // if user has provided a function, use that as the generator
@@ -2227,11 +3046,11 @@ function isnan (val) {
         return this;
     }
 
-    Chance.prototype.VERSION = "1.0.6";
+    Chance.prototype.VERSION = "1.1.12";
 
     // Random helper functions
     function initOptions(options, defaults) {
-        options || (options = {});
+        options = options || {};
 
         if (defaults) {
             for (var i in defaults) {
@@ -2242,6 +3061,10 @@ function isnan (val) {
         }
 
         return options;
+    }
+
+    function range(size) {
+        return Array.apply(null, Array(size)).map(function (_, i) {return i;});
     }
 
     function testRange(test, errorMessage) {
@@ -2297,20 +3120,43 @@ function isnan (val) {
         return this.random() * 100 < options.likelihood;
     };
 
+    Chance.prototype.falsy = function (options) {
+        // return a random falsy value
+        options = initOptions(options, {pool: [false, null, 0, NaN, '', undefined]})
+        var pool = options.pool,
+            index = this.integer({min: 0, max: pool.length - 1}),
+            value = pool[index];
+
+        return value;
+    }
+
+    Chance.prototype.animal = function (options){
+      //returns a random animal
+      options = initOptions(options);
+
+      if(typeof options.type !== 'undefined'){
+        //if user does not put in a valid animal type, user will get an error
+        testRange(
+           !this.get("animals")[options.type.toLowerCase()],
+           "Please pick from desert, ocean, grassland, forest, zoo, pets, farm."
+         );
+         //if user does put in valid animal type, will return a random animal of that type
+          return this.pick(this.get("animals")[options.type.toLowerCase()]);
+      }
+       //if user does not put in any animal type, will return a random animal regardless
+      var animalTypeArray = ["desert","forest","ocean","zoo","farm","pet","grassland"];
+      return this.pick(this.get("animals")[this.pick(animalTypeArray)]);
+    };
+
     /**
      *  Return a random character.
      *
-     *  @param {Object} [options={}] can specify a character pool, only alpha,
-     *    only symbols, and casing (lower or upper)
+     *  @param {Object} [options={}] can specify a character pool or alpha,
+     *    numeric, symbols and casing (lower or upper)
      *  @returns {String} a single random character
-     *  @throws {RangeError} Can only specify alpha or symbols, not both
      */
     Chance.prototype.character = function (options) {
         options = initOptions(options);
-        testRange(
-            options.alpha && options.symbols,
-            "Chance: Cannot specify both alpha and symbols."
-        );
 
         var symbols = "!@#$%^&*()[]",
             letters, pool;
@@ -2325,12 +3171,20 @@ function isnan (val) {
 
         if (options.pool) {
             pool = options.pool;
-        } else if (options.alpha) {
-            pool = letters;
-        } else if (options.symbols) {
-            pool = symbols;
         } else {
-            pool = letters + NUMBERS + symbols;
+            pool = '';
+            if (options.alpha) {
+                pool += letters;
+            }
+            if (options.numeric) {
+                pool += NUMBERS;
+            }
+            if (options.symbols) {
+                pool += symbols;
+            }
+            if (!pool) {
+                pool = letters + NUMBERS + symbols;
+            }
         }
 
         return pool.charAt(this.natural({max: (pool.length - 1)}));
@@ -2410,17 +3264,90 @@ function isnan (val) {
      *  chance.natural({min: 1, max: 3});
      *  would return either 1, 2, or 3.
      *
-     *  @param {Object} [options={}] can specify a min and/or max
+     *  @param {Object} [options={}] can specify a min and/or max or a numerals count.
      *  @returns {Number} a single random integer number
      *  @throws {RangeError} min cannot be greater than max
      */
     Chance.prototype.natural = function (options) {
         options = initOptions(options, {min: 0, max: MAX_INT});
+        if (typeof options.numerals === 'number'){
+          testRange(options.numerals < 1, "Chance: Numerals cannot be less than one.");
+          options.min = Math.pow(10, options.numerals - 1);
+          options.max = Math.pow(10, options.numerals) - 1;
+        }
         testRange(options.min < 0, "Chance: Min cannot be less than zero.");
+
+        if (options.exclude) {
+            testRange(!Array.isArray(options.exclude), "Chance: exclude must be an array.")
+
+            for (var exclusionIndex in options.exclude) {
+                testRange(!Number.isInteger(options.exclude[exclusionIndex]), "Chance: exclude must be numbers.")
+            }
+
+            var random = options.min + this.natural({max: options.max - options.min - options.exclude.length})
+            var sortedExclusions = options.exclude.sort();
+            for (var sortedExclusionIndex in sortedExclusions) {
+                if (random < sortedExclusions[sortedExclusionIndex]) {
+                    break
+                }
+                random++
+            }
+            return random
+        }
         return this.integer(options);
     };
-	
-	/**
+
+    /**
+     *  Return a random prime number
+     *
+     *  NOTE the max and min are INCLUDED in the range.
+     *
+     *  @param {Object} [options={}] can specify a min and/or max
+     *  @returns {Number} a single random prime number
+     *  @throws {RangeError} min cannot be greater than max nor negative
+     */
+    Chance.prototype.prime = function (options) {
+        options = initOptions(options, {min: 0, max: 10000});
+        testRange(options.min < 0, "Chance: Min cannot be less than zero.");
+        testRange(options.min > options.max, "Chance: Min cannot be greater than Max.");
+
+        var lastPrime = data.primes[data.primes.length - 1];
+        if (options.max > lastPrime) {
+            for (var i = lastPrime + 2; i <= options.max; ++i) {
+                if (this.is_prime(i)) {
+                    data.primes.push(i);
+                }
+            }
+        }
+        var targetPrimes = data.primes.filter(function (prime) {
+            return prime >= options.min && prime <= options.max;
+        });
+        return this.pick(targetPrimes);
+    };
+
+    /**
+     * Determine whether a given number is prime or not.
+     */
+    Chance.prototype.is_prime = function (n) {
+        if (n % 1 || n < 2) {
+            return false;
+        }
+        if (n % 2 === 0) {
+            return n === 2;
+        }
+        if (n % 3 === 0) {
+            return n === 3;
+        }
+        var m = Math.sqrt(n);
+        for (var i = 5; i <= m; i += 6) {
+            if (n % i === 0 || n % (i + 2) === 0) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    /**
      *  Return a random hex number as string
      *
      *  NOTE the max and min are INCLUDED in the range. So:
@@ -2441,20 +3368,161 @@ function isnan (val) {
 		return integer.toString(16);
     };
 
+    Chance.prototype.letter = function(options) {
+        options = initOptions(options, {casing: 'lower'});
+        var pool = "abcdefghijklmnopqrstuvwxyz";
+        var letter = this.character({pool: pool});
+        if (options.casing === 'upper') {
+            letter = letter.toUpperCase();
+        }
+        return letter;
+    }
+
     /**
      *  Return a random string
      *
-     *  @param {Object} [options={}] can specify a length
+     *  @param {Object} [options={}] can specify a length or min and max
      *  @returns {String} a string of random length
      *  @throws {RangeError} length cannot be less than zero
      */
     Chance.prototype.string = function (options) {
-        options = initOptions(options, { length: this.natural({min: 5, max: 20}) });
+        options = initOptions(options, { min: 5, max: 20 });
+
+        if (options.length !== 0 && !options.length) {
+            options.length = this.natural({ min: options.min, max: options.max })
+        }
+
         testRange(options.length < 0, "Chance: Length cannot be less than zero.");
         var length = options.length,
             text = this.n(this.character, length, options);
 
         return text.join("");
+    };
+
+    function CopyToken(c) {
+        this.c = c
+    }
+
+    CopyToken.prototype = {
+        substitute: function () {
+            return this.c
+        }
+    }
+
+    function EscapeToken(c) {
+        this.c = c
+    }
+
+    EscapeToken.prototype = {
+        substitute: function () {
+            if (!/[{}\\]/.test(this.c)) {
+                throw new Error('Invalid escape sequence: "\\' + this.c + '".')
+            }
+            return this.c
+        }
+    }
+
+    function ReplaceToken(c) {
+        this.c = c
+    }
+
+    ReplaceToken.prototype = {
+        replacers: {
+            '#': function (chance) { return chance.character({ pool: NUMBERS }) },
+            'A': function (chance) { return chance.character({ pool: CHARS_UPPER }) },
+            'a': function (chance) { return chance.character({ pool: CHARS_LOWER }) },
+        },
+
+        substitute: function (chance) {
+            var replacer = this.replacers[this.c]
+            if (!replacer) {
+                throw new Error('Invalid replacement character: "' + this.c + '".')
+            }
+            return replacer(chance)
+        }
+    }
+
+    function parseTemplate(template) {
+        var tokens = []
+        var mode = 'identity'
+        for (var i = 0; i<template.length; i++) {
+            var c = template[i]
+            switch (mode) {
+                case 'escape':
+                    tokens.push(new EscapeToken(c))
+                    mode = 'identity'
+                    break
+                case 'identity':
+                    if (c === '{') {
+                        mode = 'replace'
+                    } else if (c === '\\') {
+                        mode = 'escape'
+                    } else {
+                        tokens.push(new CopyToken(c))
+                    }
+                    break
+                case 'replace':
+                    if (c === '}') {
+                        mode = 'identity'
+                    } else {
+                        tokens.push(new ReplaceToken(c))
+                    }
+                    break
+            }
+        }
+        return tokens
+    }
+
+    /**
+     *  Return a random string matching the given template.
+     *
+     *  The template consists of any number of "character replacement" and
+     *  "character literal" sequences. A "character replacement" sequence
+     *  starts with a left brace, has any number of special replacement
+     *  characters, and ends with a right brace. A character literal can be any
+     *  character except a brace or a backslash. A literal brace or backslash
+     *  character can be included in the output by escaping with a backslash.
+     *
+     *  The following replacement characters can be used in a replacement
+     *  sequence:
+     *
+     *      "#": a random digit
+     *      "a": a random lower case letter
+     *      "A": a random upper case letter
+     *
+     *  Example: chance.template('{AA###}-{##}')
+     *
+     *  @param {String} template string.
+     *  @returns {String} a random string matching the template.
+     */
+    Chance.prototype.template = function (template) {
+        if (!template) {
+            throw new Error('Template string is required')
+        }
+        var self = this
+        return parseTemplate(template)
+            .map(function (token) { return token.substitute(self) })
+            .join('');
+    };
+
+
+    /**
+     *  Return a random buffer
+     *
+     *  @param {Object} [options={}] can specify a length
+     *  @returns {Buffer} a buffer of random length
+     *  @throws {RangeError} length cannot be less than zero
+     */
+    Chance.prototype.buffer = function (options) {
+        if (typeof Buffer === 'undefined') {
+            throw new UnsupportedError('Sorry, the buffer() function is not supported on your platform');
+        }
+        options = initOptions(options, { length: this.natural({min: 5, max: 20}) });
+        testRange(options.length < 0, "Chance: Length cannot be less than zero.");
+        var length = options.length;
+        var content = this.n(this.character, length, options);
+
+        return Buffer.from(content);
     };
 
     // -- End Basics --
@@ -2467,7 +3535,7 @@ function isnan (val) {
 
     Chance.prototype.mixin = function (obj) {
         for (var func_name in obj) {
-            Chance.prototype[func_name] = obj[func_name];
+            this[func_name] = obj[func_name];
         }
         return this;
     };
@@ -2581,28 +3649,42 @@ function isnan (val) {
             throw new RangeError("Chance: Cannot pickset() from an empty array");
         }
         if (count < 0) {
-            throw new RangeError("Chance: count must be positive number");
+            throw new RangeError("Chance: Count must be a positive number");
         }
         if (!count || count === 1) {
             return [ this.pickone(arr) ];
         } else {
-            return this.shuffle(arr).slice(0, count);
+            var array = arr.slice(0);
+            var end = array.length;
+
+            return this.n(function () {
+                var index = this.natural({max: --end});
+                var value = array[index];
+                array[index] = array[end];
+                return value;
+            }, Math.min(end, count));
         }
     };
 
     Chance.prototype.shuffle = function (arr) {
-        var old_array = arr.slice(0),
-            new_array = [],
+        var new_array = [],
             j = 0,
-            length = Number(old_array.length);
+            length = Number(arr.length),
+            source_indexes = range(length),
+            last_source_index = length - 1,
+            selected_source_index;
 
         for (var i = 0; i < length; i++) {
             // Pick a random index from the array
-            j = this.natural({max: old_array.length - 1});
+            selected_source_index = this.natural({max: last_source_index});
+            j = source_indexes[selected_source_index];
+
             // Add it to the new array
-            new_array[i] = old_array[j];
-            // Remove that element from the original array
-            old_array.splice(j, 1);
+            new_array[i] = arr[j];
+
+            // Mark the source index as used
+            source_indexes[selected_source_index] = source_indexes[last_source_index];
+            last_source_index -= 1;
         }
 
         return new_array;
@@ -2611,7 +3693,7 @@ function isnan (val) {
     // Returns a single item from an array with relative weighting of odds
     Chance.prototype.weighted = function (arr, weights, trim) {
         if (arr.length !== weights.length) {
-            throw new RangeError("Chance: length of array and weights must match");
+            throw new RangeError("Chance: Length of array and weights must match");
         }
 
         // scan weights array and sum valid entries
@@ -2620,7 +3702,7 @@ function isnan (val) {
         for (var weightIndex = 0; weightIndex < weights.length; ++weightIndex) {
             val = weights[weightIndex];
             if (isNaN(val)) {
-                throw new RangeError("all weights must be numbers");
+                throw new RangeError("Chance: All weights must be numbers");
             }
 
             if (val > 0) {
@@ -2629,7 +3711,7 @@ function isnan (val) {
         }
 
         if (sum === 0) {
-            throw new RangeError("Chance: no valid entries in array weights");
+            throw new RangeError("Chance: No valid entries in array weights");
         }
 
         // select a value within range
@@ -2674,9 +3756,10 @@ function isnan (val) {
         options = initOptions(options);
 
         var sentences = options.sentences || this.natural({min: 3, max: 7}),
-            sentence_array = this.n(this.sentence, sentences);
+            sentence_array = this.n(this.sentence, sentences),
+            separator = options.linebreak === true ? '\n' : ' ';
 
-        return sentence_array.join(' ');
+        return sentence_array.join(separator);
     };
 
     // Could get smarter about this than generating random words and
@@ -2694,7 +3777,7 @@ function isnan (val) {
         text = this.capitalize(text);
 
         // Make sure punctuation has a usable value
-        if (punctuation !== false && !/^[\.\?;!:]$/.test(punctuation)) {
+        if (punctuation !== false && !/^[.?;!:]$/.test(punctuation)) {
             punctuation = '.';
         }
 
@@ -2771,6 +3854,33 @@ function isnan (val) {
         return text;
     };
 
+    Chance.prototype.emoji = function (options) {
+        options = initOptions(options, { category: "all", length: 1 });
+
+        testRange(
+            options.length < 1 || BigInt(options.length) > BigInt(MAX_INT),
+            "Chance: length must be between 1 and " + String(MAX_INT)
+        );
+
+        var emojis = this.get("emojis");
+
+        if (options.category === "all") {
+            options.category = this.pickone(Object.keys(emojis));
+        }
+
+        var emojisForCategory = emojis[options.category];
+
+        testRange(
+            emojisForCategory === undefined,
+            "Chance: Unrecognised emoji category: [" + options.category + "]."
+        );
+
+        return this.pickset(emojisForCategory, options.length)
+            .map(function (codePoint) {
+                return String.fromCodePoint(codePoint);
+            }).join("");
+    };
+
     // -- End Text --
 
     // -- Person --
@@ -2805,7 +3915,8 @@ function isnan (val) {
 
     Chance.prototype.birthday = function (options) {
         var age = this.age(options);
-        var currentYear = new Date().getFullYear();
+        var now = new Date()
+        var currentYear = now.getFullYear();
 
         if (options && options.type) {
             var min = new Date();
@@ -2817,6 +3928,25 @@ function isnan (val) {
                 min: min,
                 max: max
             });
+        } else if (options && ((options.minAge !== undefined) || (options.maxAge !== undefined))) {
+            testRange(options.minAge < 0, "Chance: MinAge cannot be less than zero.");
+            testRange(options.minAge > options.maxAge, "Chance: MinAge cannot be greater than MaxAge.");
+
+            var minAge = options.minAge !== undefined ? options.minAge : 0;
+            var maxAge = options.maxAge !== undefined ? options.maxAge : 100;
+
+            var minDate = new Date(currentYear - maxAge - 1, now.getMonth(), now.getDate());
+            var maxDate = new Date(currentYear - minAge, now.getMonth(), now.getDate());
+
+            minDate.setDate(minDate.getDate() +1);
+
+            maxDate.setDate(maxDate.getDate() +1);
+            maxDate.setMilliseconds(maxDate.getMilliseconds() -1);
+
+            options = initOptions(options, {
+                min: minDate,
+                max: maxDate
+          });
         } else {
             options = initOptions(options, {
                 year: currentYear - age
@@ -2873,8 +4003,17 @@ function isnan (val) {
         return this.pick(this.get("firstNames")[options.gender.toLowerCase()][options.nationality.toLowerCase()]);
     };
 
-    Chance.prototype.profession = function () {
-        return this.pick(this.get("professions"));
+    Chance.prototype.profession = function (options) {
+        options = initOptions(options);
+        if(options.rank){
+            return this.pick(['Apprentice ', 'Junior ', 'Senior ', 'Lead ']) + this.pick(this.get("profession"));
+        } else{
+            return this.pick(this.get("profession"));
+        }
+    };
+
+    Chance.prototype.company = function (){
+        return this.pick(this.get("company"));
     };
 
     Chance.prototype.gender = function (options) {
@@ -2883,8 +4022,19 @@ function isnan (val) {
     };
 
     Chance.prototype.last = function (options) {
-        options = initOptions(options, {nationality: 'en'});
+      options = initOptions(options, {nationality: '*'});
+      if (options.nationality === "*") {
+        var allLastNames = []
+        var lastNames = this.get("lastNames")
+        Object.keys(lastNames).forEach(function(key){
+          allLastNames = allLastNames.concat(lastNames[key])
+        })
+        return this.pick(allLastNames)
+      }
+      else {
         return this.pick(this.get("lastNames")[options.nationality.toLowerCase()]);
+      }
+
     };
 
     Chance.prototype.israelId=function(){
@@ -3062,6 +4212,23 @@ function isnan (val) {
         return ssn;
     };
 
+    // Aadhar is similar to ssn, used in India to uniquely identify a person
+    Chance.prototype.aadhar = function (options) {
+        options = initOptions(options, {onlyLastFour: false, separatedByWhiteSpace: true});
+        var aadhar_pool = "1234567890",
+            aadhar,
+            whiteSpace = options.separatedByWhiteSpace ? ' ' : '';
+
+        if(!options.onlyLastFour) {
+            aadhar = this.string({pool: aadhar_pool, length: 4}) + whiteSpace +
+            this.string({pool: aadhar_pool, length: 4}) + whiteSpace +
+            this.string({pool: aadhar_pool, length: 4});
+        } else {
+            aadhar = this.string({pool: aadhar_pool, length: 4});
+        }
+        return aadhar;
+    };
+
     // Return the list of available name suffixes
     // @todo introduce internationalization
     Chance.prototype.name_suffixes = function () {
@@ -3105,6 +4272,13 @@ function isnan (val) {
         var nationality = this.pick(this.nationalities());
         return nationality.name;
     };
+
+     // Generate random zodiac sign
+     Chance.prototype.zodiac = function () {
+        const zodiacSymbols = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
+        return this.pickone(zodiacSymbols);
+    };
+
 
     // -- End Person --
 
@@ -3250,20 +4424,14 @@ function isnan (val) {
      *
      * * Make color uppercase
      * chance.color({casing: 'upper'})  => '#29CFA7'
-	 
-	 * * Min Max values for RGBA
-	 * var light_red = chance.color({format: 'hex', min_red: 200, max_red: 255, max_green: 0, max_blue: 0, min_alpha: .2, max_alpha: .3});
+     *
+     * * Min Max values for RGBA
+     * var light_red = chance.color({format: 'hex', min_red: 200, max_red: 255, max_green: 0, max_blue: 0, min_alpha: .2, max_alpha: .3});
      *
      * @param  [object] options
      * @return [string] color value
      */
     Chance.prototype.color = function (options) {
-		function pad(n, width, z) {
-			z = z || '0';
-			n = n + '';
-			return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-		}
-		
         function gray(value, delimiter) {
             return [value, value, value].join(delimiter || '');
         }
@@ -3277,69 +4445,68 @@ function isnan (val) {
 
         function hex(start, end, withHash) {
             var symbol = (withHash) ? "#" : "";
-			var hexstring = "";
-			
-			if (isGrayscale) {
-				hexstring = gray(pad(this.hex({min: min_rgb, max: max_rgb}), 2));
-				if (options.format === "shorthex") {
-					hexstring = gray(this.hex({min: 0, max: 15}));
-					console.log("hex: " + hexstring);
-				}
-			}
-			else {
-				if (options.format === "shorthex") {
-					hexstring = pad(this.hex({min: Math.floor(min_red / 16), max: Math.floor(max_red / 16)}), 1) + pad(this.hex({min: Math.floor(min_green / 16), max: Math.floor(max_green / 16)}), 1) + pad(this.hex({min: Math.floor(min_blue / 16), max: Math.floor(max_blue / 16)}), 1);
-				}
-				else if (min_red !== undefined || max_red !== undefined || min_green !== undefined || max_green !== undefined || min_blue !== undefined || max_blue !== undefined) {
-					hexstring = pad(this.hex({min: min_red, max: max_red}), 2) + pad(this.hex({min: min_green, max: max_green}), 2) + pad(this.hex({min: min_blue, max: max_blue}), 2);
-				}
-				else {
-					hexstring = pad(this.hex({min: min_rgb, max: max_rgb}), 2) + pad(this.hex({min: min_rgb, max: max_rgb}), 2) + pad(this.hex({min: min_rgb, max: max_rgb}), 2);
-				}
-			}
-			
+            var hexstring = "";
+
+            if (isGrayscale) {
+                hexstring = gray(this.pad(this.hex({min: min_rgb, max: max_rgb}), 2));
+                if (options.format === "shorthex") {
+                    hexstring = gray(this.hex({min: 0, max: 15}));
+                }
+            }
+            else {
+                if (options.format === "shorthex") {
+                    hexstring = this.pad(this.hex({min: Math.floor(min_red / 16), max: Math.floor(max_red / 16)}), 1) + this.pad(this.hex({min: Math.floor(min_green / 16), max: Math.floor(max_green / 16)}), 1) + this.pad(this.hex({min: Math.floor(min_blue / 16), max: Math.floor(max_blue / 16)}), 1);
+                }
+                else if (min_red !== undefined || max_red !== undefined || min_green !== undefined || max_green !== undefined || min_blue !== undefined || max_blue !== undefined) {
+                    hexstring = this.pad(this.hex({min: min_red, max: max_red}), 2) + this.pad(this.hex({min: min_green, max: max_green}), 2) + this.pad(this.hex({min: min_blue, max: max_blue}), 2);
+                }
+                else {
+                    hexstring = this.pad(this.hex({min: min_rgb, max: max_rgb}), 2) + this.pad(this.hex({min: min_rgb, max: max_rgb}), 2) + this.pad(this.hex({min: min_rgb, max: max_rgb}), 2);
+                }
+            }
+
             return symbol + hexstring;
         }
 
         options = initOptions(options, {
             format: this.pick(['hex', 'shorthex', 'rgb', 'rgba', '0x', 'name']),
             grayscale: false,
-            casing: 'lower', 
-			min: 0, 
-			max: 255, 
-			min_red: undefined,
-			max_red: undefined, 
-			min_green: undefined,
-			max_green: undefined, 
-			min_blue: undefined, 
-			max_blue: undefined, 
-			min_alpha: 0,
-			max_alpha: 1
+            casing: 'lower',
+            min: 0,
+            max: 255,
+            min_red: undefined,
+            max_red: undefined,
+            min_green: undefined,
+            max_green: undefined,
+            min_blue: undefined,
+            max_blue: undefined,
+            min_alpha: 0,
+            max_alpha: 1
         });
 
         var isGrayscale = options.grayscale;
-		var min_rgb = options.min;
-		var max_rgb = options.max;		
-		var min_red = options.min_red;
-		var max_red = options.max_red;
-		var min_green = options.min_green;
-		var max_green = options.max_green;
-		var min_blue = options.min_blue;
-		var max_blue = options.max_blue;
-		var min_alpha = options.min_alpha;
-		var max_alpha = options.max_alpha;
-		if (options.min_red === undefined) { min_red = min_rgb; }
-		if (options.max_red === undefined) { max_red = max_rgb; }
-		if (options.min_green === undefined) { min_green = min_rgb; }
-		if (options.max_green === undefined) { max_green = max_rgb; }
-		if (options.min_blue === undefined) { min_blue = min_rgb; }
-		if (options.max_blue === undefined) { max_blue = max_rgb; }
-		if (options.min_alpha === undefined) { min_alpha = 0; }
-		if (options.max_alpha === undefined) { max_alpha = 1; }
-		if (isGrayscale && min_rgb === 0 && max_rgb === 255 && min_red !== undefined && max_red !== undefined) {			
-			min_rgb = ((min_red + min_green + min_blue) / 3);
-			max_rgb = ((max_red + max_green + max_blue) / 3);
-		}
+        var min_rgb = options.min;
+        var max_rgb = options.max;
+        var min_red = options.min_red;
+        var max_red = options.max_red;
+        var min_green = options.min_green;
+        var max_green = options.max_green;
+        var min_blue = options.min_blue;
+        var max_blue = options.max_blue;
+        var min_alpha = options.min_alpha;
+        var max_alpha = options.max_alpha;
+        if (options.min_red === undefined) { min_red = min_rgb; }
+        if (options.max_red === undefined) { max_red = max_rgb; }
+        if (options.min_green === undefined) { min_green = min_rgb; }
+        if (options.max_green === undefined) { max_green = max_rgb; }
+        if (options.min_blue === undefined) { min_blue = min_rgb; }
+        if (options.max_blue === undefined) { max_blue = max_rgb; }
+        if (options.min_alpha === undefined) { min_alpha = 0; }
+        if (options.max_alpha === undefined) { max_alpha = 1; }
+        if (isGrayscale && min_rgb === 0 && max_rgb === 255 && min_red !== undefined && max_red !== undefined) {
+            min_rgb = ((min_red + min_green + min_blue) / 3);
+            max_rgb = ((max_red + max_green + max_blue) / 3);
+        }
         var colorValue;
 
         if (options.format === 'hex') {
@@ -3381,8 +4548,25 @@ function isnan (val) {
         return this.word({length: options.length}) + '@' + (options.domain || this.domain());
     };
 
+    /**
+     * #Description:
+     * ===============================================
+     * Generate a random Facebook id, aka fbid.
+     *
+     * NOTE: At the moment (Sep 2017), Facebook ids are
+     * "numeric strings" of length 16.
+     * However, Facebook Graph API documentation states that
+     * "it is extremely likely to change over time".
+     * @see https://developers.facebook.com/docs/graph-api/overview/
+     *
+     * #Examples:
+     * ===============================================
+     * chance.fbid() => '1000035231661304'
+     *
+     * @return [string] facebook id
+     */
     Chance.prototype.fbid = function () {
-        return parseInt('10000' + this.natural({max: 100000000000}), 10);
+        return '10000' + this.string({pool: "1234567890", length: 11});
     };
 
     Chance.prototype.google_analytics = function () {
@@ -3415,6 +4599,20 @@ function isnan (val) {
         return this.natural({min: 1, max: 99});
     };
 
+    Chance.prototype.mac = function (options) {
+        // Todo: This could also be extended to EUI-64 based MACs
+        // (https://www.iana.org/assignments/ethernet-numbers/ethernet-numbers.xhtml#ethernet-numbers-4)
+        // Todo: This can return some reserved MACs (similar to IP function)
+        // this should probably be updated to account for that rare as it may be
+        options = initOptions(options, { delimiter: ':' });
+        return this.pad(this.natural({max: 255}).toString(16),2) + options.delimiter +
+               this.pad(this.natural({max: 255}).toString(16),2) + options.delimiter +
+               this.pad(this.natural({max: 255}).toString(16),2) + options.delimiter +
+               this.pad(this.natural({max: 255}).toString(16),2) + options.delimiter +
+               this.pad(this.natural({max: 255}).toString(16),2) + options.delimiter +
+               this.pad(this.natural({max: 255}).toString(16),2);
+    };
+
     Chance.prototype.semver = function (options) {
         options = initOptions(options, { include_prerelease: true });
 
@@ -3431,7 +4629,7 @@ function isnan (val) {
     };
 
     Chance.prototype.tlds = function () {
-        return ['com', 'org', 'edu', 'gov', 'co.uk', 'net', 'io', 'ac', 'ad', 'ae', 'af', 'ag', 'ai', 'al', 'am', 'an', 'ao', 'aq', 'ar', 'as', 'at', 'au', 'aw', 'ax', 'az', 'ba', 'bb', 'bd', 'be', 'bf', 'bg', 'bh', 'bi', 'bj', 'bm', 'bn', 'bo', 'bq', 'br', 'bs', 'bt', 'bv', 'bw', 'by', 'bz', 'ca', 'cc', 'cd', 'cf', 'cg', 'ch', 'ci', 'ck', 'cl', 'cm', 'cn', 'co', 'cr', 'cu', 'cv', 'cw', 'cx', 'cy', 'cz', 'de', 'dj', 'dk', 'dm', 'do', 'dz', 'ec', 'ee', 'eg', 'eh', 'er', 'es', 'et', 'eu', 'fi', 'fj', 'fk', 'fm', 'fo', 'fr', 'ga', 'gb', 'gd', 'ge', 'gf', 'gg', 'gh', 'gi', 'gl', 'gm', 'gn', 'gp', 'gq', 'gr', 'gs', 'gt', 'gu', 'gw', 'gy', 'hk', 'hm', 'hn', 'hr', 'ht', 'hu', 'id', 'ie', 'il', 'im', 'in', 'io', 'iq', 'ir', 'is', 'it', 'je', 'jm', 'jo', 'jp', 'ke', 'kg', 'kh', 'ki', 'km', 'kn', 'kp', 'kr', 'kw', 'ky', 'kz', 'la', 'lb', 'lc', 'li', 'lk', 'lr', 'ls', 'lt', 'lu', 'lv', 'ly', 'ma', 'mc', 'md', 'me', 'mg', 'mh', 'mk', 'ml', 'mm', 'mn', 'mo', 'mp', 'mq', 'mr', 'ms', 'mt', 'mu', 'mv', 'mw', 'mx', 'my', 'mz', 'na', 'nc', 'ne', 'nf', 'ng', 'ni', 'nl', 'no', 'np', 'nr', 'nu', 'nz', 'om', 'pa', 'pe', 'pf', 'pg', 'ph', 'pk', 'pl', 'pm', 'pn', 'pr', 'ps', 'pt', 'pw', 'py', 'qa', 're', 'ro', 'rs', 'ru', 'rw', 'sa', 'sb', 'sc', 'sd', 'se', 'sg', 'sh', 'si', 'sj', 'sk', 'sl', 'sm', 'sn', 'so', 'sr', 'ss', 'st', 'su', 'sv', 'sx', 'sy', 'sz', 'tc', 'td', 'tf', 'tg', 'th', 'tj', 'tk', 'tl', 'tm', 'tn', 'to', 'tp', 'tr', 'tt', 'tv', 'tw', 'tz', 'ua', 'ug', 'uk', 'us', 'uy', 'uz', 'va', 'vc', 've', 'vg', 'vi', 'vn', 'vu', 'wf', 'ws', 'ye', 'yt', 'za', 'zm', 'zw'];
+        return ['com', 'org', 'edu', 'gov', 'co.uk', 'net', 'io', 'ac', 'ad', 'ae', 'af', 'ag', 'ai', 'al', 'am', 'ao', 'aq', 'ar', 'as', 'at', 'au', 'aw', 'ax', 'az', 'ba', 'bb', 'bd', 'be', 'bf', 'bg', 'bh', 'bi', 'bj', 'bm', 'bn', 'bo', 'br', 'bs', 'bt', 'bv', 'bw', 'by', 'bz', 'ca', 'cc', 'cd', 'cf', 'cg', 'ch', 'ci', 'ck', 'cl', 'cm', 'cn', 'co', 'cr', 'cu', 'cv', 'cw', 'cx', 'cy', 'cz', 'de', 'dj', 'dk', 'dm', 'do', 'dz', 'ec', 'ee', 'eg', 'eh', 'er', 'es', 'et', 'eu', 'fi', 'fj', 'fk', 'fm', 'fo', 'fr', 'ga', 'gb', 'gd', 'ge', 'gf', 'gg', 'gh', 'gi', 'gl', 'gm', 'gn', 'gp', 'gq', 'gr', 'gs', 'gt', 'gu', 'gw', 'gy', 'hk', 'hm', 'hn', 'hr', 'ht', 'hu', 'id', 'ie', 'il', 'im', 'in', 'io', 'iq', 'ir', 'is', 'it', 'je', 'jm', 'jo', 'jp', 'ke', 'kg', 'kh', 'ki', 'km', 'kn', 'kp', 'kr', 'kw', 'ky', 'kz', 'la', 'lb', 'lc', 'li', 'lk', 'lr', 'ls', 'lt', 'lu', 'lv', 'ly', 'ma', 'mc', 'md', 'me', 'mg', 'mh', 'mk', 'ml', 'mm', 'mn', 'mo', 'mp', 'mq', 'mr', 'ms', 'mt', 'mu', 'mv', 'mw', 'mx', 'my', 'mz', 'na', 'nc', 'ne', 'nf', 'ng', 'ni', 'nl', 'no', 'np', 'nr', 'nu', 'nz', 'om', 'pa', 'pe', 'pf', 'pg', 'ph', 'pk', 'pl', 'pm', 'pn', 'pr', 'ps', 'pt', 'pw', 'py', 'qa', 're', 'ro', 'rs', 'ru', 'rw', 'sa', 'sb', 'sc', 'sd', 'se', 'sg', 'sh', 'si', 'sj', 'sk', 'sl', 'sm', 'sn', 'so', 'sr', 'ss', 'st', 'su', 'sv', 'sx', 'sy', 'sz', 'tc', 'td', 'tf', 'tg', 'th', 'tj', 'tk', 'tl', 'tm', 'tn', 'to', 'tr', 'tt', 'tv', 'tw', 'tz', 'ua', 'ug', 'uk', 'us', 'uy', 'uz', 'va', 'vc', 've', 'vg', 'vi', 'vn', 'vu', 'wf', 'ws', 'ye', 'yt', 'za', 'zm', 'zw'];
     };
 
     Chance.prototype.tld = function () {
@@ -3455,6 +4653,33 @@ function isnan (val) {
         return this.integer({min: 0, max: 65535});
     };
 
+    Chance.prototype.locale = function (options) {
+        options = initOptions(options);
+        if (options.region){
+          return this.pick(this.get("locale_regions"));
+        } else {
+          return this.pick(this.get("locale_languages"));
+        }
+    };
+
+    Chance.prototype.locales = function (options) {
+      options = initOptions(options);
+      if (options.region){
+        return this.get("locale_regions");
+      } else {
+        return this.get("locale_languages");
+      }
+    };
+
+    Chance.prototype.loremPicsum = function (options) {
+        options = initOptions(options, { width: 500, height: 500, greyscale: false, blurred: false });
+
+        var greyscale = options.greyscale ? 'g/' : '';
+        var query = options.blurred ? '/?blur' : '/?random';
+
+        return 'https://picsum.photos/' + greyscale + options.width + '/' + options.height + query;
+    }
+
     // -- End Web --
 
     // -- Location --
@@ -3476,7 +4701,9 @@ function isnan (val) {
     Chance.prototype.areacode = function (options) {
         options = initOptions(options, {parens : true});
         // Don't want area codes to start with 1, or have a 9 as the second digit
-        var areacode = this.natural({min: 2, max: 9}).toString() +
+        var areacode = options.exampleNumber ?
+        "555" :
+        this.natural({min: 2, max: 9}).toString() +
                 this.natural({min: 0, max: 8}).toString() +
                 this.natural({min: 0, max: 9}).toString();
 
@@ -3498,7 +4725,7 @@ function isnan (val) {
     Chance.prototype.country = function (options) {
         options = initOptions(options);
         var country = this.pick(this.countries());
-        return options.full ? country.name : country.abbreviation;
+        return options.raw ? country : options.full ? country.name : country.abbreviation;
     };
 
     Chance.prototype.depth = function (options) {
@@ -3520,13 +4747,75 @@ function isnan (val) {
     };
 
     Chance.prototype.latitude = function (options) {
-        options = initOptions(options, {fixed: 5, min: -90, max: 90});
-        return this.floating({min: options.min, max: options.max, fixed: options.fixed});
+        // Constants - Formats
+        var [DDM, DMS, DD] = ['ddm', 'dms', 'dd'];
+
+        options = initOptions(
+options,
+            options && options.format && [DDM, DMS].includes(options.format.toLowerCase()) ?
+            {min: 0, max: 89, fixed: 4} :
+            {fixed: 5, min: -90, max: 90, format: DD}
+);
+
+        var format = options.format.toLowerCase();
+
+        if (format === DDM || format === DMS) {
+            testRange(options.min < 0 || options.min > 89, "Chance: Min specified is out of range. Should be between 0 - 89");
+            testRange(options.max < 0 || options.max > 89, "Chance: Max specified is out of range. Should be between 0 - 89");
+            testRange(options.fixed > 4, 'Chance: Fixed specified should be below or equal to 4');
+        }
+
+        switch (format) {
+            case DDM: {
+                return  this.integer({min: options.min, max: options.max}) + '°' +
+                        this.floating({min: 0, max: 59, fixed: options.fixed});
+            }
+            case DMS: {
+                return  this.integer({min: options.min, max: options.max}) + '°' +
+                        this.integer({min: 0, max: 59}) + '’' +
+                        this.floating({min: 0, max: 59, fixed: options.fixed}) + '”';
+            }
+            case DD:
+            default: {
+                return this.floating({min: options.min, max: options.max, fixed: options.fixed});
+            }
+        }
     };
 
     Chance.prototype.longitude = function (options) {
-        options = initOptions(options, {fixed: 5, min: -180, max: 180});
-        return this.floating({min: options.min, max: options.max, fixed: options.fixed});
+        // Constants - Formats
+        var [DDM, DMS, DD] = ['ddm', 'dms', 'dd'];
+
+        options = initOptions(
+options,
+            options && options.format && [DDM, DMS].includes(options.format.toLowerCase()) ?
+            {min: 0, max: 179, fixed: 4} :
+            {fixed: 5, min: -180, max: 180, format: DD}
+);
+
+        var format = options.format.toLowerCase();
+
+        if (format === DDM || format === DMS) {
+            testRange(options.min < 0 || options.min > 179, "Chance: Min specified is out of range. Should be between 0 - 179");
+            testRange(options.max < 0 || options.max > 179, "Chance: Max specified is out of range. Should be between 0 - 179");
+            testRange(options.fixed > 4, 'Chance: Fixed specified should be below or equal to 4');
+        }
+
+        switch (format) {
+            case DDM: {
+                return  this.integer({min: options.min, max: options.max}) + '°' +
+                        this.floating({min: 0, max: 59.9999, fixed: options.fixed})
+            }
+            case DMS: {
+                return  this.integer({min: options.min, max: options.max}) + '°' +
+                        this.integer({min: 0, max: 59}) + '’' +
+                        this.floating({min: 0, max: 59.9999, fixed: options.fixed}) + '”';
+            }
+            case DD:
+            default: {
+                return this.floating({min: options.min, max: options.max, fixed: options.fixed});
+            }
+        }
     };
 
     Chance.prototype.phone = function (options) {
@@ -3543,7 +4832,8 @@ function isnan (val) {
         options = initOptions(options, {
             formatted: true,
             country: 'us',
-            mobile: false
+            mobile: false,
+            exampleNumber: false,
         });
         if (!options.formatted) {
             options.parens = false;
@@ -3601,7 +4891,7 @@ function isnan (val) {
                        '01' + this.pick(['0', '1', '2', '3', '4', '5', '6', '7', '8']) + self.string({ pool: '0123456789', length: 7}),
                        '02' + this.pick(['1', '2', '3', '4', '7', '8']) + self.string({ pool: '0123456789', length: 7}),
                        '03' + this.pick(['1', '2', '3', '5', '6', '9']) + self.string({ pool: '0123456789', length: 7}),
-                       '04' + this.pick(['1', '2', '3', '4', '5','6','7', '8','9']) + self.string({ pool: '0123456789', length: 7}),   
+                       '04' + this.pick(['1', '2', '3', '4', '5','6','7', '8','9']) + self.string({ pool: '0123456789', length: 7}),
                        '05' + this.pick(['1', '3', '4', '6', '7', '8']) + self.string({ pool: '0123456789', length: 7}),
                     ]);
                     phone = options.formatted || numPick;
@@ -3612,13 +4902,11 @@ function isnan (val) {
                         '06'  + self.string({ pool: '0123456789', length: 7}),
                         '071' + this.pick(['0','1','2','3','4','5','6','7','8','9']) + self.string({ pool: '0123456789', length: 6}),
                         '07'  + this.pick(['2','3','4','6','7','8','9']) + self.string({ pool: '0123456789', length: 7}),
-                        '08'  + this.pick(['0','1','2','3','4','5']) + self.string({ pool: '0123456789', length: 7}),                     
+                        '08'  + this.pick(['0','1','2','3','4','5']) + self.string({ pool: '0123456789', length: 7}),
                     ]);
                     phone = options.formatted || numPick;
                 }
-                
                 break;
-
             case 'us':
                 var areacode = this.areacode(options).toString();
                 var exchange = this.natural({ min: 2, max: 9 }).toString() +
@@ -3626,6 +4914,20 @@ function isnan (val) {
                     this.natural({ min: 0, max: 9 }).toString();
                 var subscriber = this.natural({ min: 1000, max: 9999 }).toString(); // this could be random [0-9]{4}
                 phone = options.formatted ? areacode + ' ' + exchange + '-' + subscriber : areacode + exchange + subscriber;
+                break;
+            case 'br':
+                var areaCode = this.pick(["11", "12", "13", "14", "15", "16", "17", "18", "19", "21", "22", "24", "27", "28", "31", "32", "33", "34", "35", "37", "38", "41", "42", "43", "44", "45", "46", "47", "48", "49", "51", "53", "54", "55", "61", "62", "63", "64", "65", "66", "67", "68", "69", "71", "73", "74", "75", "77", "79", "81", "82", "83", "84", "85", "86", "87", "88", "89", "91", "92", "93", "94", "95", "96", "97", "98", "99"]);
+                var prefix;
+                if (options.mobile) {
+                    // Brasilian official reference (mobile): http://www.anatel.gov.br/setorregulado/plano-de-numeracao-brasileiro?id=330
+                    prefix = '9' + self.string({ pool: '0123456789', length: 4});
+                } else {
+                    // Brasilian official reference: http://www.anatel.gov.br/setorregulado/plano-de-numeracao-brasileiro?id=331
+                    prefix = this.natural({ min: 2000, max: 5999 }).toString();
+                }
+                var mcdu = self.string({ pool: '0123456789', length: 4});
+                phone = options.formatted ? '(' + areaCode + ') ' + prefix + '-' + mcdu : areaCode + prefix + mcdu;
+                break;
         }
         return phone;
     };
@@ -3639,6 +4941,25 @@ function isnan (val) {
         var ldu = this.natural({max: 9}) + this.character({alpha: true, casing: "upper"}) + this.natural({max: 9});
 
         return fsa + " " + ldu;
+    };
+
+    Chance.prototype.postcode = function () {
+        // Area
+        var area = this.pick(this.get("postcodeAreas")).code;
+        // District
+        var district = this.natural({max: 9});
+        // Sub-District
+        var subDistrict = this.bool() ? this.character({alpha: true, casing: "upper"}) : "";
+        // Outward Code
+        var outward = area + district + subDistrict;
+        // Sector
+        var sector = this.natural({max: 9});
+        // Unit
+        var unit = this.character({alpha: true, casing: "upper"}) + this.character({alpha: true, casing: "upper"});
+        // Inward Code
+        var inward = sector + unit;
+
+        return outward + " " + inward;
     };
 
     Chance.prototype.counties = function (options) {
@@ -3691,6 +5012,7 @@ function isnan (val) {
                 }
                 break;
             case 'it':
+            case 'mx':
                 states = this.get("country_regions")[options.country.toLowerCase()];
                 break;
             case 'uk':
@@ -3927,7 +5249,7 @@ function isnan (val) {
                 }
             }
             if (type === null) {
-                throw new RangeError("Credit card type '" + options.name + "'' is not supported");
+                throw new RangeError("Chance: Credit card type '" + options.name + "' is not supported");
             }
         } else {
             type = this.pick(types);
@@ -3936,22 +5258,22 @@ function isnan (val) {
         return options.raw ? type : type.name;
     };
 
-    //return all world currency by ISO 4217
+    // return all world currency by ISO 4217
     Chance.prototype.currency_types = function () {
         return this.get("currency_types");
     };
 
-    //return random world currency by ISO 4217
+    // return random world currency by ISO 4217
     Chance.prototype.currency = function () {
         return this.pick(this.currency_types());
     };
 
-    //return all timezones availabel
+    // return all timezones available
     Chance.prototype.timezones = function () {
         return this.get("timezones");
     };
 
-    //return random timezone
+    // return random timezone
     Chance.prototype.timezone = function () {
         return this.pick(this.timezones());
     };
@@ -4050,16 +5372,16 @@ function isnan (val) {
     };
 
     /**
-     * Generate a string matching IBAN pattern (https://en.wikipedia.org/wiki/International_Bank_Account_Number). 
+     * Generate a string matching IBAN pattern (https://en.wikipedia.org/wiki/International_Bank_Account_Number).
      * No country-specific formats support (yet)
      */
     Chance.prototype.iban = function () {
         var alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var alphanum = alpha + '0123456789';
-        var iban = 
-            this.string({ length: 2, pool: alpha }) + 
-            this.pad(this.integer({ min: 0, max: 99 }), 2) + 
-            this.string({ length: 4, pool: alphanum }) + 
+        var iban =
+            this.string({ length: 2, pool: alpha }) +
+            this.pad(this.integer({ min: 0, max: 99 }), 2) +
+            this.string({ length: 4, pool: alphanum }) +
             this.pad(this.natural(), this.natural({ min: 6, max: 26 }));
         return iban;
     };
@@ -4205,7 +5527,87 @@ function isnan (val) {
 
     // -- End Regional
 
+    // -- Music --
+
+    // Genre choices:
+    // Rock,Pop,Hip-Hop,Jazz,Classical,Electronic,Country,R&B,Reggae,
+    // Blues,Metal,Folk,Alternative,Punk,Disco,Funk,Techno,
+    // Indie,Gospel,Dance,Children's,World
+
+    Chance.prototype.music_genre = function (genre = 'general') {
+        if (!(genre.toLowerCase() in data.music_genres)) {
+            throw new Error(`Unsupported genre: ${genre}`);
+        }
+
+        const genres = data.music_genres[genre.toLowerCase()];
+        const randomIndex = this.integer({ min: 0, max: genres.length - 1 });
+
+        return genres[randomIndex];
+    };
+
+    Chance.prototype.note = function(options) {
+      // choices for 'notes' option:
+      // flatKey - chromatic scale with flat notes (default)
+      // sharpKey - chromatic scale with sharp notes
+      // flats - just flat notes
+      // sharps - just sharp notes
+      // naturals - just natural notes
+      // all - naturals, sharps and flats
+      options = initOptions(options, { notes : 'flatKey'});
+      var scales = {
+        naturals: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+        flats: ['D♭', 'E♭', 'G♭', 'A♭', 'B♭'],
+        sharps: ['C♯', 'D♯', 'F♯', 'G♯', 'A♯']
+      };
+      scales.all = scales.naturals.concat(scales.flats.concat(scales.sharps))
+      scales.flatKey = scales.naturals.concat(scales.flats)
+      scales.sharpKey = scales.naturals.concat(scales.sharps)
+      return this.pickone(scales[options.notes]);
+    }
+
+    Chance.prototype.midi_note = function(options) {
+      var min = 0;
+      var max = 127;
+      options = initOptions(options, { min : min, max : max });
+      return this.integer({min: options.min, max: options.max});
+    }
+
+    Chance.prototype.chord_quality = function(options) {
+      options = initOptions(options, { jazz: true });
+      var chord_qualities = ['maj', 'min', 'aug', 'dim'];
+      if (options.jazz){
+        chord_qualities = [
+          'maj7',
+          'min7',
+          '7',
+          'sus',
+          'dim',
+          'ø'
+        ];
+      }
+      return this.pickone(chord_qualities);
+    }
+
+    Chance.prototype.chord = function (options) {
+      options = initOptions(options);
+      return this.note(options) + this.chord_quality(options);
+    }
+
+    Chance.prototype.tempo = function (options) {
+      var min = 40;
+      var max = 320;
+      options = initOptions(options, {min: min, max: max});
+      return this.integer({min: options.min, max: options.max});
+    }
+
+    // -- End Music
+
     // -- Miscellaneous --
+
+    // Coin - Flip, flip, flipadelphia
+    Chance.prototype.coin = function() {
+      return this.bool() ? "heads" : "tails";
+    }
 
     // Dice - For all the board game geeks out there, myself included ;)
     function diceFn (range) {
@@ -4225,13 +5627,13 @@ function isnan (val) {
     Chance.prototype.rpg = function (thrown, options) {
         options = initOptions(options);
         if (!thrown) {
-            throw new RangeError("A type of die roll must be included");
+            throw new RangeError("Chance: A type of die roll must be included");
         } else {
             var bits = thrown.toLowerCase().split("d"),
                 rolls = [];
 
             if (bits.length !== 2 || !parseInt(bits[0], 10) || !parseInt(bits[1], 10)) {
-                throw new Error("Invalid format provided. Please provide #d# where the first # is the number of dice to roll, the second # is the max of each die");
+                throw new Error("Chance: Invalid format provided. Please provide #d# where the first # is the number of dice to roll, the second # is the max of each die");
             }
             for (var i = bits[0]; i > 0; i--) {
                 rolls[i - 1] = this.natural({min: 1, max: bits[1]});
@@ -4413,7 +5815,7 @@ function isnan (val) {
                 return (fileName + '.' + fileExtension);
             }
 
-            throw new Error("Expect collection of type Array or Object to be passed as an argument ");
+            throw new Error("Chance: Extensions must be an Array or Object");
         }
 
         // Generate file extension based on specific file type
@@ -4426,7 +5828,7 @@ function isnan (val) {
                 return (fileName + '.' + fileExtension);
             }
 
-            throw new Error("Expect file type value to be 'raster', 'vector', '3d' or 'document' ");
+            throw new RangeError("Chance: Expect file type value to be 'raster', 'vector', '3d' or 'document'");
         }
 
         // Generate random file name if no extension options are passed
@@ -4434,31 +5836,80 @@ function isnan (val) {
         return (fileName + '.' + fileExtension);
     };
 
+    /**
+     * Generates file data of random bytes using the chance.file method for the file name
+     *
+     * @param {object}
+     * fileName: String
+     * fileExtention: String
+     * fileSize: Number      <- in bytes
+     * @returns {object} fileName: String, fileData: Buffer
+     */
+    Chance.prototype.fileWithContent = function (options){
+            var fileOptions = options || {};
+            var fileName = 'fileName' in fileOptions ? fileOptions.fileName : this.file().split(".")[0];
+            fileName += "." + ('fileExtension' in fileOptions ? fileOptions.fileExtension : this.file().split(".")[1]);
+
+
+            if (typeof fileOptions.fileSize !== "number") {
+                throw new Error('File size must be an integer')
+            }
+            var file = {
+              fileData: this.buffer({length: fileOptions.fileSize}),
+              fileName: fileName,
+            };
+        return file;
+   }
+
     var data = {
 
         firstNames: {
             "male": {
                 "en": ["James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph", "Charles", "Thomas", "Christopher", "Daniel", "Matthew", "George", "Donald", "Anthony", "Paul", "Mark", "Edward", "Steven", "Kenneth", "Andrew", "Brian", "Joshua", "Kevin", "Ronald", "Timothy", "Jason", "Jeffrey", "Frank", "Gary", "Ryan", "Nicholas", "Eric", "Stephen", "Jacob", "Larry", "Jonathan", "Scott", "Raymond", "Justin", "Brandon", "Gregory", "Samuel", "Benjamin", "Patrick", "Jack", "Henry", "Walter", "Dennis", "Jerry", "Alexander", "Peter", "Tyler", "Douglas", "Harold", "Aaron", "Jose", "Adam", "Arthur", "Zachary", "Carl", "Nathan", "Albert", "Kyle", "Lawrence", "Joe", "Willie", "Gerald", "Roger", "Keith", "Jeremy", "Terry", "Harry", "Ralph", "Sean", "Jesse", "Roy", "Louis", "Billy", "Austin", "Bruce", "Eugene", "Christian", "Bryan", "Wayne", "Russell", "Howard", "Fred", "Ethan", "Jordan", "Philip", "Alan", "Juan", "Randy", "Vincent", "Bobby", "Dylan", "Johnny", "Phillip", "Victor", "Clarence", "Ernest", "Martin", "Craig", "Stanley", "Shawn", "Travis", "Bradley", "Leonard", "Earl", "Gabriel", "Jimmy", "Francis", "Todd", "Noah", "Danny", "Dale", "Cody", "Carlos", "Allen", "Frederick", "Logan", "Curtis", "Alex", "Joel", "Luis", "Norman", "Marvin", "Glenn", "Tony", "Nathaniel", "Rodney", "Melvin", "Alfred", "Steve", "Cameron", "Chad", "Edwin", "Caleb", "Evan", "Antonio", "Lee", "Herbert", "Jeffery", "Isaac", "Derek", "Ricky", "Marcus", "Theodore", "Elijah", "Luke", "Jesus", "Eddie", "Troy", "Mike", "Dustin", "Ray", "Adrian", "Bernard", "Leroy", "Angel", "Randall", "Wesley", "Ian", "Jared", "Mason", "Hunter", "Calvin", "Oscar", "Clifford", "Jay", "Shane", "Ronnie", "Barry", "Lucas", "Corey", "Manuel", "Leo", "Tommy", "Warren", "Jackson", "Isaiah", "Connor", "Don", "Dean", "Jon", "Julian", "Miguel", "Bill", "Lloyd", "Charlie", "Mitchell", "Leon", "Jerome", "Darrell", "Jeremiah", "Alvin", "Brett", "Seth", "Floyd", "Jim", "Blake", "Micheal", "Gordon", "Trevor", "Lewis", "Erik", "Edgar", "Vernon", "Devin", "Gavin", "Jayden", "Chris", "Clyde", "Tom", "Derrick", "Mario", "Brent", "Marc", "Herman", "Chase", "Dominic", "Ricardo", "Franklin", "Maurice", "Max", "Aiden", "Owen", "Lester", "Gilbert", "Elmer", "Gene", "Francisco", "Glen", "Cory", "Garrett", "Clayton", "Sam", "Jorge", "Chester", "Alejandro", "Jeff", "Harvey", "Milton", "Cole", "Ivan", "Andre", "Duane", "Landon"],
                 // Data taken from http://www.dati.gov.it/dataset/comune-di-firenze_0163
-                "it": ["Adolfo", "Alberto", "Aldo", "Alessandro", "Alessio", "Alfredo", "Alvaro", "Andrea", "Angelo", "Angiolo", "Antonino", "Antonio", "Attilio", "Benito", "Bernardo", "Bruno", "Carlo", "Cesare", "Christian", "Claudio", "Corrado", "Cosimo", "Cristian", "Cristiano", "Daniele", "Dario", "David", "Davide", "Diego", "Dino", "Domenico", "Duccio", "Edoardo", "Elia", "Elio", "Emanuele", "Emiliano", "Emilio", "Enrico", "Enzo", "Ettore", "Fabio", "Fabrizio", "Federico", "Ferdinando", "Fernando", "Filippo", "Francesco", "Franco", "Gabriele", "Giacomo", "Giampaolo", "Giampiero", "Giancarlo", "Gianfranco", "Gianluca", "Gianmarco", "Gianni", "Gino", "Giorgio", "Giovanni", "Giuliano", "Giulio", "Giuseppe", "Graziano", "Gregorio", "Guido", "Iacopo", "Jacopo", "Lapo", "Leonardo", "Lorenzo", "Luca", "Luciano", "Luigi", "Manuel", "Marcello", "Marco", "Marino", "Mario", "Massimiliano", "Massimo", "Matteo", "Mattia", "Maurizio", "Mauro", "Michele", "Mirko", "Mohamed", "Nello", "Neri", "Niccolò", "Nicola", "Osvaldo", "Otello", "Paolo", "Pier Luigi", "Piero", "Pietro", "Raffaele", "Remo", "Renato", "Renzo", "Riccardo", "Roberto", "Rolando", "Romano", "Salvatore", "Samuele", "Sandro", "Sergio", "Silvano", "Simone", "Stefano", "Thomas", "Tommaso", "Ubaldo", "Ugo", "Umberto", "Valerio", "Valter", "Vasco", "Vincenzo", "Vittorio"]
+                "it": ["Adolfo", "Alberto", "Aldo", "Alessandro", "Alessio", "Alfredo", "Alvaro", "Andrea", "Angelo", "Angiolo", "Antonino", "Antonio", "Attilio", "Benito", "Bernardo", "Bruno", "Carlo", "Cesare", "Christian", "Claudio", "Corrado", "Cosimo", "Cristian", "Cristiano", "Daniele", "Dario", "David", "Davide", "Diego", "Dino", "Domenico", "Duccio", "Edoardo", "Elia", "Elio", "Emanuele", "Emiliano", "Emilio", "Enrico", "Enzo", "Ettore", "Fabio", "Fabrizio", "Federico", "Ferdinando", "Fernando", "Filippo", "Francesco", "Franco", "Gabriele", "Giacomo", "Giampaolo", "Giampiero", "Giancarlo", "Gianfranco", "Gianluca", "Gianmarco", "Gianni", "Gino", "Giorgio", "Giovanni", "Giuliano", "Giulio", "Giuseppe", "Graziano", "Gregorio", "Guido", "Iacopo", "Jacopo", "Lapo", "Leonardo", "Lorenzo", "Luca", "Luciano", "Luigi", "Manuel", "Marcello", "Marco", "Marino", "Mario", "Massimiliano", "Massimo", "Matteo", "Mattia", "Maurizio", "Mauro", "Michele", "Mirko", "Mohamed", "Nello", "Neri", "Niccolò", "Nicola", "Osvaldo", "Otello", "Paolo", "Pier Luigi", "Piero", "Pietro", "Raffaele", "Remo", "Renato", "Renzo", "Riccardo", "Roberto", "Rolando", "Romano", "Salvatore", "Samuele", "Sandro", "Sergio", "Silvano", "Simone", "Stefano", "Thomas", "Tommaso", "Ubaldo", "Ugo", "Umberto", "Valerio", "Valter", "Vasco", "Vincenzo", "Vittorio"],
+                // Data taken from http://www.svbkindernamen.nl/int/nl/kindernamen/index.html
+                "nl": ["Aaron","Abel","Adam","Adriaan","Albert","Alexander","Ali","Arjen","Arno","Bart","Bas","Bastiaan","Benjamin","Bob", "Boris","Bram","Brent","Cas","Casper","Chris","Christiaan","Cornelis","Daan","Daley","Damian","Dani","Daniel","Daniël","David","Dean","Dirk","Dylan","Egbert","Elijah","Erik","Erwin","Evert","Ezra","Fabian","Fedde","Finn","Florian","Floris","Frank","Frans","Frederik","Freek","Geert","Gerard","Gerben","Gerrit","Gijs","Guus","Hans","Hendrik","Henk","Herman","Hidde","Hugo","Jaap","Jan Jaap","Jan-Willem","Jack","Jacob","Jan","Jason","Jasper","Jayden","Jelle","Jelte","Jens","Jeroen","Jesse","Jim","Job","Joep","Johannes","John","Jonathan","Joris","Joshua","Joël","Julian","Kees","Kevin","Koen","Lars","Laurens","Leendert","Lennard","Lodewijk","Luc","Luca","Lucas","Lukas","Luuk","Maarten","Marcus","Martijn","Martin","Matthijs","Maurits","Max","Mees","Melle","Mick","Mika","Milan","Mohamed","Mohammed","Morris","Muhammed","Nathan","Nick","Nico","Niek","Niels","Noah","Noud","Olivier","Oscar","Owen","Paul","Pepijn","Peter","Pieter","Pim","Quinten","Reinier","Rens","Robin","Ruben","Sam","Samuel","Sander","Sebastiaan","Sem","Sep","Sepp","Siem","Simon","Stan","Stef","Steven","Stijn","Sven","Teun","Thijmen","Thijs","Thomas","Tijn","Tim","Timo","Tobias","Tom","Victor","Vince","Willem","Wim","Wouter","Yusuf"],
+                // Data taken from https://fr.wikipedia.org/wiki/Liste_de_pr%C3%A9noms_fran%C3%A7ais_et_de_la_francophonie
+                "fr": ["Aaron","Abdon","Abel","Abélard","Abelin","Abondance","Abraham","Absalon","Acace","Achaire","Achille","Adalard","Adalbald","Adalbéron","Adalbert","Adalric","Adam","Adegrin","Adel","Adelin","Andelin","Adelphe","Adam","Adéodat","Adhémar","Adjutor","Adolphe","Adonis","Adon","Adrien","Agapet","Agathange","Agathon","Agilbert","Agénor","Agnan","Aignan","Agrippin","Aimable","Aimé","Alain","Alban","Albin","Aubin","Albéric","Albert","Albertet","Alcibiade","Alcide","Alcée","Alcime","Aldonce","Aldric","Aldéric","Aleaume","Alexandre","Alexis","Alix","Alliaume","Aleaume","Almine","Almire","Aloïs","Alphée","Alphonse","Alpinien","Alverède","Amalric","Amaury","Amandin","Amant","Ambroise","Amédée","Amélien","Amiel","Amour","Anaël","Anastase","Anatole","Ancelin","Andéol","Andoche","André","Andoche","Ange","Angelin","Angilbe","Anglebert","Angoustan","Anicet","Anne","Annibal","Ansbert","Anselme","Anthelme","Antheaume","Anthime","Antide","Antoine","Antonius","Antonin","Apollinaire","Apollon","Aquilin","Arcade","Archambaud","Archambeau","Archange","Archibald","Arian","Ariel","Ariste","Aristide","Armand","Armel","Armin","Arnould","Arnaud","Arolde","Arsène","Arsinoé","Arthaud","Arthème","Arthur","Ascelin","Athanase","Aubry","Audebert","Audouin","Audran","Audric","Auguste","Augustin","Aurèle","Aurélien","Aurian","Auxence","Axel","Aymard","Aymeric","Aymon","Aymond","Balthazar","Baptiste","Barnabé","Barthélemy","Bartimée","Basile","Bastien","Baudouin","Bénigne","Benjamin","Benoît","Bérenger","Bérard","Bernard","Bertrand","Blaise","Bon","Boniface","Bouchard","Brice","Brieuc","Bruno","Brunon","Calixte","Calliste","Camélien","Camille","Camillien","Candide","Caribert","Carloman","Cassandre","Cassien","Cédric","Céleste","Célestin","Célien","Césaire","César","Charles","Charlemagne","Childebert","Chilpéric","Chrétien","Christian","Christodule","Christophe","Chrysostome","Clarence","Claude","Claudien","Cléandre","Clément","Clotaire","Côme","Constance","Constant","Constantin","Corentin","Cyprien","Cyriaque","Cyrille","Cyril","Damien","Daniel","David","Delphin","Denis","Désiré","Didier","Dieudonné","Dimitri","Dominique","Dorian","Dorothée","Edgard","Edmond","Édouard","Éleuthère","Élie","Élisée","Émeric","Émile","Émilien","Emmanuel","Enguerrand","Épiphane","Éric","Esprit","Ernest","Étienne","Eubert","Eudes","Eudoxe","Eugène","Eusèbe","Eustache","Évariste","Évrard","Fabien","Fabrice","Falba","Félicité","Félix","Ferdinand","Fiacre","Fidèle","Firmin","Flavien","Flodoard","Florent","Florentin","Florestan","Florian","Fortuné","Foulques","Francisque","François","Français","Franciscus","Francs","Frédéric","Fulbert","Fulcran","Fulgence","Gabin","Gabriel","Gaël","Garnier","Gaston","Gaspard","Gatien","Gaud","Gautier","Gédéon","Geoffroy","Georges","Géraud","Gérard","Gerbert","Germain","Gervais","Ghislain","Gilbert","Gilles","Girart","Gislebert","Gondebaud","Gonthier","Gontran","Gonzague","Grégoire","Guérin","Gui","Guillaume","Gustave","Guy","Guyot","Hardouin","Hector","Hédelin","Hélier","Henri","Herbert","Herluin","Hervé","Hilaire","Hildebert","Hincmar","Hippolyte","Honoré","Hubert","Hugues","Innocent","Isabeau","Isidore","Jacques","Japhet","Jason","Jean","Jeannel","Jeannot","Jérémie","Jérôme","Joachim","Joanny","Job","Jocelyn","Joël","Johan","Jonas","Jonathan","Joseph","Josse","Josselin","Jourdain","Jude","Judicaël","Jules","Julien","Juste","Justin","Lambert","Landry","Laurent","Lazare","Léandre","Léon","Léonard","Léopold","Leu","Loup","Leufroy","Libère","Liétald","Lionel","Loïc","Longin","Lorrain","Lorraine","Lothaire","Louis","Loup","Luc","Lucas","Lucien","Ludolphe","Ludovic","Macaire","Malo","Mamert","Manassé","Marc","Marceau","Marcel","Marcelin","Marius","Marseille","Martial","Martin","Mathurin","Matthias","Mathias","Matthieu","Maugis","Maurice","Mauricet","Maxence","Maxime","Maximilien","Mayeul","Médéric","Melchior","Mence","Merlin","Mérovée","Michaël","Michel","Moïse","Morgan","Nathan","Nathanaël","Narcisse","Néhémie","Nestor","Nestor","Nicéphore","Nicolas","Noé","Noël","Norbert","Normand","Normands","Octave","Odilon","Odon","Oger","Olivier","Oury","Pacôme","Palémon","Parfait","Pascal","Paterne","Patrice","Paul","Pépin","Perceval","Philémon","Philibert","Philippe","Philothée","Pie","Pierre","Pierrick","Prosper","Quentin","Raoul","Raphaël","Raymond","Régis","Réjean","Rémi","Renaud","René","Reybaud","Richard","Robert","Roch","Rodolphe","Rodrigue","Roger","Roland","Romain","Romuald","Roméo","Rome","Ronan","Roselin","Salomon","Samuel","Savin","Savinien","Scholastique","Sébastien","Séraphin","Serge","Séverin","Sidoine","Sigebert","Sigismond","Silvère","Simon","Siméon","Sixte","Stanislas","Stéphane","Stephan","Sylvain","Sylvestre","Tancrède","Tanguy","Taurin","Théodore","Théodose","Théophile","Théophraste","Thibault","Thibert","Thierry","Thomas","Timoléon","Timothée","Titien","Tonnin","Toussaint","Trajan","Tristan","Turold","Tim","Ulysse","Urbain","Valentin","Valère","Valéry","Venance","Venant","Venceslas","Vianney","Victor","Victorien","Victorin","Vigile","Vincent","Vital","Vitalien","Vivien","Waleran","Wandrille","Xavier","Xénophon","Yves","Zacharie","Zaché","Zéphirin"]
             },
+
             "female": {
                 "en": ["Mary", "Emma", "Elizabeth", "Minnie", "Margaret", "Ida", "Alice", "Bertha", "Sarah", "Annie", "Clara", "Ella", "Florence", "Cora", "Martha", "Laura", "Nellie", "Grace", "Carrie", "Maude", "Mabel", "Bessie", "Jennie", "Gertrude", "Julia", "Hattie", "Edith", "Mattie", "Rose", "Catherine", "Lillian", "Ada", "Lillie", "Helen", "Jessie", "Louise", "Ethel", "Lula", "Myrtle", "Eva", "Frances", "Lena", "Lucy", "Edna", "Maggie", "Pearl", "Daisy", "Fannie", "Josephine", "Dora", "Rosa", "Katherine", "Agnes", "Marie", "Nora", "May", "Mamie", "Blanche", "Stella", "Ellen", "Nancy", "Effie", "Sallie", "Nettie", "Della", "Lizzie", "Flora", "Susie", "Maud", "Mae", "Etta", "Harriet", "Sadie", "Caroline", "Katie", "Lydia", "Elsie", "Kate", "Susan", "Mollie", "Alma", "Addie", "Georgia", "Eliza", "Lulu", "Nannie", "Lottie", "Amanda", "Belle", "Charlotte", "Rebecca", "Ruth", "Viola", "Olive", "Amelia", "Hannah", "Jane", "Virginia", "Emily", "Matilda", "Irene", "Kathryn", "Esther", "Willie", "Henrietta", "Ollie", "Amy", "Rachel", "Sara", "Estella", "Theresa", "Augusta", "Ora", "Pauline", "Josie", "Lola", "Sophia", "Leona", "Anne", "Mildred", "Ann", "Beulah", "Callie", "Lou", "Delia", "Eleanor", "Barbara", "Iva", "Louisa", "Maria", "Mayme", "Evelyn", "Estelle", "Nina", "Betty", "Marion", "Bettie", "Dorothy", "Luella", "Inez", "Lela", "Rosie", "Allie", "Millie", "Janie", "Cornelia", "Victoria", "Ruby", "Winifred", "Alta", "Celia", "Christine", "Beatrice", "Birdie", "Harriett", "Mable", "Myra", "Sophie", "Tillie", "Isabel", "Sylvia", "Carolyn", "Isabelle", "Leila", "Sally", "Ina", "Essie", "Bertie", "Nell", "Alberta", "Katharine", "Lora", "Rena", "Mina", "Rhoda", "Mathilda", "Abbie", "Eula", "Dollie", "Hettie", "Eunice", "Fanny", "Ola", "Lenora", "Adelaide", "Christina", "Lelia", "Nelle", "Sue", "Johanna", "Lilly", "Lucinda", "Minerva", "Lettie", "Roxie", "Cynthia", "Helena", "Hilda", "Hulda", "Bernice", "Genevieve", "Jean", "Cordelia", "Marian", "Francis", "Jeanette", "Adeline", "Gussie", "Leah", "Lois", "Lura", "Mittie", "Hallie", "Isabella", "Olga", "Phoebe", "Teresa", "Hester", "Lida", "Lina", "Winnie", "Claudia", "Marguerite", "Vera", "Cecelia", "Bess", "Emilie", "Rosetta", "Verna", "Myrtie", "Cecilia", "Elva", "Olivia", "Ophelia", "Georgie", "Elnora", "Violet", "Adele", "Lily", "Linnie", "Loretta", "Madge", "Polly", "Virgie", "Eugenia", "Lucile", "Lucille", "Mabelle", "Rosalie"],
                 // Data taken from http://www.dati.gov.it/dataset/comune-di-firenze_0162
-                "it": ["Ada", "Adriana", "Alessandra", "Alessia", "Alice", "Angela", "Anna", "Anna Maria", "Annalisa", "Annita", "Annunziata", "Antonella", "Arianna", "Asia", "Assunta", "Aurora", "Barbara", "Beatrice", "Benedetta", "Bianca", "Bruna", "Camilla", "Carla", "Carlotta", "Carmela", "Carolina", "Caterina", "Catia", "Cecilia", "Chiara", "Cinzia", "Clara", "Claudia", "Costanza", "Cristina", "Daniela", "Debora", "Diletta", "Dina", "Donatella", "Elena", "Eleonora", "Elisa", "Elisabetta", "Emanuela", "Emma", "Eva", "Federica", "Fernanda", "Fiorella", "Fiorenza", "Flora", "Franca", "Francesca", "Gabriella", "Gaia", "Gemma", "Giada", "Gianna", "Gina", "Ginevra", "Giorgia", "Giovanna", "Giulia", "Giuliana", "Giuseppa", "Giuseppina", "Grazia", "Graziella", "Greta", "Ida", "Ilaria", "Ines", "Iolanda", "Irene", "Irma", "Isabella", "Jessica", "Laura", "Leda", "Letizia", "Licia", "Lidia", "Liliana", "Lina", "Linda", "Lisa", "Livia", "Loretta", "Luana", "Lucia", "Luciana", "Lucrezia", "Luisa", "Manuela", "Mara", "Marcella", "Margherita", "Maria", "Maria Cristina", "Maria Grazia", "Maria Luisa", "Maria Pia", "Maria Teresa", "Marina", "Marisa", "Marta", "Martina", "Marzia", "Matilde", "Melissa", "Michela", "Milena", "Mirella", "Monica", "Natalina", "Nella", "Nicoletta", "Noemi", "Olga", "Paola", "Patrizia", "Piera", "Pierina", "Raffaella", "Rebecca", "Renata", "Rina", "Rita", "Roberta", "Rosa", "Rosanna", "Rossana", "Rossella", "Sabrina", "Sandra", "Sara", "Serena", "Silvana", "Silvia", "Simona", "Simonetta", "Sofia", "Sonia", "Stefania", "Susanna", "Teresa", "Tina", "Tiziana", "Tosca", "Valentina", "Valeria", "Vanda", "Vanessa", "Vanna", "Vera", "Veronica", "Vilma", "Viola", "Virginia", "Vittoria"]
+                "it": ["Ada", "Adriana", "Alessandra", "Alessia", "Alice", "Angela", "Anna", "Anna Maria", "Annalisa", "Annita", "Annunziata", "Antonella", "Arianna", "Asia", "Assunta", "Aurora", "Barbara", "Beatrice", "Benedetta", "Bianca", "Bruna", "Camilla", "Carla", "Carlotta", "Carmela", "Carolina", "Caterina", "Catia", "Cecilia", "Chiara", "Cinzia", "Clara", "Claudia", "Costanza", "Cristina", "Daniela", "Debora", "Diletta", "Dina", "Donatella", "Elena", "Eleonora", "Elisa", "Elisabetta", "Emanuela", "Emma", "Eva", "Federica", "Fernanda", "Fiorella", "Fiorenza", "Flora", "Franca", "Francesca", "Gabriella", "Gaia", "Gemma", "Giada", "Gianna", "Gina", "Ginevra", "Giorgia", "Giovanna", "Giulia", "Giuliana", "Giuseppa", "Giuseppina", "Grazia", "Graziella", "Greta", "Ida", "Ilaria", "Ines", "Iolanda", "Irene", "Irma", "Isabella", "Jessica", "Laura", "Lea", "Letizia", "Licia", "Lidia", "Liliana", "Lina", "Linda", "Lisa", "Livia", "Loretta", "Luana", "Lucia", "Luciana", "Lucrezia", "Luisa", "Manuela", "Mara", "Marcella", "Margherita", "Maria", "Maria Cristina", "Maria Grazia", "Maria Luisa", "Maria Pia", "Maria Teresa", "Marina", "Marisa", "Marta", "Martina", "Marzia", "Matilde", "Melissa", "Michela", "Milena", "Mirella", "Monica", "Natalina", "Nella", "Nicoletta", "Noemi", "Olga", "Paola", "Patrizia", "Piera", "Pierina", "Raffaella", "Rebecca", "Renata", "Rina", "Rita", "Roberta", "Rosa", "Rosanna", "Rossana", "Rossella", "Sabrina", "Sandra", "Sara", "Serena", "Silvana", "Silvia", "Simona", "Simonetta", "Sofia", "Sonia", "Stefania", "Susanna", "Teresa", "Tina", "Tiziana", "Tosca", "Valentina", "Valeria", "Vanda", "Vanessa", "Vanna", "Vera", "Veronica", "Vilma", "Viola", "Virginia", "Vittoria"],
+                // Data taken from http://www.svbkindernamen.nl/int/nl/kindernamen/index.html
+                "nl": ["Ada", "Arianne", "Afke", "Amanda", "Amber", "Amy", "Aniek", "Anita", "Anja", "Anna", "Anne", "Annelies", "Annemarie", "Annette", "Anouk", "Astrid", "Aukje", "Barbara", "Bianca", "Carla", "Carlijn", "Carolien", "Chantal", "Charlotte", "Claudia", "Daniëlle", "Debora", "Diane", "Dora", "Eline", "Elise", "Ella", "Ellen", "Emma", "Esmee", "Evelien", "Esther", "Erica", "Eva", "Femke", "Fleur", "Floor", "Froukje", "Gea", "Gerda", "Hanna", "Hanneke", "Heleen", "Hilde", "Ilona", "Ina", "Inge", "Ingrid", "Iris", "Isabel", "Isabelle", "Janneke", "Jasmijn", "Jeanine", "Jennifer", "Jessica", "Johanna", "Joke", "Julia", "Julie", "Karen", "Karin", "Katja", "Kim", "Lara", "Laura", "Lena", "Lianne", "Lieke", "Lilian", "Linda", "Lisa", "Lisanne", "Lotte", "Louise", "Maaike", "Manon", "Marga", "Maria", "Marissa", "Marit", "Marjolein", "Martine", "Marleen", "Melissa", "Merel", "Miranda", "Michelle", "Mirjam", "Mirthe", "Naomi", "Natalie", 'Nienke', "Nina", "Noortje", "Olivia", "Patricia", "Paula", "Paulien", "Ramona", "Ria", "Rianne", "Roos", "Rosanne", "Ruth", "Sabrina", "Sandra", "Sanne", "Sara", "Saskia", "Silvia", "Sofia", "Sophie", "Sonja", "Suzanne", "Tamara", "Tess", "Tessa", "Tineke", "Valerie", "Vanessa", "Veerle", "Vera", "Victoria", "Wendy", "Willeke", "Yvonne", "Zoë"],
+                // Data taken from https://fr.wikipedia.org/wiki/Liste_de_pr%C3%A9noms_fran%C3%A7ais_et_de_la_francophonie
+                "fr": ["Abdon","Abel","Abigaëlle","Abigaïl","Acacius","Acanthe","Adalbert","Adalsinde","Adegrine","Adélaïde","Adèle","Adélie","Adeline","Adeltrude","Adolphe","Adonis","Adrastée","Adrehilde","Adrienne","Agathe","Agilbert","Aglaé","Aignan","Agneflète","Agnès","Agrippine","Aimé","Alaine","Alaïs","Albane","Albérade","Alberte","Alcide","Alcine","Alcyone","Aldegonde","Aleth","Alexandrine","Alexine","Alice","Aliénor","Aliette","Aline","Alix","Alizé","Aloïse","Aloyse","Alphonsine","Althée","Amaliane","Amalthée","Amande","Amandine","Amant","Amarande","Amaranthe","Amaryllis","Ambre","Ambroisie","Amélie","Améthyste","Aminte","Anaël","Anaïs","Anastasie","Anatole","Ancelin","Andrée","Anémone","Angadrême","Angèle","Angeline","Angélique","Angilbert","Anicet","Annabelle","Anne","Annette","Annick","Annie","Annonciade","Ansbert","Anstrudie","Anthelme","Antigone","Antoinette","Antonine","Aphélie","Apolline","Apollonie","Aquiline","Arabelle","Arcadie","Archange","Argine","Ariane","Aricie","Ariel","Arielle","Arlette","Armance","Armande","Armandine","Armelle","Armide","Armelle","Armin","Arnaud","Arsène","Arsinoé","Artémis","Arthur","Ascelin","Ascension","Assomption","Astarté","Astérie","Astrée","Astrid","Athalie","Athanasie","Athina","Aube","Albert","Aude","Audrey","Augustine","Aure","Aurélie","Aurélien","Aurèle","Aurore","Auxence","Aveline","Abigaëlle","Avoye","Axelle","Aymard","Azalée","Adèle","Adeline","Barbe","Basilisse","Bathilde","Béatrice","Béatrix","Bénédicte","Bérengère","Bernadette","Berthe","Bertille","Beuve","Blanche","Blanc","Blandine","Brigitte","Brune","Brunehilde","Callista","Camille","Capucine","Carine","Caroline","Cassandre","Catherine","Cécile","Céleste","Célestine","Céline","Chantal","Charlène","Charline","Charlotte","Chloé","Christelle","Christiane","Christine","Claire","Clara","Claude","Claudine","Clarisse","Clémence","Clémentine","Cléo","Clio","Clotilde","Coline","Conception","Constance","Coralie","Coraline","Corentine","Corinne","Cyrielle","Daniel","Daniel","Daphné","Débora","Delphine","Denise","Diane","Dieudonné","Dominique","Doriane","Dorothée","Douce","Édith","Edmée","Éléonore","Éliane","Élia","Éliette","Élisabeth","Élise","Ella","Élodie","Éloïse","Elsa","Émeline","Émérance","Émérentienne","Émérencie","Émilie","Emma","Emmanuelle","Emmelie","Ernestine","Esther","Estelle","Eudoxie","Eugénie","Eulalie","Euphrasie","Eusébie","Évangéline","Eva","Ève","Évelyne","Fanny","Fantine","Faustine","Félicie","Fernande","Flavie","Fleur","Flore","Florence","Florie","Fortuné","France","Francia","Françoise","Francine","Gabrielle","Gaëlle","Garance","Geneviève","Georgette","Gerberge","Germaine","Gertrude","Gisèle","Guenièvre","Guilhemine","Guillemette","Gustave","Gwenael","Hélène","Héloïse","Henriette","Hermine","Hermione","Hippolyte","Honorine","Hortense","Huguette","Ines","Irène","Irina","Iris","Isabeau","Isabelle","Iseult","Isolde","Ismérie","Jacinthe","Jacqueline","Jade","Janine","Jeanne","Jocelyne","Joëlle","Joséphine","Judith","Julia","Julie","Jules","Juliette","Justine","Katy","Kathy","Katie","Laura","Laure","Laureline","Laurence","Laurene","Lauriane","Laurianne","Laurine","Léa","Léna","Léonie","Léon","Léontine","Lorraine","Lucie","Lucienne","Lucille","Ludivine","Lydie","Lydie","Megane","Madeleine","Magali","Maguelone","Mallaury","Manon","Marceline","Margot","Marguerite","Marianne","Marie","Myriam","Marie","Marine","Marion","Marlène","Marthe","Martine","Mathilde","Maud","Maureen","Mauricette","Maxime","Mélanie","Melissa","Mélissandre","Mélisande","Mélodie","Michel","Micheline","Mireille","Miriam","Moïse","Monique","Morgane","Muriel","Mylène","Nadège","Nadine","Nathalie","Nicole","Nicolette","Nine","Noël","Noémie","Océane","Odette","Odile","Olive","Olivia","Olympe","Ombline","Ombeline","Ophélie","Oriande","Oriane","Ozanne","Pascale","Pascaline","Paule","Paulette","Pauline","Priscille","Prisca","Prisque","Pécine","Pélagie","Pénélope","Perrine","Pétronille","Philippine","Philomène","Philothée","Primerose","Prudence","Pulchérie","Quentine","Quiéta","Quintia","Quintilla","Rachel","Raphaëlle","Raymonde","Rebecca","Régine","Réjeanne","René","Rita","Rita","Rolande","Romane","Rosalie","Rose","Roseline","Sabine","Salomé","Sandra","Sandrine","Sarah","Ségolène","Séverine","Sibylle","Simone","Sixt","Solange","Soline","Solène","Sophie","Stéphanie","Suzanne","Sylvain","Sylvie","Tatiana","Thaïs","Théodora","Thérèse","Tiphaine","Ursule","Valentine","Valérie","Véronique","Victoire","Victorine","Vinciane","Violette","Virginie","Viviane","Xavière","Yolande","Ysaline","Yvette","Yvonne","Zélie","Zita","Zoé"]
             }
         },
 
         lastNames: {
             "en": ['Smith', 'Johnson', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin', 'Thompson', 'Garcia', 'Martinez', 'Robinson', 'Clark', 'Rodriguez', 'Lewis', 'Lee', 'Walker', 'Hall', 'Allen', 'Young', 'Hernandez', 'King', 'Wright', 'Lopez', 'Hill', 'Scott', 'Green', 'Adams', 'Baker', 'Gonzalez', 'Nelson', 'Carter', 'Mitchell', 'Perez', 'Roberts', 'Turner', 'Phillips', 'Campbell', 'Parker', 'Evans', 'Edwards', 'Collins', 'Stewart', 'Sanchez', 'Morris', 'Rogers', 'Reed', 'Cook', 'Morgan', 'Bell', 'Murphy', 'Bailey', 'Rivera', 'Cooper', 'Richardson', 'Cox', 'Howard', 'Ward', 'Torres', 'Peterson', 'Gray', 'Ramirez', 'James', 'Watson', 'Brooks', 'Kelly', 'Sanders', 'Price', 'Bennett', 'Wood', 'Barnes', 'Ross', 'Henderson', 'Coleman', 'Jenkins', 'Perry', 'Powell', 'Long', 'Patterson', 'Hughes', 'Flores', 'Washington', 'Butler', 'Simmons', 'Foster', 'Gonzales', 'Bryant', 'Alexander', 'Russell', 'Griffin', 'Diaz', 'Hayes', 'Myers', 'Ford', 'Hamilton', 'Graham', 'Sullivan', 'Wallace', 'Woods', 'Cole', 'West', 'Jordan', 'Owens', 'Reynolds', 'Fisher', 'Ellis', 'Harrison', 'Gibson', 'McDonald', 'Cruz', 'Marshall', 'Ortiz', 'Gomez', 'Murray', 'Freeman', 'Wells', 'Webb', 'Simpson', 'Stevens', 'Tucker', 'Porter', 'Hunter', 'Hicks', 'Crawford', 'Henry', 'Boyd', 'Mason', 'Morales', 'Kennedy', 'Warren', 'Dixon', 'Ramos', 'Reyes', 'Burns', 'Gordon', 'Shaw', 'Holmes', 'Rice', 'Robertson', 'Hunt', 'Black', 'Daniels', 'Palmer', 'Mills', 'Nichols', 'Grant', 'Knight', 'Ferguson', 'Rose', 'Stone', 'Hawkins', 'Dunn', 'Perkins', 'Hudson', 'Spencer', 'Gardner', 'Stephens', 'Payne', 'Pierce', 'Berry', 'Matthews', 'Arnold', 'Wagner', 'Willis', 'Ray', 'Watkins', 'Olson', 'Carroll', 'Duncan', 'Snyder', 'Hart', 'Cunningham', 'Bradley', 'Lane', 'Andrews', 'Ruiz', 'Harper', 'Fox', 'Riley', 'Armstrong', 'Carpenter', 'Weaver', 'Greene', 'Lawrence', 'Elliott', 'Chavez', 'Sims', 'Austin', 'Peters', 'Kelley', 'Franklin', 'Lawson', 'Fields', 'Gutierrez', 'Ryan', 'Schmidt', 'Carr', 'Vasquez', 'Castillo', 'Wheeler', 'Chapman', 'Oliver', 'Montgomery', 'Richards', 'Williamson', 'Johnston', 'Banks', 'Meyer', 'Bishop', 'McCoy', 'Howell', 'Alvarez', 'Morrison', 'Hansen', 'Fernandez', 'Garza', 'Harvey', 'Little', 'Burton', 'Stanley', 'Nguyen', 'George', 'Jacobs', 'Reid', 'Kim', 'Fuller', 'Lynch', 'Dean', 'Gilbert', 'Garrett', 'Romero', 'Welch', 'Larson', 'Frazier', 'Burke', 'Hanson', 'Day', 'Mendoza', 'Moreno', 'Bowman', 'Medina', 'Fowler', 'Brewer', 'Hoffman', 'Carlson', 'Silva', 'Pearson', 'Holland', 'Douglas', 'Fleming', 'Jensen', 'Vargas', 'Byrd', 'Davidson', 'Hopkins', 'May', 'Terry', 'Herrera', 'Wade', 'Soto', 'Walters', 'Curtis', 'Neal', 'Caldwell', 'Lowe', 'Jennings', 'Barnett', 'Graves', 'Jimenez', 'Horton', 'Shelton', 'Barrett', 'Obrien', 'Castro', 'Sutton', 'Gregory', 'McKinney', 'Lucas', 'Miles', 'Craig', 'Rodriquez', 'Chambers', 'Holt', 'Lambert', 'Fletcher', 'Watts', 'Bates', 'Hale', 'Rhodes', 'Pena', 'Beck', 'Newman', 'Haynes', 'McDaniel', 'Mendez', 'Bush', 'Vaughn', 'Parks', 'Dawson', 'Santiago', 'Norris', 'Hardy', 'Love', 'Steele', 'Curry', 'Powers', 'Schultz', 'Barker', 'Guzman', 'Page', 'Munoz', 'Ball', 'Keller', 'Chandler', 'Weber', 'Leonard', 'Walsh', 'Lyons', 'Ramsey', 'Wolfe', 'Schneider', 'Mullins', 'Benson', 'Sharp', 'Bowen', 'Daniel', 'Barber', 'Cummings', 'Hines', 'Baldwin', 'Griffith', 'Valdez', 'Hubbard', 'Salazar', 'Reeves', 'Warner', 'Stevenson', 'Burgess', 'Santos', 'Tate', 'Cross', 'Garner', 'Mann', 'Mack', 'Moss', 'Thornton', 'Dennis', 'McGee', 'Farmer', 'Delgado', 'Aguilar', 'Vega', 'Glover', 'Manning', 'Cohen', 'Harmon', 'Rodgers', 'Robbins', 'Newton', 'Todd', 'Blair', 'Higgins', 'Ingram', 'Reese', 'Cannon', 'Strickland', 'Townsend', 'Potter', 'Goodwin', 'Walton', 'Rowe', 'Hampton', 'Ortega', 'Patton', 'Swanson', 'Joseph', 'Francis', 'Goodman', 'Maldonado', 'Yates', 'Becker', 'Erickson', 'Hodges', 'Rios', 'Conner', 'Adkins', 'Webster', 'Norman', 'Malone', 'Hammond', 'Flowers', 'Cobb', 'Moody', 'Quinn', 'Blake', 'Maxwell', 'Pope', 'Floyd', 'Osborne', 'Paul', 'McCarthy', 'Guerrero', 'Lindsey', 'Estrada', 'Sandoval', 'Gibbs', 'Tyler', 'Gross', 'Fitzgerald', 'Stokes', 'Doyle', 'Sherman', 'Saunders', 'Wise', 'Colon', 'Gill', 'Alvarado', 'Greer', 'Padilla', 'Simon', 'Waters', 'Nunez', 'Ballard', 'Schwartz', 'McBride', 'Houston', 'Christensen', 'Klein', 'Pratt', 'Briggs', 'Parsons', 'McLaughlin', 'Zimmerman', 'French', 'Buchanan', 'Moran', 'Copeland', 'Roy', 'Pittman', 'Brady', 'McCormick', 'Holloway', 'Brock', 'Poole', 'Frank', 'Logan', 'Owen', 'Bass', 'Marsh', 'Drake', 'Wong', 'Jefferson', 'Park', 'Morton', 'Abbott', 'Sparks', 'Patrick', 'Norton', 'Huff', 'Clayton', 'Massey', 'Lloyd', 'Figueroa', 'Carson', 'Bowers', 'Roberson', 'Barton', 'Tran', 'Lamb', 'Harrington', 'Casey', 'Boone', 'Cortez', 'Clarke', 'Mathis', 'Singleton', 'Wilkins', 'Cain', 'Bryan', 'Underwood', 'Hogan', 'McKenzie', 'Collier', 'Luna', 'Phelps', 'McGuire', 'Allison', 'Bridges', 'Wilkerson', 'Nash', 'Summers', 'Atkins'],
                 // Data taken from http://www.dati.gov.it/dataset/comune-di-firenze_0164 (first 1000)
-            "it": ["Acciai", "Aglietti", "Agostini", "Agresti", "Ahmed", "Aiazzi", "Albanese", "Alberti", "Alessi", "Alfani", "Alinari", "Alterini", "Amato", "Ammannati", "Ancillotti", "Andrei", "Andreini", "Andreoni", "Angeli", "Anichini", "Antonelli", "Antonini", "Arena", "Ariani", "Arnetoli", "Arrighi", "Baccani", "Baccetti", "Bacci", "Bacherini", "Badii", "Baggiani", "Baglioni", "Bagni", "Bagnoli", "Baldassini", "Baldi", "Baldini", "Ballerini", "Balli", "Ballini", "Balloni", "Bambi", "Banchi", "Bandinelli", "Bandini", "Bani", "Barbetti", "Barbieri", "Barchielli", "Bardazzi", "Bardelli", "Bardi", "Barducci", "Bargellini", "Bargiacchi", "Barni", "Baroncelli", "Baroncini", "Barone", "Baroni", "Baronti", "Bartalesi", "Bartoletti", "Bartoli", "Bartolini", "Bartoloni", "Bartolozzi", "Basagni", "Basile", "Bassi", "Batacchi", "Battaglia", "Battaglini", "Bausi", "Becagli", "Becattini", "Becchi", "Becucci", "Bellandi", "Bellesi", "Belli", "Bellini", "Bellucci", "Bencini", "Benedetti", "Benelli", "Beni", "Benini", "Bensi", "Benucci", "Benvenuti", "Berlincioni", "Bernacchioni", "Bernardi", "Bernardini", "Berni", "Bernini", "Bertelli", "Berti", "Bertini", "Bessi", "Betti", "Bettini", "Biagi", "Biagini", "Biagioni", "Biagiotti", "Biancalani", "Bianchi", "Bianchini", "Bianco", "Biffoli", "Bigazzi", "Bigi", "Biliotti", "Billi", "Binazzi", "Bindi", "Bini", "Biondi", "Bizzarri", "Bocci", "Bogani", "Bolognesi", "Bonaiuti", "Bonanni", "Bonciani", "Boncinelli", "Bondi", "Bonechi", "Bongini", "Boni", "Bonini", "Borchi", "Boretti", "Borghi", "Borghini", "Borgioli", "Borri", "Borselli", "Boschi", "Bottai", "Bracci", "Braccini", "Brandi", "Braschi", "Bravi", "Brazzini", "Breschi", "Brilli", "Brizzi", "Brogelli", "Brogi", "Brogioni", "Brunelli", "Brunetti", "Bruni", "Bruno", "Brunori", "Bruschi", "Bucci", "Bucciarelli", "Buccioni", "Bucelli", "Bulli", "Burberi", "Burchi", "Burgassi", "Burroni", "Bussotti", "Buti", "Caciolli", "Caiani", "Calabrese", "Calamai", "Calamandrei", "Caldini", "Calo'", "Calonaci", "Calosi", "Calvelli", "Cambi", "Camiciottoli", "Cammelli", "Cammilli", "Campolmi", "Cantini", "Capanni", "Capecchi", "Caponi", "Cappelletti", "Cappelli", "Cappellini", "Cappugi", "Capretti", "Caputo", "Carbone", "Carboni", "Cardini", "Carlesi", "Carletti", "Carli", "Caroti", "Carotti", "Carrai", "Carraresi", "Carta", "Caruso", "Casalini", "Casati", "Caselli", "Casini", "Castagnoli", "Castellani", "Castelli", "Castellucci", "Catalano", "Catarzi", "Catelani", "Cavaciocchi", "Cavallaro", "Cavallini", "Cavicchi", "Cavini", "Ceccarelli", "Ceccatelli", "Ceccherelli", "Ceccherini", "Cecchi", "Cecchini", "Cecconi", "Cei", "Cellai", "Celli", "Cellini", "Cencetti", "Ceni", "Cenni", "Cerbai", "Cesari", "Ceseri", "Checcacci", "Checchi", "Checcucci", "Cheli", "Chellini", "Chen", "Cheng", "Cherici", "Cherubini", "Chiaramonti", "Chiarantini", "Chiarelli", "Chiari", "Chiarini", "Chiarugi", "Chiavacci", "Chiesi", "Chimenti", "Chini", "Chirici", "Chiti", "Ciabatti", "Ciampi", "Cianchi", "Cianfanelli", "Cianferoni", "Ciani", "Ciapetti", "Ciappi", "Ciardi", "Ciatti", "Cicali", "Ciccone", "Cinelli", "Cini", "Ciobanu", "Ciolli", "Cioni", "Cipriani", "Cirillo", "Cirri", "Ciucchi", "Ciuffi", "Ciulli", "Ciullini", "Clemente", "Cocchi", "Cognome", "Coli", "Collini", "Colombo", "Colzi", "Comparini", "Conforti", "Consigli", "Conte", "Conti", "Contini", "Coppini", "Coppola", "Corsi", "Corsini", "Corti", "Cortini", "Cosi", "Costa", "Costantini", "Costantino", "Cozzi", "Cresci", "Crescioli", "Cresti", "Crini", "Curradi", "D'Agostino", "D'Alessandro", "D'Amico", "D'Angelo", "Daddi", "Dainelli", "Dallai", "Danti", "Davitti", "De Angelis", "De Luca", "De Marco", "De Rosa", "De Santis", "De Simone", "De Vita", "Degl'Innocenti", "Degli Innocenti", "Dei", "Del Lungo", "Del Re", "Di Marco", "Di Stefano", "Dini", "Diop", "Dobre", "Dolfi", "Donati", "Dondoli", "Dong", "Donnini", "Ducci", "Dumitru", "Ermini", "Esposito", "Evangelisti", "Fabbri", "Fabbrini", "Fabbrizzi", "Fabbroni", "Fabbrucci", "Fabiani", "Facchini", "Faggi", "Fagioli", "Failli", "Faini", "Falciani", "Falcini", "Falcone", "Fallani", "Falorni", "Falsini", "Falugiani", "Fancelli", "Fanelli", "Fanetti", "Fanfani", "Fani", "Fantappie'", "Fantechi", "Fanti", "Fantini", "Fantoni", "Farina", "Fattori", "Favilli", "Fedi", "Fei", "Ferrante", "Ferrara", "Ferrari", "Ferraro", "Ferretti", "Ferri", "Ferrini", "Ferroni", "Fiaschi", "Fibbi", "Fiesoli", "Filippi", "Filippini", "Fini", "Fioravanti", "Fiore", "Fiorentini", "Fiorini", "Fissi", "Focardi", "Foggi", "Fontana", "Fontanelli", "Fontani", "Forconi", "Formigli", "Forte", "Forti", "Fortini", "Fossati", "Fossi", "Francalanci", "Franceschi", "Franceschini", "Franchi", "Franchini", "Franci", "Francini", "Francioni", "Franco", "Frassineti", "Frati", "Fratini", "Frilli", "Frizzi", "Frosali", "Frosini", "Frullini", "Fusco", "Fusi", "Gabbrielli", "Gabellini", "Gagliardi", "Galanti", "Galardi", "Galeotti", "Galletti", "Galli", "Gallo", "Gallori", "Gambacciani", "Gargani", "Garofalo", "Garuglieri", "Gashi", "Gasperini", "Gatti", "Gelli", "Gensini", "Gentile", "Gentili", "Geri", "Gerini", "Gheri", "Ghini", "Giachetti", "Giachi", "Giacomelli", "Gianassi", "Giani", "Giannelli", "Giannetti", "Gianni", "Giannini", "Giannoni", "Giannotti", "Giannozzi", "Gigli", "Giordano", "Giorgetti", "Giorgi", "Giovacchini", "Giovannelli", "Giovannetti", "Giovannini", "Giovannoni", "Giuliani", "Giunti", "Giuntini", "Giusti", "Gonnelli", "Goretti", "Gori", "Gradi", "Gramigni", "Grassi", "Grasso", "Graziani", "Grazzini", "Greco", "Grifoni", "Grillo", "Grimaldi", "Grossi", "Gualtieri", "Guarducci", "Guarino", "Guarnieri", "Guasti", "Guerra", "Guerri", "Guerrini", "Guidi", "Guidotti", "He", "Hoxha", "Hu", "Huang", "Iandelli", "Ignesti", "Innocenti", "Jin", "La Rosa", "Lai", "Landi", "Landini", "Lanini", "Lapi", "Lapini", "Lari", "Lascialfari", "Lastrucci", "Latini", "Lazzeri", "Lazzerini", "Lelli", "Lenzi", "Leonardi", "Leoncini", "Leone", "Leoni", "Lepri", "Li", "Liao", "Lin", "Linari", "Lippi", "Lisi", "Livi", "Lombardi", "Lombardini", "Lombardo", "Longo", "Lopez", "Lorenzi", "Lorenzini", "Lorini", "Lotti", "Lu", "Lucchesi", "Lucherini", "Lunghi", "Lupi", "Madiai", "Maestrini", "Maffei", "Maggi", "Maggini", "Magherini", "Magini", "Magnani", "Magnelli", "Magni", "Magnolfi", "Magrini", "Malavolti", "Malevolti", "Manca", "Mancini", "Manetti", "Manfredi", "Mangani", "Mannelli", "Manni", "Mannini", "Mannucci", "Manuelli", "Manzini", "Marcelli", "Marchese", "Marchetti", "Marchi", "Marchiani", "Marchionni", "Marconi", "Marcucci", "Margheri", "Mari", "Mariani", "Marilli", "Marinai", "Marinari", "Marinelli", "Marini", "Marino", "Mariotti", "Marsili", "Martelli", "Martinelli", "Martini", "Martino", "Marzi", "Masi", "Masini", "Masoni", "Massai", "Materassi", "Mattei", "Matteini", "Matteucci", "Matteuzzi", "Mattioli", "Mattolini", "Matucci", "Mauro", "Mazzanti", "Mazzei", "Mazzetti", "Mazzi", "Mazzini", "Mazzocchi", "Mazzoli", "Mazzoni", "Mazzuoli", "Meacci", "Mecocci", "Meini", "Melani", "Mele", "Meli", "Mengoni", "Menichetti", "Meoni", "Merlini", "Messeri", "Messina", "Meucci", "Miccinesi", "Miceli", "Micheli", "Michelini", "Michelozzi", "Migliori", "Migliorini", "Milani", "Miniati", "Misuri", "Monaco", "Montagnani", "Montagni", "Montanari", "Montelatici", "Monti", "Montigiani", "Montini", "Morandi", "Morandini", "Morelli", "Moretti", "Morganti", "Mori", "Morini", "Moroni", "Morozzi", "Mugnai", "Mugnaini", "Mustafa", "Naldi", "Naldini", "Nannelli", "Nanni", "Nannini", "Nannucci", "Nardi", "Nardini", "Nardoni", "Natali", "Ndiaye", "Nencetti", "Nencini", "Nencioni", "Neri", "Nesi", "Nesti", "Niccolai", "Niccoli", "Niccolini", "Nigi", "Nistri", "Nocentini", "Noferini", "Novelli", "Nucci", "Nuti", "Nutini", "Oliva", "Olivieri", "Olmi", "Orlandi", "Orlandini", "Orlando", "Orsini", "Ortolani", "Ottanelli", "Pacciani", "Pace", "Paci", "Pacini", "Pagani", "Pagano", "Paggetti", "Pagliai", "Pagni", "Pagnini", "Paladini", "Palagi", "Palchetti", "Palloni", "Palmieri", "Palumbo", "Pampaloni", "Pancani", "Pandolfi", "Pandolfini", "Panerai", "Panichi", "Paoletti", "Paoli", "Paolini", "Papi", "Papini", "Papucci", "Parenti", "Parigi", "Parisi", "Parri", "Parrini", "Pasquini", "Passeri", "Pecchioli", "Pecorini", "Pellegrini", "Pepi", "Perini", "Perrone", "Peruzzi", "Pesci", "Pestelli", "Petri", "Petrini", "Petrucci", "Pettini", "Pezzati", "Pezzatini", "Piani", "Piazza", "Piazzesi", "Piazzini", "Piccardi", "Picchi", "Piccini", "Piccioli", "Pieraccini", "Pieraccioni", "Pieralli", "Pierattini", "Pieri", "Pierini", "Pieroni", "Pietrini", "Pini", "Pinna", "Pinto", "Pinzani", "Pinzauti", "Piras", "Pisani", "Pistolesi", "Poggesi", "Poggi", "Poggiali", "Poggiolini", "Poli", "Pollastri", "Porciani", "Pozzi", "Pratellesi", "Pratesi", "Prosperi", "Pruneti", "Pucci", "Puccini", "Puccioni", "Pugi", "Pugliese", "Puliti", "Querci", "Quercioli", "Raddi", "Radu", "Raffaelli", "Ragazzini", "Ranfagni", "Ranieri", "Rastrelli", "Raugei", "Raveggi", "Renai", "Renzi", "Rettori", "Ricci", "Ricciardi", "Ridi", "Ridolfi", "Rigacci", "Righi", "Righini", "Rinaldi", "Risaliti", "Ristori", "Rizzo", "Rocchi", "Rocchini", "Rogai", "Romagnoli", "Romanelli", "Romani", "Romano", "Romei", "Romeo", "Romiti", "Romoli", "Romolini", "Rontini", "Rosati", "Roselli", "Rosi", "Rossetti", "Rossi", "Rossini", "Rovai", "Ruggeri", "Ruggiero", "Russo", "Sabatini", "Saccardi", "Sacchetti", "Sacchi", "Sacco", "Salerno", "Salimbeni", "Salucci", "Salvadori", "Salvestrini", "Salvi", "Salvini", "Sanesi", "Sani", "Sanna", "Santi", "Santini", "Santoni", "Santoro", "Santucci", "Sardi", "Sarri", "Sarti", "Sassi", "Sbolci", "Scali", "Scarpelli", "Scarselli", "Scopetani", "Secci", "Selvi", "Senatori", "Senesi", "Serafini", "Sereni", "Serra", "Sestini", "Sguanci", "Sieni", "Signorini", "Silvestri", "Simoncini", "Simonetti", "Simoni", "Singh", "Sodi", "Soldi", "Somigli", "Sorbi", "Sorelli", "Sorrentino", "Sottili", "Spina", "Spinelli", "Staccioli", "Staderini", "Stefanelli", "Stefani", "Stefanini", "Stella", "Susini", "Tacchi", "Tacconi", "Taddei", "Tagliaferri", "Tamburini", "Tanganelli", "Tani", "Tanini", "Tapinassi", "Tarchi", "Tarchiani", "Targioni", "Tassi", "Tassini", "Tempesti", "Terzani", "Tesi", "Testa", "Testi", "Tilli", "Tinti", "Tirinnanzi", "Toccafondi", "Tofanari", "Tofani", "Tognaccini", "Tonelli", "Tonini", "Torelli", "Torrini", "Tosi", "Toti", "Tozzi", "Trambusti", "Trapani", "Tucci", "Turchi", "Ugolini", "Ulivi", "Valente", "Valenti", "Valentini", "Vangelisti", "Vanni", "Vannini", "Vannoni", "Vannozzi", "Vannucchi", "Vannucci", "Ventura", "Venturi", "Venturini", "Vestri", "Vettori", "Vichi", "Viciani", "Vieri", "Vigiani", "Vignoli", "Vignolini", "Vignozzi", "Villani", "Vinci", "Visani", "Vitale", "Vitali", "Viti", "Viviani", "Vivoli", "Volpe", "Volpi", "Wang", "Wu", "Xu", "Yang", "Ye", "Zagli", "Zani", "Zanieri", "Zanobini", "Zecchi", "Zetti", "Zhang", "Zheng", "Zhou", "Zhu", "Zingoni", "Zini", "Zoppi"]
+            "it": ["Acciai", "Aglietti", "Agostini", "Agresti", "Ahmed", "Aiazzi", "Albanese", "Alberti", "Alessi", "Alfani", "Alinari", "Alterini", "Amato", "Ammannati", "Ancillotti", "Andrei", "Andreini", "Andreoni", "Angeli", "Anichini", "Antonelli", "Antonini", "Arena", "Ariani", "Arnetoli", "Arrighi", "Baccani", "Baccetti", "Bacci", "Bacherini", "Badii", "Baggiani", "Baglioni", "Bagni", "Bagnoli", "Baldassini", "Baldi", "Baldini", "Ballerini", "Balli", "Ballini", "Balloni", "Bambi", "Banchi", "Bandinelli", "Bandini", "Bani", "Barbetti", "Barbieri", "Barchielli", "Bardazzi", "Bardelli", "Bardi", "Barducci", "Bargellini", "Bargiacchi", "Barni", "Baroncelli", "Baroncini", "Barone", "Baroni", "Baronti", "Bartalesi", "Bartoletti", "Bartoli", "Bartolini", "Bartoloni", "Bartolozzi", "Basagni", "Basile", "Bassi", "Batacchi", "Battaglia", "Battaglini", "Bausi", "Becagli", "Becattini", "Becchi", "Becucci", "Bellandi", "Bellesi", "Belli", "Bellini", "Bellucci", "Bencini", "Benedetti", "Benelli", "Beni", "Benini", "Bensi", "Benucci", "Benvenuti", "Berlincioni", "Bernacchioni", "Bernardi", "Bernardini", "Berni", "Bernini", "Bertelli", "Berti", "Bertini", "Bessi", "Betti", "Bettini", "Biagi", "Biagini", "Biagioni", "Biagiotti", "Biancalani", "Bianchi", "Bianchini", "Bianco", "Biffoli", "Bigazzi", "Bigi", "Biliotti", "Billi", "Binazzi", "Bindi", "Bini", "Biondi", "Bizzarri", "Bocci", "Bogani", "Bolognesi", "Bonaiuti", "Bonanni", "Bonciani", "Boncinelli", "Bondi", "Bonechi", "Bongini", "Boni", "Bonini", "Borchi", "Boretti", "Borghi", "Borghini", "Borgioli", "Borri", "Borselli", "Boschi", "Bottai", "Bracci", "Braccini", "Brandi", "Braschi", "Bravi", "Brazzini", "Breschi", "Brilli", "Brizzi", "Brogelli", "Brogi", "Brogioni", "Brunelli", "Brunetti", "Bruni", "Bruno", "Brunori", "Bruschi", "Bucci", "Bucciarelli", "Buccioni", "Bucelli", "Bulli", "Burberi", "Burchi", "Burgassi", "Burroni", "Bussotti", "Buti", "Caciolli", "Caiani", "Calabrese", "Calamai", "Calamandrei", "Caldini", "Calo'", "Calonaci", "Calosi", "Calvelli", "Cambi", "Camiciottoli", "Cammelli", "Cammilli", "Campolmi", "Cantini", "Capanni", "Capecchi", "Caponi", "Cappelletti", "Cappelli", "Cappellini", "Cappugi", "Capretti", "Caputo", "Carbone", "Carboni", "Cardini", "Carlesi", "Carletti", "Carli", "Caroti", "Carotti", "Carrai", "Carraresi", "Carta", "Caruso", "Casalini", "Casati", "Caselli", "Casini", "Castagnoli", "Castellani", "Castelli", "Castellucci", "Catalano", "Catarzi", "Catelani", "Cavaciocchi", "Cavallaro", "Cavallini", "Cavicchi", "Cavini", "Ceccarelli", "Ceccatelli", "Ceccherelli", "Ceccherini", "Cecchi", "Cecchini", "Cecconi", "Cei", "Cellai", "Celli", "Cellini", "Cencetti", "Ceni", "Cenni", "Cerbai", "Cesari", "Ceseri", "Checcacci", "Checchi", "Checcucci", "Cheli", "Chellini", "Chen", "Cheng", "Cherici", "Cherubini", "Chiaramonti", "Chiarantini", "Chiarelli", "Chiari", "Chiarini", "Chiarugi", "Chiavacci", "Chiesi", "Chimenti", "Chini", "Chirici", "Chiti", "Ciabatti", "Ciampi", "Cianchi", "Cianfanelli", "Cianferoni", "Ciani", "Ciapetti", "Ciappi", "Ciardi", "Ciatti", "Cicali", "Ciccone", "Cinelli", "Cini", "Ciobanu", "Ciolli", "Cioni", "Cipriani", "Cirillo", "Cirri", "Ciucchi", "Ciuffi", "Ciulli", "Ciullini", "Clemente", "Cocchi", "Cognome", "Coli", "Collini", "Colombo", "Colzi", "Comparini", "Conforti", "Consigli", "Conte", "Conti", "Contini", "Coppini", "Coppola", "Corsi", "Corsini", "Corti", "Cortini", "Cosi", "Costa", "Costantini", "Costantino", "Cozzi", "Cresci", "Crescioli", "Cresti", "Crini", "Curradi", "D'Agostino", "D'Alessandro", "D'Amico", "D'Angelo", "Daddi", "Dainelli", "Dallai", "Danti", "Davitti", "De Angelis", "De Luca", "De Marco", "De Rosa", "De Santis", "De Simone", "De Vita", "Degl'Innocenti", "Degli Innocenti", "Dei", "Del Lungo", "Del Re", "Di Marco", "Di Stefano", "Dini", "Diop", "Dobre", "Dolfi", "Donati", "Dondoli", "Dong", "Donnini", "Ducci", "Dumitru", "Ermini", "Esposito", "Evangelisti", "Fabbri", "Fabbrini", "Fabbrizzi", "Fabbroni", "Fabbrucci", "Fabiani", "Facchini", "Faggi", "Fagioli", "Failli", "Faini", "Falciani", "Falcini", "Falcone", "Fallani", "Falorni", "Falsini", "Falugiani", "Fancelli", "Fanelli", "Fanetti", "Fanfani", "Fani", "Fantappie'", "Fantechi", "Fanti", "Fantini", "Fantoni", "Farina", "Fattori", "Favilli", "Fedi", "Fei", "Ferrante", "Ferrara", "Ferrari", "Ferraro", "Ferretti", "Ferri", "Ferrini", "Ferroni", "Fiaschi", "Fibbi", "Fiesoli", "Filippi", "Filippini", "Fini", "Fioravanti", "Fiore", "Fiorentini", "Fiorini", "Fissi", "Focardi", "Foggi", "Fontana", "Fontanelli", "Fontani", "Forconi", "Formigli", "Forte", "Forti", "Fortini", "Fossati", "Fossi", "Francalanci", "Franceschi", "Franceschini", "Franchi", "Franchini", "Franci", "Francini", "Francioni", "Franco", "Frassineti", "Frati", "Fratini", "Frilli", "Frizzi", "Frosali", "Frosini", "Frullini", "Fusco", "Fusi", "Gabbrielli", "Gabellini", "Gagliardi", "Galanti", "Galardi", "Galeotti", "Galletti", "Galli", "Gallo", "Gallori", "Gambacciani", "Gargani", "Garofalo", "Garuglieri", "Gashi", "Gasperini", "Gatti", "Gelli", "Gensini", "Gentile", "Gentili", "Geri", "Gerini", "Gheri", "Ghini", "Giachetti", "Giachi", "Giacomelli", "Gianassi", "Giani", "Giannelli", "Giannetti", "Gianni", "Giannini", "Giannoni", "Giannotti", "Giannozzi", "Gigli", "Giordano", "Giorgetti", "Giorgi", "Giovacchini", "Giovannelli", "Giovannetti", "Giovannini", "Giovannoni", "Giuliani", "Giunti", "Giuntini", "Giusti", "Gonnelli", "Goretti", "Gori", "Gradi", "Gramigni", "Grassi", "Grasso", "Graziani", "Grazzini", "Greco", "Grifoni", "Grillo", "Grimaldi", "Grossi", "Gualtieri", "Guarducci", "Guarino", "Guarnieri", "Guasti", "Guerra", "Guerri", "Guerrini", "Guidi", "Guidotti", "He", "Hoxha", "Hu", "Huang", "Iandelli", "Ignesti", "Innocenti", "Jin", "La Rosa", "Lai", "Landi", "Landini", "Lanini", "Lapi", "Lapini", "Lari", "Lascialfari", "Lastrucci", "Latini", "Lazzeri", "Lazzerini", "Lelli", "Lenzi", "Leonardi", "Leoncini", "Leone", "Leoni", "Lepri", "Li", "Liao", "Lin", "Linari", "Lippi", "Lisi", "Livi", "Lombardi", "Lombardini", "Lombardo", "Longo", "Lopez", "Lorenzi", "Lorenzini", "Lorini", "Lotti", "Lu", "Lucchesi", "Lucherini", "Lunghi", "Lupi", "Madiai", "Maestrini", "Maffei", "Maggi", "Maggini", "Magherini", "Magini", "Magnani", "Magnelli", "Magni", "Magnolfi", "Magrini", "Malavolti", "Malevolti", "Manca", "Mancini", "Manetti", "Manfredi", "Mangani", "Mannelli", "Manni", "Mannini", "Mannucci", "Manuelli", "Manzini", "Marcelli", "Marchese", "Marchetti", "Marchi", "Marchiani", "Marchionni", "Marconi", "Marcucci", "Margheri", "Mari", "Mariani", "Marilli", "Marinai", "Marinari", "Marinelli", "Marini", "Marino", "Mariotti", "Marsili", "Martelli", "Martinelli", "Martini", "Martino", "Marzi", "Masi", "Masini", "Masoni", "Massai", "Materassi", "Mattei", "Matteini", "Matteucci", "Matteuzzi", "Mattioli", "Mattolini", "Matucci", "Mauro", "Mazzanti", "Mazzei", "Mazzetti", "Mazzi", "Mazzini", "Mazzocchi", "Mazzoli", "Mazzoni", "Mazzuoli", "Meacci", "Mecocci", "Meini", "Melani", "Mele", "Meli", "Mengoni", "Menichetti", "Meoni", "Merlini", "Messeri", "Messina", "Meucci", "Miccinesi", "Miceli", "Micheli", "Michelini", "Michelozzi", "Migliori", "Migliorini", "Milani", "Miniati", "Misuri", "Monaco", "Montagnani", "Montagni", "Montanari", "Montelatici", "Monti", "Montigiani", "Montini", "Morandi", "Morandini", "Morelli", "Moretti", "Morganti", "Mori", "Morini", "Moroni", "Morozzi", "Mugnai", "Mugnaini", "Mustafa", "Naldi", "Naldini", "Nannelli", "Nanni", "Nannini", "Nannucci", "Nardi", "Nardini", "Nardoni", "Natali", "Ndiaye", "Nencetti", "Nencini", "Nencioni", "Neri", "Nesi", "Nesti", "Niccolai", "Niccoli", "Niccolini", "Nigi", "Nistri", "Nocentini", "Noferini", "Novelli", "Nucci", "Nuti", "Nutini", "Oliva", "Olivieri", "Olmi", "Orlandi", "Orlandini", "Orlando", "Orsini", "Ortolani", "Ottanelli", "Pacciani", "Pace", "Paci", "Pacini", "Pagani", "Pagano", "Paggetti", "Pagliai", "Pagni", "Pagnini", "Paladini", "Palagi", "Palchetti", "Palloni", "Palmieri", "Palumbo", "Pampaloni", "Pancani", "Pandolfi", "Pandolfini", "Panerai", "Panichi", "Paoletti", "Paoli", "Paolini", "Papi", "Papini", "Papucci", "Parenti", "Parigi", "Parisi", "Parri", "Parrini", "Pasquini", "Passeri", "Pecchioli", "Pecorini", "Pellegrini", "Pepi", "Perini", "Perrone", "Peruzzi", "Pesci", "Pestelli", "Petri", "Petrini", "Petrucci", "Pettini", "Pezzati", "Pezzatini", "Piani", "Piazza", "Piazzesi", "Piazzini", "Piccardi", "Picchi", "Piccini", "Piccioli", "Pieraccini", "Pieraccioni", "Pieralli", "Pierattini", "Pieri", "Pierini", "Pieroni", "Pietrini", "Pini", "Pinna", "Pinto", "Pinzani", "Pinzauti", "Piras", "Pisani", "Pistolesi", "Poggesi", "Poggi", "Poggiali", "Poggiolini", "Poli", "Pollastri", "Porciani", "Pozzi", "Pratellesi", "Pratesi", "Prosperi", "Pruneti", "Pucci", "Puccini", "Puccioni", "Pugi", "Pugliese", "Puliti", "Querci", "Quercioli", "Raddi", "Radu", "Raffaelli", "Ragazzini", "Ranfagni", "Ranieri", "Rastrelli", "Raugei", "Raveggi", "Renai", "Renzi", "Rettori", "Ricci", "Ricciardi", "Ridi", "Ridolfi", "Rigacci", "Righi", "Righini", "Rinaldi", "Risaliti", "Ristori", "Rizzo", "Rocchi", "Rocchini", "Rogai", "Romagnoli", "Romanelli", "Romani", "Romano", "Romei", "Romeo", "Romiti", "Romoli", "Romolini", "Rontini", "Rosati", "Roselli", "Rosi", "Rossetti", "Rossi", "Rossini", "Rovai", "Ruggeri", "Ruggiero", "Russo", "Sabatini", "Saccardi", "Sacchetti", "Sacchi", "Sacco", "Salerno", "Salimbeni", "Salucci", "Salvadori", "Salvestrini", "Salvi", "Salvini", "Sanesi", "Sani", "Sanna", "Santi", "Santini", "Santoni", "Santoro", "Santucci", "Sardi", "Sarri", "Sarti", "Sassi", "Sbolci", "Scali", "Scarpelli", "Scarselli", "Scopetani", "Secci", "Selvi", "Senatori", "Senesi", "Serafini", "Sereni", "Serra", "Sestini", "Sguanci", "Sieni", "Signorini", "Silvestri", "Simoncini", "Simonetti", "Simoni", "Singh", "Sodi", "Soldi", "Somigli", "Sorbi", "Sorelli", "Sorrentino", "Sottili", "Spina", "Spinelli", "Staccioli", "Staderini", "Stefanelli", "Stefani", "Stefanini", "Stella", "Susini", "Tacchi", "Tacconi", "Taddei", "Tagliaferri", "Tamburini", "Tanganelli", "Tani", "Tanini", "Tapinassi", "Tarchi", "Tarchiani", "Targioni", "Tassi", "Tassini", "Tempesti", "Terzani", "Tesi", "Testa", "Testi", "Tilli", "Tinti", "Tirinnanzi", "Toccafondi", "Tofanari", "Tofani", "Tognaccini", "Tonelli", "Tonini", "Torelli", "Torrini", "Tosi", "Toti", "Tozzi", "Trambusti", "Trapani", "Tucci", "Turchi", "Ugolini", "Ulivi", "Valente", "Valenti", "Valentini", "Vangelisti", "Vanni", "Vannini", "Vannoni", "Vannozzi", "Vannucchi", "Vannucci", "Ventura", "Venturi", "Venturini", "Vestri", "Vettori", "Vichi", "Viciani", "Vieri", "Vigiani", "Vignoli", "Vignolini", "Vignozzi", "Villani", "Vinci", "Visani", "Vitale", "Vitali", "Viti", "Viviani", "Vivoli", "Volpe", "Volpi", "Wang", "Wu", "Xu", "Yang", "Ye", "Zagli", "Zani", "Zanieri", "Zanobini", "Zecchi", "Zetti", "Zhang", "Zheng", "Zhou", "Zhu", "Zingoni", "Zini", "Zoppi"],
+            // http://www.voornamelijk.nl/meest-voorkomende-achternamen-in-nederland-en-amsterdam/
+            "nl":["Albers", "Alblas", "Appelman", "Baars", "Baas", "Bakker", "Blank", "Bleeker", "Blok", "Blom", "Boer", "Boers", "Boldewijn", "Boon", "Boot", "Bos", "Bosch", "Bosma", "Bosman", "Bouma", "Bouman", "Bouwman", "Brands", "Brouwer", "Burger", "Buijs", "Buitenhuis", "Ceder", "Cohen", "Dekker", "Dekkers", "Dijkman", "Dijkstra", "Driessen", "Drost", "Engel", "Evers", "Faber", "Franke", "Gerritsen", "Goedhart", "Goossens", "Groen", "Groenenberg", "Groot", "Haan", "Hart", "Heemskerk", "Hendriks", "Hermans", "Hoekstra", "Hofman", "Hopman", "Huisman", "Jacobs", "Jansen", "Janssen", "Jonker", "Jaspers", "Keijzer", "Klaassen", "Klein", "Koek", "Koenders", "Kok", "Kool", "Koopman", "Koopmans", "Koning", "Koster", "Kramer", "Kroon", "Kuijpers", "Kuiper", "Kuipers", "Kurt", "Koster", "Kwakman", "Los", "Lubbers", "Maas", "Markus", "Martens", "Meijer", "Mol", "Molenaar", "Mulder", "Nieuwenhuis", "Peeters", "Peters", "Pengel", "Pieters", "Pool", "Post", "Postma", "Prins", "Pronk", "Reijnders", "Rietveld", "Roest", "Roos", "Sanders", "Schaap", "Scheffer", "Schenk", "Schilder", "Schipper", "Schmidt", "Scholten", "Schouten", "Schut", "Schutte", "Schuurman", "Simons", "Smeets", "Smit", "Smits", "Snel", "Swinkels", "Tas", "Terpstra", "Timmermans", "Tol", "Tromp", "Troost", "Valk", "Veenstra", "Veldkamp", "Verbeek", "Verheul", "Verhoeven", "Vermeer", "Vermeulen", "Verweij", "Vink", "Visser", "Voorn", "Vos", "Wagenaar", "Wiersema", "Willems", "Willemsen", "Witteveen", "Wolff", "Wolters", "Zijlstra", "Zwart", "de Beer", "de Boer", "de Bruijn", "de Bruin", "de Graaf", "de Groot", "de Haan", "de Haas", "de Jager", "de Jong", "de Jonge", "de Koning", "de Lange", "de Leeuw", "de Ridder", "de Rooij", "de Ruiter", "de Vos", "de Vries", "de Waal", "de Wit", "de Zwart", "van Beek", "van Boven", "van Dam", "van Dijk", "van Dongen", "van Doorn", "van Egmond", "van Eijk", "van Es", "van Gelder", "van Gelderen", "van Houten", "van Hulst", "van Kempen", "van Kesteren", "van Leeuwen", "van Loon", "van Mill", "van Noord", "van Ommen", "van Ommeren", "van Oosten", "van Oostveen", "van Rijn", "van Schaik", "van Veen", "van Vliet", "van Wijk", "van Wijngaarden", "van den Poel", "van de Pol", "van den Ploeg", "van de Ven", "van den Berg", "van den Bosch", "van den Brink", "van den Broek", "van den Heuvel", "van der Heijden", "van der Horst", "van der Hulst", "van der Kroon", "van der Laan", "van der Linden", "van der Meer", "van der Meij", "van der Meulen", "van der Molen", "van der Sluis", "van der Spek", "van der Veen", "van der Velde", "van der Velden", "van der Vliet", "van der Wal"],
+            // https://surnames.behindthename.com/top/lists/england-wales/1991
+            "uk":["Smith","Jones","Williams","Taylor","Brown","Davies","Evans","Wilson","Thomas","Johnson","Roberts","Robinson","Thompson","Wright","Walker","White","Edwards","Hughes","Green","Hall","Lewis","Harris","Clarke","Patel","Jackson","Wood","Turner","Martin","Cooper","Hill","Ward","Morris","Moore","Clark","Lee","King","Baker","Harrison","Morgan","Allen","James","Scott","Phillips","Watson","Davis","Parker","Price","Bennett","Young","Griffiths","Mitchell","Kelly","Cook","Carter","Richardson","Bailey","Collins","Bell","Shaw","Murphy","Miller","Cox","Richards","Khan","Marshall","Anderson","Simpson","Ellis","Adams","Singh","Begum","Wilkinson","Foster","Chapman","Powell","Webb","Rogers","Gray","Mason","Ali","Hunt","Hussain","Campbell","Matthews","Owen","Palmer","Holmes","Mills","Barnes","Knight","Lloyd","Butler","Russell","Barker","Fisher","Stevens","Jenkins","Murray","Dixon","Harvey","Graham","Pearson","Ahmed","Fletcher","Walsh","Kaur","Gibson","Howard","Andrews","Stewart","Elliott","Reynolds","Saunders","Payne","Fox","Ford","Pearce","Day","Brooks","West","Lawrence","Cole","Atkinson","Bradley","Spencer","Gill","Dawson","Ball","Burton","O'brien","Watts","Rose","Booth","Perry","Ryan","Grant","Wells","Armstrong","Francis","Rees","Hayes","Hart","Hudson","Newman","Barrett","Webster","Hunter","Gregory","Carr","Lowe","Page","Marsh","Riley","Dunn","Woods","Parsons","Berry","Stone","Reid","Holland","Hawkins","Harding","Porter","Robertson","Newton","Oliver","Reed","Kennedy","Williamson","Bird","Gardner","Shah","Dean","Lane","Cooke","Bates","Henderson","Parry","Burgess","Bishop","Walton","Burns","Nicholson","Shepherd","Ross","Cross","Long","Freeman","Warren","Nicholls","Hamilton","Byrne","Sutton","Mcdonald","Yates","Hodgson","Robson","Curtis","Hopkins","O'connor","Harper","Coleman","Watkins","Moss","Mccarthy","Chambers","O'neill","Griffin","Sharp","Hardy","Wheeler","Potter","Osborne","Johnston","Gordon","Doyle","Wallace","George","Jordan","Hutchinson","Rowe","Burke","May","Pritchard","Gilbert","Willis","Higgins","Read","Miles","Stevenson","Stephenson","Hammond","Arnold","Buckley","Walters","Hewitt","Barber","Nelson","Slater","Austin","Sullivan","Whitehead","Mann","Frost","Lambert","Stephens","Blake","Akhtar","Lynch","Goodwin","Barton","Woodward","Thomson","Cunningham","Quinn","Barnett","Baxter","Bibi","Clayton","Nash","Greenwood","Jennings","Holt","Kemp","Poole","Gallagher","Bond","Stokes","Tucker","Davidson","Fowler","Heath","Norman","Middleton","Lawson","Banks","French","Stanley","Jarvis","Gibbs","Ferguson","Hayward","Carroll","Douglas","Dickinson","Todd","Barlow","Peters","Lucas","Knowles","Hartley","Miah","Simmons","Morton","Alexander","Field","Morrison","Norris","Townsend","Preston","Hancock","Thornton","Baldwin","Burrows","Briggs","Parkinson","Reeves","Macdonald","Lamb","Black","Abbott","Sanders","Thorpe","Holden","Tomlinson","Perkins","Ashton","Rhodes","Fuller","Howe","Bryant","Vaughan","Dale","Davey","Weston","Bartlett","Whittaker","Davison","Kent","Skinner","Birch","Morley","Daniels","Glover","Howell","Cartwright","Pugh","Humphreys","Goddard","Brennan","Wall","Kirby","Bowen","Savage","Bull","Wong","Dobson","Smart","Wilkins","Kirk","Fraser","Duffy","Hicks","Patterson","Bradshaw","Little","Archer","Warner","Waters","O'sullivan","Farrell","Brookes","Atkins","Kay","Dodd","Bentley","Flynn","John","Schofield","Short","Haynes","Wade","Butcher","Henry","Sanderson","Crawford","Sheppard","Bolton","Coates","Giles","Gould","Houghton","Gibbons","Pratt","Manning","Law","Hooper","Noble","Dyer","Rahman","Clements","Moran","Sykes","Chan","Doherty","Connolly","Joyce","Franklin","Hobbs","Coles","Herbert","Steele","Kerr","Leach","Winter","Owens","Duncan","Naylor","Fleming","Horton","Finch","Fitzgerald","Randall","Carpenter","Marsden","Browne","Garner","Pickering","Hale","Dennis","Vincent","Chadwick","Chandler","Sharpe","Nolan","Lyons","Hurst","Collier","Peacock","Howarth","Faulkner","Rice","Pollard","Welch","Norton","Gough","Sinclair","Blackburn","Bryan","Conway","Power","Cameron","Daly","Allan","Hanson","Gardiner","Boyle","Myers","Turnbull","Wallis","Mahmood","Sims","Swift","Iqbal","Pope","Brady","Chamberlain","Rowley","Tyler","Farmer","Metcalfe","Hilton","Godfrey","Holloway","Parkin","Bray","Talbot","Donnelly","Nixon","Charlton","Benson","Whitehouse","Barry","Hope","Lord","North","Storey","Connor","Potts","Bevan","Hargreaves","Mclean","Mistry","Bruce","Howells","Hyde","Parkes","Wyatt","Fry","Lees","O'donnell","Craig","Forster","Mckenzie","Humphries","Mellor","Carey","Ingram","Summers","Leonard"],
+            // https://surnames.behindthename.com/top/lists/germany/2017
+            "de": ["Müller","Schmidt","Schneider","Fischer","Weber","Meyer","Wagner","Becker","Schulz","Hoffmann","Schäfer","Koch","Bauer","Richter","Klein","Wolf","Schröder","Neumann","Schwarz","Zimmermann","Braun","Krüger","Hofmann","Hartmann","Lange","Schmitt","Werner","Schmitz","Krause","Meier","Lehmann","Schmid","Schulze","Maier","Köhler","Herrmann","König","Walter","Mayer","Huber","Kaiser","Fuchs","Peters","Lang","Scholz","Möller","Weiß","Jung","Hahn","Schubert","Vogel","Friedrich","Keller","Günther","Frank","Berger","Winkler","Roth","Beck","Lorenz","Baumann","Franke","Albrecht","Schuster","Simon","Ludwig","Böhm","Winter","Kraus","Martin","Schumacher","Krämer","Vogt","Stein","Jäger","Otto","Sommer","Groß","Seidel","Heinrich","Brandt","Haas","Schreiber","Graf","Schulte","Dietrich","Ziegler","Kuhn","Kühn","Pohl","Engel","Horn","Busch","Bergmann","Thomas","Voigt","Sauer","Arnold","Wolff","Pfeiffer"],
+            // http://www.japantimes.co.jp/life/2009/10/11/lifestyle/japans-top-100-most-common-family-names/
+            "jp": ["Sato","Suzuki","Takahashi","Tanaka","Watanabe","Ito","Yamamoto","Nakamura","Kobayashi","Kato","Yoshida","Yamada","Sasaki","Yamaguchi","Saito","Matsumoto","Inoue","Kimura","Hayashi","Shimizu","Yamazaki","Mori","Abe","Ikeda","Hashimoto","Yamashita","Ishikawa","Nakajima","Maeda","Fujita","Ogawa","Goto","Okada","Hasegawa","Murakami","Kondo","Ishii","Saito","Sakamoto","Endo","Aoki","Fujii","Nishimura","Fukuda","Ota","Miura","Fujiwara","Okamoto","Matsuda","Nakagawa","Nakano","Harada","Ono","Tamura","Takeuchi","Kaneko","Wada","Nakayama","Ishida","Ueda","Morita","Hara","Shibata","Sakai","Kudo","Yokoyama","Miyazaki","Miyamoto","Uchida","Takagi","Ando","Taniguchi","Ohno","Maruyama","Imai","Takada","Fujimoto","Takeda","Murata","Ueno","Sugiyama","Masuda","Sugawara","Hirano","Kojima","Otsuka","Chiba","Kubo","Matsui","Iwasaki","Sakurai","Kinoshita","Noguchi","Matsuo","Nomura","Kikuchi","Sano","Onishi","Sugimoto","Arai"],
+            // http://www.lowchensaustralia.com/names/popular-spanish-names.htm
+            "es": ["Garcia","Fernandez","Lopez","Martinez","Gonzalez","Rodriguez","Sanchez","Perez","Martin","Gomez","Ruiz","Diaz","Hernandez","Alvarez","Jimenez","Moreno","Munoz","Alonso","Romero","Navarro","Gutierrez","Torres","Dominguez","Gil","Vazquez","Blanco","Serrano","Ramos","Castro","Suarez","Sanz","Rubio","Ortega","Molina","Delgado","Ortiz","Morales","Ramirez","Marin","Iglesias","Santos","Castillo","Garrido","Calvo","Pena","Cruz","Cano","Nunez","Prieto","Diez","Lozano","Vidal","Pascual","Ferrer","Medina","Vega","Leon","Herrero","Vicente","Mendez","Guerrero","Fuentes","Campos","Nieto","Cortes","Caballero","Ibanez","Lorenzo","Pastor","Gimenez","Saez","Soler","Marquez","Carrasco","Herrera","Montero","Arias","Crespo","Flores","Andres","Aguilar","Hidalgo","Cabrera","Mora","Duran","Velasco","Rey","Pardo","Roman","Vila","Bravo","Merino","Moya","Soto","Izquierdo","Reyes","Redondo","Marcos","Carmona","Menendez"],
+            // Data taken from https://fr.wikipedia.org/wiki/Liste_des_noms_de_famille_les_plus_courants_en_France
+            "fr": ["Martin","Bernard","Thomas","Petit","Robert","Richard","Durand","Dubois","Moreau","Laurent","Simon","Michel","Lefèvre","Leroy","Roux","David","Bertrand","Morel","Fournier","Girard","Bonnet","Dupont","Lambert","Fontaine","Rousseau","Vincent","Müller","Lefèvre","Faure","André","Mercier","Blanc","Guérin","Boyer","Garnier","Chevalier","François","Legrand","Gauthier","Garcia","Perrin","Robin","Clément","Morin","Nicolas","Henry","Roussel","Matthieu","Gautier","Masson","Marchand","Duval","Denis","Dumont","Marie","Lemaire","Noël","Meyer","Dufour","Meunier","Brun","Blanchard","Giraud","Joly","Rivière","Lucas","Brunet","Gaillard","Barbier","Arnaud","Martínez","Gérard","Roche","Renard","Schmitt","Roy","Leroux","Colin","Vidal","Caron","Picard","Roger","Fabre","Aubert","Lemoine","Renaud","Dumas","Lacroix","Olivier","Philippe","Bourgeois","Pierre","Benoît","Rey","Leclerc","Payet","Rolland","Leclercq","Guillaume","Lecomte","López","Jean","Dupuy","Guillot","Hubert","Berger","Carpentier","Sánchez","Dupuis","Moulin","Louis","Deschamps","Huet","Vasseur","Perez","Boucher","Fleury","Royer","Klein","Jacquet","Adam","Paris","Poirier","Marty","Aubry","Guyot","Carré","Charles","Renault","Charpentier","Ménard","Maillard","Baron","Bertin","Bailly","Hervé","Schneider","Fernández","Le GallGall","Collet","Léger","Bouvier","Julien","Prévost","Millet","Perrot","Daniel","Le RouxRoux","Cousin","Germain","Breton","Besson","Langlois","Rémi","Le GoffGoff","Pelletier","Lévêque","Perrier","Leblanc","Barré","Lebrun","Marchal","Weber","Mallet","Hamon","Boulanger","Jacob","Monnier","Michaud","Rodríguez","Guichard","Gillet","Étienne","Grondin","Poulain","Tessier","Chevallier","Collin","Chauvin","Da SilvaSilva","Bouchet","Gay","Lemaître","Bénard","Maréchal","Humbert","Reynaud","Antoine","Hoarau","Perret","Barthélemy","Cordier","Pichon","Lejeune","Gilbert","Lamy","Delaunay","Pasquier","Carlier","LaporteLaporte"]
         },
 
-        // Data taken from https://github.com/umpirsky/country-list/blob/master/data/en_US/country.json
-        countries: [{"name":"Afghanistan","abbreviation":"AF"},{"name":"Åland Islands","abbreviation":"AX"},{"name":"Albania","abbreviation":"AL"},{"name":"Algeria","abbreviation":"DZ"},{"name":"American Samoa","abbreviation":"AS"},{"name":"Andorra","abbreviation":"AD"},{"name":"Angola","abbreviation":"AO"},{"name":"Anguilla","abbreviation":"AI"},{"name":"Antarctica","abbreviation":"AQ"},{"name":"Antigua & Barbuda","abbreviation":"AG"},{"name":"Argentina","abbreviation":"AR"},{"name":"Armenia","abbreviation":"AM"},{"name":"Aruba","abbreviation":"AW"},{"name":"Ascension Island","abbreviation":"AC"},{"name":"Australia","abbreviation":"AU"},{"name":"Austria","abbreviation":"AT"},{"name":"Azerbaijan","abbreviation":"AZ"},{"name":"Bahamas","abbreviation":"BS"},{"name":"Bahrain","abbreviation":"BH"},{"name":"Bangladesh","abbreviation":"BD"},{"name":"Barbados","abbreviation":"BB"},{"name":"Belarus","abbreviation":"BY"},{"name":"Belgium","abbreviation":"BE"},{"name":"Belize","abbreviation":"BZ"},{"name":"Benin","abbreviation":"BJ"},{"name":"Bermuda","abbreviation":"BM"},{"name":"Bhutan","abbreviation":"BT"},{"name":"Bolivia","abbreviation":"BO"},{"name":"Bosnia & Herzegovina","abbreviation":"BA"},{"name":"Botswana","abbreviation":"BW"},{"name":"Brazil","abbreviation":"BR"},{"name":"British Indian Ocean Territory","abbreviation":"IO"},{"name":"British Virgin Islands","abbreviation":"VG"},{"name":"Brunei","abbreviation":"BN"},{"name":"Bulgaria","abbreviation":"BG"},{"name":"Burkina Faso","abbreviation":"BF"},{"name":"Burundi","abbreviation":"BI"},{"name":"Cambodia","abbreviation":"KH"},{"name":"Cameroon","abbreviation":"CM"},{"name":"Canada","abbreviation":"CA"},{"name":"Canary Islands","abbreviation":"IC"},{"name":"Cape Verde","abbreviation":"CV"},{"name":"Caribbean Netherlands","abbreviation":"BQ"},{"name":"Cayman Islands","abbreviation":"KY"},{"name":"Central African Republic","abbreviation":"CF"},{"name":"Ceuta & Melilla","abbreviation":"EA"},{"name":"Chad","abbreviation":"TD"},{"name":"Chile","abbreviation":"CL"},{"name":"China","abbreviation":"CN"},{"name":"Christmas Island","abbreviation":"CX"},{"name":"Cocos (Keeling) Islands","abbreviation":"CC"},{"name":"Colombia","abbreviation":"CO"},{"name":"Comoros","abbreviation":"KM"},{"name":"Congo - Brazzaville","abbreviation":"CG"},{"name":"Congo - Kinshasa","abbreviation":"CD"},{"name":"Cook Islands","abbreviation":"CK"},{"name":"Costa Rica","abbreviation":"CR"},{"name":"Côte d'Ivoire","abbreviation":"CI"},{"name":"Croatia","abbreviation":"HR"},{"name":"Cuba","abbreviation":"CU"},{"name":"Curaçao","abbreviation":"CW"},{"name":"Cyprus","abbreviation":"CY"},{"name":"Czech Republic","abbreviation":"CZ"},{"name":"Denmark","abbreviation":"DK"},{"name":"Diego Garcia","abbreviation":"DG"},{"name":"Djibouti","abbreviation":"DJ"},{"name":"Dominica","abbreviation":"DM"},{"name":"Dominican Republic","abbreviation":"DO"},{"name":"Ecuador","abbreviation":"EC"},{"name":"Egypt","abbreviation":"EG"},{"name":"El Salvador","abbreviation":"SV"},{"name":"Equatorial Guinea","abbreviation":"GQ"},{"name":"Eritrea","abbreviation":"ER"},{"name":"Estonia","abbreviation":"EE"},{"name":"Ethiopia","abbreviation":"ET"},{"name":"Falkland Islands","abbreviation":"FK"},{"name":"Faroe Islands","abbreviation":"FO"},{"name":"Fiji","abbreviation":"FJ"},{"name":"Finland","abbreviation":"FI"},{"name":"France","abbreviation":"FR"},{"name":"French Guiana","abbreviation":"GF"},{"name":"French Polynesia","abbreviation":"PF"},{"name":"French Southern Territories","abbreviation":"TF"},{"name":"Gabon","abbreviation":"GA"},{"name":"Gambia","abbreviation":"GM"},{"name":"Georgia","abbreviation":"GE"},{"name":"Germany","abbreviation":"DE"},{"name":"Ghana","abbreviation":"GH"},{"name":"Gibraltar","abbreviation":"GI"},{"name":"Greece","abbreviation":"GR"},{"name":"Greenland","abbreviation":"GL"},{"name":"Grenada","abbreviation":"GD"},{"name":"Guadeloupe","abbreviation":"GP"},{"name":"Guam","abbreviation":"GU"},{"name":"Guatemala","abbreviation":"GT"},{"name":"Guernsey","abbreviation":"GG"},{"name":"Guinea","abbreviation":"GN"},{"name":"Guinea-Bissau","abbreviation":"GW"},{"name":"Guyana","abbreviation":"GY"},{"name":"Haiti","abbreviation":"HT"},{"name":"Honduras","abbreviation":"HN"},{"name":"Hong Kong SAR China","abbreviation":"HK"},{"name":"Hungary","abbreviation":"HU"},{"name":"Iceland","abbreviation":"IS"},{"name":"India","abbreviation":"IN"},{"name":"Indonesia","abbreviation":"ID"},{"name":"Iran","abbreviation":"IR"},{"name":"Iraq","abbreviation":"IQ"},{"name":"Ireland","abbreviation":"IE"},{"name":"Isle of Man","abbreviation":"IM"},{"name":"Israel","abbreviation":"IL"},{"name":"Italy","abbreviation":"IT"},{"name":"Jamaica","abbreviation":"JM"},{"name":"Japan","abbreviation":"JP"},{"name":"Jersey","abbreviation":"JE"},{"name":"Jordan","abbreviation":"JO"},{"name":"Kazakhstan","abbreviation":"KZ"},{"name":"Kenya","abbreviation":"KE"},{"name":"Kiribati","abbreviation":"KI"},{"name":"Kosovo","abbreviation":"XK"},{"name":"Kuwait","abbreviation":"KW"},{"name":"Kyrgyzstan","abbreviation":"KG"},{"name":"Laos","abbreviation":"LA"},{"name":"Latvia","abbreviation":"LV"},{"name":"Lebanon","abbreviation":"LB"},{"name":"Lesotho","abbreviation":"LS"},{"name":"Liberia","abbreviation":"LR"},{"name":"Libya","abbreviation":"LY"},{"name":"Liechtenstein","abbreviation":"LI"},{"name":"Lithuania","abbreviation":"LT"},{"name":"Luxembourg","abbreviation":"LU"},{"name":"Macau SAR China","abbreviation":"MO"},{"name":"Macedonia","abbreviation":"MK"},{"name":"Madagascar","abbreviation":"MG"},{"name":"Malawi","abbreviation":"MW"},{"name":"Malaysia","abbreviation":"MY"},{"name":"Maldives","abbreviation":"MV"},{"name":"Mali","abbreviation":"ML"},{"name":"Malta","abbreviation":"MT"},{"name":"Marshall Islands","abbreviation":"MH"},{"name":"Martinique","abbreviation":"MQ"},{"name":"Mauritania","abbreviation":"MR"},{"name":"Mauritius","abbreviation":"MU"},{"name":"Mayotte","abbreviation":"YT"},{"name":"Mexico","abbreviation":"MX"},{"name":"Micronesia","abbreviation":"FM"},{"name":"Moldova","abbreviation":"MD"},{"name":"Monaco","abbreviation":"MC"},{"name":"Mongolia","abbreviation":"MN"},{"name":"Montenegro","abbreviation":"ME"},{"name":"Montserrat","abbreviation":"MS"},{"name":"Morocco","abbreviation":"MA"},{"name":"Mozambique","abbreviation":"MZ"},{"name":"Myanmar (Burma)","abbreviation":"MM"},{"name":"Namibia","abbreviation":"NA"},{"name":"Nauru","abbreviation":"NR"},{"name":"Nepal","abbreviation":"NP"},{"name":"Netherlands","abbreviation":"NL"},{"name":"New Caledonia","abbreviation":"NC"},{"name":"New Zealand","abbreviation":"NZ"},{"name":"Nicaragua","abbreviation":"NI"},{"name":"Niger","abbreviation":"NE"},{"name":"Nigeria","abbreviation":"NG"},{"name":"Niue","abbreviation":"NU"},{"name":"Norfolk Island","abbreviation":"NF"},{"name":"North Korea","abbreviation":"KP"},{"name":"Northern Mariana Islands","abbreviation":"MP"},{"name":"Norway","abbreviation":"NO"},{"name":"Oman","abbreviation":"OM"},{"name":"Pakistan","abbreviation":"PK"},{"name":"Palau","abbreviation":"PW"},{"name":"Palestinian Territories","abbreviation":"PS"},{"name":"Panama","abbreviation":"PA"},{"name":"Papua New Guinea","abbreviation":"PG"},{"name":"Paraguay","abbreviation":"PY"},{"name":"Peru","abbreviation":"PE"},{"name":"Philippines","abbreviation":"PH"},{"name":"Pitcairn Islands","abbreviation":"PN"},{"name":"Poland","abbreviation":"PL"},{"name":"Portugal","abbreviation":"PT"},{"name":"Puerto Rico","abbreviation":"PR"},{"name":"Qatar","abbreviation":"QA"},{"name":"Réunion","abbreviation":"RE"},{"name":"Romania","abbreviation":"RO"},{"name":"Russia","abbreviation":"RU"},{"name":"Rwanda","abbreviation":"RW"},{"name":"Samoa","abbreviation":"WS"},{"name":"San Marino","abbreviation":"SM"},{"name":"São Tomé and Príncipe","abbreviation":"ST"},{"name":"Saudi Arabia","abbreviation":"SA"},{"name":"Senegal","abbreviation":"SN"},{"name":"Serbia","abbreviation":"RS"},{"name":"Seychelles","abbreviation":"SC"},{"name":"Sierra Leone","abbreviation":"SL"},{"name":"Singapore","abbreviation":"SG"},{"name":"Sint Maarten","abbreviation":"SX"},{"name":"Slovakia","abbreviation":"SK"},{"name":"Slovenia","abbreviation":"SI"},{"name":"Solomon Islands","abbreviation":"SB"},{"name":"Somalia","abbreviation":"SO"},{"name":"South Africa","abbreviation":"ZA"},{"name":"South Georgia & South Sandwich Islands","abbreviation":"GS"},{"name":"South Korea","abbreviation":"KR"},{"name":"South Sudan","abbreviation":"SS"},{"name":"Spain","abbreviation":"ES"},{"name":"Sri Lanka","abbreviation":"LK"},{"name":"St. Barthélemy","abbreviation":"BL"},{"name":"St. Helena","abbreviation":"SH"},{"name":"St. Kitts & Nevis","abbreviation":"KN"},{"name":"St. Lucia","abbreviation":"LC"},{"name":"St. Martin","abbreviation":"MF"},{"name":"St. Pierre & Miquelon","abbreviation":"PM"},{"name":"St. Vincent & Grenadines","abbreviation":"VC"},{"name":"Sudan","abbreviation":"SD"},{"name":"Suriname","abbreviation":"SR"},{"name":"Svalbard & Jan Mayen","abbreviation":"SJ"},{"name":"Swaziland","abbreviation":"SZ"},{"name":"Sweden","abbreviation":"SE"},{"name":"Switzerland","abbreviation":"CH"},{"name":"Syria","abbreviation":"SY"},{"name":"Taiwan","abbreviation":"TW"},{"name":"Tajikistan","abbreviation":"TJ"},{"name":"Tanzania","abbreviation":"TZ"},{"name":"Thailand","abbreviation":"TH"},{"name":"Timor-Leste","abbreviation":"TL"},{"name":"Togo","abbreviation":"TG"},{"name":"Tokelau","abbreviation":"TK"},{"name":"Tonga","abbreviation":"TO"},{"name":"Trinidad & Tobago","abbreviation":"TT"},{"name":"Tristan da Cunha","abbreviation":"TA"},{"name":"Tunisia","abbreviation":"TN"},{"name":"Turkey","abbreviation":"TR"},{"name":"Turkmenistan","abbreviation":"TM"},{"name":"Turks & Caicos Islands","abbreviation":"TC"},{"name":"Tuvalu","abbreviation":"TV"},{"name":"U.S. Outlying Islands","abbreviation":"UM"},{"name":"U.S. Virgin Islands","abbreviation":"VI"},{"name":"Uganda","abbreviation":"UG"},{"name":"Ukraine","abbreviation":"UA"},{"name":"United Arab Emirates","abbreviation":"AE"},{"name":"United Kingdom","abbreviation":"GB"},{"name":"United States","abbreviation":"US"},{"name":"Uruguay","abbreviation":"UY"},{"name":"Uzbekistan","abbreviation":"UZ"},{"name":"Vanuatu","abbreviation":"VU"},{"name":"Vatican City","abbreviation":"VA"},{"name":"Venezuela","abbreviation":"VE"},{"name":"Vietnam","abbreviation":"VN"},{"name":"Wallis & Futuna","abbreviation":"WF"},{"name":"Western Sahara","abbreviation":"EH"},{"name":"Yemen","abbreviation":"YE"},{"name":"Zambia","abbreviation":"ZM"},{"name":"Zimbabwe","abbreviation":"ZW"}],
+        // Data taken from http://geoportal.statistics.gov.uk/datasets/ons-postcode-directory-latest-centroids
+        postcodeAreas: [{code: 'AB'}, {code: 'AL'}, {code: 'B'}, {code: 'BA'}, {code: 'BB'}, {code: 'BD'}, {code: 'BH'}, {code: 'BL'}, {code: 'BN'}, {code: 'BR'}, {code: 'BS'}, {code: 'BT'}, {code: 'CA'}, {code: 'CB'}, {code: 'CF'}, {code: 'CH'}, {code: 'CM'}, {code: 'CO'}, {code: 'CR'}, {code: 'CT'}, {code: 'CV'}, {code: 'CW'}, {code: 'DA'}, {code: 'DD'}, {code: 'DE'}, {code: 'DG'}, {code: 'DH'}, {code: 'DL'}, {code: 'DN'}, {code: 'DT'}, {code: 'DY'}, {code: 'E'}, {code: 'EC'}, {code: 'EH'}, {code: 'EN'}, {code: 'EX'}, {code: 'FK'}, {code: 'FY'}, {code: 'G'}, {code: 'GL'}, {code: 'GU'}, {code: 'GY'}, {code: 'HA'}, {code: 'HD'}, {code: 'HG'}, {code: 'HP'}, {code: 'HR'}, {code: 'HS'}, {code: 'HU'}, {code: 'HX'}, {code: 'IG'}, {code: 'IM'}, {code: 'IP'}, {code: 'IV'}, {code: 'JE'}, {code: 'KA'}, {code: 'KT'}, {code: 'KW'}, {code: 'KY'}, {code: 'L'}, {code: 'LA'}, {code: 'LD'}, {code: 'LE'}, {code: 'LL'}, {code: 'LN'}, {code: 'LS'}, {code: 'LU'}, {code: 'M'}, {code: 'ME'}, {code: 'MK'}, {code: 'ML'}, {code: 'N'}, {code: 'NE'}, {code: 'NG'}, {code: 'NN'}, {code: 'NP'}, {code: 'NR'}, {code: 'NW'}, {code: 'OL'}, {code: 'OX'}, {code: 'PA'}, {code: 'PE'}, {code: 'PH'}, {code: 'PL'}, {code: 'PO'}, {code: 'PR'}, {code: 'RG'}, {code: 'RH'}, {code: 'RM'}, {code: 'S'}, {code: 'SA'}, {code: 'SE'}, {code: 'SG'}, {code: 'SK'}, {code: 'SL'}, {code: 'SM'}, {code: 'SN'}, {code: 'SO'}, {code: 'SP'}, {code: 'SR'}, {code: 'SS'}, {code: 'ST'}, {code: 'SW'}, {code: 'SY'}, {code: 'TA'}, {code: 'TD'}, {code: 'TF'}, {code: 'TN'}, {code: 'TQ'}, {code: 'TR'}, {code: 'TS'}, {code: 'TW'}, {code: 'UB'}, {code: 'W'}, {code: 'WA'}, {code: 'WC'}, {code: 'WD'}, {code: 'WF'}, {code: 'WN'}, {code: 'WR'}, {code: 'WS'}, {code: 'WV'}, {code: 'YO'}, {code: 'ZE'}],
 
-		counties: {
+        // Data taken from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+        countries: [{"name":"Afghanistan","abbreviation":"AF"},{"name":"Åland Islands","abbreviation":"AX"},{"name":"Albania","abbreviation":"AL"},{"name":"Algeria","abbreviation":"DZ"},{"name":"American Samoa","abbreviation":"AS"},{"name":"Andorra","abbreviation":"AD"},{"name":"Angola","abbreviation":"AO"},{"name":"Anguilla","abbreviation":"AI"},{"name":"Antarctica","abbreviation":"AQ"},{"name":"Antigua and Barbuda","abbreviation":"AG"},{"name":"Argentina","abbreviation":"AR"},{"name":"Armenia","abbreviation":"AM"},{"name":"Aruba","abbreviation":"AW"},{"name":"Australia","abbreviation":"AU"},{"name":"Austria","abbreviation":"AT"},{"name":"Azerbaijan","abbreviation":"AZ"},{"name":"Bahamas","abbreviation":"BS"},{"name":"Bahrain","abbreviation":"BH"},{"name":"Bangladesh","abbreviation":"BD"},{"name":"Barbados","abbreviation":"BB"},{"name":"Belarus","abbreviation":"BY"},{"name":"Belgium","abbreviation":"BE"},{"name":"Belize","abbreviation":"BZ"},{"name":"Benin","abbreviation":"BJ"},{"name":"Bermuda","abbreviation":"BM"},{"name":"Bhutan","abbreviation":"BT"},{"name":"Plurinational State of Bolivia","abbreviation":"BO"},{"name":"Bonaire, Sint Eustatius and Saba","abbreviation":"BQ"},{"name":"Bosnia and Herzegovina","abbreviation":"BA"},{"name":"Botswana","abbreviation":"BW"},{"name":"Bouvet Island","abbreviation":"BV"},{"name":"Brazil","abbreviation":"BR"},{"name":"British Indian Ocean Territory","abbreviation":"IO"},{"name":"Brunei Darussalam","abbreviation":"BN"},{"name":"Bulgaria","abbreviation":"BG"},{"name":"Burkina Faso","abbreviation":"BF"},{"name":"Burundi","abbreviation":"BI"},{"name":"Cabo Verde","abbreviation":"CV"},{"name":"Cambodia","abbreviation":"KH"},{"name":"Cameroon","abbreviation":"CM"},{"name":"Canada","abbreviation":"CA"},{"name":"Cayman Islands","abbreviation":"KY"},{"name":"Central African Republic","abbreviation":"CF"},{"name":"Chad","abbreviation":"TD"},{"name":"Chile","abbreviation":"CL"},{"name":"China","abbreviation":"CN"},{"name":"Christmas Island","abbreviation":"CX"},{"name":"Cocos (Keeling) Islands","abbreviation":"CC"},{"name":"Colombia","abbreviation":"CO"},{"name":"Comoros","abbreviation":"KM"},{"name":"Congo","abbreviation":"CG"},{"name":"Democratic Republic of the Congo","abbreviation":"CD"},{"name":"Cook Islands","abbreviation":"CK"},{"name":"Costa Rica","abbreviation":"CR"},{"name":"Côte d'Ivoire","abbreviation":"CI"},{"name":"Croatia","abbreviation":"HR"},{"name":"Cuba","abbreviation":"CU"},{"name":"Curaçao","abbreviation":"CW"},{"name":"Cyprus","abbreviation":"CY"},{"name":"Czechia","abbreviation":"CZ"},{"name":"Denmark","abbreviation":"DK"},{"name":"Djibouti","abbreviation":"DJ"},{"name":"Dominica","abbreviation":"DM"},{"name":"Dominican Republic","abbreviation":"DO"},{"name":"Ecuador","abbreviation":"EC"},{"name":"Egypt","abbreviation":"EG"},{"name":"El Salvador","abbreviation":"SV"},{"name":"Equatorial Guinea","abbreviation":"GQ"},{"name":"Eritrea","abbreviation":"ER"},{"name":"Estonia","abbreviation":"EE"},{"name":"Eswatini","abbreviation":"SZ"},{"name":"Ethiopia","abbreviation":"ET"},{"name":"Falkland Islands (Malvinas)","abbreviation":"FK"},{"name":"Faroe Islands","abbreviation":"FO"},{"name":"Fiji","abbreviation":"FJ"},{"name":"Finland","abbreviation":"FI"},{"name":"France","abbreviation":"FR"},{"name":"French Guiana","abbreviation":"GF"},{"name":"French Polynesia","abbreviation":"PF"},{"name":"French Southern Territories","abbreviation":"TF"},{"name":"Gabon","abbreviation":"GA"},{"name":"Gambia","abbreviation":"GM"},{"name":"Georgia","abbreviation":"GE"},{"name":"Germany","abbreviation":"DE"},{"name":"Ghana","abbreviation":"GH"},{"name":"Gibraltar","abbreviation":"GI"},{"name":"Greece","abbreviation":"GR"},{"name":"Greenland","abbreviation":"GL"},{"name":"Grenada","abbreviation":"GD"},{"name":"Guadeloupe","abbreviation":"GP"},{"name":"Guam","abbreviation":"GU"},{"name":"Guatemala","abbreviation":"GT"},{"name":"Guernsey","abbreviation":"GG"},{"name":"Guinea","abbreviation":"GN"},{"name":"Guinea-Bissau","abbreviation":"GW"},{"name":"Guyana","abbreviation":"GY"},{"name":"Haiti","abbreviation":"HT"},{"name":"Heard Island and McDonald Islands","abbreviation":"HM"},{"name":"Holy See","abbreviation":"VA"},{"name":"Honduras","abbreviation":"HN"},{"name":"Hong Kong","abbreviation":"HK"},{"name":"Hungary","abbreviation":"HU"},{"name":"Iceland","abbreviation":"IS"},{"name":"India","abbreviation":"IN"},{"name":"Indonesia","abbreviation":"ID"},{"name":"Islamic Republic of Iran","abbreviation":"IR"},{"name":"Iraq","abbreviation":"IQ"},{"name":"Ireland","abbreviation":"IE"},{"name":"Isle of Man","abbreviation":"IM"},{"name":"Israel","abbreviation":"IL"},{"name":"Italy","abbreviation":"IT"},{"name":"Jamaica","abbreviation":"JM"},{"name":"Japan","abbreviation":"JP"},{"name":"Jersey","abbreviation":"JE"},{"name":"Jordan","abbreviation":"JO"},{"name":"Kazakhstan","abbreviation":"KZ"},{"name":"Kenya","abbreviation":"KE"},{"name":"Kiribati","abbreviation":"KI"},{"name":"Democratic People's Republic of Korea","abbreviation":"KP"},{"name":"Republic of Korea","abbreviation":"KR"},{"name":"Kuwait","abbreviation":"KW"},{"name":"Kyrgyzstan","abbreviation":"KG"},{"name":"Lao People's Democratic Republic","abbreviation":"LA"},{"name":"Latvia","abbreviation":"LV"},{"name":"Lebanon","abbreviation":"LB"},{"name":"Lesotho","abbreviation":"LS"},{"name":"Liberia","abbreviation":"LR"},{"name":"Libya","abbreviation":"LY"},{"name":"Liechtenstein","abbreviation":"LI"},{"name":"Lithuania","abbreviation":"LT"},{"name":"Luxembourg","abbreviation":"LU"},{"name":"Macao","abbreviation":"MO"},{"name":"Madagascar","abbreviation":"MG"},{"name":"Malawi","abbreviation":"MW"},{"name":"Malaysia","abbreviation":"MY"},{"name":"Maldives","abbreviation":"MV"},{"name":"Mali","abbreviation":"ML"},{"name":"Malta","abbreviation":"MT"},{"name":"Marshall Islands","abbreviation":"MH"},{"name":"Martinique","abbreviation":"MQ"},{"name":"Mauritania","abbreviation":"MR"},{"name":"Mauritius","abbreviation":"MU"},{"name":"Mayotte","abbreviation":"YT"},{"name":"Mexico","abbreviation":"MX"},{"name":"Federated States of Micronesia","abbreviation":"FM"},{"name":"Republic of Moldova","abbreviation":"MD"},{"name":"Monaco","abbreviation":"MC"},{"name":"Mongolia","abbreviation":"MN"},{"name":"Montenegro","abbreviation":"ME"},{"name":"Montserrat","abbreviation":"MS"},{"name":"Morocco","abbreviation":"MA"},{"name":"Mozambique","abbreviation":"MZ"},{"name":"Myanmar","abbreviation":"MM"},{"name":"Namibia","abbreviation":"NA"},{"name":"Nauru","abbreviation":"NR"},{"name":"Nepal","abbreviation":"NP"},{"name":"Kingdom of the Netherlands","abbreviation":"NL"},{"name":"New Caledonia","abbreviation":"NC"},{"name":"New Zealand","abbreviation":"NZ"},{"name":"Nicaragua","abbreviation":"NI"},{"name":"Niger","abbreviation":"NE"},{"name":"Nigeria","abbreviation":"NG"},{"name":"Niue","abbreviation":"NU"},{"name":"Norfolk Island","abbreviation":"NF"},{"name":"North Macedonia","abbreviation":"MK"},{"name":"Northern Mariana Islands","abbreviation":"MP"},{"name":"Norway","abbreviation":"NO"},{"name":"Oman","abbreviation":"OM"},{"name":"Pakistan","abbreviation":"PK"},{"name":"Palau","abbreviation":"PW"},{"name":"State of Palestine","abbreviation":"PS"},{"name":"Panama","abbreviation":"PA"},{"name":"Papua New Guinea","abbreviation":"PG"},{"name":"Paraguay","abbreviation":"PY"},{"name":"Peru","abbreviation":"PE"},{"name":"Philippines","abbreviation":"PH"},{"name":"Pitcairn","abbreviation":"PN"},{"name":"Poland","abbreviation":"PL"},{"name":"Portugal","abbreviation":"PT"},{"name":"Puerto Rico","abbreviation":"PR"},{"name":"Qatar","abbreviation":"QA"},{"name":"Réunion","abbreviation":"RE"},{"name":"Romania","abbreviation":"RO"},{"name":"Russian Federation","abbreviation":"RU"},{"name":"Rwanda","abbreviation":"RW"},{"name":"Saint Barthélemy","abbreviation":"BL"},{"name":"Saint Helena, Ascension and Tristan da Cunha","abbreviation":"SH"},{"name":"Saint Kitts and Nevis","abbreviation":"KN"},{"name":"Saint Lucia","abbreviation":"LC"},{"name":"Saint Martin (French part)","abbreviation":"MF"},{"name":"Saint Pierre and Miquelon","abbreviation":"PM"},{"name":"Saint Vincent and the Grenadines","abbreviation":"VC"},{"name":"Samoa","abbreviation":"WS"},{"name":"San Marino","abbreviation":"SM"},{"name":"Sao Tome and Principe","abbreviation":"ST"},{"name":"Saudi Arabia","abbreviation":"SA"},{"name":"Senegal","abbreviation":"SN"},{"name":"Serbia","abbreviation":"RS"},{"name":"Seychelles","abbreviation":"SC"},{"name":"Sierra Leone","abbreviation":"SL"},{"name":"Singapore","abbreviation":"SG"},{"name":"Sint Maarten (Dutch part)","abbreviation":"SX"},{"name":"Slovakia","abbreviation":"SK"},{"name":"Slovenia","abbreviation":"SI"},{"name":"Solomon Islands","abbreviation":"SB"},{"name":"Somalia","abbreviation":"SO"},{"name":"South Africa","abbreviation":"ZA"},{"name":"South Georgia and the South Sandwich Islands","abbreviation":"GS"},{"name":"South Sudan","abbreviation":"SS"},{"name":"Spain","abbreviation":"ES"},{"name":"Sri Lanka","abbreviation":"LK"},{"name":"Sudan","abbreviation":"SD"},{"name":"Suriname","abbreviation":"SR"},{"name":"Svalbard and Jan Mayen","abbreviation":"SJ"},{"name":"Sweden","abbreviation":"SE"},{"name":"Switzerland","abbreviation":"CH"},{"name":"Syrian Arab Republic","abbreviation":"SY"},{"name":"Taiwan, Province of China","abbreviation":"TW"},{"name":"Tajikistan","abbreviation":"TJ"},{"name":"United Republic of Tanzania","abbreviation":"TZ"},{"name":"Thailand","abbreviation":"TH"},{"name":"Timor-Leste","abbreviation":"TL"},{"name":"Togo","abbreviation":"TG"},{"name":"Tokelau","abbreviation":"TK"},{"name":"Tonga","abbreviation":"TO"},{"name":"Trinidad and Tobago","abbreviation":"TT"},{"name":"Tunisia","abbreviation":"TN"},{"name":"Türkiye","abbreviation":"TR"},{"name":"Turkmenistan","abbreviation":"TM"},{"name":"Turks and Caicos Islands","abbreviation":"TC"},{"name":"Tuvalu","abbreviation":"TV"},{"name":"Uganda","abbreviation":"UG"},{"name":"Ukraine","abbreviation":"UA"},{"name":"United Arab Emirates","abbreviation":"AE"},{"name":"United Kingdom of Great Britain and Northern Ireland","abbreviation":"GB"},{"name":"United States Minor Outlying Islands","abbreviation":"UM"},{"name":"United States of America","abbreviation":"US"},{"name":"Uruguay","abbreviation":"UY"},{"name":"Uzbekistan","abbreviation":"UZ"},{"name":"Vanuatu","abbreviation":"VU"},{"name":"Bolivarian Republic of Venezuela","abbreviation":"VE"},{"name":"Viet Nam","abbreviation":"VN"},{"name":"Virgin Islands (British)","abbreviation":"VG"},{"name":"Virgin Islands (U.S.)","abbreviation":"VI"},{"name":"Wallis and Futuna","abbreviation":"WF"},{"name":"Western Sahara","abbreviation":"EH"},{"name":"Yemen","abbreviation":"YE"},{"name":"Zambia","abbreviation":"ZM"},{"name":"Zimbabwe","abbreviation":"ZW"}],
+
+                counties: {
             // Data taken from http://www.downloadexcelfiles.com/gb_en/download-excel-file-list-counties-uk
             "uk": [
                 {name: 'Bath and North East Somerset'},
@@ -4590,7 +6041,7 @@ function isnan (val) {
                 {name: 'Worcestershire'},
                 {name: 'Wrexham'},
                 {name: 'York'}]
-				},
+                                },
         provinces: {
             "ca": [
                 {name: 'Alberta', abbreviation: 'AB'},
@@ -4921,6 +6372,698 @@ function isnan (val) {
            {name: 'Zambia'},
            {name: 'Zimbabwe'},
         ],
+          // http://www.loc.gov/standards/iso639-2/php/code_list.php (ISO-639-1 codes)
+        locale_languages: [
+          "aa",
+          "ab",
+          "ae",
+          "af",
+          "ak",
+          "am",
+          "an",
+          "ar",
+          "as",
+          "av",
+          "ay",
+          "az",
+          "ba",
+          "be",
+          "bg",
+          "bh",
+          "bi",
+          "bm",
+          "bn",
+          "bo",
+          "br",
+          "bs",
+          "ca",
+          "ce",
+          "ch",
+          "co",
+          "cr",
+          "cs",
+          "cu",
+          "cv",
+          "cy",
+          "da",
+          "de",
+          "dv",
+          "dz",
+          "ee",
+          "el",
+          "en",
+          "eo",
+          "es",
+          "et",
+          "eu",
+          "fa",
+          "ff",
+          "fi",
+          "fj",
+          "fo",
+          "fr",
+          "fy",
+          "ga",
+          "gd",
+          "gl",
+          "gn",
+          "gu",
+          "gv",
+          "ha",
+          "he",
+          "hi",
+          "ho",
+          "hr",
+          "ht",
+          "hu",
+          "hy",
+          "hz",
+          "ia",
+          "id",
+          "ie",
+          "ig",
+          "ii",
+          "ik",
+          "io",
+          "is",
+          "it",
+          "iu",
+          "ja",
+          "jv",
+          "ka",
+          "kg",
+          "ki",
+          "kj",
+          "kk",
+          "kl",
+          "km",
+          "kn",
+          "ko",
+          "kr",
+          "ks",
+          "ku",
+          "kv",
+          "kw",
+          "ky",
+          "la",
+          "lb",
+          "lg",
+          "li",
+          "ln",
+          "lo",
+          "lt",
+          "lu",
+          "lv",
+          "mg",
+          "mh",
+          "mi",
+          "mk",
+          "ml",
+          "mn",
+          "mr",
+          "ms",
+          "mt",
+          "my",
+          "na",
+          "nb",
+          "nd",
+          "ne",
+          "ng",
+          "nl",
+          "nn",
+          "no",
+          "nr",
+          "nv",
+          "ny",
+          "oc",
+          "oj",
+          "om",
+          "or",
+          "os",
+          "pa",
+          "pi",
+          "pl",
+          "ps",
+          "pt",
+          "qu",
+          "rm",
+          "rn",
+          "ro",
+          "ru",
+          "rw",
+          "sa",
+          "sc",
+          "sd",
+          "se",
+          "sg",
+          "si",
+          "sk",
+          "sl",
+          "sm",
+          "sn",
+          "so",
+          "sq",
+          "sr",
+          "ss",
+          "st",
+          "su",
+          "sv",
+          "sw",
+          "ta",
+          "te",
+          "tg",
+          "th",
+          "ti",
+          "tk",
+          "tl",
+          "tn",
+          "to",
+          "tr",
+          "ts",
+          "tt",
+          "tw",
+          "ty",
+          "ug",
+          "uk",
+          "ur",
+          "uz",
+          "ve",
+          "vi",
+          "vo",
+          "wa",
+          "wo",
+          "xh",
+          "yi",
+          "yo",
+          "za",
+          "zh",
+          "zu"
+        ],
+
+        // From http://data.okfn.org/data/core/language-codes#resource-language-codes-full (IETF language tags)
+        locale_regions: [
+          "agq-CM",
+          "asa-TZ",
+          "ast-ES",
+          "bas-CM",
+          "bem-ZM",
+          "bez-TZ",
+          "brx-IN",
+          "cgg-UG",
+          "chr-US",
+          "dav-KE",
+          "dje-NE",
+          "dsb-DE",
+          "dua-CM",
+          "dyo-SN",
+          "ebu-KE",
+          "ewo-CM",
+          "fil-PH",
+          "fur-IT",
+          "gsw-CH",
+          "gsw-FR",
+          "gsw-LI",
+          "guz-KE",
+          "haw-US",
+          "hsb-DE",
+          "jgo-CM",
+          "jmc-TZ",
+          "kab-DZ",
+          "kam-KE",
+          "kde-TZ",
+          "kea-CV",
+          "khq-ML",
+          "kkj-CM",
+          "kln-KE",
+          "kok-IN",
+          "ksb-TZ",
+          "ksf-CM",
+          "ksh-DE",
+          "lag-TZ",
+          "lkt-US",
+          "luo-KE",
+          "luy-KE",
+          "mas-KE",
+          "mas-TZ",
+          "mer-KE",
+          "mfe-MU",
+          "mgh-MZ",
+          "mgo-CM",
+          "mua-CM",
+          "naq-NA",
+          "nmg-CM",
+          "nnh-CM",
+          "nus-SD",
+          "nyn-UG",
+          "rof-TZ",
+          "rwk-TZ",
+          "sah-RU",
+          "saq-KE",
+          "sbp-TZ",
+          "seh-MZ",
+          "ses-ML",
+          "shi-Latn",
+          "shi-Latn-MA",
+          "shi-Tfng",
+          "shi-Tfng-MA",
+          "smn-FI",
+          "teo-KE",
+          "teo-UG",
+          "twq-NE",
+          "tzm-Latn",
+          "tzm-Latn-MA",
+          "vai-Latn",
+          "vai-Latn-LR",
+          "vai-Vaii",
+          "vai-Vaii-LR",
+          "vun-TZ",
+          "wae-CH",
+          "xog-UG",
+          "yav-CM",
+          "zgh-MA",
+          "af-NA",
+          "af-ZA",
+          "ak-GH",
+          "am-ET",
+          "ar-001",
+          "ar-AE",
+          "ar-BH",
+          "ar-DJ",
+          "ar-DZ",
+          "ar-EG",
+          "ar-EH",
+          "ar-ER",
+          "ar-IL",
+          "ar-IQ",
+          "ar-JO",
+          "ar-KM",
+          "ar-KW",
+          "ar-LB",
+          "ar-LY",
+          "ar-MA",
+          "ar-MR",
+          "ar-OM",
+          "ar-PS",
+          "ar-QA",
+          "ar-SA",
+          "ar-SD",
+          "ar-SO",
+          "ar-SS",
+          "ar-SY",
+          "ar-TD",
+          "ar-TN",
+          "ar-YE",
+          "as-IN",
+          "az-Cyrl",
+          "az-Cyrl-AZ",
+          "az-Latn",
+          "az-Latn-AZ",
+          "be-BY",
+          "bg-BG",
+          "bm-Latn",
+          "bm-Latn-ML",
+          "bn-BD",
+          "bn-IN",
+          "bo-CN",
+          "bo-IN",
+          "br-FR",
+          "bs-Cyrl",
+          "bs-Cyrl-BA",
+          "bs-Latn",
+          "bs-Latn-BA",
+          "ca-AD",
+          "ca-ES",
+          "ca-ES-VALENCIA",
+          "ca-FR",
+          "ca-IT",
+          "cs-CZ",
+          "cy-GB",
+          "da-DK",
+          "da-GL",
+          "de-AT",
+          "de-BE",
+          "de-CH",
+          "de-DE",
+          "de-LI",
+          "de-LU",
+          "dz-BT",
+          "ee-GH",
+          "ee-TG",
+          "el-CY",
+          "el-GR",
+          "en-001",
+          "en-150",
+          "en-AG",
+          "en-AI",
+          "en-AS",
+          "en-AU",
+          "en-BB",
+          "en-BE",
+          "en-BM",
+          "en-BS",
+          "en-BW",
+          "en-BZ",
+          "en-CA",
+          "en-CC",
+          "en-CK",
+          "en-CM",
+          "en-CX",
+          "en-DG",
+          "en-DM",
+          "en-ER",
+          "en-FJ",
+          "en-FK",
+          "en-FM",
+          "en-GB",
+          "en-GD",
+          "en-GG",
+          "en-GH",
+          "en-GI",
+          "en-GM",
+          "en-GU",
+          "en-GY",
+          "en-HK",
+          "en-IE",
+          "en-IM",
+          "en-IN",
+          "en-IO",
+          "en-JE",
+          "en-JM",
+          "en-KE",
+          "en-KI",
+          "en-KN",
+          "en-KY",
+          "en-LC",
+          "en-LR",
+          "en-LS",
+          "en-MG",
+          "en-MH",
+          "en-MO",
+          "en-MP",
+          "en-MS",
+          "en-MT",
+          "en-MU",
+          "en-MW",
+          "en-MY",
+          "en-NA",
+          "en-NF",
+          "en-NG",
+          "en-NR",
+          "en-NU",
+          "en-NZ",
+          "en-PG",
+          "en-PH",
+          "en-PK",
+          "en-PN",
+          "en-PR",
+          "en-PW",
+          "en-RW",
+          "en-SB",
+          "en-SC",
+          "en-SD",
+          "en-SG",
+          "en-SH",
+          "en-SL",
+          "en-SS",
+          "en-SX",
+          "en-SZ",
+          "en-TC",
+          "en-TK",
+          "en-TO",
+          "en-TT",
+          "en-TV",
+          "en-TZ",
+          "en-UG",
+          "en-UM",
+          "en-US",
+          "en-US-POSIX",
+          "en-VC",
+          "en-VG",
+          "en-VI",
+          "en-VU",
+          "en-WS",
+          "en-ZA",
+          "en-ZM",
+          "en-ZW",
+          "eo-001",
+          "es-419",
+          "es-AR",
+          "es-BO",
+          "es-CL",
+          "es-CO",
+          "es-CR",
+          "es-CU",
+          "es-DO",
+          "es-EA",
+          "es-EC",
+          "es-ES",
+          "es-GQ",
+          "es-GT",
+          "es-HN",
+          "es-IC",
+          "es-MX",
+          "es-NI",
+          "es-PA",
+          "es-PE",
+          "es-PH",
+          "es-PR",
+          "es-PY",
+          "es-SV",
+          "es-US",
+          "es-UY",
+          "es-VE",
+          "et-EE",
+          "eu-ES",
+          "fa-AF",
+          "fa-IR",
+          "ff-CM",
+          "ff-GN",
+          "ff-MR",
+          "ff-SN",
+          "fi-FI",
+          "fo-FO",
+          "fr-BE",
+          "fr-BF",
+          "fr-BI",
+          "fr-BJ",
+          "fr-BL",
+          "fr-CA",
+          "fr-CD",
+          "fr-CF",
+          "fr-CG",
+          "fr-CH",
+          "fr-CI",
+          "fr-CM",
+          "fr-DJ",
+          "fr-DZ",
+          "fr-FR",
+          "fr-GA",
+          "fr-GF",
+          "fr-GN",
+          "fr-GP",
+          "fr-GQ",
+          "fr-HT",
+          "fr-KM",
+          "fr-LU",
+          "fr-MA",
+          "fr-MC",
+          "fr-MF",
+          "fr-MG",
+          "fr-ML",
+          "fr-MQ",
+          "fr-MR",
+          "fr-MU",
+          "fr-NC",
+          "fr-NE",
+          "fr-PF",
+          "fr-PM",
+          "fr-RE",
+          "fr-RW",
+          "fr-SC",
+          "fr-SN",
+          "fr-SY",
+          "fr-TD",
+          "fr-TG",
+          "fr-TN",
+          "fr-VU",
+          "fr-WF",
+          "fr-YT",
+          "fy-NL",
+          "ga-IE",
+          "gd-GB",
+          "gl-ES",
+          "gu-IN",
+          "gv-IM",
+          "ha-Latn",
+          "ha-Latn-GH",
+          "ha-Latn-NE",
+          "ha-Latn-NG",
+          "he-IL",
+          "hi-IN",
+          "hr-BA",
+          "hr-HR",
+          "hu-HU",
+          "hy-AM",
+          "id-ID",
+          "ig-NG",
+          "ii-CN",
+          "is-IS",
+          "it-CH",
+          "it-IT",
+          "it-SM",
+          "ja-JP",
+          "ka-GE",
+          "ki-KE",
+          "kk-Cyrl",
+          "kk-Cyrl-KZ",
+          "kl-GL",
+          "km-KH",
+          "kn-IN",
+          "ko-KP",
+          "ko-KR",
+          "ks-Arab",
+          "ks-Arab-IN",
+          "kw-GB",
+          "ky-Cyrl",
+          "ky-Cyrl-KG",
+          "lb-LU",
+          "lg-UG",
+          "ln-AO",
+          "ln-CD",
+          "ln-CF",
+          "ln-CG",
+          "lo-LA",
+          "lt-LT",
+          "lu-CD",
+          "lv-LV",
+          "mg-MG",
+          "mk-MK",
+          "ml-IN",
+          "mn-Cyrl",
+          "mn-Cyrl-MN",
+          "mr-IN",
+          "ms-Latn",
+          "ms-Latn-BN",
+          "ms-Latn-MY",
+          "ms-Latn-SG",
+          "mt-MT",
+          "my-MM",
+          "nb-NO",
+          "nb-SJ",
+          "nd-ZW",
+          "ne-IN",
+          "ne-NP",
+          "nl-AW",
+          "nl-BE",
+          "nl-BQ",
+          "nl-CW",
+          "nl-NL",
+          "nl-SR",
+          "nl-SX",
+          "nn-NO",
+          "om-ET",
+          "om-KE",
+          "or-IN",
+          "os-GE",
+          "os-RU",
+          "pa-Arab",
+          "pa-Arab-PK",
+          "pa-Guru",
+          "pa-Guru-IN",
+          "pl-PL",
+          "ps-AF",
+          "pt-AO",
+          "pt-BR",
+          "pt-CV",
+          "pt-GW",
+          "pt-MO",
+          "pt-MZ",
+          "pt-PT",
+          "pt-ST",
+          "pt-TL",
+          "qu-BO",
+          "qu-EC",
+          "qu-PE",
+          "rm-CH",
+          "rn-BI",
+          "ro-MD",
+          "ro-RO",
+          "ru-BY",
+          "ru-KG",
+          "ru-KZ",
+          "ru-MD",
+          "ru-RU",
+          "ru-UA",
+          "rw-RW",
+          "se-FI",
+          "se-NO",
+          "se-SE",
+          "sg-CF",
+          "si-LK",
+          "sk-SK",
+          "sl-SI",
+          "sn-ZW",
+          "so-DJ",
+          "so-ET",
+          "so-KE",
+          "so-SO",
+          "sq-AL",
+          "sq-MK",
+          "sq-XK",
+          "sr-Cyrl",
+          "sr-Cyrl-BA",
+          "sr-Cyrl-ME",
+          "sr-Cyrl-RS",
+          "sr-Cyrl-XK",
+          "sr-Latn",
+          "sr-Latn-BA",
+          "sr-Latn-ME",
+          "sr-Latn-RS",
+          "sr-Latn-XK",
+          "sv-AX",
+          "sv-FI",
+          "sv-SE",
+          "sw-CD",
+          "sw-KE",
+          "sw-TZ",
+          "sw-UG",
+          "ta-IN",
+          "ta-LK",
+          "ta-MY",
+          "ta-SG",
+          "te-IN",
+          "th-TH",
+          "ti-ER",
+          "ti-ET",
+          "to-TO",
+          "tr-CY",
+          "tr-TR",
+          "ug-Arab",
+          "ug-Arab-CN",
+          "uk-UA",
+          "ur-IN",
+          "ur-PK",
+          "uz-Arab",
+          "uz-Arab-AF",
+          "uz-Cyrl",
+          "uz-Cyrl-UZ",
+          "uz-Latn",
+          "uz-Latn-UZ",
+          "vi-VN",
+          "yi-001",
+          "yo-BJ",
+          "yo-NG",
+          "zh-Hans",
+          "zh-Hans-CN",
+          "zh-Hans-HK",
+          "zh-Hans-MO",
+          "zh-Hans-SG",
+          "zh-Hant",
+          "zh-Hant-HK",
+          "zh-Hant-MO",
+          "zh-Hant-TW",
+          "zu-ZA"
+        ],
 
         us_states_and_dc: [
             {name: 'Alabama', abbreviation: 'AL'},
@@ -5014,6 +7157,40 @@ function isnan (val) {
                 { name: "Calabria", abbreviation: "CAL" },
                 { name: "Sicilia", abbreviation: "SIC" },
                 { name: "Sardegna", abbreviation: "SAR" }
+            ],
+            mx: [
+                { name: 'Aguascalientes', abbreviation: 'AGU' },
+                { name: 'Baja California', abbreviation: 'BCN' },
+                { name: 'Baja California Sur', abbreviation: 'BCS' },
+                { name: 'Campeche', abbreviation: 'CAM' },
+                { name: 'Chiapas', abbreviation: 'CHP' },
+                { name: 'Chihuahua', abbreviation: 'CHH' },
+                { name: 'Ciudad de México', abbreviation: 'DIF' },
+                { name: 'Coahuila', abbreviation: 'COA' },
+                { name: 'Colima', abbreviation: 'COL' },
+                { name: 'Durango', abbreviation: 'DUR' },
+                { name: 'Guanajuato', abbreviation: 'GUA' },
+                { name: 'Guerrero', abbreviation: 'GRO' },
+                { name: 'Hidalgo', abbreviation: 'HID' },
+                { name: 'Jalisco', abbreviation: 'JAL' },
+                { name: 'México', abbreviation: 'MEX' },
+                { name: 'Michoacán', abbreviation: 'MIC' },
+                { name: 'Morelos', abbreviation: 'MOR' },
+                { name: 'Nayarit', abbreviation: 'NAY' },
+                { name: 'Nuevo León', abbreviation: 'NLE' },
+                { name: 'Oaxaca', abbreviation: 'OAX' },
+                { name: 'Puebla', abbreviation: 'PUE' },
+                { name: 'Querétaro', abbreviation: 'QUE' },
+                { name: 'Quintana Roo', abbreviation: 'ROO' },
+                { name: 'San Luis Potosí', abbreviation: 'SLP' },
+                { name: 'Sinaloa', abbreviation: 'SIN' },
+                { name: 'Sonora', abbreviation: 'SON' },
+                { name: 'Tabasco', abbreviation: 'TAB' },
+                { name: 'Tamaulipas', abbreviation: 'TAM' },
+                { name: 'Tlaxcala', abbreviation: 'TLA' },
+                { name: 'Veracruz', abbreviation: 'VER' },
+                { name: 'Yucatán', abbreviation: 'YUC' },
+                { name: 'Zacatecas', abbreviation: 'ZAC' }
             ]
         },
 
@@ -5364,6 +7541,956 @@ function isnan (val) {
             "LightPink", "Pink", "Gold", "PeachPuff", "NavajoWhite", "Moccasin", "Bisque", "MistyRose", "BlanchedAlmond", "PapayaWhip", "LavenderBlush", "SeaShell", "Cornsilk", "LemonChiffon", "FloralWhite", "Snow", "Yellow", "LightYellow"
         ],
 
+        // Data taken from https://www.sec.gov/rules/other/4-460list.htm
+        company: [ "3Com Corp",
+        "3M Company",
+        "A.G. Edwards Inc.",
+        "Abbott Laboratories",
+        "Abercrombie & Fitch Co.",
+        "ABM Industries Incorporated",
+        "Ace Hardware Corporation",
+        "ACT Manufacturing Inc.",
+        "Acterna Corp.",
+        "Adams Resources & Energy, Inc.",
+        "ADC Telecommunications, Inc.",
+        "Adelphia Communications Corporation",
+        "Administaff, Inc.",
+        "Adobe Systems Incorporated",
+        "Adolph Coors Company",
+        "Advance Auto Parts, Inc.",
+        "Advanced Micro Devices, Inc.",
+        "AdvancePCS, Inc.",
+        "Advantica Restaurant Group, Inc.",
+        "The AES Corporation",
+        "Aetna Inc.",
+        "Affiliated Computer Services, Inc.",
+        "AFLAC Incorporated",
+        "AGCO Corporation",
+        "Agilent Technologies, Inc.",
+        "Agway Inc.",
+        "Apartment Investment and Management Company",
+        "Air Products and Chemicals, Inc.",
+        "Airborne, Inc.",
+        "Airgas, Inc.",
+        "AK Steel Holding Corporation",
+        "Alaska Air Group, Inc.",
+        "Alberto-Culver Company",
+        "Albertson's, Inc.",
+        "Alcoa Inc.",
+        "Alleghany Corporation",
+        "Allegheny Energy, Inc.",
+        "Allegheny Technologies Incorporated",
+        "Allergan, Inc.",
+        "ALLETE, Inc.",
+        "Alliant Energy Corporation",
+        "Allied Waste Industries, Inc.",
+        "Allmerica Financial Corporation",
+        "The Allstate Corporation",
+        "ALLTEL Corporation",
+        "The Alpine Group, Inc.",
+        "Amazon.com, Inc.",
+        "AMC Entertainment Inc.",
+        "American Power Conversion Corporation",
+        "Amerada Hess Corporation",
+        "AMERCO",
+        "Ameren Corporation",
+        "America West Holdings Corporation",
+        "American Axle & Manufacturing Holdings, Inc.",
+        "American Eagle Outfitters, Inc.",
+        "American Electric Power Company, Inc.",
+        "American Express Company",
+        "American Financial Group, Inc.",
+        "American Greetings Corporation",
+        "American International Group, Inc.",
+        "American Standard Companies Inc.",
+        "American Water Works Company, Inc.",
+        "AmerisourceBergen Corporation",
+        "Ames Department Stores, Inc.",
+        "Amgen Inc.",
+        "Amkor Technology, Inc.",
+        "AMR Corporation",
+        "AmSouth Bancorp.",
+        "Amtran, Inc.",
+        "Anadarko Petroleum Corporation",
+        "Analog Devices, Inc.",
+        "Anheuser-Busch Companies, Inc.",
+        "Anixter International Inc.",
+        "AnnTaylor Inc.",
+        "Anthem, Inc.",
+        "AOL Time Warner Inc.",
+        "Aon Corporation",
+        "Apache Corporation",
+        "Apple Computer, Inc.",
+        "Applera Corporation",
+        "Applied Industrial Technologies, Inc.",
+        "Applied Materials, Inc.",
+        "Aquila, Inc.",
+        "ARAMARK Corporation",
+        "Arch Coal, Inc.",
+        "Archer Daniels Midland Company",
+        "Arkansas Best Corporation",
+        "Armstrong Holdings, Inc.",
+        "Arrow Electronics, Inc.",
+        "ArvinMeritor, Inc.",
+        "Ashland Inc.",
+        "Astoria Financial Corporation",
+        "AT&T Corp.",
+        "Atmel Corporation",
+        "Atmos Energy Corporation",
+        "Audiovox Corporation",
+        "Autoliv, Inc.",
+        "Automatic Data Processing, Inc.",
+        "AutoNation, Inc.",
+        "AutoZone, Inc.",
+        "Avaya Inc.",
+        "Avery Dennison Corporation",
+        "Avista Corporation",
+        "Avnet, Inc.",
+        "Avon Products, Inc.",
+        "Baker Hughes Incorporated",
+        "Ball Corporation",
+        "Bank of America Corporation",
+        "The Bank of New York Company, Inc.",
+        "Bank One Corporation",
+        "Banknorth Group, Inc.",
+        "Banta Corporation",
+        "Barnes & Noble, Inc.",
+        "Bausch & Lomb Incorporated",
+        "Baxter International Inc.",
+        "BB&T Corporation",
+        "The Bear Stearns Companies Inc.",
+        "Beazer Homes USA, Inc.",
+        "Beckman Coulter, Inc.",
+        "Becton, Dickinson and Company",
+        "Bed Bath & Beyond Inc.",
+        "Belk, Inc.",
+        "Bell Microproducts Inc.",
+        "BellSouth Corporation",
+        "Belo Corp.",
+        "Bemis Company, Inc.",
+        "Benchmark Electronics, Inc.",
+        "Berkshire Hathaway Inc.",
+        "Best Buy Co., Inc.",
+        "Bethlehem Steel Corporation",
+        "Beverly Enterprises, Inc.",
+        "Big Lots, Inc.",
+        "BJ Services Company",
+        "BJ's Wholesale Club, Inc.",
+        "The Black & Decker Corporation",
+        "Black Hills Corporation",
+        "BMC Software, Inc.",
+        "The Boeing Company",
+        "Boise Cascade Corporation",
+        "Borders Group, Inc.",
+        "BorgWarner Inc.",
+        "Boston Scientific Corporation",
+        "Bowater Incorporated",
+        "Briggs & Stratton Corporation",
+        "Brightpoint, Inc.",
+        "Brinker International, Inc.",
+        "Bristol-Myers Squibb Company",
+        "Broadwing, Inc.",
+        "Brown Shoe Company, Inc.",
+        "Brown-Forman Corporation",
+        "Brunswick Corporation",
+        "Budget Group, Inc.",
+        "Burlington Coat Factory Warehouse Corporation",
+        "Burlington Industries, Inc.",
+        "Burlington Northern Santa Fe Corporation",
+        "Burlington Resources Inc.",
+        "C. H. Robinson Worldwide Inc.",
+        "Cablevision Systems Corp",
+        "Cabot Corp",
+        "Cadence Design Systems, Inc.",
+        "Calpine Corp.",
+        "Campbell Soup Co.",
+        "Capital One Financial Corp.",
+        "Cardinal Health Inc.",
+        "Caremark Rx Inc.",
+        "Carlisle Cos. Inc.",
+        "Carpenter Technology Corp.",
+        "Casey's General Stores Inc.",
+        "Caterpillar Inc.",
+        "CBRL Group Inc.",
+        "CDI Corp.",
+        "CDW Computer Centers Inc.",
+        "CellStar Corp.",
+        "Cendant Corp",
+        "Cenex Harvest States Cooperatives",
+        "Centex Corp.",
+        "CenturyTel Inc.",
+        "Ceridian Corp.",
+        "CH2M Hill Cos. Ltd.",
+        "Champion Enterprises Inc.",
+        "Charles Schwab Corp.",
+        "Charming Shoppes Inc.",
+        "Charter Communications Inc.",
+        "Charter One Financial Inc.",
+        "ChevronTexaco Corp.",
+        "Chiquita Brands International Inc.",
+        "Chubb Corp",
+        "Ciena Corp.",
+        "Cigna Corp",
+        "Cincinnati Financial Corp.",
+        "Cinergy Corp.",
+        "Cintas Corp.",
+        "Circuit City Stores Inc.",
+        "Cisco Systems Inc.",
+        "Citigroup, Inc",
+        "Citizens Communications Co.",
+        "CKE Restaurants Inc.",
+        "Clear Channel Communications Inc.",
+        "The Clorox Co.",
+        "CMGI Inc.",
+        "CMS Energy Corp.",
+        "CNF Inc.",
+        "Coca-Cola Co.",
+        "Coca-Cola Enterprises Inc.",
+        "Colgate-Palmolive Co.",
+        "Collins & Aikman Corp.",
+        "Comcast Corp.",
+        "Comdisco Inc.",
+        "Comerica Inc.",
+        "Comfort Systems USA Inc.",
+        "Commercial Metals Co.",
+        "Community Health Systems Inc.",
+        "Compass Bancshares Inc",
+        "Computer Associates International Inc.",
+        "Computer Sciences Corp.",
+        "Compuware Corp.",
+        "Comverse Technology Inc.",
+        "ConAgra Foods Inc.",
+        "Concord EFS Inc.",
+        "Conectiv, Inc",
+        "Conoco Inc",
+        "Conseco Inc.",
+        "Consolidated Freightways Corp.",
+        "Consolidated Edison Inc.",
+        "Constellation Brands Inc.",
+        "Constellation Emergy Group Inc.",
+        "Continental Airlines Inc.",
+        "Convergys Corp.",
+        "Cooper Cameron Corp.",
+        "Cooper Industries Ltd.",
+        "Cooper Tire & Rubber Co.",
+        "Corn Products International Inc.",
+        "Corning Inc.",
+        "Costco Wholesale Corp.",
+        "Countrywide Credit Industries Inc.",
+        "Coventry Health Care Inc.",
+        "Cox Communications Inc.",
+        "Crane Co.",
+        "Crompton Corp.",
+        "Crown Cork & Seal Co. Inc.",
+        "CSK Auto Corp.",
+        "CSX Corp.",
+        "Cummins Inc.",
+        "CVS Corp.",
+        "Cytec Industries Inc.",
+        "D&K Healthcare Resources, Inc.",
+        "D.R. Horton Inc.",
+        "Dana Corporation",
+        "Danaher Corporation",
+        "Darden Restaurants Inc.",
+        "DaVita Inc.",
+        "Dean Foods Company",
+        "Deere & Company",
+        "Del Monte Foods Co",
+        "Dell Computer Corporation",
+        "Delphi Corp.",
+        "Delta Air Lines Inc.",
+        "Deluxe Corporation",
+        "Devon Energy Corporation",
+        "Di Giorgio Corporation",
+        "Dial Corporation",
+        "Diebold Incorporated",
+        "Dillard's Inc.",
+        "DIMON Incorporated",
+        "Dole Food Company, Inc.",
+        "Dollar General Corporation",
+        "Dollar Tree Stores, Inc.",
+        "Dominion Resources, Inc.",
+        "Domino's Pizza LLC",
+        "Dover Corporation, Inc.",
+        "Dow Chemical Company",
+        "Dow Jones & Company, Inc.",
+        "DPL Inc.",
+        "DQE Inc.",
+        "Dreyer's Grand Ice Cream, Inc.",
+        "DST Systems, Inc.",
+        "DTE Energy Co.",
+        "E.I. Du Pont de Nemours and Company",
+        "Duke Energy Corp",
+        "Dun & Bradstreet Inc.",
+        "DURA Automotive Systems Inc.",
+        "DynCorp",
+        "Dynegy Inc.",
+        "E*Trade Group, Inc.",
+        "E.W. Scripps Company",
+        "Earthlink, Inc.",
+        "Eastman Chemical Company",
+        "Eastman Kodak Company",
+        "Eaton Corporation",
+        "Echostar Communications Corporation",
+        "Ecolab Inc.",
+        "Edison International",
+        "EGL Inc.",
+        "El Paso Corporation",
+        "Electronic Arts Inc.",
+        "Electronic Data Systems Corp.",
+        "Eli Lilly and Company",
+        "EMC Corporation",
+        "Emcor Group Inc.",
+        "Emerson Electric Co.",
+        "Encompass Services Corporation",
+        "Energizer Holdings Inc.",
+        "Energy East Corporation",
+        "Engelhard Corporation",
+        "Enron Corp.",
+        "Entergy Corporation",
+        "Enterprise Products Partners L.P.",
+        "EOG Resources, Inc.",
+        "Equifax Inc.",
+        "Equitable Resources Inc.",
+        "Equity Office Properties Trust",
+        "Equity Residential Properties Trust",
+        "Estee Lauder Companies Inc.",
+        "Exelon Corporation",
+        "Exide Technologies",
+        "Expeditors International of Washington Inc.",
+        "Express Scripts Inc.",
+        "ExxonMobil Corporation",
+        "Fairchild Semiconductor International Inc.",
+        "Family Dollar Stores Inc.",
+        "Farmland Industries Inc.",
+        "Federal Mogul Corp.",
+        "Federated Department Stores Inc.",
+        "Federal Express Corp.",
+        "Felcor Lodging Trust Inc.",
+        "Ferro Corp.",
+        "Fidelity National Financial Inc.",
+        "Fifth Third Bancorp",
+        "First American Financial Corp.",
+        "First Data Corp.",
+        "First National of Nebraska Inc.",
+        "First Tennessee National Corp.",
+        "FirstEnergy Corp.",
+        "Fiserv Inc.",
+        "Fisher Scientific International Inc.",
+        "FleetBoston Financial Co.",
+        "Fleetwood Enterprises Inc.",
+        "Fleming Companies Inc.",
+        "Flowers Foods Inc.",
+        "Flowserv Corp",
+        "Fluor Corp",
+        "FMC Corp",
+        "Foamex International Inc",
+        "Foot Locker Inc",
+        "Footstar Inc.",
+        "Ford Motor Co",
+        "Forest Laboratories Inc.",
+        "Fortune Brands Inc.",
+        "Foster Wheeler Ltd.",
+        "FPL Group Inc.",
+        "Franklin Resources Inc.",
+        "Freeport McMoran Copper & Gold Inc.",
+        "Frontier Oil Corp",
+        "Furniture Brands International Inc.",
+        "Gannett Co., Inc.",
+        "Gap Inc.",
+        "Gateway Inc.",
+        "GATX Corporation",
+        "Gemstar-TV Guide International Inc.",
+        "GenCorp Inc.",
+        "General Cable Corporation",
+        "General Dynamics Corporation",
+        "General Electric Company",
+        "General Mills Inc",
+        "General Motors Corporation",
+        "Genesis Health Ventures Inc.",
+        "Gentek Inc.",
+        "Gentiva Health Services Inc.",
+        "Genuine Parts Company",
+        "Genuity Inc.",
+        "Genzyme Corporation",
+        "Georgia Gulf Corporation",
+        "Georgia-Pacific Corporation",
+        "Gillette Company",
+        "Gold Kist Inc.",
+        "Golden State Bancorp Inc.",
+        "Golden West Financial Corporation",
+        "Goldman Sachs Group Inc.",
+        "Goodrich Corporation",
+        "The Goodyear Tire & Rubber Company",
+        "Granite Construction Incorporated",
+        "Graybar Electric Company Inc.",
+        "Great Lakes Chemical Corporation",
+        "Great Plains Energy Inc.",
+        "GreenPoint Financial Corp.",
+        "Greif Bros. Corporation",
+        "Grey Global Group Inc.",
+        "Group 1 Automotive Inc.",
+        "Guidant Corporation",
+        "H&R Block Inc.",
+        "H.B. Fuller Company",
+        "H.J. Heinz Company",
+        "Halliburton Co.",
+        "Harley-Davidson Inc.",
+        "Harman International Industries Inc.",
+        "Harrah's Entertainment Inc.",
+        "Harris Corp.",
+        "Harsco Corp.",
+        "Hartford Financial Services Group Inc.",
+        "Hasbro Inc.",
+        "Hawaiian Electric Industries Inc.",
+        "HCA Inc.",
+        "Health Management Associates Inc.",
+        "Health Net Inc.",
+        "Healthsouth Corp",
+        "Henry Schein Inc.",
+        "Hercules Inc.",
+        "Herman Miller Inc.",
+        "Hershey Foods Corp.",
+        "Hewlett-Packard Company",
+        "Hibernia Corp.",
+        "Hillenbrand Industries Inc.",
+        "Hilton Hotels Corp.",
+        "Hollywood Entertainment Corp.",
+        "Home Depot Inc.",
+        "Hon Industries Inc.",
+        "Honeywell International Inc.",
+        "Hormel Foods Corp.",
+        "Host Marriott Corp.",
+        "Household International Corp.",
+        "Hovnanian Enterprises Inc.",
+        "Hub Group Inc.",
+        "Hubbell Inc.",
+        "Hughes Supply Inc.",
+        "Humana Inc.",
+        "Huntington Bancshares Inc.",
+        "Idacorp Inc.",
+        "IDT Corporation",
+        "IKON Office Solutions Inc.",
+        "Illinois Tool Works Inc.",
+        "IMC Global Inc.",
+        "Imperial Sugar Company",
+        "IMS Health Inc.",
+        "Ingles Market Inc",
+        "Ingram Micro Inc.",
+        "Insight Enterprises Inc.",
+        "Integrated Electrical Services Inc.",
+        "Intel Corporation",
+        "International Paper Co.",
+        "Interpublic Group of Companies Inc.",
+        "Interstate Bakeries Corporation",
+        "International Business Machines Corp.",
+        "International Flavors & Fragrances Inc.",
+        "International Multifoods Corporation",
+        "Intuit Inc.",
+        "IT Group Inc.",
+        "ITT Industries Inc.",
+        "Ivax Corp.",
+        "J.B. Hunt Transport Services Inc.",
+        "J.C. Penny Co.",
+        "J.P. Morgan Chase & Co.",
+        "Jabil Circuit Inc.",
+        "Jack In The Box Inc.",
+        "Jacobs Engineering Group Inc.",
+        "JDS Uniphase Corp.",
+        "Jefferson-Pilot Co.",
+        "John Hancock Financial Services Inc.",
+        "Johnson & Johnson",
+        "Johnson Controls Inc.",
+        "Jones Apparel Group Inc.",
+        "KB Home",
+        "Kellogg Company",
+        "Kellwood Company",
+        "Kelly Services Inc.",
+        "Kemet Corp.",
+        "Kennametal Inc.",
+        "Kerr-McGee Corporation",
+        "KeyCorp",
+        "KeySpan Corp.",
+        "Kimball International Inc.",
+        "Kimberly-Clark Corporation",
+        "Kindred Healthcare Inc.",
+        "KLA-Tencor Corporation",
+        "K-Mart Corp.",
+        "Knight-Ridder Inc.",
+        "Kohl's Corp.",
+        "KPMG Consulting Inc.",
+        "Kroger Co.",
+        "L-3 Communications Holdings Inc.",
+        "Laboratory Corporation of America Holdings",
+        "Lam Research Corporation",
+        "LandAmerica Financial Group Inc.",
+        "Lands' End Inc.",
+        "Landstar System Inc.",
+        "La-Z-Boy Inc.",
+        "Lear Corporation",
+        "Legg Mason Inc.",
+        "Leggett & Platt Inc.",
+        "Lehman Brothers Holdings Inc.",
+        "Lennar Corporation",
+        "Lennox International Inc.",
+        "Level 3 Communications Inc.",
+        "Levi Strauss & Co.",
+        "Lexmark International Inc.",
+        "Limited Inc.",
+        "Lincoln National Corporation",
+        "Linens 'n Things Inc.",
+        "Lithia Motors Inc.",
+        "Liz Claiborne Inc.",
+        "Lockheed Martin Corporation",
+        "Loews Corporation",
+        "Longs Drug Stores Corporation",
+        "Louisiana-Pacific Corporation",
+        "Lowe's Companies Inc.",
+        "LSI Logic Corporation",
+        "The LTV Corporation",
+        "The Lubrizol Corporation",
+        "Lucent Technologies Inc.",
+        "Lyondell Chemical Company",
+        "M & T Bank Corporation",
+        "Magellan Health Services Inc.",
+        "Mail-Well Inc.",
+        "Mandalay Resort Group",
+        "Manor Care Inc.",
+        "Manpower Inc.",
+        "Marathon Oil Corporation",
+        "Mariner Health Care Inc.",
+        "Markel Corporation",
+        "Marriott International Inc.",
+        "Marsh & McLennan Companies Inc.",
+        "Marsh Supermarkets Inc.",
+        "Marshall & Ilsley Corporation",
+        "Martin Marietta Materials Inc.",
+        "Masco Corporation",
+        "Massey Energy Company",
+        "MasTec Inc.",
+        "Mattel Inc.",
+        "Maxim Integrated Products Inc.",
+        "Maxtor Corporation",
+        "Maxxam Inc.",
+        "The May Department Stores Company",
+        "Maytag Corporation",
+        "MBNA Corporation",
+        "McCormick & Company Incorporated",
+        "McDonald's Corporation",
+        "The McGraw-Hill Companies Inc.",
+        "McKesson Corporation",
+        "McLeodUSA Incorporated",
+        "M.D.C. Holdings Inc.",
+        "MDU Resources Group Inc.",
+        "MeadWestvaco Corporation",
+        "Medtronic Inc.",
+        "Mellon Financial Corporation",
+        "The Men's Wearhouse Inc.",
+        "Merck & Co., Inc.",
+        "Mercury General Corporation",
+        "Merrill Lynch & Co. Inc.",
+        "Metaldyne Corporation",
+        "Metals USA Inc.",
+        "MetLife Inc.",
+        "Metris Companies Inc",
+        "MGIC Investment Corporation",
+        "MGM Mirage",
+        "Michaels Stores Inc.",
+        "Micron Technology Inc.",
+        "Microsoft Corporation",
+        "Milacron Inc.",
+        "Millennium Chemicals Inc.",
+        "Mirant Corporation",
+        "Mohawk Industries Inc.",
+        "Molex Incorporated",
+        "The MONY Group Inc.",
+        "Morgan Stanley Dean Witter & Co.",
+        "Motorola Inc.",
+        "MPS Group Inc.",
+        "Murphy Oil Corporation",
+        "Nabors Industries Inc",
+        "Nacco Industries Inc",
+        "Nash Finch Company",
+        "National City Corp.",
+        "National Commerce Financial Corporation",
+        "National Fuel Gas Company",
+        "National Oilwell Inc",
+        "National Rural Utilities Cooperative Finance Corporation",
+        "National Semiconductor Corporation",
+        "National Service Industries Inc",
+        "Navistar International Corporation",
+        "NCR Corporation",
+        "The Neiman Marcus Group Inc.",
+        "New Jersey Resources Corporation",
+        "New York Times Company",
+        "Newell Rubbermaid Inc",
+        "Newmont Mining Corporation",
+        "Nextel Communications Inc",
+        "Nicor Inc",
+        "Nike Inc",
+        "NiSource Inc",
+        "Noble Energy Inc",
+        "Nordstrom Inc",
+        "Norfolk Southern Corporation",
+        "Nortek Inc",
+        "North Fork Bancorporation Inc",
+        "Northeast Utilities System",
+        "Northern Trust Corporation",
+        "Northrop Grumman Corporation",
+        "NorthWestern Corporation",
+        "Novellus Systems Inc",
+        "NSTAR",
+        "NTL Incorporated",
+        "Nucor Corp",
+        "Nvidia Corp",
+        "NVR Inc",
+        "Northwest Airlines Corp",
+        "Occidental Petroleum Corp",
+        "Ocean Energy Inc",
+        "Office Depot Inc.",
+        "OfficeMax Inc",
+        "OGE Energy Corp",
+        "Oglethorpe Power Corp.",
+        "Ohio Casualty Corp.",
+        "Old Republic International Corp.",
+        "Olin Corp.",
+        "OM Group Inc",
+        "Omnicare Inc",
+        "Omnicom Group",
+        "On Semiconductor Corp",
+        "ONEOK Inc",
+        "Oracle Corp",
+        "Oshkosh Truck Corp",
+        "Outback Steakhouse Inc.",
+        "Owens & Minor Inc.",
+        "Owens Corning",
+        "Owens-Illinois Inc",
+        "Oxford Health Plans Inc",
+        "Paccar Inc",
+        "PacifiCare Health Systems Inc",
+        "Packaging Corp. of America",
+        "Pactiv Corp",
+        "Pall Corp",
+        "Pantry Inc",
+        "Park Place Entertainment Corp",
+        "Parker Hannifin Corp.",
+        "Pathmark Stores Inc.",
+        "Paychex Inc",
+        "Payless Shoesource Inc",
+        "Penn Traffic Co.",
+        "Pennzoil-Quaker State Company",
+        "Pentair Inc",
+        "Peoples Energy Corp.",
+        "PeopleSoft Inc",
+        "Pep Boys Manny, Moe & Jack",
+        "Potomac Electric Power Co.",
+        "Pepsi Bottling Group Inc.",
+        "PepsiAmericas Inc.",
+        "PepsiCo Inc.",
+        "Performance Food Group Co.",
+        "Perini Corp",
+        "PerkinElmer Inc",
+        "Perot Systems Corp",
+        "Petco Animal Supplies Inc.",
+        "Peter Kiewit Sons', Inc.",
+        "PETsMART Inc",
+        "Pfizer Inc",
+        "Pacific Gas & Electric Corp.",
+        "Pharmacia Corp",
+        "Phar Mor Inc.",
+        "Phelps Dodge Corp.",
+        "Philip Morris Companies Inc.",
+        "Phillips Petroleum Co",
+        "Phillips Van Heusen Corp.",
+        "Phoenix Companies Inc",
+        "Pier 1 Imports Inc.",
+        "Pilgrim's Pride Corporation",
+        "Pinnacle West Capital Corp",
+        "Pioneer-Standard Electronics Inc.",
+        "Pitney Bowes Inc.",
+        "Pittston Brinks Group",
+        "Plains All American Pipeline LP",
+        "PNC Financial Services Group Inc.",
+        "PNM Resources Inc",
+        "Polaris Industries Inc.",
+        "Polo Ralph Lauren Corp",
+        "PolyOne Corp",
+        "Popular Inc",
+        "Potlatch Corp",
+        "PPG Industries Inc",
+        "PPL Corp",
+        "Praxair Inc",
+        "Precision Castparts Corp",
+        "Premcor Inc.",
+        "Pride International Inc",
+        "Primedia Inc",
+        "Principal Financial Group Inc.",
+        "Procter & Gamble Co.",
+        "Pro-Fac Cooperative Inc.",
+        "Progress Energy Inc",
+        "Progressive Corporation",
+        "Protective Life Corp",
+        "Provident Financial Group",
+        "Providian Financial Corp.",
+        "Prudential Financial Inc.",
+        "PSS World Medical Inc",
+        "Public Service Enterprise Group Inc.",
+        "Publix Super Markets Inc.",
+        "Puget Energy Inc.",
+        "Pulte Homes Inc",
+        "Qualcomm Inc",
+        "Quanta Services Inc.",
+        "Quantum Corp",
+        "Quest Diagnostics Inc.",
+        "Questar Corp",
+        "Quintiles Transnational",
+        "Qwest Communications Intl Inc",
+        "R.J. Reynolds Tobacco Company",
+        "R.R. Donnelley & Sons Company",
+        "Radio Shack Corporation",
+        "Raymond James Financial Inc.",
+        "Raytheon Company",
+        "Reader's Digest Association Inc.",
+        "Reebok International Ltd.",
+        "Regions Financial Corp.",
+        "Regis Corporation",
+        "Reliance Steel & Aluminum Co.",
+        "Reliant Energy Inc.",
+        "Rent A Center Inc",
+        "Republic Services Inc",
+        "Revlon Inc",
+        "RGS Energy Group Inc",
+        "Rite Aid Corp",
+        "Riverwood Holding Inc.",
+        "RoadwayCorp",
+        "Robert Half International Inc.",
+        "Rock-Tenn Co",
+        "Rockwell Automation Inc",
+        "Rockwell Collins Inc",
+        "Rohm & Haas Co.",
+        "Ross Stores Inc",
+        "RPM Inc.",
+        "Ruddick Corp",
+        "Ryder System Inc",
+        "Ryerson Tull Inc",
+        "Ryland Group Inc.",
+        "Sabre Holdings Corp",
+        "Safeco Corp",
+        "Safeguard Scientifics Inc.",
+        "Safeway Inc",
+        "Saks Inc",
+        "Sanmina-SCI Inc",
+        "Sara Lee Corp",
+        "SBC Communications Inc",
+        "Scana Corp.",
+        "Schering-Plough Corp",
+        "Scholastic Corp",
+        "SCI Systems Onc.",
+        "Science Applications Intl. Inc.",
+        "Scientific-Atlanta Inc",
+        "Scotts Company",
+        "Seaboard Corp",
+        "Sealed Air Corp",
+        "Sears Roebuck & Co",
+        "Sempra Energy",
+        "Sequa Corp",
+        "Service Corp. International",
+        "ServiceMaster Co",
+        "Shaw Group Inc",
+        "Sherwin-Williams Company",
+        "Shopko Stores Inc",
+        "Siebel Systems Inc",
+        "Sierra Health Services Inc",
+        "Sierra Pacific Resources",
+        "Silgan Holdings Inc.",
+        "Silicon Graphics Inc",
+        "Simon Property Group Inc",
+        "SLM Corporation",
+        "Smith International Inc",
+        "Smithfield Foods Inc",
+        "Smurfit-Stone Container Corp",
+        "Snap-On Inc",
+        "Solectron Corp",
+        "Solutia Inc",
+        "Sonic Automotive Inc.",
+        "Sonoco Products Co.",
+        "Southern Company",
+        "Southern Union Company",
+        "SouthTrust Corp.",
+        "Southwest Airlines Co",
+        "Southwest Gas Corp",
+        "Sovereign Bancorp Inc.",
+        "Spartan Stores Inc",
+        "Spherion Corp",
+        "Sports Authority Inc",
+        "Sprint Corp.",
+        "SPX Corp",
+        "St. Jude Medical Inc",
+        "St. Paul Cos.",
+        "Staff Leasing Inc.",
+        "StanCorp Financial Group Inc",
+        "Standard Pacific Corp.",
+        "Stanley Works",
+        "Staples Inc",
+        "Starbucks Corp",
+        "Starwood Hotels & Resorts Worldwide Inc",
+        "State Street Corp.",
+        "Stater Bros. Holdings Inc.",
+        "Steelcase Inc",
+        "Stein Mart Inc",
+        "Stewart & Stevenson Services Inc",
+        "Stewart Information Services Corp",
+        "Stilwell Financial Inc",
+        "Storage Technology Corporation",
+        "Stryker Corp",
+        "Sun Healthcare Group Inc.",
+        "Sun Microsystems Inc.",
+        "SunGard Data Systems Inc.",
+        "Sunoco Inc.",
+        "SunTrust Banks Inc",
+        "Supervalu Inc",
+        "Swift Transportation, Co., Inc",
+        "Symbol Technologies Inc",
+        "Synovus Financial Corp.",
+        "Sysco Corp",
+        "Systemax Inc.",
+        "Target Corp.",
+        "Tech Data Corporation",
+        "TECO Energy Inc",
+        "Tecumseh Products Company",
+        "Tektronix Inc",
+        "Teleflex Incorporated",
+        "Telephone & Data Systems Inc",
+        "Tellabs Inc.",
+        "Temple-Inland Inc",
+        "Tenet Healthcare Corporation",
+        "Tenneco Automotive Inc.",
+        "Teradyne Inc",
+        "Terex Corp",
+        "Tesoro Petroleum Corp.",
+        "Texas Industries Inc.",
+        "Texas Instruments Incorporated",
+        "Textron Inc",
+        "Thermo Electron Corporation",
+        "Thomas & Betts Corporation",
+        "Tiffany & Co",
+        "Timken Company",
+        "TJX Companies Inc",
+        "TMP Worldwide Inc",
+        "Toll Brothers Inc",
+        "Torchmark Corporation",
+        "Toro Company",
+        "Tower Automotive Inc.",
+        "Toys 'R' Us Inc",
+        "Trans World Entertainment Corp.",
+        "TransMontaigne Inc",
+        "Transocean Inc",
+        "TravelCenters of America Inc.",
+        "Triad Hospitals Inc",
+        "Tribune Company",
+        "Trigon Healthcare Inc.",
+        "Trinity Industries Inc",
+        "Trump Hotels & Casino Resorts Inc.",
+        "TruServ Corporation",
+        "TRW Inc",
+        "TXU Corp",
+        "Tyson Foods Inc",
+        "U.S. Bancorp",
+        "U.S. Industries Inc.",
+        "UAL Corporation",
+        "UGI Corporation",
+        "Unified Western Grocers Inc",
+        "Union Pacific Corporation",
+        "Union Planters Corp",
+        "Unisource Energy Corp",
+        "Unisys Corporation",
+        "United Auto Group Inc",
+        "United Defense Industries Inc.",
+        "United Parcel Service Inc",
+        "United Rentals Inc",
+        "United Stationers Inc",
+        "United Technologies Corporation",
+        "UnitedHealth Group Incorporated",
+        "Unitrin Inc",
+        "Universal Corporation",
+        "Universal Forest Products Inc",
+        "Universal Health Services Inc",
+        "Unocal Corporation",
+        "Unova Inc",
+        "UnumProvident Corporation",
+        "URS Corporation",
+        "US Airways Group Inc",
+        "US Oncology Inc",
+        "USA Interactive",
+        "USFreighways Corporation",
+        "USG Corporation",
+        "UST Inc",
+        "Valero Energy Corporation",
+        "Valspar Corporation",
+        "Value City Department Stores Inc",
+        "Varco International Inc",
+        "Vectren Corporation",
+        "Veritas Software Corporation",
+        "Verizon Communications Inc",
+        "VF Corporation",
+        "Viacom Inc",
+        "Viad Corp",
+        "Viasystems Group Inc",
+        "Vishay Intertechnology Inc",
+        "Visteon Corporation",
+        "Volt Information Sciences Inc",
+        "Vulcan Materials Company",
+        "W.R. Berkley Corporation",
+        "W.R. Grace & Co",
+        "W.W. Grainger Inc",
+        "Wachovia Corporation",
+        "Wakenhut Corporation",
+        "Walgreen Co",
+        "Wallace Computer Services Inc",
+        "Wal-Mart Stores Inc",
+        "Walt Disney Co",
+        "Walter Industries Inc",
+        "Washington Mutual Inc",
+        "Washington Post Co.",
+        "Waste Management Inc",
+        "Watsco Inc",
+        "Weatherford International Inc",
+        "Weis Markets Inc.",
+        "Wellpoint Health Networks Inc",
+        "Wells Fargo & Company",
+        "Wendy's International Inc",
+        "Werner Enterprises Inc",
+        "WESCO International Inc",
+        "Western Digital Inc",
+        "Western Gas Resources Inc",
+        "WestPoint Stevens Inc",
+        "Weyerhauser Company",
+        "WGL Holdings Inc",
+        "Whirlpool Corporation",
+        "Whole Foods Market Inc",
+        "Willamette Industries Inc.",
+        "Williams Companies Inc",
+        "Williams Sonoma Inc",
+        "Winn Dixie Stores Inc",
+        "Wisconsin Energy Corporation",
+        "Wm Wrigley Jr Company",
+        "World Fuel Services Corporation",
+        "WorldCom Inc",
+        "Worthington Industries Inc",
+        "WPS Resources Corporation",
+        "Wyeth",
+        "Wyndham International Inc",
+        "Xcel Energy Inc",
+        "Xerox Corp",
+        "Xilinx Inc",
+        "XO Communications Inc",
+        "Yellow Corporation",
+        "York International Corp",
+        "Yum Brands Inc.",
+        "Zale Corporation",
+        "Zions Bancorporation"
+      ],
+
         fileExtension : {
             "raster"    : ["bmp", "gif", "gpl", "ico", "jpeg", "psd", "png", "psp", "raw", "tiff"],
             "vector"    : ["3dv", "amf", "awg", "ai", "cgm", "cdr", "cmx", "dxf", "e2d", "egt", "eps", "fs", "odg", "svg", "xar"],
@@ -5435,10 +8562,24 @@ function isnan (val) {
                     ]
                   },
                   {
-                    "name": "Pacific Standard Time",
+                    "name": "Pacific Daylight Time",
                     "abbr": "PDT",
                     "offset": -7,
                     "isdst": true,
+                    "text": "(UTC-07:00) Pacific Time (US & Canada)",
+                    "utc": [
+                      "America/Dawson",
+                      "America/Los_Angeles",
+                      "America/Tijuana",
+                      "America/Vancouver",
+                      "America/Whitehorse"
+                    ]
+                  },
+                  {
+                    "name": "Pacific Standard Time",
+                    "abbr": "PST",
+                    "offset": -8,
+                    "isdst": false,
                     "text": "(UTC-08:00) Pacific Time (US & Canada)",
                     "utc": [
                       "America/Dawson",
@@ -5624,7 +8765,7 @@ function isnan (val) {
                   },
                   {
                     "name": "Paraguay Standard Time",
-                    "abbr": "PST",
+                    "abbr": "PYT",
                     "offset": -4,
                     "isdst": false,
                     "text": "(UTC-04:00) Asuncion",
@@ -5772,7 +8913,7 @@ function isnan (val) {
                   {
                     "name": "Greenland Standard Time",
                     "abbr": "GDT",
-                    "offset": -2,
+                    "offset": -3,
                     "isdst": true,
                     "text": "(UTC-03:00) Greenland",
                     "utc": [
@@ -5816,7 +8957,8 @@ function isnan (val) {
                     "abbr": "MDT",
                     "offset": -1,
                     "isdst": true,
-                    "text": "(UTC-02:00) Mid-Atlantic - Old"
+                    "text": "(UTC-02:00) Mid-Atlantic - Old",
+                    "utc": []
                   },
                   {
                     "name": "Azores Standard Time",
@@ -5853,7 +8995,7 @@ function isnan (val) {
                   },
                   {
                     "name": "UTC",
-                    "abbr": "CUT",
+                    "abbr": "UTC",
                     "offset": 0,
                     "isdst": false,
                     "text": "(UTC) Coordinated Universal Time",
@@ -5864,20 +9006,42 @@ function isnan (val) {
                   },
                   {
                     "name": "GMT Standard Time",
+                    "abbr": "GMT",
+                    "offset": 0,
+                    "isdst": false,
+                    "text": "(UTC) Edinburgh, London",
+                    "utc": [
+                      "Europe/Isle_of_Man",
+                      "Europe/Guernsey",
+                      "Europe/Jersey",
+                      "Europe/London"
+                    ]
+                  },
+                  {
+                    "name": "British Summer Time",
+                    "abbr": "BST",
+                    "offset": 1,
+                    "isdst": true,
+                    "text": "(UTC+01:00) Edinburgh, London",
+                    "utc": [
+                      "Europe/Isle_of_Man",
+                      "Europe/Guernsey",
+                      "Europe/Jersey",
+                      "Europe/London"
+                    ]
+                  },
+                  {
+                    "name": "GMT Standard Time",
                     "abbr": "GDT",
                     "offset": 1,
                     "isdst": true,
-                    "text": "(UTC) Dublin, Edinburgh, Lisbon, London",
+                    "text": "(UTC) Dublin, Lisbon",
                     "utc": [
                       "Atlantic/Canary",
                       "Atlantic/Faeroe",
                       "Atlantic/Madeira",
                       "Europe/Dublin",
-                      "Europe/Guernsey",
-                      "Europe/Isle_of_Man",
-                      "Europe/Jersey",
-                      "Europe/Lisbon",
-                      "Europe/London"
+                      "Europe/Lisbon"
                     ]
                   },
                   {
@@ -6054,7 +9218,23 @@ function isnan (val) {
                     "abbr": "EEDT",
                     "offset": 3,
                     "isdst": true,
-                    "text": "(UTC+02:00) E. Europe"
+                    "text": "(UTC+02:00) E. Europe",
+                    "utc": [
+                      "Asia/Nicosia",
+                      "Europe/Athens",
+                      "Europe/Bucharest",
+                      "Europe/Chisinau",
+                      "Europe/Helsinki",
+                      "Europe/Kiev",
+                      "Europe/Mariehamn",
+                      "Europe/Nicosia",
+                      "Europe/Riga",
+                      "Europe/Sofia",
+                      "Europe/Tallinn",
+                      "Europe/Uzhgorod",
+                      "Europe/Vilnius",
+                      "Europe/Zaporozhye"
+                    ]
                   },
                   {
                     "name": "South Africa Standard Time",
@@ -6099,8 +9279,8 @@ function isnan (val) {
                     "name": "Turkey Standard Time",
                     "abbr": "TDT",
                     "offset": 3,
-                    "isdst": true,
-                    "text": "(UTC+02:00) Istanbul",
+                    "isdst": false,
+                    "text": "(UTC+03:00) Istanbul",
                     "utc": [
                       "Europe/Istanbul"
                     ]
@@ -6150,10 +9330,9 @@ function isnan (val) {
                     "abbr": "KST",
                     "offset": 3,
                     "isdst": false,
-                    "text": "(UTC+03:00) Kaliningrad, Minsk",
+                    "text": "(UTC+02:00) Kaliningrad",
                     "utc": [
-                      "Europe/Kaliningrad",
-                      "Europe/Minsk"
+                      "Europe/Kaliningrad"
                     ]
                   },
                   {
@@ -6194,6 +9373,32 @@ function isnan (val) {
                     ]
                   },
                   {
+                    "name": "Moscow Standard Time",
+                    "abbr": "MSK",
+                    "offset": 3,
+                    "isdst": false,
+                    "text": "(UTC+03:00) Moscow, St. Petersburg, Volgograd, Minsk",
+                    "utc": [
+                        "Europe/Kirov",
+                      "Europe/Moscow",
+                      "Europe/Simferopol",
+                      "Europe/Volgograd",
+                      "Europe/Minsk"
+                    ]
+                  },
+                  {
+                    "name": "Samara Time",
+                    "abbr": "SAMT",
+                    "offset": 4,
+                    "isdst": false,
+                    "text": "(UTC+04:00) Samara, Ulyanovsk, Saratov",
+                    "utc": [
+                        "Europe/Astrakhan",
+                      "Europe/Samara",
+                        "Europe/Ulyanovsk"
+                    ]
+                  },
+                  {
                     "name": "Iran Standard Time",
                     "abbr": "IDT",
                     "offset": 4.5,
@@ -6226,19 +9431,6 @@ function isnan (val) {
                     ]
                   },
                   {
-                    "name": "Russian Standard Time",
-                    "abbr": "RST",
-                    "offset": 4,
-                    "isdst": false,
-                    "text": "(UTC+04:00) Moscow, St. Petersburg, Volgograd",
-                    "utc": [
-                      "Europe/Moscow",
-                      "Europe/Samara",
-                      "Europe/Simferopol",
-                      "Europe/Volgograd"
-                    ]
-                  },
-                  {
                     "name": "Mauritius Standard Time",
                     "abbr": "MST",
                     "offset": 4,
@@ -6252,7 +9444,7 @@ function isnan (val) {
                   },
                   {
                     "name": "Georgian Standard Time",
-                    "abbr": "GST",
+                    "abbr": "GET",
                     "offset": 4,
                     "isdst": false,
                     "text": "(UTC+04:00) Tbilisi",
@@ -6301,8 +9493,18 @@ function isnan (val) {
                     ]
                   },
                   {
+                    "name": "Yekaterinburg Time",
+                    "abbr": "YEKT",
+                    "offset": 5,
+                    "isdst": false,
+                    "text": "(UTC+05:00) Yekaterinburg",
+                    "utc": [
+                      "Asia/Yekaterinburg"
+                    ]
+                  },
+                  {
                     "name": "Pakistan Standard Time",
-                    "abbr": "PST",
+                    "abbr": "PKT",
                     "offset": 5,
                     "isdst": false,
                     "text": "(UTC+05:00) Islamabad, Karachi",
@@ -6317,7 +9519,7 @@ function isnan (val) {
                     "isdst": false,
                     "text": "(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi",
                     "utc": [
-                      "Asia/Calcutta"
+                      "Asia/Kolkata"
                     ]
                   },
                   {
@@ -6337,7 +9539,7 @@ function isnan (val) {
                     "isdst": false,
                     "text": "(UTC+05:45) Kathmandu",
                     "utc": [
-                      "Asia/Katmandu"
+                      "Asia/Kathmandu"
                     ]
                   },
                   {
@@ -6345,7 +9547,7 @@ function isnan (val) {
                     "abbr": "CAST",
                     "offset": 6,
                     "isdst": false,
-                    "text": "(UTC+06:00) Astana",
+                    "text": "(UTC+06:00) Nur-Sultan (Astana)",
                     "utc": [
                       "Antarctica/Vostok",
                       "Asia/Almaty",
@@ -6365,16 +9567,6 @@ function isnan (val) {
                     "utc": [
                       "Asia/Dhaka",
                       "Asia/Thimphu"
-                    ]
-                  },
-                  {
-                    "name": "Ekaterinburg Standard Time",
-                    "abbr": "EST",
-                    "offset": 6,
-                    "isdst": false,
-                    "text": "(UTC+06:00) Ekaterinburg",
-                    "utc": [
-                      "Asia/Yekaterinburg"
                     ]
                   },
                   {
@@ -6492,16 +9684,16 @@ function isnan (val) {
                   {
                     "name": "North Asia East Standard Time",
                     "abbr": "NAEST",
-                    "offset": 9,
+                    "offset": 8,
                     "isdst": false,
-                    "text": "(UTC+09:00) Irkutsk",
+                    "text": "(UTC+08:00) Irkutsk",
                     "utc": [
                       "Asia/Irkutsk"
                     ]
                   },
                   {
-                    "name": "Tokyo Standard Time",
-                    "abbr": "TST",
+                    "name": "Japan Standard Time",
+                    "abbr": "JST",
                     "offset": 9,
                     "isdst": false,
                     "text": "(UTC+09:00) Osaka, Sapporo, Tokyo",
@@ -6596,9 +9788,9 @@ function isnan (val) {
                   {
                     "name": "Yakutsk Standard Time",
                     "abbr": "YST",
-                    "offset": 10,
+                    "offset": 9,
                     "isdst": false,
-                    "text": "(UTC+10:00) Yakutsk",
+                    "text": "(UTC+09:00) Yakutsk",
                     "utc": [
                       "Asia/Chita",
                       "Asia/Khandyga",
@@ -6689,7 +9881,10 @@ function isnan (val) {
                     "abbr": "KDT",
                     "offset": 13,
                     "isdst": true,
-                    "text": "(UTC+12:00) Petropavlovsk-Kamchatsky - Old"
+                    "text": "(UTC+12:00) Petropavlovsk-Kamchatsky - Old",
+                    "utc": [
+                      "Asia/Kamchatka"
+                    ]
                   },
                   {
                     "name": "Tonga Standard Time",
@@ -6778,7 +9973,7 @@ function isnan (val) {
             "Civil Engineer",
             "Claims Manager",
             "Clinical Research Assistant",
-            "Collections Manager.",
+            "Collections Manager",
             "Compliance Manager",
             "Comptroller",
             "Computer Manager",
@@ -7106,7 +10301,3734 @@ function isnan (val) {
             "Vendor Relations Director",
             "Viticulturist",
             "Warehouse Manager"
-        ]
+        ],
+        animals : {
+          //list of ocean animals comes from https://owlcation.com/stem/list-of-ocean-animals
+          "ocean" : ["Acantharea","Anemone","Angelfish King","Ahi Tuna","Albacore","American Oyster","Anchovy","Armored Snail","Arctic Char","Atlantic Bluefin Tuna","Atlantic Cod","Atlantic Goliath Grouper","Atlantic Trumpetfish","Atlantic Wolffish","Baleen Whale","Banded Butterflyfish","Banded Coral Shrimp","Banded Sea Krait","Barnacle","Barndoor Skate","Barracuda","Basking Shark","Bass","Beluga Whale","Bluebanded Goby","Bluehead Wrasse","Bluefish","Bluestreak Cleaner-Wrasse","Blue Marlin","Blue Shark","Blue Spiny Lobster","Blue Tang","Blue Whale","Broadclub Cuttlefish","Bull Shark","Chambered Nautilus","Chilean Basket Star","Chilean Jack Mackerel","Chinook Salmon","Christmas Tree Worm","Clam","Clown Anemonefish","Clown Triggerfish","Cod","Coelacanth","Cockscomb Cup Coral","Common Fangtooth","Conch","Cookiecutter Shark","Copepod","Coral","Corydoras","Cownose Ray","Crab","Crown-of-Thorns Starfish","Cushion Star","Cuttlefish","California Sea Otters","Dolphin","Dolphinfish","Dory","Devil Fish","Dugong","Dumbo Octopus","Dungeness Crab","Eccentric Sand Dollar","Edible Sea Cucumber","Eel","Elephant Seal","Elkhorn Coral","Emperor Shrimp","Estuarine Crocodile","Fathead Sculpin","Fiddler Crab","Fin Whale","Flameback","Flamingo Tongue Snail","Flashlight Fish","Flatback Turtle","Flatfish","Flying Fish","Flounder","Fluke","French Angelfish","Frilled Shark","Fugu (also called Pufferfish)","Gar","Geoduck","Giant Barrel Sponge","Giant Caribbean Sea Anemone","Giant Clam","Giant Isopod","Giant Kingfish","Giant Oarfish","Giant Pacific Octopus","Giant Pyrosome","Giant Sea Star","Giant Squid","Glowing Sucker Octopus","Giant Tube Worm","Goblin Shark","Goosefish","Great White Shark","Greenland Shark","Grey Atlantic Seal","Grouper","Grunion","Guineafowl Puffer","Haddock","Hake","Halibut","Hammerhead Shark","Hapuka","Harbor Porpoise","Harbor Seal","Hatchetfish","Hawaiian Monk Seal","Hawksbill Turtle","Hector's Dolphin","Hermit Crab","Herring","Hoki","Horn Shark","Horseshoe Crab","Humpback Anglerfish","Humpback Whale","Icefish","Imperator Angelfish","Irukandji Jellyfish","Isopod","Ivory Bush Coral","Japanese Spider Crab","Jellyfish","John Dory","Juan Fernandez Fur Seal","Killer Whale","Kiwa Hirsuta","Krill","Lagoon Triggerfish","Lamprey","Leafy Seadragon","Leopard Seal","Limpet","Ling","Lionfish","Lions Mane Jellyfish","Lobe Coral","Lobster","Loggerhead Turtle","Longnose Sawshark","Longsnout Seahorse","Lophelia Coral","Marrus Orthocanna","Manatee","Manta Ray","Marlin","Megamouth Shark","Mexican Lookdown","Mimic Octopus","Moon Jelly","Mollusk","Monkfish","Moray Eel","Mullet","Mussel","Megaladon","Napoleon Wrasse","Nassau Grouper","Narwhal","Nautilus","Needlefish","Northern Seahorse","North Atlantic Right Whale","Northern Red Snapper","Norway Lobster","Nudibranch","Nurse Shark","Oarfish","Ocean Sunfish","Oceanic Whitetip Shark","Octopus","Olive Sea Snake","Orange Roughy","Ostracod","Otter","Oyster","Pacific Angelshark","Pacific Blackdragon","Pacific Halibut","Pacific Sardine","Pacific Sea Nettle Jellyfish","Pacific White Sided Dolphin","Pantropical Spotted Dolphin","Patagonian Toothfish","Peacock Mantis Shrimp","Pelagic Thresher Shark","Penguin","Peruvian Anchoveta","Pilchard","Pink Salmon","Pinniped","Plankton","Porpoise","Polar Bear","Portuguese Man o' War","Pycnogonid Sea Spider","Quahog","Queen Angelfish","Queen Conch","Queen Parrotfish","Queensland Grouper","Ragfish","Ratfish","Rattail Fish","Ray","Red Drum","Red King Crab","Ringed Seal","Risso's Dolphin","Ross Seals","Sablefish","Salmon","Sand Dollar","Sandbar Shark","Sawfish","Sarcastic Fringehead","Scalloped Hammerhead Shark","Seahorse","Sea Cucumber","Sea Lion","Sea Urchin","Seal","Shark","Shortfin Mako Shark","Shovelnose Guitarfish","Shrimp","Silverside Fish","Skipjack Tuna","Slender Snipe Eel","Smalltooth Sawfish","Smelts","Sockeye Salmon","Southern Stingray","Sponge","Spotted Porcupinefish","Spotted Dolphin","Spotted Eagle Ray","Spotted Moray","Squid","Squidworm","Starfish","Stickleback","Stonefish","Stoplight Loosejaw","Sturgeon","Swordfish","Tan Bristlemouth","Tasseled Wobbegong","Terrible Claw Lobster","Threespot Damselfish","Tiger Prawn","Tiger Shark","Tilefish","Toadfish","Tropical Two-Wing Flyfish","Tuna","Umbrella Squid","Velvet Crab","Venus Flytrap Sea Anemone","Vigtorniella Worm","Viperfish","Vampire Squid","Vaquita","Wahoo","Walrus","West Indian Manatee","Whale","Whale Shark","Whiptail Gulper","White-Beaked Dolphin","White-Ring Garden Eel","White Shrimp","Wobbegong","Wrasse","Wreckfish","Xiphosura","Yellowtail Damselfish","Yelloweye Rockfish","Yellow Cup Black Coral","Yellow Tube Sponge","Yellowfin Tuna","Zebrashark","Zooplankton"],
+          //list of desert, grassland, and forest animals comes from http://www.skyenimals.com/
+          "desert" : ["Aardwolf","Addax","African Wild Ass","Ant","Antelope","Armadillo","Baboon","Badger","Bat","Bearded Dragon","Beetle","Bird","Black-footed Cat","Boa","Brown Bear","Bustard","Butterfly","Camel","Caracal","Caracara","Caterpillar","Centipede","Cheetah","Chipmunk","Chuckwalla","Climbing Mouse","Coati","Cobra","Cotton Rat","Cougar","Courser","Crane Fly","Crow","Dassie Rat","Dove","Dunnart","Eagle","Echidna","Elephant","Emu","Falcon","Fly","Fox","Frogmouth","Gecko","Geoffroy's Cat","Gerbil","Grasshopper","Guanaco","Gundi","Hamster","Hawk","Hedgehog","Hyena","Hyrax","Jackal","Kangaroo","Kangaroo Rat","Kestrel","Kowari","Kultarr","Leopard","Lion","Macaw","Meerkat","Mouse","Oryx","Ostrich","Owl","Pronghorn","Python","Rabbit","Raccoon","Rattlesnake","Rhinoceros","Sand Cat","Spectacled Bear","Spiny Mouse","Starling","Stick Bug","Tarantula","Tit","Toad","Tortoise","Tyrant Flycatcher","Viper","Vulture","Waxwing","Xerus","Zebra"],
+          "grassland" : ["Aardvark","Aardwolf","Accentor","African Buffalo","African Wild Dog","Alpaca","Anaconda","Ant","Anteater","Antelope","Armadillo","Baboon","Badger","Bandicoot","Barbet","Bat","Bee","Bee-eater","Beetle","Bird","Bison","Black-footed Cat","Black-footed Ferret","Bluebird","Boa","Bowerbird","Brown Bear","Bush Dog","Bushshrike","Bustard","Butterfly","Buzzard","Caracal","Caracara","Cardinal","Caterpillar","Cheetah","Chipmunk","Civet","Climbing Mouse","Clouded Leopard","Coati","Cobra","Cockatoo","Cockroach","Common Genet","Cotton Rat","Cougar","Courser","Coyote","Crane","Crane Fly","Cricket","Crow","Culpeo","Death Adder","Deer","Deer Mouse","Dingo","Dinosaur","Dove","Drongo","Duck","Duiker","Dunnart","Eagle","Echidna","Elephant","Elk","Emu","Falcon","Finch","Flea","Fly","Flying Frog","Fox","Frog","Frogmouth","Garter Snake","Gazelle","Gecko","Geoffroy's Cat","Gerbil","Giant Tortoise","Giraffe","Grasshopper","Grison","Groundhog","Grouse","Guanaco","Guinea Pig","Hamster","Harrier","Hartebeest","Hawk","Hedgehog","Helmetshrike","Hippopotamus","Hornbill","Hyena","Hyrax","Impala","Jackal","Jaguar","Jaguarundi","Kangaroo","Kangaroo Rat","Kestrel","Kultarr","Ladybug","Leopard","Lion","Macaw","Meerkat","Mouse","Newt","Oryx","Ostrich","Owl","Pangolin","Pheasant","Prairie Dog","Pronghorn","Przewalski's Horse","Python","Quoll","Rabbit","Raven","Rhinoceros","Shelduck","Sloth Bear","Spectacled Bear","Squirrel","Starling","Stick Bug","Tamandua","Tasmanian Devil","Thornbill","Thrush","Toad","Tortoise"],
+          "forest" : ["Agouti","Anaconda","Anoa","Ant","Anteater","Antelope","Armadillo","Asian Black Bear","Aye-aye","Babirusa","Baboon","Badger","Bandicoot","Banteng","Barbet","Basilisk","Bat","Bearded Dragon","Bee","Bee-eater","Beetle","Bettong","Binturong","Bird-of-paradise","Bongo","Bowerbird","Bulbul","Bush Dog","Bushbaby","Bushshrike","Butterfly","Buzzard","Caecilian","Cardinal","Cassowary","Caterpillar","Centipede","Chameleon","Chimpanzee","Cicada","Civet","Clouded Leopard","Coati","Cobra","Cockatoo","Cockroach","Colugo","Cotinga","Cotton Rat","Cougar","Crane Fly","Cricket","Crocodile","Crow","Cuckoo","Cuscus","Death Adder","Deer","Dhole","Dingo","Dinosaur","Drongo","Duck","Duiker","Eagle","Echidna","Elephant","Finch","Flat-headed Cat","Flea","Flowerpecker","Fly","Flying Frog","Fossa","Frog","Frogmouth","Gaur","Gecko","Gorilla","Grison","Hawaiian Honeycreeper","Hawk","Hedgehog","Helmetshrike","Hornbill","Hyrax","Iguana","Jackal","Jaguar","Jaguarundi","Kestrel","Ladybug","Lemur","Leopard","Lion","Macaw","Mandrill","Margay","Monkey","Mouse","Mouse Deer","Newt","Okapi","Old World Flycatcher","Orangutan","Owl","Pangolin","Peafowl","Pheasant","Possum","Python","Quokka","Rabbit","Raccoon","Red Panda","Red River Hog","Rhinoceros","Sloth Bear","Spectacled Bear","Squirrel","Starling","Stick Bug","Sun Bear","Tamandua","Tamarin","Tapir","Tarantula","Thrush","Tiger","Tit","Toad","Tortoise","Toucan","Trogon","Trumpeter","Turaco","Turtle","Tyrant Flycatcher","Viper","Vulture","Wallaby","Warbler","Wasp","Waxwing","Weaver","Weaver-finch","Whistler","White-eye","Whydah","Woodswallow","Worm","Wren","Xenops","Yellowjacket","Accentor","African Buffalo","American Black Bear","Anole","Bird","Bison","Boa","Brown Bear","Chipmunk","Common Genet","Copperhead","Coyote","Deer Mouse","Dormouse","Elk","Emu","Fisher","Fox","Garter Snake","Giant Panda","Giant Tortoise","Groundhog","Grouse","Guanaco","Himalayan Tahr","Kangaroo","Koala","Numbat","Quoll","Raccoon dog","Tasmanian Devil","Thornbill","Turkey","Vole","Weasel","Wildcat","Wolf","Wombat","Woodchuck","Woodpecker"],
+          //list of farm animals comes from https://www.buzzle.com/articles/farm-animals-list.html
+          "farm" : ["Alpaca","Buffalo","Banteng","Cow","Cat","Chicken","Carp","Camel","Donkey","Dog","Duck","Emu","Goat","Gayal","Guinea","Goose","Horse","Honey","Llama","Pig","Pigeon","Rhea","Rabbit","Sheep","Silkworm","Turkey","Yak","Zebu"],
+          //list of pet animals comes from https://www.dogbreedinfo.com/pets/pet.htm
+          "pet" : ["Bearded Dragon","Birds","Burro","Cats","Chameleons","Chickens","Chinchillas","Chinese Water Dragon","Cows","Dogs","Donkey","Ducks","Ferrets","Fish","Geckos","Geese","Gerbils","Goats","Guinea Fowl","Guinea Pigs","Hamsters","Hedgehogs","Horses","Iguanas","Llamas","Lizards","Mice","Mule","Peafowl","Pigs and Hogs","Pigeons","Ponies","Pot Bellied Pig","Rabbits","Rats","Sheep","Skinks","Snakes","Stick Insects","Sugar Gliders","Tarantula","Turkeys","Turtles"],
+          //list of zoo animals comes from https://bronxzoo.com/animals
+          "zoo" : ["Aardvark","African Wild Dog","Aldabra Tortoise","American Alligator","American Bison","Amur Tiger","Anaconda","Andean Condor","Asian Elephant","Baby Doll Sheep","Bald Eagle","Barred Owl","Blue Iguana","Boer Goat","California Sea Lion","Caribbean Flamingo","Chinchilla","Collared Lemur","Coquerel's Sifaka","Cuban Amazon Parrot","Ebony Langur","Fennec Fox","Fossa","Gelada","Giant Anteater","Giraffe","Gorilla","Grizzly Bear","Henkel's Leaf-tailed Gecko","Indian Gharial","Indian Rhinoceros","King Cobra","King Vulture","Komodo Dragon","Linne's Two-toed Sloth","Lion","Little Penguin","Madagascar Tree Boa","Magellanic Penguin","Malayan Tapir","Malayan Tiger","Matschies Tree Kangaroo","Mini Donkey","Monarch Butterfly","Nile crocodile","North American Porcupine","Nubian Ibex","Okapi","Poison Dart Frog","Polar Bear","Pygmy Marmoset","Radiated Tortoise","Red Panda","Red Ruffed Lemur","Ring-tailed Lemur","Ring-tailed Mongoose","Rock Hyrax","Small Clawed Asian Otter","Snow Leopard","Snowy Owl","Southern White-faced Owl","Southern White Rhinocerous","Squirrel Monkey","Tufted Puffin","White Cheeked Gibbon","White-throated Bee Eater","Zebra"]
+        },
+        primes: [
+            // 1230 first primes, i.e. all primes up to the first one greater than 10000, inclusive.
+            2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503,509,521,523,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659,661,673,677,683,691,701,709,719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827,829,839,853,857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991,997,1009,1013,1019,1021,1031,1033,1039,1049,1051,1061,1063,1069,1087,1091,1093,1097,1103,1109,1117,1123,1129,1151,1153,1163,1171,1181,1187,1193,1201,1213,1217,1223,1229,1231,1237,1249,1259,1277,1279,1283,1289,1291,1297,1301,1303,1307,1319,1321,1327,1361,1367,1373,1381,1399,1409,1423,1427,1429,1433,1439,1447,1451,1453,1459,1471,1481,1483,1487,1489,1493,1499,1511,1523,1531,1543,1549,1553,1559,1567,1571,1579,1583,1597,1601,1607,1609,1613,1619,1621,1627,1637,1657,1663,1667,1669,1693,1697,1699,1709,1721,1723,1733,1741,1747,1753,1759,1777,1783,1787,1789,1801,1811,1823,1831,1847,1861,1867,1871,1873,1877,1879,1889,1901,1907,1913,1931,1933,1949,1951,1973,1979,1987,1993,1997,1999,2003,2011,2017,2027,2029,2039,2053,2063,2069,2081,2083,2087,2089,2099,2111,2113,2129,2131,2137,2141,2143,2153,2161,2179,2203,2207,2213,2221,2237,2239,2243,2251,2267,2269,2273,2281,2287,2293,2297,2309,2311,2333,2339,2341,2347,2351,2357,2371,2377,2381,2383,2389,2393,2399,2411,2417,2423,2437,2441,2447,2459,2467,2473,2477,2503,2521,2531,2539,2543,2549,2551,2557,2579,2591,2593,2609,2617,2621,2633,2647,2657,2659,2663,2671,2677,2683,2687,2689,2693,2699,2707,2711,2713,2719,2729,2731,2741,2749,2753,2767,2777,2789,2791,2797,2801,2803,2819,2833,2837,2843,2851,2857,2861,2879,2887,2897,2903,2909,2917,2927,2939,2953,2957,2963,2969,2971,2999,3001,3011,3019,3023,3037,3041,3049,3061,3067,3079,3083,3089,3109,3119,3121,3137,3163,3167,3169,3181,3187,3191,3203,3209,3217,3221,3229,3251,3253,3257,3259,3271,3299,3301,3307,3313,3319,3323,3329,3331,3343,3347,3359,3361,3371,3373,3389,3391,3407,3413,3433,3449,3457,3461,3463,3467,3469,3491,3499,3511,3517,3527,3529,3533,3539,3541,3547,3557,3559,3571,3581,3583,3593,3607,3613,3617,3623,3631,3637,3643,3659,3671,3673,3677,3691,3697,3701,3709,3719,3727,3733,3739,3761,3767,3769,3779,3793,3797,3803,3821,3823,3833,3847,3851,3853,3863,3877,3881,3889,3907,3911,3917,3919,3923,3929,3931,3943,3947,3967,3989,4001,4003,4007,4013,4019,4021,4027,4049,4051,4057,4073,4079,4091,4093,4099,4111,4127,4129,4133,4139,4153,4157,4159,4177,4201,4211,4217,4219,4229,4231,4241,4243,4253,4259,4261,4271,4273,4283,4289,4297,4327,4337,4339,4349,4357,4363,4373,4391,4397,4409,4421,4423,4441,4447,4451,4457,4463,4481,4483,4493,4507,4513,4517,4519,4523,4547,4549,4561,4567,4583,4591,4597,4603,4621,4637,4639,4643,4649,4651,4657,4663,4673,4679,4691,4703,4721,4723,4729,4733,4751,4759,4783,4787,4789,4793,4799,4801,4813,4817,4831,4861,4871,4877,4889,4903,4909,4919,4931,4933,4937,4943,4951,4957,4967,4969,4973,4987,4993,4999,5003,5009,5011,5021,5023,5039,5051,5059,5077,5081,5087,5099,5101,5107,5113,5119,5147,5153,5167,5171,5179,5189,5197,5209,5227,5231,5233,5237,5261,5273,5279,5281,5297,5303,5309,5323,5333,5347,5351,5381,5387,5393,5399,5407,5413,5417,5419,5431,5437,5441,5443,5449,5471,5477,5479,5483,5501,5503,5507,5519,5521,5527,5531,5557,5563,5569,5573,5581,5591,5623,5639,5641,5647,5651,5653,5657,5659,5669,5683,5689,5693,5701,5711,5717,5737,5741,5743,5749,5779,5783,5791,5801,5807,5813,5821,5827,5839,5843,5849,5851,5857,5861,5867,5869,5879,5881,5897,5903,5923,5927,5939,5953,5981,5987,6007,6011,6029,6037,6043,6047,6053,6067,6073,6079,6089,6091,6101,6113,6121,6131,6133,6143,6151,6163,6173,6197,6199,6203,6211,6217,6221,6229,6247,6257,6263,6269,6271,6277,6287,6299,6301,6311,6317,6323,6329,6337,6343,6353,6359,6361,6367,6373,6379,6389,6397,6421,6427,6449,6451,6469,6473,6481,6491,6521,6529,6547,6551,6553,6563,6569,6571,6577,6581,6599,6607,6619,6637,6653,6659,6661,6673,6679,6689,6691,6701,6703,6709,6719,6733,6737,6761,6763,6779,6781,6791,6793,6803,6823,6827,6829,6833,6841,6857,6863,6869,6871,6883,6899,6907,6911,6917,6947,6949,6959,6961,6967,6971,6977,6983,6991,6997,7001,7013,7019,7027,7039,7043,7057,7069,7079,7103,7109,7121,7127,7129,7151,7159,7177,7187,7193,7207,7211,7213,7219,7229,7237,7243,7247,7253,7283,7297,7307,7309,7321,7331,7333,7349,7351,7369,7393,7411,7417,7433,7451,7457,7459,7477,7481,7487,7489,7499,7507,7517,7523,7529,7537,7541,7547,7549,7559,7561,7573,7577,7583,7589,7591,7603,7607,7621,7639,7643,7649,7669,7673,7681,7687,7691,7699,7703,7717,7723,7727,7741,7753,7757,7759,7789,7793,7817,7823,7829,7841,7853,7867,7873,7877,7879,7883,7901,7907,7919,7927,7933,7937,7949,7951,7963,7993,8009,8011,8017,8039,8053,8059,8069,8081,8087,8089,8093,8101,8111,8117,8123,8147,8161,8167,8171,8179,8191,8209,8219,8221,8231,8233,8237,8243,8263,8269,8273,8287,8291,8293,8297,8311,8317,8329,8353,8363,8369,8377,8387,8389,8419,8423,8429,8431,8443,8447,8461,8467,8501,8513,8521,8527,8537,8539,8543,8563,8573,8581,8597,8599,8609,8623,8627,8629,8641,8647,8663,8669,8677,8681,8689,8693,8699,8707,8713,8719,8731,8737,8741,8747,8753,8761,8779,8783,8803,8807,8819,8821,8831,8837,8839,8849,8861,8863,8867,8887,8893,8923,8929,8933,8941,8951,8963,8969,8971,8999,9001,9007,9011,9013,9029,9041,9043,9049,9059,9067,9091,9103,9109,9127,9133,9137,9151,9157,9161,9173,9181,9187,9199,9203,9209,9221,9227,9239,9241,9257,9277,9281,9283,9293,9311,9319,9323,9337,9341,9343,9349,9371,9377,9391,9397,9403,9413,9419,9421,9431,9433,9437,9439,9461,9463,9467,9473,9479,9491,9497,9511,9521,9533,9539,9547,9551,9587,9601,9613,9619,9623,9629,9631,9643,9649,9661,9677,9679,9689,9697,9719,9721,9733,9739,9743,9749,9767,9769,9781,9787,9791,9803,9811,9817,9829,9833,9839,9851,9857,9859,9871,9883,9887,9901,9907,9923,9929,9931,9941,9949,9967,9973,10007
+        ],
+        emotions: [
+            "love",
+            "joy",
+            "surprise",
+            "anger",
+            "sadness",
+            "fear"
+        ],
+        music_genres: {
+            'general': [
+                'Rock', 
+                'Pop', 
+                'Hip-Hop', 
+                'Jazz', 
+                'Classical', 
+                'Electronic', 
+                'Country', 
+                'R&B', 
+                'Reggae', 
+                'Blues', 
+                'Metal', 
+                'Folk', 
+                'Alternative', 
+                'Punk',
+                'Disco', 
+                'Funk', 
+                'Techno',
+                'Indie',
+                'Gospel', 
+                'Dance', 
+                'Children\'s', 
+                'World'
+            ],
+            'alternative': [
+                'Art Punk',
+                'Alternative Rock',
+                'Britpunk',
+                'College Rock',
+                'Crossover Thrash',
+                'Crust Punk',
+                'Emo / Emocore',
+                'Experimental Rock',
+                'Folk Punk',
+                'Goth / Gothic Rock',
+                'Grunge',
+                'Hardcore Punk',
+                'Hard Rock',
+                'Indie Rock',
+                'Lo-fi',
+                'Musique Concrète',
+                'New Wave',
+                'Progressive Rock',
+                'Punk',
+                'Shoegaze',
+                'Steampunk',
+            ], 'blues': [
+                'Acoustic Blues',
+                'African Blues',
+                'Blues Rock',
+                'Blues Shouter',
+                'British Blues',
+                'Canadian Blues',
+                'Chicago Blues',
+                'Classic Blues',
+                'Classic Female Blues',
+                'Contemporary Blues',
+                'Country Blues',
+                'Dark Blues',
+                'Delta Blues',
+                'Detroit Blues',
+                'Doom Blues',
+                'Electric Blues',
+                'Folk Blues',
+                'Gospel Blues',
+                'Harmonica Blues',
+                'Hill Country Blues',
+                'Hokum Blues',
+                'Jazz Blues',
+                'Jump Blues',
+                'Kansas City Blues',
+                'Louisiana Blues',
+                'Memphis Blues',
+                'Modern Blues',
+                'New Orlean Blues',
+                'NY Blues',
+                'Piano Blues',
+                'Piedmont Blues',
+                'Punk Blues',
+                'Ragtime Blues',
+                'Rhythm Blues',
+                'Soul Blues',
+                'St.Louis Blues',
+                'Soul Blues',
+                'Swamp Blues',
+                'Texas Blues',
+                'Urban Blues',
+                'Vandeville',
+                'West Coast Blues',
+            ], 'children\'s': [
+                'Lullabies',
+                'Sing - Along',
+                'Stories'
+            ], 'classical': [
+                'Avant-Garde',
+                'Ballet',
+                'Baroque',
+                'Cantata',
+                'Chamber Music',
+                'String Quartet',
+                'Chant',
+                'Choral',
+                'Classical Crossover',
+                'Concerto',
+                'Concerto Grosso',
+                'Contemporary Classical',
+                'Early Music',
+                'Expressionist',
+                'High Classical',
+                'Impressionist',
+                'Mass Requiem',
+                'Medieval',
+                'Minimalism',
+                'Modern Composition',
+                'Modern Classical',
+                'Opera',
+                'Oratorio',
+                'Orchestral',
+                'Organum',
+                'Renaissance',
+                'Romantic (early period)',
+                'Romantic (later period)',
+                'Sonata',
+                'Symphonic',
+                'Symphony',
+                'Twelve-tone',
+                'Wedding Music'
+            ], 'country': [
+                'Alternative Country',
+                'Americana',
+                'Australian Country',
+                'Bakersfield Sound',
+                'Bluegrass',
+                'Blues Country',
+                'Cajun Fiddle Tunes',
+                'Christian Country',
+                'Classic Country',
+                'Close Harmony',
+                'Contemporary Bluegrass',
+                'Contemporary Country',
+                'Country Gospel',
+                'Country Pop',
+                'Country Rap',
+                'Country Rock',
+                'Country Soul',
+                'Cowboy / Western',
+                'Cowpunk',
+                'Dansband',
+                'Honky Tonk',
+                'Franco-Country',
+                'Gulf and Western',
+                'Hellbilly Music',
+                'Honky Tonk',
+                'Instrumental Country',
+                'Lubbock Sound',
+                'Nashville Sound',
+                'Neotraditional Country',
+                'Outlaw Country',
+                'Progressive',
+                'Psychobilly / Punkabilly',
+                'Red Dirt',
+                'Sertanejo',
+                'Texas County',
+                'Traditional Bluegrass',
+                'Traditional Country',
+                'Truck-Driving Country',
+                'Urban Cowboy',
+                'Western Swing'
+            ], 'dance': [
+                'Club / Club Dance',
+                'Breakcore',
+                'Breakbeat / Breakstep',
+                'Chillstep',
+                'Deep House',
+                'Dubstep',
+                'Dancehall',
+                'Electro House',
+                'Electroswing',
+                'Exercise',
+                'Future Garage',
+                'Garage',
+                'Glitch Hop',
+                'Glitch Pop',
+                'Grime',
+                'Hardcore',
+                'Hard Dance',
+                'Hi-NRG / Eurodance',
+                'Horrorcore',
+                'House',
+                'Jackin House',
+                'Jungle / Drum n bass',
+                'Liquid Dub',
+                'Regstep',
+                'Speedcore',
+                'Techno',
+                'Trance',
+                'Trap'
+            ], electronic: [
+                '2-Step',
+                '8bit',
+                'Ambient',
+                'Asian Underground',
+                'Bassline',
+                'Chillwave',
+                'Chiptune',
+                'Crunk',
+                'Downtempo',
+                'Drum & Bass',
+                'Hard Step',
+                'Electro',
+                'Electro-swing',
+                'Electroacoustic',
+                'Electronica',
+                'Electronic Rock',
+                'Eurodance',
+                'Hardstyle',
+                'Hi-Nrg',
+                'IDM/Experimental',
+                'Industrial',
+                'Trip Hop',
+                'Vaporwave',
+                'UK Garage',
+                'House',
+                'Dubstep',
+                'Deep House',
+                'EDM',
+                'Future Bass',
+                'Psychedelic trance'
+            ], 'jazz' : [
+                'Acid Jazz',
+                'Afro-Cuban Jazz',
+                'Avant-Garde Jazz',
+                'Bebop',
+                'Big Band',
+                'Blue Note',
+                'British Dance Band (Jazz)',
+                'Cape Jazz',
+                'Chamber Jazz',
+                'Contemporary Jazz',
+                'Continental Jazz',
+                'Cool Jazz',
+                'Crossover Jazz',
+                'Dark Jazz',
+                'Dixieland',
+                'Early Jazz',
+                'Electro Swing (Jazz)',
+                'Ethio-jazz',
+                'Ethno-Jazz',
+                'European Free Jazz',
+                'Free Funk (Avant-Garde / Funk Jazz)',
+                'Free Jazz',
+                'Fusion',
+                'Gypsy Jazz',
+                'Hard Bop',
+                'Indo Jazz',
+                'Jazz Blues',
+                'Jazz-Funk (see Free Funk)',
+                'Jazz-Fusion',
+                'Jazz Rap',
+                'Jazz Rock',
+                'Kansas City Jazz',
+                'Latin Jazz',
+                'M-Base Jazz',
+                'Mainstream Jazz',
+                'Modal Jazz',
+                'Neo-Bop',
+                'Neo-Swing',
+                'Nu Jazz',
+                'Orchestral Jazz',
+                'Post-Bop',
+                'Punk Jazz',
+                'Ragtime',
+                'Ska Jazz',
+                'Skiffle (also Folk)',
+                'Smooth Jazz',
+                'Soul Jazz',
+                'Swing Jazz',
+                'Straight-Ahead Jazz',
+                'Trad Jazz',
+                'Third Stream',
+                'Jazz-Funk',
+                'Free Jazz',
+                'West Coast Jazz'
+            ], 'metal': [
+                'Heavy Metal',
+                'Speed Metal',
+                'Thrash Metal',
+                'Power Metal',
+                'Death Metal',
+                'Black Metal',
+                'Pagan Metal',
+                'Viking Metal',
+                'Folk Metal',
+                'Symphonic Metal',
+                'Gothic Metal',
+                'Glam Metal',
+                'Hair Metal',
+                'Doom Metal',
+                'Groove Metal',
+                'Industrial Metal',
+                'Modern Metal',
+                'Neoclassical Metal',
+                'New Wave Of British Heavy Metal',
+                'Post Metal',
+                'Progressive Metal',
+                'Avantgarde Metal',
+                'Sludge',
+                'Djent',
+                'Drone',
+                'Kawaii Metal',
+                'Pirate Metal',
+                'Nu Metal',
+                'Neue Deutsche Härte',
+                'Math Metal',
+                'Crossover',
+                'Grindcore',
+                'Hardcore',
+                'Metalcore',
+                'Deathcore',
+                'Post Hardcore',
+                'Mathcore'
+            ], 'folk': [
+                'American Folk Revival',
+                'Anti - Folk',
+                'British Folk Revival',
+                'Contemporary Folk',
+                'Filk Music',
+                'Freak Folk',
+                'Indie Folk',
+                'Industrial Folk',
+                'Neofolk',
+                'Progressive Folk',
+                'Psychedelic Folk',
+                'Sung Poetry',
+                'Techno - Folk',
+                'Folk Rock',
+                'Old-time Music',
+                'Bluegrass',
+                'Appalachian',
+                'Roots Revival',
+                'Celtic',
+                'Indie Folk'
+            ], 'pop': [
+                'Adult Contemporary',
+                'Arab Pop',
+                'Baroque',
+                'Britpop',
+                'Bubblegum Pop',
+                'Chamber Pop',
+                'Chanson',
+                'Christian Pop',
+                'Classical Crossover',
+                'Europop',
+                'Austropop',
+                'Balkan Pop',
+                'French Pop',
+                'Korean Pop',
+                'Japanese Pop',
+                'Chinese Pop',
+                'Latin Pop',
+                'Laïkó',
+                'Nederpop',
+                'Russian Pop',
+                'Dance Pop',
+                'Dream Pop',
+                'Electro Pop',
+                'Iranian Pop',
+                'Jangle Pop',
+                'Latin Ballad',
+                'Levenslied',
+                'Louisiana Swamp Pop',
+                'Mexican Pop',
+                'Motorpop',
+                'New Romanticism',
+                'Orchestral Pop',
+                'Pop Rap',
+                'Popera',
+                'Pop / Rock',
+                'Pop Punk',
+                'Power Pop',
+                'Psychedelic Pop',
+                'Russian Pop',
+                'Schlager',
+                'Soft Rock',
+                'Sophisti - Pop',
+                'Space Age Pop',
+                'Sunshine Pop',
+                'Surf Pop',
+                'Synthpop',
+                'Teen Pop',
+                'Traditional Pop Music',
+                'Turkish Pop',
+                'Vispop',
+                'Wonky Pop'
+            ], 'r&b': [
+                '(Carolina) Beach Music',
+                'Contemporary R & B',
+                'Disco',
+                'Doo Wop',
+                'Funk',
+                'Modern Soul',
+                'Motown',
+                'Neo - Soul',
+                'Northern Soul',
+                'Psychedelic Soul',
+                'Quiet Storm',
+                'Soul',
+                'Soul Blues',
+                'Southern Soul'
+            ], 'reggae': [
+                '2 - Tone',
+                'Dub',
+                'Roots Reggae',
+                'Reggae Fusion',
+                'Reggae en Español',
+                'Spanish Reggae',
+                'Reggae 110',
+                'Reggae Bultrón',
+                'Romantic Flow',
+                'Lovers Rock',
+                'Raggamuffin',
+                'Ragga',
+                'Dancehall',
+                'Ska',
+            ], 'rock': [
+                'Acid Rock',
+                'Adult - Oriented Rock',
+                'Afro Punk',
+                'Adult Alternative',
+                'Alternative Rock',
+                'American Traditional Rock',
+                'Anatolian Rock',
+                'Arena Rock',
+                'Art Rock',
+                'Blues - Rock',
+                'British Invasion',
+                'Cock Rock',
+                'Death Metal / Black Metal',
+                'Doom Metal',
+                'Glam Rock',
+                'Gothic Metal',
+                'Grind Core',
+                'Hair Metal',
+                'Hard Rock',
+                'Math Metal',
+                'Math Rock',
+                'Metal',
+                'Metal Core',
+                'Noise Rock',
+                'Jam Bands',
+                'Post Punk',
+                'Post Rock',
+                'Prog - Rock / Art Rock',
+                'Progressive Metal',
+                'Psychedelic',
+                'Rock & Roll',
+                'Rockabilly',
+                'Roots Rock',
+                'Singer / Songwriter',
+                'Southern Rock',
+                'Spazzcore',
+                'Stoner Metal',
+                'Surf',
+                'Technical Death Metal',
+                'Tex - Mex',
+                'Thrash Metal',
+                'Time Lord Rock(Trock)',
+                'Trip - hop',
+                'Yacht Rock',
+                'School House Rock'
+            ], 'hip-hop': [
+                'Alternative Rap',
+                'Avant - Garde',
+                'Bounce',
+                'Chap Hop',
+                'Christian Hip Hop',
+                'Conscious Hip Hop',
+                'Country - Rap',
+                'Grunk',
+                'Crunkcore',
+                'Cumbia Rap',
+                'Dirty South',
+                'East Coast',
+                'Brick City Club',
+                'Hardcore Hip Hop',
+                'Mafioso Rap',
+                'New Jersey Hip Hop',
+                'Freestyle Rap',
+                'G - Funk',
+                'Gangsta Rap',
+                'Golden Age',
+                'Grime',
+                'Hardcore Rap',
+                'Hip - Hop',
+                'Hip Pop',
+                'Horrorcore',
+                'Hyphy',
+                'Industrial Hip Hop',
+                'Instrumental Hip Hop',
+                'Jazz Rap',
+                'Latin Rap',
+                'Low Bap',
+                'Lyrical Hip Hop',
+                'Merenrap',
+                'Midwest Hip Hop',
+                'Chicago Hip Hop',
+                'Detroit Hip Hop',
+                'Horrorcore',
+                'St.Louis Hip Hop',
+                'Twin Cities Hip Hop',
+                'Motswako',
+                'Nerdcore',
+                'New Jack Swing',
+                'New School Hip Hop',
+                'Old School Rap',
+                'Rap',
+                'Trap',
+                'Turntablism',
+                'Underground Rap',
+                'West Coast Rap',
+                'East Coast Rap',
+                'Trap',
+                'UK Grime',
+                'Hyphy',
+                'Emo-rap',
+                'Cloud rap',
+                'G-funk',
+                'Boom Bap',
+                'Mumble',
+                'Drill',
+                'UK Drill',
+                'Soundcloud Rap',
+                'Lo-fi'
+            ], 'punk': [
+                'Afro-punk',
+                'Anarcho punk',
+                'Art punk',
+                'Christian punk',
+                'Crust punk',
+                'Deathrock',
+                'Egg punk',
+                'Garage punk',
+                'Glam punk',
+                'Hardcore punk',
+                'Horror punk',
+                'Incelcore/e-punk',
+                'Oi!',
+                'Peace punk',
+                'Punk pathetique',
+                'Queercore',
+                'Riot Grrrl',
+                'Skate punk',
+                'Street punk',
+                'Taqwacore',
+                'Trallpunk'
+            ], 'disco': [
+                'Nu-disco',
+                'Disco-funk',
+                'Hi-NRG',
+                'Italo Disco',
+                'Eurodisco',
+                'Boogie',
+                'Space Disco',
+                'Post-disco',
+                'Electro Disco',
+                'Disco House',
+                'Disco Pop',
+                'Soulful House'
+            ], 'funk': [
+                'Funk Rock',
+                'P-Funk (Parliament-Funkadelic)',
+                'Psychedelic Funk',
+                'Funk Metal',
+                'Electro-Funk',
+                'Go-go',
+                'Boogie-Funk',
+                'Jazz-Funk',
+                'Soul-Funk',
+                'Funky Disco',
+                'Nu-Funk',
+                'Afrobeat',
+                'Latin Funk',
+                'G-Funk',
+                'Acid Jazz',
+                'Funktronica',
+                'Folk-Funk',
+                'Space Funk',
+                'Ambient Funk',
+                'Hard Funk',
+                'Fusion Funk'
+            ], 'techno': [
+                'Acid Techno',
+                'Ambient Techno',
+                'Detroit Techno',
+                'Dub Techno',
+                'Minimal Techno',
+                'Industrial Techno',
+                'Hard Techno',
+                'Trance',
+                'Progressive Techno',
+                'Tech House',
+                'Electronica',
+                'Breakbeat Techno',
+                'Electro Techno',
+                'Melodic Techno',
+                'Experimental Techno',
+                'Dark Techno',
+                'Ebm',
+                'Hypnotic Techno',
+                'Psychedelic Techno',
+                'Rave Techno',
+                'Techno-Pop'
+            ], 'indie': [
+                'Indie Rock',
+                'Indie Pop',
+                'Indie Folk',
+                'Indie Electronic',
+                'Indie Punk',
+                'Indie Hip-Hop',
+                'Dream Pop',
+                'Shoegaze',
+                'Lo-fi',
+                'Chillwave',
+                'Freak Folk',
+                'Noise Pop',
+                'Math Rock',
+                'Post-Punk',
+                'Garage Rock',
+                'Experimental Indie',
+                'Surf Rock',
+                'Alternative Country',
+                'Indie Soul',
+                'Art Rock',
+                'Indie R&B',
+                'Indietronica',
+                'Emo',
+                'Post-Rock',
+                'Indie Pop-Rock',
+                'Indie Synthpop',
+                'Noise Rock',
+                'Psych Folk',
+                'Indie Blues'
+            ], 'gospel': [
+                'Traditional Gospel',
+                'Contemporary Gospel',
+                'Southern Gospel',
+                'Black Gospel',
+                'Urban Contemporary Gospel',
+                'Gospel Blues',
+                'Bluegrass Gospel',
+                'Country Gospel',
+                'Praise and Worship',
+                'Christian Hip-Hop',
+                'Gospel Jazz',
+                'Reggae Gospel',
+                'African Gospel',
+                'Latin Gospel',
+                'R&B Gospel',
+                'Gospel Choir',
+                'Acappella Gospel',
+                'Instrumental Gospel',
+                'Gospel Rap'
+            ], 'world': [
+                'African',
+                'Arabic',
+                'Asian',
+                'Caribbean',
+                'Celtic',
+                'European',
+                'Latin American',
+                'Middle Eastern',
+                'Native American',
+                'Polynesian',
+                'Reggae',
+                'Ska',
+                'Salsa',
+                'Flamenco',
+                'Bossa Nova',
+                'Tango',
+                'Fado',
+                'Klezmer',
+                'Balkan',
+                'Afrobeat',
+                'Mongolian Throat Singing',
+                'Indian Classical',
+                'Gamelan',
+                'Sufi Music',
+                'Zydeco',
+                'Kora Music',
+                'Andean Music',
+                'Irish Traditional',
+                'Gypsy Jazz',
+                'Bollywood',
+                'Bhangra',
+                'Jawaiian',
+                'Hawaiian Slack Key Guitar',
+                'Calypso',
+                'Cuban Son',
+                'Taiko Drumming',
+                'African Highlife',
+                'Merengue',
+                'Tuvan Throat Singing'
+            ]
+        },
+
+        // Data sourced from https://unicode.org/emoji/charts/full-emoji-list.html
+        emojis: {
+            "smileys_and_emotion": [
+                "0x1f600",
+                "0x1f603",
+                "0x1f604",
+                "0x1f601",
+                "0x1f606",
+                "0x1f605",
+                "0x1f923",
+                "0x1f602",
+                "0x1f642",
+                "0x1f643",
+                "0x1fae0",
+                "0x1f609",
+                "0x1f60a",
+                "0x1f607",
+                "0x1f970",
+                "0x1f60d",
+                "0x1f929",
+                "0x1f618",
+                "0x1f617",
+                "0x263a",
+                "0x1f61a",
+                "0x1f619",
+                "0x1f972",
+                "0x1f60b",
+                "0x1f61b",
+                "0x1f61c",
+                "0x1f92a",
+                "0x1f61d",
+                "0x1f911",
+                "0x1f917",
+                "0x1f92d",
+                "0x1fae2",
+                "0x1fae3",
+                "0x1f92b",
+                "0x1f914",
+                "0x1fae1",
+                "0x1f910",
+                "0x1f928",
+                "0x1f610",
+                "0x1f611",
+                "0x1f636",
+                "0x1fae5",
+                "0x1f636",
+                "0x200d",
+                "0x1f32b",
+                "0xfe0f",
+                "0x1f60f",
+                "0x1f612",
+                "0x1f644",
+                "0x1f62c",
+                "0x1f62e",
+                "0x200d",
+                "0x1f4a8",
+                "0x1f925",
+                "0x1fae8",
+                "0x1f642",
+                "0x200d",
+                "0x2194",
+                "0xfe0f",
+                "0x1f642",
+                "0x200d",
+                "0x2195",
+                "0xfe0f",
+                "0x1f60c",
+                "0x1f614",
+                "0x1f62a",
+                "0x1f924",
+                "0x1f634",
+                "0x1f637",
+                "0x1f912",
+                "0x1f915",
+                "0x1f922",
+                "0x1f92e",
+                "0x1f927",
+                "0x1f975",
+                "0x1f976",
+                "0x1f974",
+                "0x1f635",
+                "0x1f635",
+                "0x200d",
+                "0x1f4ab",
+                "0x1f92f",
+                "0x1f920",
+                "0x1f973",
+                "0x1f978",
+                "0x1f60e",
+                "0x1f913",
+                "0x1f9d0",
+                "0x1f615",
+                "0x1fae4",
+                "0x1f61f",
+                "0x1f641",
+                "0x2639",
+                "0x1f62e",
+                "0x1f62f",
+                "0x1f632",
+                "0x1f633",
+                "0x1f97a",
+                "0x1f979",
+                "0x1f626",
+                "0x1f627",
+                "0x1f628",
+                "0x1f630",
+                "0x1f625",
+                "0x1f622",
+                "0x1f62d",
+                "0x1f631",
+                "0x1f616",
+                "0x1f623",
+                "0x1f61e",
+                "0x1f613",
+                "0x1f629",
+                "0x1f62b",
+                "0x1f971",
+                "0x1f624",
+                "0x1f621",
+                "0x1f620",
+                "0x1f92c",
+                "0x1f608",
+                "0x1f47f",
+                "0x1f480",
+                "0x2620",
+                "0x1f4a9",
+                "0x1f921",
+                "0x1f479",
+                "0x1f47a",
+                "0x1f47b",
+                "0x1f47d",
+                "0x1f47e",
+                "0x1f916",
+                "0x1f63a",
+                "0x1f638",
+                "0x1f639",
+                "0x1f63b",
+                "0x1f63c",
+                "0x1f63d",
+                "0x1f640",
+                "0x1f63f",
+                "0x1f63e",
+                "0x1f648",
+                "0x1f649",
+                "0x1f64a",
+                "0x1f48c",
+                "0x1f498",
+                "0x1f49d",
+                "0x1f496",
+                "0x1f497",
+                "0x1f493",
+                "0x1f49e",
+                "0x1f495",
+                "0x1f49f",
+                "0x2763",
+                "0x1f494",
+                "0x2764",
+                "0xfe0f",
+                "0x200d",
+                "0x1f525",
+                "0x2764",
+                "0xfe0f",
+                "0x200d",
+                "0x1fa79",
+                "0x2764",
+                "0x1fa77",
+                "0x1f9e1",
+                "0x1f49b",
+                "0x1f49a",
+                "0x1f499",
+                "0x1fa75",
+                "0x1f49c",
+                "0x1f90e",
+                "0x1f5a4",
+                "0x1fa76",
+                "0x1f90d",
+                "0x1f48b",
+                "0x1f4af",
+                "0x1f4a2",
+                "0x1f4a5",
+                "0x1f4ab",
+                "0x1f4a6",
+                "0x1f4a8",
+                "0x1f573",
+                "0x1f4ac",
+                "0x1f441",
+                "0xfe0f",
+                "0x200d",
+                "0x1f5e8",
+                "0xfe0f",
+                "0x1f5e8",
+                "0x1f5ef",
+                "0x1f4ad",
+                "0x1f4a4"
+            ],
+            "people_and_body": [
+                "0x1f44b",
+                "0x1f91a",
+                "0x1f590",
+                "0x270b",
+                "0x1f596",
+                "0x1faf1",
+                "0x1faf2",
+                "0x1faf3",
+                "0x1faf4",
+                "0x1faf7",
+                "0x1faf8",
+                "0x1f44c",
+                "0x1f90c",
+                "0x1f90f",
+                "0x270c",
+                "0x1f91e",
+                "0x1faf0",
+                "0x1f91f",
+                "0x1f918",
+                "0x1f919",
+                "0x1f448",
+                "0x1f449",
+                "0x1f446",
+                "0x1f595",
+                "0x1f447",
+                "0x261d",
+                "0x1faf5",
+                "0x1f44d",
+                "0x1f44e",
+                "0x270a",
+                "0x1f44a",
+                "0x1f91b",
+                "0x1f91c",
+                "0x1f44f",
+                "0x1f64c",
+                "0x1faf6",
+                "0x1f450",
+                "0x1f932",
+                "0x1f91d",
+                "0x1f64f",
+                "0x270d",
+                "0x1f485",
+                "0x1f933",
+                "0x1f4aa",
+                "0x1f9be",
+                "0x1f9bf",
+                "0x1f9b5",
+                "0x1f9b6",
+                "0x1f442",
+                "0x1f9bb",
+                "0x1f443",
+                "0x1f9e0",
+                "0x1fac0",
+                "0x1fac1",
+                "0x1f9b7",
+                "0x1f9b4",
+                "0x1f440",
+                "0x1f441",
+                "0x1f445",
+                "0x1f444",
+                "0x1fae6",
+                "0x1f476",
+                "0x1f9d2",
+                "0x1f466",
+                "0x1f467",
+                "0x1f9d1",
+                "0x1f471",
+                "0x1f468",
+                "0x1f9d4",
+                "0x1f9d4",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9d4",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f468",
+                "0x200d",
+                "0x1f9b0",
+                "0x1f468",
+                "0x200d",
+                "0x1f9b1",
+                "0x1f468",
+                "0x200d",
+                "0x1f9b3",
+                "0x1f468",
+                "0x200d",
+                "0x1f9b2",
+                "0x1f469",
+                "0x1f469",
+                "0x200d",
+                "0x1f9b0",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9b0",
+                "0x1f469",
+                "0x200d",
+                "0x1f9b1",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9b1",
+                "0x1f469",
+                "0x200d",
+                "0x1f9b3",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9b3",
+                "0x1f469",
+                "0x200d",
+                "0x1f9b2",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9b2",
+                "0x1f471",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f471",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9d3",
+                "0x1f474",
+                "0x1f475",
+                "0x1f64d",
+                "0x1f64d",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f64d",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f64e",
+                "0x1f64e",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f64e",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f645",
+                "0x1f645",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f645",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f646",
+                "0x1f646",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f646",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f481",
+                "0x1f481",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f481",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f64b",
+                "0x1f64b",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f64b",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9cf",
+                "0x1f9cf",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9cf",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f647",
+                "0x1f647",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f647",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f926",
+                "0x1f926",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f926",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f937",
+                "0x1f937",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f937",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9d1",
+                "0x200d",
+                "0x2695",
+                "0xfe0f",
+                "0x1f468",
+                "0x200d",
+                "0x2695",
+                "0xfe0f",
+                "0x1f469",
+                "0x200d",
+                "0x2695",
+                "0xfe0f",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f393",
+                "0x1f468",
+                "0x200d",
+                "0x1f393",
+                "0x1f469",
+                "0x200d",
+                "0x1f393",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f3eb",
+                "0x1f468",
+                "0x200d",
+                "0x1f3eb",
+                "0x1f469",
+                "0x200d",
+                "0x1f3eb",
+                "0x1f9d1",
+                "0x200d",
+                "0x2696",
+                "0xfe0f",
+                "0x1f468",
+                "0x200d",
+                "0x2696",
+                "0xfe0f",
+                "0x1f469",
+                "0x200d",
+                "0x2696",
+                "0xfe0f",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f33e",
+                "0x1f468",
+                "0x200d",
+                "0x1f33e",
+                "0x1f469",
+                "0x200d",
+                "0x1f33e",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f373",
+                "0x1f468",
+                "0x200d",
+                "0x1f373",
+                "0x1f469",
+                "0x200d",
+                "0x1f373",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f527",
+                "0x1f468",
+                "0x200d",
+                "0x1f527",
+                "0x1f469",
+                "0x200d",
+                "0x1f527",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f3ed",
+                "0x1f468",
+                "0x200d",
+                "0x1f3ed",
+                "0x1f469",
+                "0x200d",
+                "0x1f3ed",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f4bc",
+                "0x1f468",
+                "0x200d",
+                "0x1f4bc",
+                "0x1f469",
+                "0x200d",
+                "0x1f4bc",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f52c",
+                "0x1f468",
+                "0x200d",
+                "0x1f52c",
+                "0x1f469",
+                "0x200d",
+                "0x1f52c",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f4bb",
+                "0x1f468",
+                "0x200d",
+                "0x1f4bb",
+                "0x1f469",
+                "0x200d",
+                "0x1f4bb",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f3a4",
+                "0x1f468",
+                "0x200d",
+                "0x1f3a4",
+                "0x1f469",
+                "0x200d",
+                "0x1f3a4",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f3a8",
+                "0x1f468",
+                "0x200d",
+                "0x1f3a8",
+                "0x1f469",
+                "0x200d",
+                "0x1f3a8",
+                "0x1f9d1",
+                "0x200d",
+                "0x2708",
+                "0xfe0f",
+                "0x1f468",
+                "0x200d",
+                "0x2708",
+                "0xfe0f",
+                "0x1f469",
+                "0x200d",
+                "0x2708",
+                "0xfe0f",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f680",
+                "0x1f468",
+                "0x200d",
+                "0x1f680",
+                "0x1f469",
+                "0x200d",
+                "0x1f680",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f692",
+                "0x1f468",
+                "0x200d",
+                "0x1f692",
+                "0x1f469",
+                "0x200d",
+                "0x1f692",
+                "0x1f46e",
+                "0x1f46e",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f46e",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f575",
+                "0x1f575",
+                "0xfe0f",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f575",
+                "0xfe0f",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f482",
+                "0x1f482",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f482",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f977",
+                "0x1f477",
+                "0x1f477",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f477",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1fac5",
+                "0x1f934",
+                "0x1f478",
+                "0x1f473",
+                "0x1f473",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f473",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f472",
+                "0x1f9d5",
+                "0x1f935",
+                "0x1f935",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f935",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f470",
+                "0x1f470",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f470",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f930",
+                "0x1fac3",
+                "0x1fac4",
+                "0x1f931",
+                "0x1f469",
+                "0x200d",
+                "0x1f37c",
+                "0x1f468",
+                "0x200d",
+                "0x1f37c",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f37c",
+                "0x1f47c",
+                "0x1f385",
+                "0x1f936",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f384",
+                "0x1f9b8",
+                "0x1f9b8",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9b8",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9b9",
+                "0x1f9b9",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9b9",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9d9",
+                "0x1f9d9",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9d9",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9da",
+                "0x1f9da",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9da",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9db",
+                "0x1f9db",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9db",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9dc",
+                "0x1f9dc",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9dc",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9dd",
+                "0x1f9dd",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9dd",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9de",
+                "0x1f9de",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9de",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9df",
+                "0x1f9df",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9df",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9cc",
+                "0x1f486",
+                "0x1f486",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f486",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f487",
+                "0x1f487",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f487",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f6b6",
+                "0x1f6b6",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f6b6",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f6b6",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f6b6",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f6b6",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f9cd",
+                "0x1f9cd",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9cd",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9ce",
+                "0x1f9ce",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9ce",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9ce",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f9ce",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f9ce",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9af",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9af",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f468",
+                "0x200d",
+                "0x1f9af",
+                "0x1f468",
+                "0x200d",
+                "0x1f9af",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f469",
+                "0x200d",
+                "0x1f9af",
+                "0x1f469",
+                "0x200d",
+                "0x1f9af",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9bc",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9bc",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f468",
+                "0x200d",
+                "0x1f9bc",
+                "0x1f468",
+                "0x200d",
+                "0x1f9bc",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f469",
+                "0x200d",
+                "0x1f9bc",
+                "0x1f469",
+                "0x200d",
+                "0x1f9bc",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9bd",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9bd",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f468",
+                "0x200d",
+                "0x1f9bd",
+                "0x1f468",
+                "0x200d",
+                "0x1f9bd",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f469",
+                "0x200d",
+                "0x1f9bd",
+                "0x1f469",
+                "0x200d",
+                "0x1f9bd",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f3c3",
+                "0x1f3c3",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f3c3",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f3c3",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f3c3",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f3c3",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x200d",
+                "0x27a1",
+                "0xfe0f",
+                "0x1f483",
+                "0x1f57a",
+                "0x1f574",
+                "0x1f46f",
+                "0x1f46f",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f46f",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9d6",
+                "0x1f9d6",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9d6",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9d7",
+                "0x1f9d7",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9d7",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f93a",
+                "0x1f3c7",
+                "0x26f7",
+                "0x1f3c2",
+                "0x1f3cc",
+                "0x1f3cc",
+                "0xfe0f",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f3cc",
+                "0xfe0f",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f3c4",
+                "0x1f3c4",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f3c4",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f6a3",
+                "0x1f6a3",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f6a3",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f3ca",
+                "0x1f3ca",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f3ca",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x26f9",
+                "0x26f9",
+                "0xfe0f",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x26f9",
+                "0xfe0f",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f3cb",
+                "0x1f3cb",
+                "0xfe0f",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f3cb",
+                "0xfe0f",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f6b4",
+                "0x1f6b4",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f6b4",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f6b5",
+                "0x1f6b5",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f6b5",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f938",
+                "0x1f938",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f938",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f93c",
+                "0x1f93c",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f93c",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f93d",
+                "0x1f93d",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f93d",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f93e",
+                "0x1f93e",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f93e",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f939",
+                "0x1f939",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f939",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f9d8",
+                "0x1f9d8",
+                "0x200d",
+                "0x2642",
+                "0xfe0f",
+                "0x1f9d8",
+                "0x200d",
+                "0x2640",
+                "0xfe0f",
+                "0x1f6c0",
+                "0x1f6cc",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f91d",
+                "0x200d",
+                "0x1f9d1",
+                "0x1f46d",
+                "0x1f46b",
+                "0x1f46c",
+                "0x1f48f",
+                "0x1f469",
+                "0x200d",
+                "0x2764",
+                "0xfe0f",
+                "0x200d",
+                "0x1f48b",
+                "0x200d",
+                "0x1f468",
+                "0x1f468",
+                "0x200d",
+                "0x2764",
+                "0xfe0f",
+                "0x200d",
+                "0x1f48b",
+                "0x200d",
+                "0x1f468",
+                "0x1f469",
+                "0x200d",
+                "0x2764",
+                "0xfe0f",
+                "0x200d",
+                "0x1f48b",
+                "0x200d",
+                "0x1f469",
+                "0x1f491",
+                "0x1f469",
+                "0x200d",
+                "0x2764",
+                "0xfe0f",
+                "0x200d",
+                "0x1f468",
+                "0x1f468",
+                "0x200d",
+                "0x2764",
+                "0xfe0f",
+                "0x200d",
+                "0x1f468",
+                "0x1f469",
+                "0x200d",
+                "0x2764",
+                "0xfe0f",
+                "0x200d",
+                "0x1f469",
+                "0x1f468",
+                "0x200d",
+                "0x1f469",
+                "0x200d",
+                "0x1f466",
+                "0x1f468",
+                "0x200d",
+                "0x1f469",
+                "0x200d",
+                "0x1f467",
+                "0x1f468",
+                "0x200d",
+                "0x1f469",
+                "0x200d",
+                "0x1f467",
+                "0x200d",
+                "0x1f466",
+                "0x1f468",
+                "0x200d",
+                "0x1f469",
+                "0x200d",
+                "0x1f466",
+                "0x200d",
+                "0x1f466",
+                "0x1f468",
+                "0x200d",
+                "0x1f469",
+                "0x200d",
+                "0x1f467",
+                "0x200d",
+                "0x1f467",
+                "0x1f468",
+                "0x200d",
+                "0x1f468",
+                "0x200d",
+                "0x1f466",
+                "0x1f468",
+                "0x200d",
+                "0x1f468",
+                "0x200d",
+                "0x1f467",
+                "0x1f468",
+                "0x200d",
+                "0x1f468",
+                "0x200d",
+                "0x1f467",
+                "0x200d",
+                "0x1f466",
+                "0x1f468",
+                "0x200d",
+                "0x1f468",
+                "0x200d",
+                "0x1f466",
+                "0x200d",
+                "0x1f466",
+                "0x1f468",
+                "0x200d",
+                "0x1f468",
+                "0x200d",
+                "0x1f467",
+                "0x200d",
+                "0x1f467",
+                "0x1f469",
+                "0x200d",
+                "0x1f469",
+                "0x200d",
+                "0x1f466",
+                "0x1f469",
+                "0x200d",
+                "0x1f469",
+                "0x200d",
+                "0x1f467",
+                "0x1f469",
+                "0x200d",
+                "0x1f469",
+                "0x200d",
+                "0x1f467",
+                "0x200d",
+                "0x1f466",
+                "0x1f469",
+                "0x200d",
+                "0x1f469",
+                "0x200d",
+                "0x1f466",
+                "0x200d",
+                "0x1f466",
+                "0x1f469",
+                "0x200d",
+                "0x1f469",
+                "0x200d",
+                "0x1f467",
+                "0x200d",
+                "0x1f467",
+                "0x1f468",
+                "0x200d",
+                "0x1f466",
+                "0x1f468",
+                "0x200d",
+                "0x1f466",
+                "0x200d",
+                "0x1f466",
+                "0x1f468",
+                "0x200d",
+                "0x1f467",
+                "0x1f468",
+                "0x200d",
+                "0x1f467",
+                "0x200d",
+                "0x1f466",
+                "0x1f468",
+                "0x200d",
+                "0x1f467",
+                "0x200d",
+                "0x1f467",
+                "0x1f469",
+                "0x200d",
+                "0x1f466",
+                "0x1f469",
+                "0x200d",
+                "0x1f466",
+                "0x200d",
+                "0x1f466",
+                "0x1f469",
+                "0x200d",
+                "0x1f467",
+                "0x1f469",
+                "0x200d",
+                "0x1f467",
+                "0x200d",
+                "0x1f466",
+                "0x1f469",
+                "0x200d",
+                "0x1f467",
+                "0x200d",
+                "0x1f467",
+                "0x1f5e3",
+                "0x1f464",
+                "0x1f465",
+                "0x1fac2",
+                "0x1f46a",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9d2",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9d2",
+                "0x200d",
+                "0x1f9d2",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9d2",
+                "0x1f9d1",
+                "0x200d",
+                "0x1f9d2",
+                "0x200d",
+                "0x1f9d2",
+                "0x1f463"
+            ],
+            "animals_and_nature": [
+                "0x1f435",
+                "0x1f412",
+                "0x1f98d",
+                "0x1f9a7",
+                "0x1f436",
+                "0x1f415",
+                "0x1f9ae",
+                "0x1f415",
+                "0x200d",
+                "0x1f9ba",
+                "0x1f429",
+                "0x1f43a",
+                "0x1f98a",
+                "0x1f99d",
+                "0x1f431",
+                "0x1f408",
+                "0x1f408",
+                "0x200d",
+                "0x2b1b",
+                "0x1f981",
+                "0x1f42f",
+                "0x1f405",
+                "0x1f406",
+                "0x1f434",
+                "0x1face",
+                "0x1facf",
+                "0x1f40e",
+                "0x1f984",
+                "0x1f993",
+                "0x1f98c",
+                "0x1f9ac",
+                "0x1f42e",
+                "0x1f402",
+                "0x1f403",
+                "0x1f404",
+                "0x1f437",
+                "0x1f416",
+                "0x1f417",
+                "0x1f43d",
+                "0x1f40f",
+                "0x1f411",
+                "0x1f410",
+                "0x1f42a",
+                "0x1f42b",
+                "0x1f999",
+                "0x1f992",
+                "0x1f418",
+                "0x1f9a3",
+                "0x1f98f",
+                "0x1f99b",
+                "0x1f42d",
+                "0x1f401",
+                "0x1f400",
+                "0x1f439",
+                "0x1f430",
+                "0x1f407",
+                "0x1f43f",
+                "0x1f9ab",
+                "0x1f994",
+                "0x1f987",
+                "0x1f43b",
+                "0x1f43b",
+                "0x200d",
+                "0x2744",
+                "0xfe0f",
+                "0x1f428",
+                "0x1f43c",
+                "0x1f9a5",
+                "0x1f9a6",
+                "0x1f9a8",
+                "0x1f998",
+                "0x1f9a1",
+                "0x1f43e",
+                "0x1f983",
+                "0x1f414",
+                "0x1f413",
+                "0x1f423",
+                "0x1f424",
+                "0x1f425",
+                "0x1f426",
+                "0x1f427",
+                "0x1f54a",
+                "0x1f985",
+                "0x1f986",
+                "0x1f9a2",
+                "0x1f989",
+                "0x1f9a4",
+                "0x1fab6",
+                "0x1f9a9",
+                "0x1f99a",
+                "0x1f99c",
+                "0x1fabd",
+                "0x1f426",
+                "0x200d",
+                "0x2b1b",
+                "0x1fabf",
+                "0x1f426",
+                "0x200d",
+                "0x1f525",
+                "0x1f438",
+                "0x1f40a",
+                "0x1f422",
+                "0x1f98e",
+                "0x1f40d",
+                "0x1f432",
+                "0x1f409",
+                "0x1f995",
+                "0x1f996",
+                "0x1f433",
+                "0x1f40b",
+                "0x1f42c",
+                "0x1f9ad",
+                "0x1f41f",
+                "0x1f420",
+                "0x1f421",
+                "0x1f988",
+                "0x1f419",
+                "0x1f41a",
+                "0x1fab8",
+                "0x1fabc",
+                "0x1f40c",
+                "0x1f98b",
+                "0x1f41b",
+                "0x1f41c",
+                "0x1f41d",
+                "0x1fab2",
+                "0x1f41e",
+                "0x1f997",
+                "0x1fab3",
+                "0x1f577",
+                "0x1f578",
+                "0x1f982",
+                "0x1f99f",
+                "0x1fab0",
+                "0x1fab1",
+                "0x1f9a0",
+                "0x1f490",
+                "0x1f338",
+                "0x1f4ae",
+                "0x1fab7",
+                "0x1f3f5",
+                "0x1f339",
+                "0x1f940",
+                "0x1f33a",
+                "0x1f33b",
+                "0x1f33c",
+                "0x1f337",
+                "0x1fabb",
+                "0x1f331",
+                "0x1fab4",
+                "0x1f332",
+                "0x1f333",
+                "0x1f334",
+                "0x1f335",
+                "0x1f33e",
+                "0x1f33f",
+                "0x2618",
+                "0x1f340",
+                "0x1f341",
+                "0x1f342",
+                "0x1f343",
+                "0x1fab9",
+                "0x1faba",
+                "0x1f344"
+            ],
+            "food_and_drink": [
+                "0x1f347",
+                "0x1f348",
+                "0x1f349",
+                "0x1f34a",
+                "0x1f34b",
+                "0x1f34b",
+                "0x200d",
+                "0x1f7e9",
+                "0x1f34c",
+                "0x1f34d",
+                "0x1f96d",
+                "0x1f34e",
+                "0x1f34f",
+                "0x1f350",
+                "0x1f351",
+                "0x1f352",
+                "0x1f353",
+                "0x1fad0",
+                "0x1f95d",
+                "0x1f345",
+                "0x1fad2",
+                "0x1f965",
+                "0x1f951",
+                "0x1f346",
+                "0x1f954",
+                "0x1f955",
+                "0x1f33d",
+                "0x1f336",
+                "0x1fad1",
+                "0x1f952",
+                "0x1f96c",
+                "0x1f966",
+                "0x1f9c4",
+                "0x1f9c5",
+                "0x1f95c",
+                "0x1fad8",
+                "0x1f330",
+                "0x1fada",
+                "0x1fadb",
+                "0x1f344",
+                "0x200d",
+                "0x1f7eb",
+                "0x1f35e",
+                "0x1f950",
+                "0x1f956",
+                "0x1fad3",
+                "0x1f968",
+                "0x1f96f",
+                "0x1f95e",
+                "0x1f9c7",
+                "0x1f9c0",
+                "0x1f356",
+                "0x1f357",
+                "0x1f969",
+                "0x1f953",
+                "0x1f354",
+                "0x1f35f",
+                "0x1f355",
+                "0x1f32d",
+                "0x1f96a",
+                "0x1f32e",
+                "0x1f32f",
+                "0x1fad4",
+                "0x1f959",
+                "0x1f9c6",
+                "0x1f95a",
+                "0x1f373",
+                "0x1f958",
+                "0x1f372",
+                "0x1fad5",
+                "0x1f963",
+                "0x1f957",
+                "0x1f37f",
+                "0x1f9c8",
+                "0x1f9c2",
+                "0x1f96b",
+                "0x1f371",
+                "0x1f358",
+                "0x1f359",
+                "0x1f35a",
+                "0x1f35b",
+                "0x1f35c",
+                "0x1f35d",
+                "0x1f360",
+                "0x1f362",
+                "0x1f363",
+                "0x1f364",
+                "0x1f365",
+                "0x1f96e",
+                "0x1f361",
+                "0x1f95f",
+                "0x1f960",
+                "0x1f961",
+                "0x1f980",
+                "0x1f99e",
+                "0x1f990",
+                "0x1f991",
+                "0x1f9aa",
+                "0x1f366",
+                "0x1f367",
+                "0x1f368",
+                "0x1f369",
+                "0x1f36a",
+                "0x1f382",
+                "0x1f370",
+                "0x1f9c1",
+                "0x1f967",
+                "0x1f36b",
+                "0x1f36c",
+                "0x1f36d",
+                "0x1f36e",
+                "0x1f36f",
+                "0x1f37c",
+                "0x1f95b",
+                "0x2615",
+                "0x1fad6",
+                "0x1f375",
+                "0x1f376",
+                "0x1f37e",
+                "0x1f377",
+                "0x1f378",
+                "0x1f379",
+                "0x1f37a",
+                "0x1f37b",
+                "0x1f942",
+                "0x1f943",
+                "0x1fad7",
+                "0x1f964",
+                "0x1f9cb",
+                "0x1f9c3",
+                "0x1f9c9",
+                "0x1f9ca",
+                "0x1f962",
+                "0x1f37d",
+                "0x1f374",
+                "0x1f944",
+                "0x1f52a",
+                "0x1fad9",
+                "0x1f3fa"
+            ],
+            "travel_and_places": [
+                "0x1f30d",
+                "0x1f30e",
+                "0x1f30f",
+                "0x1f310",
+                "0x1f5fa",
+                "0x1f5fe",
+                "0x1f9ed",
+                "0x1f3d4",
+                "0x26f0",
+                "0x1f30b",
+                "0x1f5fb",
+                "0x1f3d5",
+                "0x1f3d6",
+                "0x1f3dc",
+                "0x1f3dd",
+                "0x1f3de",
+                "0x1f3df",
+                "0x1f3db",
+                "0x1f3d7",
+                "0x1f9f1",
+                "0x1faa8",
+                "0x1fab5",
+                "0x1f6d6",
+                "0x1f3d8",
+                "0x1f3da",
+                "0x1f3e0",
+                "0x1f3e1",
+                "0x1f3e2",
+                "0x1f3e3",
+                "0x1f3e4",
+                "0x1f3e5",
+                "0x1f3e6",
+                "0x1f3e8",
+                "0x1f3e9",
+                "0x1f3ea",
+                "0x1f3eb",
+                "0x1f3ec",
+                "0x1f3ed",
+                "0x1f3ef",
+                "0x1f3f0",
+                "0x1f492",
+                "0x1f5fc",
+                "0x1f5fd",
+                "0x26ea",
+                "0x1f54c",
+                "0x1f6d5",
+                "0x1f54d",
+                "0x26e9",
+                "0x1f54b",
+                "0x26f2",
+                "0x26fa",
+                "0x1f301",
+                "0x1f303",
+                "0x1f3d9",
+                "0x1f304",
+                "0x1f305",
+                "0x1f306",
+                "0x1f307",
+                "0x1f309",
+                "0x2668",
+                "0x1f3a0",
+                "0x1f6dd",
+                "0x1f3a1",
+                "0x1f3a2",
+                "0x1f488",
+                "0x1f3aa",
+                "0x1f682",
+                "0x1f683",
+                "0x1f684",
+                "0x1f685",
+                "0x1f686",
+                "0x1f687",
+                "0x1f688",
+                "0x1f689",
+                "0x1f68a",
+                "0x1f69d",
+                "0x1f69e",
+                "0x1f68b",
+                "0x1f68c",
+                "0x1f68d",
+                "0x1f68e",
+                "0x1f690",
+                "0x1f691",
+                "0x1f692",
+                "0x1f693",
+                "0x1f694",
+                "0x1f695",
+                "0x1f696",
+                "0x1f697",
+                "0x1f698",
+                "0x1f699",
+                "0x1f6fb",
+                "0x1f69a",
+                "0x1f69b",
+                "0x1f69c",
+                "0x1f3ce",
+                "0x1f3cd",
+                "0x1f6f5",
+                "0x1f9bd",
+                "0x1f9bc",
+                "0x1f6fa",
+                "0x1f6b2",
+                "0x1f6f4",
+                "0x1f6f9",
+                "0x1f6fc",
+                "0x1f68f",
+                "0x1f6e3",
+                "0x1f6e4",
+                "0x1f6e2",
+                "0x26fd",
+                "0x1f6de",
+                "0x1f6a8",
+                "0x1f6a5",
+                "0x1f6a6",
+                "0x1f6d1",
+                "0x1f6a7",
+                "0x2693",
+                "0x1f6df",
+                "0x26f5",
+                "0x1f6f6",
+                "0x1f6a4",
+                "0x1f6f3",
+                "0x26f4",
+                "0x1f6e5",
+                "0x1f6a2",
+                "0x2708",
+                "0x1f6e9",
+                "0x1f6eb",
+                "0x1f6ec",
+                "0x1fa82",
+                "0x1f4ba",
+                "0x1f681",
+                "0x1f69f",
+                "0x1f6a0",
+                "0x1f6a1",
+                "0x1f6f0",
+                "0x1f680",
+                "0x1f6f8",
+                "0x1f6ce",
+                "0x1f9f3",
+                "0x231b",
+                "0x23f3",
+                "0x231a",
+                "0x23f0",
+                "0x23f1",
+                "0x23f2",
+                "0x1f570",
+                "0x1f55b",
+                "0x1f567",
+                "0x1f550",
+                "0x1f55c",
+                "0x1f551",
+                "0x1f55d",
+                "0x1f552",
+                "0x1f55e",
+                "0x1f553",
+                "0x1f55f",
+                "0x1f554",
+                "0x1f560",
+                "0x1f555",
+                "0x1f561",
+                "0x1f556",
+                "0x1f562",
+                "0x1f557",
+                "0x1f563",
+                "0x1f558",
+                "0x1f564",
+                "0x1f559",
+                "0x1f565",
+                "0x1f55a",
+                "0x1f566",
+                "0x1f311",
+                "0x1f312",
+                "0x1f313",
+                "0x1f314",
+                "0x1f315",
+                "0x1f316",
+                "0x1f317",
+                "0x1f318",
+                "0x1f319",
+                "0x1f31a",
+                "0x1f31b",
+                "0x1f31c",
+                "0x1f321",
+                "0x2600",
+                "0x1f31d",
+                "0x1f31e",
+                "0x1fa90",
+                "0x2b50",
+                "0x1f31f",
+                "0x1f320",
+                "0x1f30c",
+                "0x2601",
+                "0x26c5",
+                "0x26c8",
+                "0x1f324",
+                "0x1f325",
+                "0x1f326",
+                "0x1f327",
+                "0x1f328",
+                "0x1f329",
+                "0x1f32a",
+                "0x1f32b",
+                "0x1f32c",
+                "0x1f300",
+                "0x1f308",
+                "0x1f302",
+                "0x2602",
+                "0x2614",
+                "0x26f1",
+                "0x26a1",
+                "0x2744",
+                "0x2603",
+                "0x26c4",
+                "0x2604",
+                "0x1f525",
+                "0x1f4a7",
+                "0x1f30a"
+            ],
+            "activities": [
+                "0x1f383",
+                "0x1f384",
+                "0x1f386",
+                "0x1f387",
+                "0x1f9e8",
+                "0x2728",
+                "0x1f388",
+                "0x1f389",
+                "0x1f38a",
+                "0x1f38b",
+                "0x1f38d",
+                "0x1f38e",
+                "0x1f38f",
+                "0x1f390",
+                "0x1f391",
+                "0x1f9e7",
+                "0x1f380",
+                "0x1f381",
+                "0x1f397",
+                "0x1f39f",
+                "0x1f3ab",
+                "0x1f396",
+                "0x1f3c6",
+                "0x1f3c5",
+                "0x1f947",
+                "0x1f948",
+                "0x1f949",
+                "0x26bd",
+                "0x26be",
+                "0x1f94e",
+                "0x1f3c0",
+                "0x1f3d0",
+                "0x1f3c8",
+                "0x1f3c9",
+                "0x1f3be",
+                "0x1f94f",
+                "0x1f3b3",
+                "0x1f3cf",
+                "0x1f3d1",
+                "0x1f3d2",
+                "0x1f94d",
+                "0x1f3d3",
+                "0x1f3f8",
+                "0x1f94a",
+                "0x1f94b",
+                "0x1f945",
+                "0x26f3",
+                "0x26f8",
+                "0x1f3a3",
+                "0x1f93f",
+                "0x1f3bd",
+                "0x1f3bf",
+                "0x1f6f7",
+                "0x1f94c",
+                "0x1f3af",
+                "0x1fa80",
+                "0x1fa81",
+                "0x1f52b",
+                "0x1f3b1",
+                "0x1f52e",
+                "0x1fa84",
+                "0x1f3ae",
+                "0x1f579",
+                "0x1f3b0",
+                "0x1f3b2",
+                "0x1f9e9",
+                "0x1f9f8",
+                "0x1fa85",
+                "0x1faa9",
+                "0x1fa86",
+                "0x2660",
+                "0x2665",
+                "0x2666",
+                "0x2663",
+                "0x265f",
+                "0x1f0cf",
+                "0x1f004",
+                "0x1f3b4",
+                "0x1f3ad",
+                "0x1f5bc",
+                "0x1f3a8",
+                "0x1f9f5",
+                "0x1faa1",
+                "0x1f9f6",
+                "0x1faa2"
+            ],
+            "objects": [
+                "0x1f453",
+                "0x1f576",
+                "0x1f97d",
+                "0x1f97c",
+                "0x1f9ba",
+                "0x1f454",
+                "0x1f455",
+                "0x1f456",
+                "0x1f9e3",
+                "0x1f9e4",
+                "0x1f9e5",
+                "0x1f9e6",
+                "0x1f457",
+                "0x1f458",
+                "0x1f97b",
+                "0x1fa71",
+                "0x1fa72",
+                "0x1fa73",
+                "0x1f459",
+                "0x1f45a",
+                "0x1faad",
+                "0x1f45b",
+                "0x1f45c",
+                "0x1f45d",
+                "0x1f6cd",
+                "0x1f392",
+                "0x1fa74",
+                "0x1f45e",
+                "0x1f45f",
+                "0x1f97e",
+                "0x1f97f",
+                "0x1f460",
+                "0x1f461",
+                "0x1fa70",
+                "0x1f462",
+                "0x1faae",
+                "0x1f451",
+                "0x1f452",
+                "0x1f3a9",
+                "0x1f393",
+                "0x1f9e2",
+                "0x1fa96",
+                "0x26d1",
+                "0x1f4ff",
+                "0x1f484",
+                "0x1f48d",
+                "0x1f48e",
+                "0x1f507",
+                "0x1f508",
+                "0x1f509",
+                "0x1f50a",
+                "0x1f4e2",
+                "0x1f4e3",
+                "0x1f4ef",
+                "0x1f514",
+                "0x1f515",
+                "0x1f3bc",
+                "0x1f3b5",
+                "0x1f3b6",
+                "0x1f399",
+                "0x1f39a",
+                "0x1f39b",
+                "0x1f3a4",
+                "0x1f3a7",
+                "0x1f4fb",
+                "0x1f3b7",
+                "0x1fa97",
+                "0x1f3b8",
+                "0x1f3b9",
+                "0x1f3ba",
+                "0x1f3bb",
+                "0x1fa95",
+                "0x1f941",
+                "0x1fa98",
+                "0x1fa87",
+                "0x1fa88",
+                "0x1f4f1",
+                "0x1f4f2",
+                "0x260e",
+                "0x1f4de",
+                "0x1f4df",
+                "0x1f4e0",
+                "0x1f50b",
+                "0x1faab",
+                "0x1f50c",
+                "0x1f4bb",
+                "0x1f5a5",
+                "0x1f5a8",
+                "0x2328",
+                "0x1f5b1",
+                "0x1f5b2",
+                "0x1f4bd",
+                "0x1f4be",
+                "0x1f4bf",
+                "0x1f4c0",
+                "0x1f9ee",
+                "0x1f3a5",
+                "0x1f39e",
+                "0x1f4fd",
+                "0x1f3ac",
+                "0x1f4fa",
+                "0x1f4f7",
+                "0x1f4f8",
+                "0x1f4f9",
+                "0x1f4fc",
+                "0x1f50d",
+                "0x1f50e",
+                "0x1f56f",
+                "0x1f4a1",
+                "0x1f526",
+                "0x1f3ee",
+                "0x1fa94",
+                "0x1f4d4",
+                "0x1f4d5",
+                "0x1f4d6",
+                "0x1f4d7",
+                "0x1f4d8",
+                "0x1f4d9",
+                "0x1f4da",
+                "0x1f4d3",
+                "0x1f4d2",
+                "0x1f4c3",
+                "0x1f4dc",
+                "0x1f4c4",
+                "0x1f4f0",
+                "0x1f5de",
+                "0x1f4d1",
+                "0x1f516",
+                "0x1f3f7",
+                "0x1f4b0",
+                "0x1fa99",
+                "0x1f4b4",
+                "0x1f4b5",
+                "0x1f4b6",
+                "0x1f4b7",
+                "0x1f4b8",
+                "0x1f4b3",
+                "0x1f9fe",
+                "0x1f4b9",
+                "0x2709",
+                "0x1f4e7",
+                "0x1f4e8",
+                "0x1f4e9",
+                "0x1f4e4",
+                "0x1f4e5",
+                "0x1f4e6",
+                "0x1f4eb",
+                "0x1f4ea",
+                "0x1f4ec",
+                "0x1f4ed",
+                "0x1f4ee",
+                "0x1f5f3",
+                "0x270f",
+                "0x2712",
+                "0x1f58b",
+                "0x1f58a",
+                "0x1f58c",
+                "0x1f58d",
+                "0x1f4dd",
+                "0x1f4bc",
+                "0x1f4c1",
+                "0x1f4c2",
+                "0x1f5c2",
+                "0x1f4c5",
+                "0x1f4c6",
+                "0x1f5d2",
+                "0x1f5d3",
+                "0x1f4c7",
+                "0x1f4c8",
+                "0x1f4c9",
+                "0x1f4ca",
+                "0x1f4cb",
+                "0x1f4cc",
+                "0x1f4cd",
+                "0x1f4ce",
+                "0x1f587",
+                "0x1f4cf",
+                "0x1f4d0",
+                "0x2702",
+                "0x1f5c3",
+                "0x1f5c4",
+                "0x1f5d1",
+                "0x1f512",
+                "0x1f513",
+                "0x1f50f",
+                "0x1f510",
+                "0x1f511",
+                "0x1f5dd",
+                "0x1f528",
+                "0x1fa93",
+                "0x26cf",
+                "0x2692",
+                "0x1f6e0",
+                "0x1f5e1",
+                "0x2694",
+                "0x1f4a3",
+                "0x1fa83",
+                "0x1f3f9",
+                "0x1f6e1",
+                "0x1fa9a",
+                "0x1f527",
+                "0x1fa9b",
+                "0x1f529",
+                "0x2699",
+                "0x1f5dc",
+                "0x2696",
+                "0x1f9af",
+                "0x1f517",
+                "0x26d3",
+                "0xfe0f",
+                "0x200d",
+                "0x1f4a5",
+                "0x26d3",
+                "0x1fa9d",
+                "0x1f9f0",
+                "0x1f9f2",
+                "0x1fa9c",
+                "0x2697",
+                "0x1f9ea",
+                "0x1f9eb",
+                "0x1f9ec",
+                "0x1f52c",
+                "0x1f52d",
+                "0x1f4e1",
+                "0x1f489",
+                "0x1fa78",
+                "0x1f48a",
+                "0x1fa79",
+                "0x1fa7c",
+                "0x1fa7a",
+                "0x1fa7b",
+                "0x1f6aa",
+                "0x1f6d7",
+                "0x1fa9e",
+                "0x1fa9f",
+                "0x1f6cf",
+                "0x1f6cb",
+                "0x1fa91",
+                "0x1f6bd",
+                "0x1faa0",
+                "0x1f6bf",
+                "0x1f6c1",
+                "0x1faa4",
+                "0x1fa92",
+                "0x1f9f4",
+                "0x1f9f7",
+                "0x1f9f9",
+                "0x1f9fa",
+                "0x1f9fb",
+                "0x1faa3",
+                "0x1f9fc",
+                "0x1fae7",
+                "0x1faa5",
+                "0x1f9fd",
+                "0x1f9ef",
+                "0x1f6d2",
+                "0x1f6ac",
+                "0x26b0",
+                "0x1faa6",
+                "0x26b1",
+                "0x1f9ff",
+                "0x1faac",
+                "0x1f5ff",
+                "0x1faa7",
+                "0x1faaa"
+            ],
+            "symbols": [
+                "0x1f3e7",
+                "0x1f6ae",
+                "0x1f6b0",
+                "0x267f",
+                "0x1f6b9",
+                "0x1f6ba",
+                "0x1f6bb",
+                "0x1f6bc",
+                "0x1f6be",
+                "0x1f6c2",
+                "0x1f6c3",
+                "0x1f6c4",
+                "0x1f6c5",
+                "0x26a0",
+                "0x1f6b8",
+                "0x26d4",
+                "0x1f6ab",
+                "0x1f6b3",
+                "0x1f6ad",
+                "0x1f6af",
+                "0x1f6b1",
+                "0x1f6b7",
+                "0x1f4f5",
+                "0x1f51e",
+                "0x2622",
+                "0x2623",
+                "0x2b06",
+                "0x2197",
+                "0x27a1",
+                "0x2198",
+                "0x2b07",
+                "0x2199",
+                "0x2b05",
+                "0x2196",
+                "0x2195",
+                "0x2194",
+                "0x21a9",
+                "0x21aa",
+                "0x2934",
+                "0x2935",
+                "0x1f503",
+                "0x1f504",
+                "0x1f519",
+                "0x1f51a",
+                "0x1f51b",
+                "0x1f51c",
+                "0x1f51d",
+                "0x1f6d0",
+                "0x269b",
+                "0x1f549",
+                "0x2721",
+                "0x2638",
+                "0x262f",
+                "0x271d",
+                "0x2626",
+                "0x262a",
+                "0x262e",
+                "0x1f54e",
+                "0x1f52f",
+                "0x1faaf",
+                "0x2648",
+                "0x2649",
+                "0x264a",
+                "0x264b",
+                "0x264c",
+                "0x264d",
+                "0x264e",
+                "0x264f",
+                "0x2650",
+                "0x2651",
+                "0x2652",
+                "0x2653",
+                "0x26ce",
+                "0x1f500",
+                "0x1f501",
+                "0x1f502",
+                "0x25b6",
+                "0x23e9",
+                "0x23ed",
+                "0x23ef",
+                "0x25c0",
+                "0x23ea",
+                "0x23ee",
+                "0x1f53c",
+                "0x23eb",
+                "0x1f53d",
+                "0x23ec",
+                "0x23f8",
+                "0x23f9",
+                "0x23fa",
+                "0x23cf",
+                "0x1f3a6",
+                "0x1f505",
+                "0x1f506",
+                "0x1f4f6",
+                "0x1f6dc",
+                "0x1f4f3",
+                "0x1f4f4",
+                "0x2640",
+                "0x2642",
+                "0x26a7",
+                "0x2716",
+                "0x2795",
+                "0x2796",
+                "0x2797",
+                "0x1f7f0",
+                "0x267e",
+                "0x203c",
+                "0x2049",
+                "0x2753",
+                "0x2754",
+                "0x2755",
+                "0x2757",
+                "0x3030",
+                "0x1f4b1",
+                "0x1f4b2",
+                "0x2695",
+                "0x267b",
+                "0x269c",
+                "0x1f531",
+                "0x1f4db",
+                "0x1f530",
+                "0x2b55",
+                "0x2705",
+                "0x2611",
+                "0x2714",
+                "0x274c",
+                "0x274e",
+                "0x27b0",
+                "0x27bf",
+                "0x303d",
+                "0x2733",
+                "0x2734",
+                "0x2747",
+                "0x00a9",
+                "0x00ae",
+                "0x2122",
+                "0x0023",
+                "0xfe0f",
+                "0x20e3",
+                "0x002a",
+                "0xfe0f",
+                "0x20e3",
+                "0x0030",
+                "0xfe0f",
+                "0x20e3",
+                "0x0031",
+                "0xfe0f",
+                "0x20e3",
+                "0x0032",
+                "0xfe0f",
+                "0x20e3",
+                "0x0033",
+                "0xfe0f",
+                "0x20e3",
+                "0x0034",
+                "0xfe0f",
+                "0x20e3",
+                "0x0035",
+                "0xfe0f",
+                "0x20e3",
+                "0x0036",
+                "0xfe0f",
+                "0x20e3",
+                "0x0037",
+                "0xfe0f",
+                "0x20e3",
+                "0x0038",
+                "0xfe0f",
+                "0x20e3",
+                "0x0039",
+                "0xfe0f",
+                "0x20e3",
+                "0x1f51f",
+                "0x1f520",
+                "0x1f521",
+                "0x1f522",
+                "0x1f523",
+                "0x1f524",
+                "0x1f170",
+                "0x1f18e",
+                "0x1f171",
+                "0x1f191",
+                "0x1f192",
+                "0x1f193",
+                "0x2139",
+                "0x1f194",
+                "0x24c2",
+                "0x1f195",
+                "0x1f196",
+                "0x1f17e",
+                "0x1f197",
+                "0x1f17f",
+                "0x1f198",
+                "0x1f199",
+                "0x1f19a",
+                "0x1f201",
+                "0x1f202",
+                "0x1f237",
+                "0x1f236",
+                "0x1f22f",
+                "0x1f250",
+                "0x1f239",
+                "0x1f21a",
+                "0x1f232",
+                "0x1f251",
+                "0x1f238",
+                "0x1f234",
+                "0x1f233",
+                "0x3297",
+                "0x3299",
+                "0x1f23a",
+                "0x1f235",
+                "0x1f534",
+                "0x1f7e0",
+                "0x1f7e1",
+                "0x1f7e2",
+                "0x1f535",
+                "0x1f7e3",
+                "0x1f7e4",
+                "0x26ab",
+                "0x26aa",
+                "0x1f7e5",
+                "0x1f7e7",
+                "0x1f7e8",
+                "0x1f7e9",
+                "0x1f7e6",
+                "0x1f7ea",
+                "0x1f7eb",
+                "0x2b1b",
+                "0x2b1c",
+                "0x25fc",
+                "0x25fb",
+                "0x25fe",
+                "0x25fd",
+                "0x25aa",
+                "0x25ab",
+                "0x1f536",
+                "0x1f537",
+                "0x1f538",
+                "0x1f539",
+                "0x1f53a",
+                "0x1f53b",
+                "0x1f4a0",
+                "0x1f518",
+                "0x1f533",
+                "0x1f532"
+            ],
+            "flags": [
+                "0x1f3c1",
+                "0x1f6a9",
+                "0x1f38c",
+                "0x1f3f4",
+                "0x1f3f3",
+                "0x1f3f3",
+                "0xfe0f",
+                "0x200d",
+                "0x1f308",
+                "0x1f3f3",
+                "0xfe0f",
+                "0x200d",
+                "0x26a7",
+                "0xfe0f",
+                "0x1f3f4",
+                "0x200d",
+                "0x2620",
+                "0xfe0f",
+                "0x1f1e6",
+                "0x1f1e8",
+                "0x1f1e6",
+                "0x1f1e9",
+                "0x1f1e6",
+                "0x1f1ea",
+                "0x1f1e6",
+                "0x1f1eb",
+                "0x1f1e6",
+                "0x1f1ec",
+                "0x1f1e6",
+                "0x1f1ee",
+                "0x1f1e6",
+                "0x1f1f1",
+                "0x1f1e6",
+                "0x1f1f2",
+                "0x1f1e6",
+                "0x1f1f4",
+                "0x1f1e6",
+                "0x1f1f6",
+                "0x1f1e6",
+                "0x1f1f7",
+                "0x1f1e6",
+                "0x1f1f8",
+                "0x1f1e6",
+                "0x1f1f9",
+                "0x1f1e6",
+                "0x1f1fa",
+                "0x1f1e6",
+                "0x1f1fc",
+                "0x1f1e6",
+                "0x1f1fd",
+                "0x1f1e6",
+                "0x1f1ff",
+                "0x1f1e7",
+                "0x1f1e6",
+                "0x1f1e7",
+                "0x1f1e7",
+                "0x1f1e7",
+                "0x1f1e9",
+                "0x1f1e7",
+                "0x1f1ea",
+                "0x1f1e7",
+                "0x1f1eb",
+                "0x1f1e7",
+                "0x1f1ec",
+                "0x1f1e7",
+                "0x1f1ed",
+                "0x1f1e7",
+                "0x1f1ee",
+                "0x1f1e7",
+                "0x1f1ef",
+                "0x1f1e7",
+                "0x1f1f1",
+                "0x1f1e7",
+                "0x1f1f2",
+                "0x1f1e7",
+                "0x1f1f3",
+                "0x1f1e7",
+                "0x1f1f4",
+                "0x1f1e7",
+                "0x1f1f6",
+                "0x1f1e7",
+                "0x1f1f7",
+                "0x1f1e7",
+                "0x1f1f8",
+                "0x1f1e7",
+                "0x1f1f9",
+                "0x1f1e7",
+                "0x1f1fb",
+                "0x1f1e7",
+                "0x1f1fc",
+                "0x1f1e7",
+                "0x1f1fe",
+                "0x1f1e7",
+                "0x1f1ff",
+                "0x1f1e8",
+                "0x1f1e6",
+                "0x1f1e8",
+                "0x1f1e8",
+                "0x1f1e8",
+                "0x1f1e9",
+                "0x1f1e8",
+                "0x1f1eb",
+                "0x1f1e8",
+                "0x1f1ec",
+                "0x1f1e8",
+                "0x1f1ed",
+                "0x1f1e8",
+                "0x1f1ee",
+                "0x1f1e8",
+                "0x1f1f0",
+                "0x1f1e8",
+                "0x1f1f1",
+                "0x1f1e8",
+                "0x1f1f2",
+                "0x1f1e8",
+                "0x1f1f3",
+                "0x1f1e8",
+                "0x1f1f4",
+                "0x1f1e8",
+                "0x1f1f5",
+                "0x1f1e8",
+                "0x1f1f7",
+                "0x1f1e8",
+                "0x1f1fa",
+                "0x1f1e8",
+                "0x1f1fb",
+                "0x1f1e8",
+                "0x1f1fc",
+                "0x1f1e8",
+                "0x1f1fd",
+                "0x1f1e8",
+                "0x1f1fe",
+                "0x1f1e8",
+                "0x1f1ff",
+                "0x1f1e9",
+                "0x1f1ea",
+                "0x1f1e9",
+                "0x1f1ec",
+                "0x1f1e9",
+                "0x1f1ef",
+                "0x1f1e9",
+                "0x1f1f0",
+                "0x1f1e9",
+                "0x1f1f2",
+                "0x1f1e9",
+                "0x1f1f4",
+                "0x1f1e9",
+                "0x1f1ff",
+                "0x1f1ea",
+                "0x1f1e6",
+                "0x1f1ea",
+                "0x1f1e8",
+                "0x1f1ea",
+                "0x1f1ea",
+                "0x1f1ea",
+                "0x1f1ec",
+                "0x1f1ea",
+                "0x1f1ed",
+                "0x1f1ea",
+                "0x1f1f7",
+                "0x1f1ea",
+                "0x1f1f8",
+                "0x1f1ea",
+                "0x1f1f9",
+                "0x1f1ea",
+                "0x1f1fa",
+                "0x1f1eb",
+                "0x1f1ee",
+                "0x1f1eb",
+                "0x1f1ef",
+                "0x1f1eb",
+                "0x1f1f0",
+                "0x1f1eb",
+                "0x1f1f2",
+                "0x1f1eb",
+                "0x1f1f4",
+                "0x1f1eb",
+                "0x1f1f7",
+                "0x1f1ec",
+                "0x1f1e6",
+                "0x1f1ec",
+                "0x1f1e7",
+                "0x1f1ec",
+                "0x1f1e9",
+                "0x1f1ec",
+                "0x1f1ea",
+                "0x1f1ec",
+                "0x1f1eb",
+                "0x1f1ec",
+                "0x1f1ec",
+                "0x1f1ec",
+                "0x1f1ed",
+                "0x1f1ec",
+                "0x1f1ee",
+                "0x1f1ec",
+                "0x1f1f1",
+                "0x1f1ec",
+                "0x1f1f2",
+                "0x1f1ec",
+                "0x1f1f3",
+                "0x1f1ec",
+                "0x1f1f5",
+                "0x1f1ec",
+                "0x1f1f6",
+                "0x1f1ec",
+                "0x1f1f7",
+                "0x1f1ec",
+                "0x1f1f8",
+                "0x1f1ec",
+                "0x1f1f9",
+                "0x1f1ec",
+                "0x1f1fa",
+                "0x1f1ec",
+                "0x1f1fc",
+                "0x1f1ec",
+                "0x1f1fe",
+                "0x1f1ed",
+                "0x1f1f0",
+                "0x1f1ed",
+                "0x1f1f2",
+                "0x1f1ed",
+                "0x1f1f3",
+                "0x1f1ed",
+                "0x1f1f7",
+                "0x1f1ed",
+                "0x1f1f9",
+                "0x1f1ed",
+                "0x1f1fa",
+                "0x1f1ee",
+                "0x1f1e8",
+                "0x1f1ee",
+                "0x1f1e9",
+                "0x1f1ee",
+                "0x1f1ea",
+                "0x1f1ee",
+                "0x1f1f1",
+                "0x1f1ee",
+                "0x1f1f2",
+                "0x1f1ee",
+                "0x1f1f3",
+                "0x1f1ee",
+                "0x1f1f4",
+                "0x1f1ee",
+                "0x1f1f6",
+                "0x1f1ee",
+                "0x1f1f7",
+                "0x1f1ee",
+                "0x1f1f8",
+                "0x1f1ee",
+                "0x1f1f9",
+                "0x1f1ef",
+                "0x1f1ea",
+                "0x1f1ef",
+                "0x1f1f2",
+                "0x1f1ef",
+                "0x1f1f4",
+                "0x1f1ef",
+                "0x1f1f5",
+                "0x1f1f0",
+                "0x1f1ea",
+                "0x1f1f0",
+                "0x1f1ec",
+                "0x1f1f0",
+                "0x1f1ed",
+                "0x1f1f0",
+                "0x1f1ee",
+                "0x1f1f0",
+                "0x1f1f2",
+                "0x1f1f0",
+                "0x1f1f3",
+                "0x1f1f0",
+                "0x1f1f5",
+                "0x1f1f0",
+                "0x1f1f7",
+                "0x1f1f0",
+                "0x1f1fc",
+                "0x1f1f0",
+                "0x1f1fe",
+                "0x1f1f0",
+                "0x1f1ff",
+                "0x1f1f1",
+                "0x1f1e6",
+                "0x1f1f1",
+                "0x1f1e7",
+                "0x1f1f1",
+                "0x1f1e8",
+                "0x1f1f1",
+                "0x1f1ee",
+                "0x1f1f1",
+                "0x1f1f0",
+                "0x1f1f1",
+                "0x1f1f7",
+                "0x1f1f1",
+                "0x1f1f8",
+                "0x1f1f1",
+                "0x1f1f9",
+                "0x1f1f1",
+                "0x1f1fa",
+                "0x1f1f1",
+                "0x1f1fb",
+                "0x1f1f1",
+                "0x1f1fe",
+                "0x1f1f2",
+                "0x1f1e6",
+                "0x1f1f2",
+                "0x1f1e8",
+                "0x1f1f2",
+                "0x1f1e9",
+                "0x1f1f2",
+                "0x1f1ea",
+                "0x1f1f2",
+                "0x1f1eb",
+                "0x1f1f2",
+                "0x1f1ec",
+                "0x1f1f2",
+                "0x1f1ed",
+                "0x1f1f2",
+                "0x1f1f0",
+                "0x1f1f2",
+                "0x1f1f1",
+                "0x1f1f2",
+                "0x1f1f2",
+                "0x1f1f2",
+                "0x1f1f3",
+                "0x1f1f2",
+                "0x1f1f4",
+                "0x1f1f2",
+                "0x1f1f5",
+                "0x1f1f2",
+                "0x1f1f6",
+                "0x1f1f2",
+                "0x1f1f7",
+                "0x1f1f2",
+                "0x1f1f8",
+                "0x1f1f2",
+                "0x1f1f9",
+                "0x1f1f2",
+                "0x1f1fa",
+                "0x1f1f2",
+                "0x1f1fb",
+                "0x1f1f2",
+                "0x1f1fc",
+                "0x1f1f2",
+                "0x1f1fd",
+                "0x1f1f2",
+                "0x1f1fe",
+                "0x1f1f2",
+                "0x1f1ff",
+                "0x1f1f3",
+                "0x1f1e6",
+                "0x1f1f3",
+                "0x1f1e8",
+                "0x1f1f3",
+                "0x1f1ea",
+                "0x1f1f3",
+                "0x1f1eb",
+                "0x1f1f3",
+                "0x1f1ec",
+                "0x1f1f3",
+                "0x1f1ee",
+                "0x1f1f3",
+                "0x1f1f1",
+                "0x1f1f3",
+                "0x1f1f4",
+                "0x1f1f3",
+                "0x1f1f5",
+                "0x1f1f3",
+                "0x1f1f7",
+                "0x1f1f3",
+                "0x1f1fa",
+                "0x1f1f3",
+                "0x1f1ff",
+                "0x1f1f4",
+                "0x1f1f2",
+                "0x1f1f5",
+                "0x1f1e6",
+                "0x1f1f5",
+                "0x1f1ea",
+                "0x1f1f5",
+                "0x1f1eb",
+                "0x1f1f5",
+                "0x1f1ec",
+                "0x1f1f5",
+                "0x1f1ed",
+                "0x1f1f5",
+                "0x1f1f0",
+                "0x1f1f5",
+                "0x1f1f1",
+                "0x1f1f5",
+                "0x1f1f2",
+                "0x1f1f5",
+                "0x1f1f3",
+                "0x1f1f5",
+                "0x1f1f7",
+                "0x1f1f5",
+                "0x1f1f8",
+                "0x1f1f5",
+                "0x1f1f9",
+                "0x1f1f5",
+                "0x1f1fc",
+                "0x1f1f5",
+                "0x1f1fe",
+                "0x1f1f6",
+                "0x1f1e6",
+                "0x1f1f7",
+                "0x1f1ea",
+                "0x1f1f7",
+                "0x1f1f4",
+                "0x1f1f7",
+                "0x1f1f8",
+                "0x1f1f7",
+                "0x1f1fa",
+                "0x1f1f7",
+                "0x1f1fc",
+                "0x1f1f8",
+                "0x1f1e6",
+                "0x1f1f8",
+                "0x1f1e7",
+                "0x1f1f8",
+                "0x1f1e8",
+                "0x1f1f8",
+                "0x1f1e9",
+                "0x1f1f8",
+                "0x1f1ea",
+                "0x1f1f8",
+                "0x1f1ec",
+                "0x1f1f8",
+                "0x1f1ed",
+                "0x1f1f8",
+                "0x1f1ee",
+                "0x1f1f8",
+                "0x1f1ef",
+                "0x1f1f8",
+                "0x1f1f0",
+                "0x1f1f8",
+                "0x1f1f1",
+                "0x1f1f8",
+                "0x1f1f2",
+                "0x1f1f8",
+                "0x1f1f3",
+                "0x1f1f8",
+                "0x1f1f4",
+                "0x1f1f8",
+                "0x1f1f7",
+                "0x1f1f8",
+                "0x1f1f8",
+                "0x1f1f8",
+                "0x1f1f9",
+                "0x1f1f8",
+                "0x1f1fb",
+                "0x1f1f8",
+                "0x1f1fd",
+                "0x1f1f8",
+                "0x1f1fe",
+                "0x1f1f8",
+                "0x1f1ff",
+                "0x1f1f9",
+                "0x1f1e6",
+                "0x1f1f9",
+                "0x1f1e8",
+                "0x1f1f9",
+                "0x1f1e9",
+                "0x1f1f9",
+                "0x1f1eb",
+                "0x1f1f9",
+                "0x1f1ec",
+                "0x1f1f9",
+                "0x1f1ed",
+                "0x1f1f9",
+                "0x1f1ef",
+                "0x1f1f9",
+                "0x1f1f0",
+                "0x1f1f9",
+                "0x1f1f1",
+                "0x1f1f9",
+                "0x1f1f2",
+                "0x1f1f9",
+                "0x1f1f3",
+                "0x1f1f9",
+                "0x1f1f4",
+                "0x1f1f9",
+                "0x1f1f7",
+                "0x1f1f9",
+                "0x1f1f9",
+                "0x1f1f9",
+                "0x1f1fb",
+                "0x1f1f9",
+                "0x1f1fc",
+                "0x1f1f9",
+                "0x1f1ff",
+                "0x1f1fa",
+                "0x1f1e6",
+                "0x1f1fa",
+                "0x1f1ec",
+                "0x1f1fa",
+                "0x1f1f2",
+                "0x1f1fa",
+                "0x1f1f3",
+                "0x1f1fa",
+                "0x1f1f8",
+                "0x1f1fa",
+                "0x1f1fe",
+                "0x1f1fa",
+                "0x1f1ff",
+                "0x1f1fb",
+                "0x1f1e6",
+                "0x1f1fb",
+                "0x1f1e8",
+                "0x1f1fb",
+                "0x1f1ea",
+                "0x1f1fb",
+                "0x1f1ec",
+                "0x1f1fb",
+                "0x1f1ee",
+                "0x1f1fb",
+                "0x1f1f3",
+                "0x1f1fb",
+                "0x1f1fa",
+                "0x1f1fc",
+                "0x1f1eb",
+                "0x1f1fc",
+                "0x1f1f8",
+                "0x1f1fd",
+                "0x1f1f0",
+                "0x1f1fe",
+                "0x1f1ea",
+                "0x1f1fe",
+                "0x1f1f9",
+                "0x1f1ff",
+                "0x1f1e6",
+                "0x1f1ff",
+                "0x1f1f2",
+                "0x1f1ff",
+                "0x1f1fc",
+                "0x1f3f4",
+                "0xe0067",
+                "0xe0062",
+                "0xe0065",
+                "0xe006e",
+                "0xe0067",
+                "0xe007f",
+                "0x1f3f4",
+                "0xe0067",
+                "0xe0062",
+                "0xe0073",
+                "0xe0063",
+                "0xe0074",
+                "0xe007f",
+                "0x1f3f4",
+                "0xe0067",
+                "0xe0062",
+                "0xe0077",
+                "0xe006c",
+                "0xe0073",
+                "0xe007f"
+            ]
+        }
     };
 
     var o_hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -7120,6 +14042,7 @@ function isnan (val) {
 
       return result;
     });
+
 
     function _copyObject(source, target) {
       var keys = o_keys(source);
@@ -7183,6 +14106,14 @@ function isnan (val) {
         testRange(
             options.pool.constructor !== Array,
             "Chance: The pool option must be a valid array."
+        );
+        testRange(
+            typeof options.mean !== 'number',
+            "Chance: Mean (mean) must be a number"
+        );
+        testRange(
+            typeof options.dev !== 'number',
+            "Chance: Standard deviation (dev) must be a number"
         );
 
         // If a pool has been passed, then we are returning an item from that pool,
@@ -7277,6 +14208,10 @@ function isnan (val) {
         return ''+n[0]+n[1]+'.'+n[2]+n[3]+n[4]+'.'+n[5]+n[6]+n[7]+'/0001-'+d1+d2;
     };
 
+    Chance.prototype.emotion = function () {
+        return this.pick(this.get("emotions"));
+    };
+
     // -- End Miscellaneous --
 
     Chance.prototype.mersenne_twister = function (seed) {
@@ -7288,6 +14223,48 @@ function isnan (val) {
     };
 
     // Mersenne Twister from https://gist.github.com/banksean/300494
+    /*
+       A C-program for MT19937, with initialization improved 2002/1/26.
+       Coded by Takuji Nishimura and Makoto Matsumoto.
+
+       Before using, initialize the state by using init_genrand(seed)
+       or init_by_array(init_key, key_length).
+
+       Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
+       All rights reserved.
+
+       Redistribution and use in source and binary forms, with or without
+       modification, are permitted provided that the following conditions
+       are met:
+
+       1. Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+
+       2. Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+
+       3. The names of its contributors may not be used to endorse or promote
+       products derived from this software without specific prior written
+       permission.
+
+       THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+       "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+       LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+       A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+       CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+       EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+       PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+       PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+       LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+       NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+       SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+       Any feedback is very welcome.
+       http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
+       email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
+     */
     var MersenneTwister = function (seed) {
         if (seed === undefined) {
             // kept random number same size as time used previously to ensure no unexpected results downstream
@@ -7680,8 +14657,10 @@ function isnan (val) {
     }
 
     // if there is a importsScrips object define chance for worker
+    // allows worker to use full Chance functionality with seed
     if (typeof importScripts !== 'undefined') {
         chance = new Chance();
+        self.Chance = Chance;
     }
 
     // If there is a window object, that at least has a document property,
@@ -7692,113 +14671,136 @@ function isnan (val) {
     }
 })();
 
-}).call(this,require("buffer").Buffer)
-},{"buffer":23}],25:[function(require,module,exports){
+}).call(this)}).call(this,require("buffer").Buffer)
+},{"buffer":25}],28:[function(require,module,exports){
 require('../modules/web.dom.iterable');
 require('../modules/es6.string.iterator');
 module.exports = require('../modules/core.get-iterator');
-},{"../modules/core.get-iterator":116,"../modules/es6.string.iterator":128,"../modules/web.dom.iterable":133}],26:[function(require,module,exports){
+
+},{"../modules/core.get-iterator":125,"../modules/es6.string.iterator":137,"../modules/web.dom.iterable":146}],29:[function(require,module,exports){
 require('../modules/web.dom.iterable');
 require('../modules/es6.string.iterator');
 module.exports = require('../modules/core.is-iterable');
-},{"../modules/core.is-iterable":117,"../modules/es6.string.iterator":128,"../modules/web.dom.iterable":133}],27:[function(require,module,exports){
+
+},{"../modules/core.is-iterable":126,"../modules/es6.string.iterator":137,"../modules/web.dom.iterable":146}],30:[function(require,module,exports){
 require('../../modules/es6.object.assign');
 module.exports = require('../../modules/_core').Object.assign;
-},{"../../modules/_core":51,"../../modules/es6.object.assign":119}],28:[function(require,module,exports){
+
+},{"../../modules/_core":54,"../../modules/es6.object.assign":128}],31:[function(require,module,exports){
 require('../../modules/es6.object.create');
 var $Object = require('../../modules/_core').Object;
-module.exports = function create(P, D){
+module.exports = function create(P, D) {
   return $Object.create(P, D);
 };
-},{"../../modules/_core":51,"../../modules/es6.object.create":120}],29:[function(require,module,exports){
+
+},{"../../modules/_core":54,"../../modules/es6.object.create":129}],32:[function(require,module,exports){
 require('../../modules/es6.object.define-property');
 var $Object = require('../../modules/_core').Object;
-module.exports = function defineProperty(it, key, desc){
+module.exports = function defineProperty(it, key, desc) {
   return $Object.defineProperty(it, key, desc);
 };
-},{"../../modules/_core":51,"../../modules/es6.object.define-property":121}],30:[function(require,module,exports){
+
+},{"../../modules/_core":54,"../../modules/es6.object.define-property":130}],33:[function(require,module,exports){
 require('../../modules/es6.object.get-prototype-of');
 module.exports = require('../../modules/_core').Object.getPrototypeOf;
-},{"../../modules/_core":51,"../../modules/es6.object.get-prototype-of":122}],31:[function(require,module,exports){
+
+},{"../../modules/_core":54,"../../modules/es6.object.get-prototype-of":131}],34:[function(require,module,exports){
 require('../../modules/es6.object.keys');
 module.exports = require('../../modules/_core').Object.keys;
-},{"../../modules/_core":51,"../../modules/es6.object.keys":123}],32:[function(require,module,exports){
+
+},{"../../modules/_core":54,"../../modules/es6.object.keys":132}],35:[function(require,module,exports){
 require('../../modules/es6.object.set-prototype-of');
 module.exports = require('../../modules/_core').Object.setPrototypeOf;
-},{"../../modules/_core":51,"../../modules/es6.object.set-prototype-of":124}],33:[function(require,module,exports){
+
+},{"../../modules/_core":54,"../../modules/es6.object.set-prototype-of":133}],36:[function(require,module,exports){
 require('../modules/es6.object.to-string');
 require('../modules/es6.string.iterator');
 require('../modules/web.dom.iterable');
 require('../modules/es6.promise');
+require('../modules/es7.promise.finally');
+require('../modules/es7.promise.try');
 module.exports = require('../modules/_core').Promise;
-},{"../modules/_core":51,"../modules/es6.object.to-string":125,"../modules/es6.promise":126,"../modules/es6.string.iterator":128,"../modules/web.dom.iterable":133}],34:[function(require,module,exports){
+
+},{"../modules/_core":54,"../modules/es6.object.to-string":134,"../modules/es6.promise":135,"../modules/es6.string.iterator":137,"../modules/es7.promise.finally":139,"../modules/es7.promise.try":140,"../modules/web.dom.iterable":146}],37:[function(require,module,exports){
 require('../modules/es6.object.to-string');
 require('../modules/es6.string.iterator');
 require('../modules/web.dom.iterable');
 require('../modules/es6.set');
 require('../modules/es7.set.to-json');
+require('../modules/es7.set.of');
+require('../modules/es7.set.from');
 module.exports = require('../modules/_core').Set;
-},{"../modules/_core":51,"../modules/es6.object.to-string":125,"../modules/es6.set":127,"../modules/es6.string.iterator":128,"../modules/es7.set.to-json":130,"../modules/web.dom.iterable":133}],35:[function(require,module,exports){
+
+},{"../modules/_core":54,"../modules/es6.object.to-string":134,"../modules/es6.set":136,"../modules/es6.string.iterator":137,"../modules/es7.set.from":141,"../modules/es7.set.of":142,"../modules/es7.set.to-json":143,"../modules/web.dom.iterable":146}],38:[function(require,module,exports){
 require('../../modules/es6.symbol');
 require('../../modules/es6.object.to-string');
 require('../../modules/es7.symbol.async-iterator');
 require('../../modules/es7.symbol.observable');
 module.exports = require('../../modules/_core').Symbol;
-},{"../../modules/_core":51,"../../modules/es6.object.to-string":125,"../../modules/es6.symbol":129,"../../modules/es7.symbol.async-iterator":131,"../../modules/es7.symbol.observable":132}],36:[function(require,module,exports){
+
+},{"../../modules/_core":54,"../../modules/es6.object.to-string":134,"../../modules/es6.symbol":138,"../../modules/es7.symbol.async-iterator":144,"../../modules/es7.symbol.observable":145}],39:[function(require,module,exports){
 require('../../modules/es6.string.iterator');
 require('../../modules/web.dom.iterable');
 module.exports = require('../../modules/_wks-ext').f('iterator');
-},{"../../modules/_wks-ext":113,"../../modules/es6.string.iterator":128,"../../modules/web.dom.iterable":133}],37:[function(require,module,exports){
-module.exports = function(it){
-  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+
+},{"../../modules/_wks-ext":122,"../../modules/es6.string.iterator":137,"../../modules/web.dom.iterable":146}],40:[function(require,module,exports){
+module.exports = function (it) {
+  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
   return it;
 };
-},{}],38:[function(require,module,exports){
-module.exports = function(){ /* empty */ };
-},{}],39:[function(require,module,exports){
-module.exports = function(it, Constructor, name, forbiddenField){
-  if(!(it instanceof Constructor) || (forbiddenField !== undefined && forbiddenField in it)){
+
+},{}],41:[function(require,module,exports){
+module.exports = function () { /* empty */ };
+
+},{}],42:[function(require,module,exports){
+module.exports = function (it, Constructor, name, forbiddenField) {
+  if (!(it instanceof Constructor) || (forbiddenField !== undefined && forbiddenField in it)) {
     throw TypeError(name + ': incorrect invocation!');
   } return it;
 };
-},{}],40:[function(require,module,exports){
+
+},{}],43:[function(require,module,exports){
 var isObject = require('./_is-object');
-module.exports = function(it){
-  if(!isObject(it))throw TypeError(it + ' is not an object!');
+module.exports = function (it) {
+  if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
 };
-},{"./_is-object":70}],41:[function(require,module,exports){
+
+},{"./_is-object":73}],44:[function(require,module,exports){
 var forOf = require('./_for-of');
 
-module.exports = function(iter, ITERATOR){
+module.exports = function (iter, ITERATOR) {
   var result = [];
   forOf(iter, false, result.push, result, ITERATOR);
   return result;
 };
 
-},{"./_for-of":60}],42:[function(require,module,exports){
+},{"./_for-of":63}],45:[function(require,module,exports){
 // false -> Array#indexOf
 // true  -> Array#includes
-var toIObject = require('./_to-iobject')
-  , toLength  = require('./_to-length')
-  , toIndex   = require('./_to-index');
-module.exports = function(IS_INCLUDES){
-  return function($this, el, fromIndex){
-    var O      = toIObject($this)
-      , length = toLength(O.length)
-      , index  = toIndex(fromIndex, length)
-      , value;
+var toIObject = require('./_to-iobject');
+var toLength = require('./_to-length');
+var toAbsoluteIndex = require('./_to-absolute-index');
+module.exports = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIObject($this);
+    var length = toLength(O.length);
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
     // Array#includes uses SameValueZero equality algorithm
-    if(IS_INCLUDES && el != el)while(length > index){
+    // eslint-disable-next-line no-self-compare
+    if (IS_INCLUDES && el != el) while (length > index) {
       value = O[index++];
-      if(value != value)return true;
-    // Array#toIndex ignores holes, Array#includes - not
-    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
-      if(O[index] === el)return IS_INCLUDES || index || 0;
+      // eslint-disable-next-line no-self-compare
+      if (value != value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
+      if (O[index] === el) return IS_INCLUDES || index || 0;
     } return !IS_INCLUDES && -1;
   };
 };
-},{"./_to-index":105,"./_to-iobject":107,"./_to-length":108}],43:[function(require,module,exports){
+
+},{"./_to-absolute-index":112,"./_to-iobject":114,"./_to-length":115}],46:[function(require,module,exports){
 // 0 -> Array#forEach
 // 1 -> Array#map
 // 2 -> Array#filter
@@ -7806,82 +14808,85 @@ module.exports = function(IS_INCLUDES){
 // 4 -> Array#every
 // 5 -> Array#find
 // 6 -> Array#findIndex
-var ctx      = require('./_ctx')
-  , IObject  = require('./_iobject')
-  , toObject = require('./_to-object')
-  , toLength = require('./_to-length')
-  , asc      = require('./_array-species-create');
-module.exports = function(TYPE, $create){
-  var IS_MAP        = TYPE == 1
-    , IS_FILTER     = TYPE == 2
-    , IS_SOME       = TYPE == 3
-    , IS_EVERY      = TYPE == 4
-    , IS_FIND_INDEX = TYPE == 6
-    , NO_HOLES      = TYPE == 5 || IS_FIND_INDEX
-    , create        = $create || asc;
-  return function($this, callbackfn, that){
-    var O      = toObject($this)
-      , self   = IObject(O)
-      , f      = ctx(callbackfn, that, 3)
-      , length = toLength(self.length)
-      , index  = 0
-      , result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined
-      , val, res;
-    for(;length > index; index++)if(NO_HOLES || index in self){
+var ctx = require('./_ctx');
+var IObject = require('./_iobject');
+var toObject = require('./_to-object');
+var toLength = require('./_to-length');
+var asc = require('./_array-species-create');
+module.exports = function (TYPE, $create) {
+  var IS_MAP = TYPE == 1;
+  var IS_FILTER = TYPE == 2;
+  var IS_SOME = TYPE == 3;
+  var IS_EVERY = TYPE == 4;
+  var IS_FIND_INDEX = TYPE == 6;
+  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+  var create = $create || asc;
+  return function ($this, callbackfn, that) {
+    var O = toObject($this);
+    var self = IObject(O);
+    var f = ctx(callbackfn, that, 3);
+    var length = toLength(self.length);
+    var index = 0;
+    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
+    var val, res;
+    for (;length > index; index++) if (NO_HOLES || index in self) {
       val = self[index];
       res = f(val, index, O);
-      if(TYPE){
-        if(IS_MAP)result[index] = res;            // map
-        else if(res)switch(TYPE){
-          case 3: return true;                    // some
-          case 5: return val;                     // find
-          case 6: return index;                   // findIndex
-          case 2: result.push(val);               // filter
-        } else if(IS_EVERY)return false;          // every
+      if (TYPE) {
+        if (IS_MAP) result[index] = res;   // map
+        else if (res) switch (TYPE) {
+          case 3: return true;             // some
+          case 5: return val;              // find
+          case 6: return index;            // findIndex
+          case 2: result.push(val);        // filter
+        } else if (IS_EVERY) return false; // every
       }
     }
     return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
   };
 };
-},{"./_array-species-create":45,"./_ctx":52,"./_iobject":67,"./_to-length":108,"./_to-object":109}],44:[function(require,module,exports){
-var isObject = require('./_is-object')
-  , isArray  = require('./_is-array')
-  , SPECIES  = require('./_wks')('species');
 
-module.exports = function(original){
+},{"./_array-species-create":48,"./_ctx":55,"./_iobject":70,"./_to-length":115,"./_to-object":116}],47:[function(require,module,exports){
+var isObject = require('./_is-object');
+var isArray = require('./_is-array');
+var SPECIES = require('./_wks')('species');
+
+module.exports = function (original) {
   var C;
-  if(isArray(original)){
+  if (isArray(original)) {
     C = original.constructor;
     // cross-realm fallback
-    if(typeof C == 'function' && (C === Array || isArray(C.prototype)))C = undefined;
-    if(isObject(C)){
+    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
+    if (isObject(C)) {
       C = C[SPECIES];
-      if(C === null)C = undefined;
+      if (C === null) C = undefined;
     }
   } return C === undefined ? Array : C;
 };
-},{"./_is-array":69,"./_is-object":70,"./_wks":114}],45:[function(require,module,exports){
+
+},{"./_is-array":72,"./_is-object":73,"./_wks":123}],48:[function(require,module,exports){
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
 var speciesConstructor = require('./_array-species-constructor');
 
-module.exports = function(original, length){
+module.exports = function (original, length) {
   return new (speciesConstructor(original))(length);
 };
-},{"./_array-species-constructor":44}],46:[function(require,module,exports){
+
+},{"./_array-species-constructor":47}],49:[function(require,module,exports){
 // getting tag from 19.1.3.6 Object.prototype.toString()
-var cof = require('./_cof')
-  , TAG = require('./_wks')('toStringTag')
-  // ES3 wrong here
-  , ARG = cof(function(){ return arguments; }()) == 'Arguments';
+var cof = require('./_cof');
+var TAG = require('./_wks')('toStringTag');
+// ES3 wrong here
+var ARG = cof(function () { return arguments; }()) == 'Arguments';
 
 // fallback for IE11 Script Access Denied error
-var tryGet = function(it, key){
+var tryGet = function (it, key) {
   try {
     return it[key];
-  } catch(e){ /* empty */ }
+  } catch (e) { /* empty */ }
 };
 
-module.exports = function(it){
+module.exports = function (it) {
   var O, T, B;
   return it === undefined ? 'Undefined' : it === null ? 'Null'
     // @@toStringTag case
@@ -7891,55 +14896,59 @@ module.exports = function(it){
     // ES3 arguments fallback
     : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
 };
-},{"./_cof":47,"./_wks":114}],47:[function(require,module,exports){
+
+},{"./_cof":50,"./_wks":123}],50:[function(require,module,exports){
 var toString = {}.toString;
 
-module.exports = function(it){
+module.exports = function (it) {
   return toString.call(it).slice(8, -1);
 };
-},{}],48:[function(require,module,exports){
-'use strict';
-var dP          = require('./_object-dp').f
-  , create      = require('./_object-create')
-  , redefineAll = require('./_redefine-all')
-  , ctx         = require('./_ctx')
-  , anInstance  = require('./_an-instance')
-  , defined     = require('./_defined')
-  , forOf       = require('./_for-of')
-  , $iterDefine = require('./_iter-define')
-  , step        = require('./_iter-step')
-  , setSpecies  = require('./_set-species')
-  , DESCRIPTORS = require('./_descriptors')
-  , fastKey     = require('./_meta').fastKey
-  , SIZE        = DESCRIPTORS ? '_s' : 'size';
 
-var getEntry = function(that, key){
+},{}],51:[function(require,module,exports){
+'use strict';
+var dP = require('./_object-dp').f;
+var create = require('./_object-create');
+var redefineAll = require('./_redefine-all');
+var ctx = require('./_ctx');
+var anInstance = require('./_an-instance');
+var forOf = require('./_for-of');
+var $iterDefine = require('./_iter-define');
+var step = require('./_iter-step');
+var setSpecies = require('./_set-species');
+var DESCRIPTORS = require('./_descriptors');
+var fastKey = require('./_meta').fastKey;
+var validate = require('./_validate-collection');
+var SIZE = DESCRIPTORS ? '_s' : 'size';
+
+var getEntry = function (that, key) {
   // fast case
-  var index = fastKey(key), entry;
-  if(index !== 'F')return that._i[index];
+  var index = fastKey(key);
+  var entry;
+  if (index !== 'F') return that._i[index];
   // frozen object case
-  for(entry = that._f; entry; entry = entry.n){
-    if(entry.k == key)return entry;
+  for (entry = that._f; entry; entry = entry.n) {
+    if (entry.k == key) return entry;
   }
 };
 
 module.exports = {
-  getConstructor: function(wrapper, NAME, IS_MAP, ADDER){
-    var C = wrapper(function(that, iterable){
+  getConstructor: function (wrapper, NAME, IS_MAP, ADDER) {
+    var C = wrapper(function (that, iterable) {
       anInstance(that, C, NAME, '_i');
+      that._t = NAME;         // collection type
       that._i = create(null); // index
       that._f = undefined;    // first entry
       that._l = undefined;    // last entry
       that[SIZE] = 0;         // size
-      if(iterable != undefined)forOf(iterable, IS_MAP, that[ADDER], that);
+      if (iterable != undefined) forOf(iterable, IS_MAP, that[ADDER], that);
     });
     redefineAll(C.prototype, {
       // 23.1.3.1 Map.prototype.clear()
       // 23.2.3.2 Set.prototype.clear()
-      clear: function clear(){
-        for(var that = this, data = that._i, entry = that._f; entry; entry = entry.n){
+      clear: function clear() {
+        for (var that = validate(this, NAME), data = that._i, entry = that._f; entry; entry = entry.n) {
           entry.r = true;
-          if(entry.p)entry.p = entry.p.n = undefined;
+          if (entry.p) entry.p = entry.p.n = undefined;
           delete data[entry.i];
         }
         that._f = that._l = undefined;
@@ -7947,51 +14956,51 @@ module.exports = {
       },
       // 23.1.3.3 Map.prototype.delete(key)
       // 23.2.3.4 Set.prototype.delete(value)
-      'delete': function(key){
-        var that  = this
-          , entry = getEntry(that, key);
-        if(entry){
-          var next = entry.n
-            , prev = entry.p;
+      'delete': function (key) {
+        var that = validate(this, NAME);
+        var entry = getEntry(that, key);
+        if (entry) {
+          var next = entry.n;
+          var prev = entry.p;
           delete that._i[entry.i];
           entry.r = true;
-          if(prev)prev.n = next;
-          if(next)next.p = prev;
-          if(that._f == entry)that._f = next;
-          if(that._l == entry)that._l = prev;
+          if (prev) prev.n = next;
+          if (next) next.p = prev;
+          if (that._f == entry) that._f = next;
+          if (that._l == entry) that._l = prev;
           that[SIZE]--;
         } return !!entry;
       },
       // 23.2.3.6 Set.prototype.forEach(callbackfn, thisArg = undefined)
       // 23.1.3.5 Map.prototype.forEach(callbackfn, thisArg = undefined)
-      forEach: function forEach(callbackfn /*, that = undefined */){
-        anInstance(this, C, 'forEach');
-        var f = ctx(callbackfn, arguments.length > 1 ? arguments[1] : undefined, 3)
-          , entry;
-        while(entry = entry ? entry.n : this._f){
+      forEach: function forEach(callbackfn /* , that = undefined */) {
+        validate(this, NAME);
+        var f = ctx(callbackfn, arguments.length > 1 ? arguments[1] : undefined, 3);
+        var entry;
+        while (entry = entry ? entry.n : this._f) {
           f(entry.v, entry.k, this);
           // revert to the last existing entry
-          while(entry && entry.r)entry = entry.p;
+          while (entry && entry.r) entry = entry.p;
         }
       },
       // 23.1.3.7 Map.prototype.has(key)
       // 23.2.3.7 Set.prototype.has(value)
-      has: function has(key){
-        return !!getEntry(this, key);
+      has: function has(key) {
+        return !!getEntry(validate(this, NAME), key);
       }
     });
-    if(DESCRIPTORS)dP(C.prototype, 'size', {
-      get: function(){
-        return defined(this[SIZE]);
+    if (DESCRIPTORS) dP(C.prototype, 'size', {
+      get: function () {
+        return validate(this, NAME)[SIZE];
       }
     });
     return C;
   },
-  def: function(that, key, value){
-    var entry = getEntry(that, key)
-      , prev, index;
+  def: function (that, key, value) {
+    var entry = getEntry(that, key);
+    var prev, index;
     // change existing entry
-    if(entry){
+    if (entry) {
       entry.v = value;
     // create new entry
     } else {
@@ -8003,99 +15012,101 @@ module.exports = {
         n: undefined,                  // <- next entry
         r: false                       // <- removed
       };
-      if(!that._f)that._f = entry;
-      if(prev)prev.n = entry;
+      if (!that._f) that._f = entry;
+      if (prev) prev.n = entry;
       that[SIZE]++;
       // add to index
-      if(index !== 'F')that._i[index] = entry;
+      if (index !== 'F') that._i[index] = entry;
     } return that;
   },
   getEntry: getEntry,
-  setStrong: function(C, NAME, IS_MAP){
+  setStrong: function (C, NAME, IS_MAP) {
     // add .keys, .values, .entries, [@@iterator]
     // 23.1.3.4, 23.1.3.8, 23.1.3.11, 23.1.3.12, 23.2.3.5, 23.2.3.8, 23.2.3.10, 23.2.3.11
-    $iterDefine(C, NAME, function(iterated, kind){
-      this._t = iterated;  // target
-      this._k = kind;      // kind
-      this._l = undefined; // previous
-    }, function(){
-      var that  = this
-        , kind  = that._k
-        , entry = that._l;
+    $iterDefine(C, NAME, function (iterated, kind) {
+      this._t = validate(iterated, NAME); // target
+      this._k = kind;                     // kind
+      this._l = undefined;                // previous
+    }, function () {
+      var that = this;
+      var kind = that._k;
+      var entry = that._l;
       // revert to the last existing entry
-      while(entry && entry.r)entry = entry.p;
+      while (entry && entry.r) entry = entry.p;
       // get next entry
-      if(!that._t || !(that._l = entry = entry ? entry.n : that._t._f)){
+      if (!that._t || !(that._l = entry = entry ? entry.n : that._t._f)) {
         // or finish the iteration
         that._t = undefined;
         return step(1);
       }
       // return step by kind
-      if(kind == 'keys'  )return step(0, entry.k);
-      if(kind == 'values')return step(0, entry.v);
+      if (kind == 'keys') return step(0, entry.k);
+      if (kind == 'values') return step(0, entry.v);
       return step(0, [entry.k, entry.v]);
-    }, IS_MAP ? 'entries' : 'values' , !IS_MAP, true);
+    }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
 
     // add [@@species], 23.1.2.2, 23.2.2.2
     setSpecies(NAME);
   }
 };
-},{"./_an-instance":39,"./_ctx":52,"./_defined":53,"./_descriptors":54,"./_for-of":60,"./_iter-define":73,"./_iter-step":75,"./_meta":79,"./_object-create":82,"./_object-dp":83,"./_redefine-all":95,"./_set-species":98}],49:[function(require,module,exports){
+
+},{"./_an-instance":42,"./_ctx":55,"./_descriptors":57,"./_for-of":63,"./_iter-define":76,"./_iter-step":78,"./_meta":81,"./_object-create":85,"./_object-dp":86,"./_redefine-all":100,"./_set-species":105,"./_validate-collection":120}],52:[function(require,module,exports){
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var classof = require('./_classof')
-  , from    = require('./_array-from-iterable');
-module.exports = function(NAME){
-  return function toJSON(){
-    if(classof(this) != NAME)throw TypeError(NAME + "#toJSON isn't generic");
+var classof = require('./_classof');
+var from = require('./_array-from-iterable');
+module.exports = function (NAME) {
+  return function toJSON() {
+    if (classof(this) != NAME) throw TypeError(NAME + "#toJSON isn't generic");
     return from(this);
   };
 };
-},{"./_array-from-iterable":41,"./_classof":46}],50:[function(require,module,exports){
-'use strict';
-var global         = require('./_global')
-  , $export        = require('./_export')
-  , meta           = require('./_meta')
-  , fails          = require('./_fails')
-  , hide           = require('./_hide')
-  , redefineAll    = require('./_redefine-all')
-  , forOf          = require('./_for-of')
-  , anInstance     = require('./_an-instance')
-  , isObject       = require('./_is-object')
-  , setToStringTag = require('./_set-to-string-tag')
-  , dP             = require('./_object-dp').f
-  , each           = require('./_array-methods')(0)
-  , DESCRIPTORS    = require('./_descriptors');
 
-module.exports = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
-  var Base  = global[NAME]
-    , C     = Base
-    , ADDER = IS_MAP ? 'set' : 'add'
-    , proto = C && C.prototype
-    , O     = {};
-  if(!DESCRIPTORS || typeof C != 'function' || !(IS_WEAK || proto.forEach && !fails(function(){
+},{"./_array-from-iterable":44,"./_classof":49}],53:[function(require,module,exports){
+'use strict';
+var global = require('./_global');
+var $export = require('./_export');
+var meta = require('./_meta');
+var fails = require('./_fails');
+var hide = require('./_hide');
+var redefineAll = require('./_redefine-all');
+var forOf = require('./_for-of');
+var anInstance = require('./_an-instance');
+var isObject = require('./_is-object');
+var setToStringTag = require('./_set-to-string-tag');
+var dP = require('./_object-dp').f;
+var each = require('./_array-methods')(0);
+var DESCRIPTORS = require('./_descriptors');
+
+module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
+  var Base = global[NAME];
+  var C = Base;
+  var ADDER = IS_MAP ? 'set' : 'add';
+  var proto = C && C.prototype;
+  var O = {};
+  if (!DESCRIPTORS || typeof C != 'function' || !(IS_WEAK || proto.forEach && !fails(function () {
     new C().entries().next();
-  }))){
+  }))) {
     // create collection constructor
     C = common.getConstructor(wrapper, NAME, IS_MAP, ADDER);
     redefineAll(C.prototype, methods);
     meta.NEED = true;
   } else {
-    C = wrapper(function(target, iterable){
+    C = wrapper(function (target, iterable) {
       anInstance(target, C, NAME, '_c');
-      target._c = new Base;
-      if(iterable != undefined)forOf(iterable, IS_MAP, target[ADDER], target);
+      target._c = new Base();
+      if (iterable != undefined) forOf(iterable, IS_MAP, target[ADDER], target);
     });
-    each('add,clear,delete,forEach,get,has,set,keys,values,entries,toJSON'.split(','),function(KEY){
+    each('add,clear,delete,forEach,get,has,set,keys,values,entries,toJSON'.split(','), function (KEY) {
       var IS_ADDER = KEY == 'add' || KEY == 'set';
-      if(KEY in proto && !(IS_WEAK && KEY == 'clear'))hide(C.prototype, KEY, function(a, b){
+      if (KEY in proto && !(IS_WEAK && KEY == 'clear')) hide(C.prototype, KEY, function (a, b) {
         anInstance(this, C, KEY);
-        if(!IS_ADDER && IS_WEAK && !isObject(a))return KEY == 'get' ? undefined : false;
+        if (!IS_ADDER && IS_WEAK && !isObject(a)) return KEY == 'get' ? undefined : false;
         var result = this._c[KEY](a === 0 ? 0 : a, b);
         return IS_ADDER ? this : result;
       });
     });
-    if('size' in proto)dP(C.prototype, 'size', {
-      get: function(){
+    IS_WEAK || dP(C.prototype, 'size', {
+      get: function () {
         return this._c.size;
       }
     });
@@ -8106,97 +15117,106 @@ module.exports = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
   O[NAME] = C;
   $export($export.G + $export.W + $export.F, O);
 
-  if(!IS_WEAK)common.setStrong(C, NAME, IS_MAP);
+  if (!IS_WEAK) common.setStrong(C, NAME, IS_MAP);
 
   return C;
 };
-},{"./_an-instance":39,"./_array-methods":43,"./_descriptors":54,"./_export":58,"./_fails":59,"./_for-of":60,"./_global":61,"./_hide":63,"./_is-object":70,"./_meta":79,"./_object-dp":83,"./_redefine-all":95,"./_set-to-string-tag":99}],51:[function(require,module,exports){
-var core = module.exports = {version: '2.4.0'};
-if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-},{}],52:[function(require,module,exports){
+
+},{"./_an-instance":42,"./_array-methods":46,"./_descriptors":57,"./_export":61,"./_fails":62,"./_for-of":63,"./_global":64,"./_hide":66,"./_is-object":73,"./_meta":81,"./_object-dp":86,"./_redefine-all":100,"./_set-to-string-tag":106}],54:[function(require,module,exports){
+var core = module.exports = { version: '2.6.12' };
+if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
+},{}],55:[function(require,module,exports){
 // optional / simple context binding
 var aFunction = require('./_a-function');
-module.exports = function(fn, that, length){
+module.exports = function (fn, that, length) {
   aFunction(fn);
-  if(that === undefined)return fn;
-  switch(length){
-    case 1: return function(a){
+  if (that === undefined) return fn;
+  switch (length) {
+    case 1: return function (a) {
       return fn.call(that, a);
     };
-    case 2: return function(a, b){
+    case 2: return function (a, b) {
       return fn.call(that, a, b);
     };
-    case 3: return function(a, b, c){
+    case 3: return function (a, b, c) {
       return fn.call(that, a, b, c);
     };
   }
-  return function(/* ...args */){
+  return function (/* ...args */) {
     return fn.apply(that, arguments);
   };
 };
-},{"./_a-function":37}],53:[function(require,module,exports){
+
+},{"./_a-function":40}],56:[function(require,module,exports){
 // 7.2.1 RequireObjectCoercible(argument)
-module.exports = function(it){
-  if(it == undefined)throw TypeError("Can't call method on  " + it);
+module.exports = function (it) {
+  if (it == undefined) throw TypeError("Can't call method on  " + it);
   return it;
 };
-},{}],54:[function(require,module,exports){
+
+},{}],57:[function(require,module,exports){
 // Thank's IE8 for his funny defineProperty
-module.exports = !require('./_fails')(function(){
-  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+module.exports = !require('./_fails')(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
 });
-},{"./_fails":59}],55:[function(require,module,exports){
-var isObject = require('./_is-object')
-  , document = require('./_global').document
-  // in old IE typeof document.createElement is 'object'
-  , is = isObject(document) && isObject(document.createElement);
-module.exports = function(it){
+
+},{"./_fails":62}],58:[function(require,module,exports){
+var isObject = require('./_is-object');
+var document = require('./_global').document;
+// typeof document.createElement is 'object' in old IE
+var is = isObject(document) && isObject(document.createElement);
+module.exports = function (it) {
   return is ? document.createElement(it) : {};
 };
-},{"./_global":61,"./_is-object":70}],56:[function(require,module,exports){
+
+},{"./_global":64,"./_is-object":73}],59:[function(require,module,exports){
 // IE 8- don't enum bug keys
 module.exports = (
   'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
 ).split(',');
-},{}],57:[function(require,module,exports){
+
+},{}],60:[function(require,module,exports){
 // all enumerable object keys, includes symbols
-var getKeys = require('./_object-keys')
-  , gOPS    = require('./_object-gops')
-  , pIE     = require('./_object-pie');
-module.exports = function(it){
-  var result     = getKeys(it)
-    , getSymbols = gOPS.f;
-  if(getSymbols){
-    var symbols = getSymbols(it)
-      , isEnum  = pIE.f
-      , i       = 0
-      , key;
-    while(symbols.length > i)if(isEnum.call(it, key = symbols[i++]))result.push(key);
+var getKeys = require('./_object-keys');
+var gOPS = require('./_object-gops');
+var pIE = require('./_object-pie');
+module.exports = function (it) {
+  var result = getKeys(it);
+  var getSymbols = gOPS.f;
+  if (getSymbols) {
+    var symbols = getSymbols(it);
+    var isEnum = pIE.f;
+    var i = 0;
+    var key;
+    while (symbols.length > i) if (isEnum.call(it, key = symbols[i++])) result.push(key);
   } return result;
 };
-},{"./_object-gops":88,"./_object-keys":91,"./_object-pie":92}],58:[function(require,module,exports){
-var global    = require('./_global')
-  , core      = require('./_core')
-  , ctx       = require('./_ctx')
-  , hide      = require('./_hide')
-  , PROTOTYPE = 'prototype';
 
-var $export = function(type, name, source){
-  var IS_FORCED = type & $export.F
-    , IS_GLOBAL = type & $export.G
-    , IS_STATIC = type & $export.S
-    , IS_PROTO  = type & $export.P
-    , IS_BIND   = type & $export.B
-    , IS_WRAP   = type & $export.W
-    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
-    , expProto  = exports[PROTOTYPE]
-    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
-    , key, own, out;
-  if(IS_GLOBAL)source = name;
-  for(key in source){
+},{"./_object-gops":91,"./_object-keys":94,"./_object-pie":95}],61:[function(require,module,exports){
+var global = require('./_global');
+var core = require('./_core');
+var ctx = require('./_ctx');
+var hide = require('./_hide');
+var has = require('./_has');
+var PROTOTYPE = 'prototype';
+
+var $export = function (type, name, source) {
+  var IS_FORCED = type & $export.F;
+  var IS_GLOBAL = type & $export.G;
+  var IS_STATIC = type & $export.S;
+  var IS_PROTO = type & $export.P;
+  var IS_BIND = type & $export.B;
+  var IS_WRAP = type & $export.W;
+  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
+  var expProto = exports[PROTOTYPE];
+  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE];
+  var key, own, out;
+  if (IS_GLOBAL) source = name;
+  for (key in source) {
     // contains in native
     own = !IS_FORCED && target && target[key] !== undefined;
-    if(own && key in exports)continue;
+    if (own && has(exports, key)) continue;
     // export native or passed
     out = own ? target[key] : source[key];
     // prevent global pollution for namespaces
@@ -8204,11 +15224,11 @@ var $export = function(type, name, source){
     // bind timers to global for call from export context
     : IS_BIND && own ? ctx(out, global)
     // wrap global constructors for prevent change them in library
-    : IS_WRAP && target[key] == out ? (function(C){
-      var F = function(a, b, c){
-        if(this instanceof C){
-          switch(arguments.length){
-            case 0: return new C;
+    : IS_WRAP && target[key] == out ? (function (C) {
+      var F = function (a, b, c) {
+        if (this instanceof C) {
+          switch (arguments.length) {
+            case 0: return new C();
             case 1: return new C(a);
             case 2: return new C(a, b);
           } return new C(a, b, c);
@@ -8219,10 +15239,10 @@ var $export = function(type, name, source){
     // make static versions for prototype methods
     })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
     // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
-    if(IS_PROTO){
+    if (IS_PROTO) {
       (exports.virtual || (exports.virtual = {}))[key] = out;
       // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
-      if(type & $export.R && expProto && !expProto[key])hide(expProto, key, out);
+      if (type & $export.R && expProto && !expProto[key]) hide(expProto, key, out);
     }
   }
 };
@@ -8234,72 +15254,83 @@ $export.P = 8;   // proto
 $export.B = 16;  // bind
 $export.W = 32;  // wrap
 $export.U = 64;  // safe
-$export.R = 128; // real proto method for `library` 
+$export.R = 128; // real proto method for `library`
 module.exports = $export;
-},{"./_core":51,"./_ctx":52,"./_global":61,"./_hide":63}],59:[function(require,module,exports){
-module.exports = function(exec){
+
+},{"./_core":54,"./_ctx":55,"./_global":64,"./_has":65,"./_hide":66}],62:[function(require,module,exports){
+module.exports = function (exec) {
   try {
     return !!exec();
-  } catch(e){
+  } catch (e) {
     return true;
   }
 };
-},{}],60:[function(require,module,exports){
-var ctx         = require('./_ctx')
-  , call        = require('./_iter-call')
-  , isArrayIter = require('./_is-array-iter')
-  , anObject    = require('./_an-object')
-  , toLength    = require('./_to-length')
-  , getIterFn   = require('./core.get-iterator-method')
-  , BREAK       = {}
-  , RETURN      = {};
-var exports = module.exports = function(iterable, entries, fn, that, ITERATOR){
-  var iterFn = ITERATOR ? function(){ return iterable; } : getIterFn(iterable)
-    , f      = ctx(fn, that, entries ? 2 : 1)
-    , index  = 0
-    , length, step, iterator, result;
-  if(typeof iterFn != 'function')throw TypeError(iterable + ' is not iterable!');
+
+},{}],63:[function(require,module,exports){
+var ctx = require('./_ctx');
+var call = require('./_iter-call');
+var isArrayIter = require('./_is-array-iter');
+var anObject = require('./_an-object');
+var toLength = require('./_to-length');
+var getIterFn = require('./core.get-iterator-method');
+var BREAK = {};
+var RETURN = {};
+var exports = module.exports = function (iterable, entries, fn, that, ITERATOR) {
+  var iterFn = ITERATOR ? function () { return iterable; } : getIterFn(iterable);
+  var f = ctx(fn, that, entries ? 2 : 1);
+  var index = 0;
+  var length, step, iterator, result;
+  if (typeof iterFn != 'function') throw TypeError(iterable + ' is not iterable!');
   // fast case for arrays with default iterator
-  if(isArrayIter(iterFn))for(length = toLength(iterable.length); length > index; index++){
+  if (isArrayIter(iterFn)) for (length = toLength(iterable.length); length > index; index++) {
     result = entries ? f(anObject(step = iterable[index])[0], step[1]) : f(iterable[index]);
-    if(result === BREAK || result === RETURN)return result;
-  } else for(iterator = iterFn.call(iterable); !(step = iterator.next()).done; ){
+    if (result === BREAK || result === RETURN) return result;
+  } else for (iterator = iterFn.call(iterable); !(step = iterator.next()).done;) {
     result = call(iterator, f, step.value, entries);
-    if(result === BREAK || result === RETURN)return result;
+    if (result === BREAK || result === RETURN) return result;
   }
 };
-exports.BREAK  = BREAK;
+exports.BREAK = BREAK;
 exports.RETURN = RETURN;
-},{"./_an-object":40,"./_ctx":52,"./_is-array-iter":68,"./_iter-call":71,"./_to-length":108,"./core.get-iterator-method":115}],61:[function(require,module,exports){
+
+},{"./_an-object":43,"./_ctx":55,"./_is-array-iter":71,"./_iter-call":74,"./_to-length":115,"./core.get-iterator-method":124}],64:[function(require,module,exports){
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
-if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-},{}],62:[function(require,module,exports){
+  ? window : typeof self != 'undefined' && self.Math == Math ? self
+  // eslint-disable-next-line no-new-func
+  : Function('return this')();
+if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+
+},{}],65:[function(require,module,exports){
 var hasOwnProperty = {}.hasOwnProperty;
-module.exports = function(it, key){
+module.exports = function (it, key) {
   return hasOwnProperty.call(it, key);
 };
-},{}],63:[function(require,module,exports){
-var dP         = require('./_object-dp')
-  , createDesc = require('./_property-desc');
-module.exports = require('./_descriptors') ? function(object, key, value){
+
+},{}],66:[function(require,module,exports){
+var dP = require('./_object-dp');
+var createDesc = require('./_property-desc');
+module.exports = require('./_descriptors') ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
-} : function(object, key, value){
+} : function (object, key, value) {
   object[key] = value;
   return object;
 };
-},{"./_descriptors":54,"./_object-dp":83,"./_property-desc":94}],64:[function(require,module,exports){
-module.exports = require('./_global').document && document.documentElement;
-},{"./_global":61}],65:[function(require,module,exports){
-module.exports = !require('./_descriptors') && !require('./_fails')(function(){
-  return Object.defineProperty(require('./_dom-create')('div'), 'a', {get: function(){ return 7; }}).a != 7;
+
+},{"./_descriptors":57,"./_object-dp":86,"./_property-desc":99}],67:[function(require,module,exports){
+var document = require('./_global').document;
+module.exports = document && document.documentElement;
+
+},{"./_global":64}],68:[function(require,module,exports){
+module.exports = !require('./_descriptors') && !require('./_fails')(function () {
+  return Object.defineProperty(require('./_dom-create')('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
-},{"./_descriptors":54,"./_dom-create":55,"./_fails":59}],66:[function(require,module,exports){
+
+},{"./_descriptors":57,"./_dom-create":58,"./_fails":62}],69:[function(require,module,exports){
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
-module.exports = function(fn, args, that){
+module.exports = function (fn, args, that) {
   var un = that === undefined;
-  switch(args.length){
+  switch (args.length) {
     case 0: return un ? fn()
                       : fn.call(that);
     case 1: return un ? fn(args[0])
@@ -8310,271 +15341,275 @@ module.exports = function(fn, args, that){
                       : fn.call(that, args[0], args[1], args[2]);
     case 4: return un ? fn(args[0], args[1], args[2], args[3])
                       : fn.call(that, args[0], args[1], args[2], args[3]);
-  } return              fn.apply(that, args);
+  } return fn.apply(that, args);
 };
-},{}],67:[function(require,module,exports){
+
+},{}],70:[function(require,module,exports){
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
 var cof = require('./_cof');
-module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+// eslint-disable-next-line no-prototype-builtins
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
-},{"./_cof":47}],68:[function(require,module,exports){
-// check on default Array iterator
-var Iterators  = require('./_iterators')
-  , ITERATOR   = require('./_wks')('iterator')
-  , ArrayProto = Array.prototype;
 
-module.exports = function(it){
+},{"./_cof":50}],71:[function(require,module,exports){
+// check on default Array iterator
+var Iterators = require('./_iterators');
+var ITERATOR = require('./_wks')('iterator');
+var ArrayProto = Array.prototype;
+
+module.exports = function (it) {
   return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
 };
-},{"./_iterators":76,"./_wks":114}],69:[function(require,module,exports){
+
+},{"./_iterators":79,"./_wks":123}],72:[function(require,module,exports){
 // 7.2.2 IsArray(argument)
 var cof = require('./_cof');
-module.exports = Array.isArray || function isArray(arg){
+module.exports = Array.isArray || function isArray(arg) {
   return cof(arg) == 'Array';
 };
-},{"./_cof":47}],70:[function(require,module,exports){
-module.exports = function(it){
+
+},{"./_cof":50}],73:[function(require,module,exports){
+module.exports = function (it) {
   return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
-},{}],71:[function(require,module,exports){
+
+},{}],74:[function(require,module,exports){
 // call something on iterator step with safe closing on error
 var anObject = require('./_an-object');
-module.exports = function(iterator, fn, value, entries){
+module.exports = function (iterator, fn, value, entries) {
   try {
     return entries ? fn(anObject(value)[0], value[1]) : fn(value);
   // 7.4.6 IteratorClose(iterator, completion)
-  } catch(e){
+  } catch (e) {
     var ret = iterator['return'];
-    if(ret !== undefined)anObject(ret.call(iterator));
+    if (ret !== undefined) anObject(ret.call(iterator));
     throw e;
   }
 };
-},{"./_an-object":40}],72:[function(require,module,exports){
+
+},{"./_an-object":43}],75:[function(require,module,exports){
 'use strict';
-var create         = require('./_object-create')
-  , descriptor     = require('./_property-desc')
-  , setToStringTag = require('./_set-to-string-tag')
-  , IteratorPrototype = {};
+var create = require('./_object-create');
+var descriptor = require('./_property-desc');
+var setToStringTag = require('./_set-to-string-tag');
+var IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-require('./_hide')(IteratorPrototype, require('./_wks')('iterator'), function(){ return this; });
+require('./_hide')(IteratorPrototype, require('./_wks')('iterator'), function () { return this; });
 
-module.exports = function(Constructor, NAME, next){
-  Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
+module.exports = function (Constructor, NAME, next) {
+  Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
   setToStringTag(Constructor, NAME + ' Iterator');
 };
-},{"./_hide":63,"./_object-create":82,"./_property-desc":94,"./_set-to-string-tag":99,"./_wks":114}],73:[function(require,module,exports){
+
+},{"./_hide":66,"./_object-create":85,"./_property-desc":99,"./_set-to-string-tag":106,"./_wks":123}],76:[function(require,module,exports){
 'use strict';
-var LIBRARY        = require('./_library')
-  , $export        = require('./_export')
-  , redefine       = require('./_redefine')
-  , hide           = require('./_hide')
-  , has            = require('./_has')
-  , Iterators      = require('./_iterators')
-  , $iterCreate    = require('./_iter-create')
-  , setToStringTag = require('./_set-to-string-tag')
-  , getPrototypeOf = require('./_object-gpo')
-  , ITERATOR       = require('./_wks')('iterator')
-  , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
-  , FF_ITERATOR    = '@@iterator'
-  , KEYS           = 'keys'
-  , VALUES         = 'values';
+var LIBRARY = require('./_library');
+var $export = require('./_export');
+var redefine = require('./_redefine');
+var hide = require('./_hide');
+var Iterators = require('./_iterators');
+var $iterCreate = require('./_iter-create');
+var setToStringTag = require('./_set-to-string-tag');
+var getPrototypeOf = require('./_object-gpo');
+var ITERATOR = require('./_wks')('iterator');
+var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
+var FF_ITERATOR = '@@iterator';
+var KEYS = 'keys';
+var VALUES = 'values';
 
-var returnThis = function(){ return this; };
+var returnThis = function () { return this; };
 
-module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED){
+module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED) {
   $iterCreate(Constructor, NAME, next);
-  var getMethod = function(kind){
-    if(!BUGGY && kind in proto)return proto[kind];
-    switch(kind){
-      case KEYS: return function keys(){ return new Constructor(this, kind); };
-      case VALUES: return function values(){ return new Constructor(this, kind); };
-    } return function entries(){ return new Constructor(this, kind); };
+  var getMethod = function (kind) {
+    if (!BUGGY && kind in proto) return proto[kind];
+    switch (kind) {
+      case KEYS: return function keys() { return new Constructor(this, kind); };
+      case VALUES: return function values() { return new Constructor(this, kind); };
+    } return function entries() { return new Constructor(this, kind); };
   };
-  var TAG        = NAME + ' Iterator'
-    , DEF_VALUES = DEFAULT == VALUES
-    , VALUES_BUG = false
-    , proto      = Base.prototype
-    , $native    = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT]
-    , $default   = $native || getMethod(DEFAULT)
-    , $entries   = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined
-    , $anyNative = NAME == 'Array' ? proto.entries || $native : $native
-    , methods, key, IteratorPrototype;
+  var TAG = NAME + ' Iterator';
+  var DEF_VALUES = DEFAULT == VALUES;
+  var VALUES_BUG = false;
+  var proto = Base.prototype;
+  var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
+  var $default = $native || getMethod(DEFAULT);
+  var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
+  var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
+  var methods, key, IteratorPrototype;
   // Fix native
-  if($anyNative){
-    IteratorPrototype = getPrototypeOf($anyNative.call(new Base));
-    if(IteratorPrototype !== Object.prototype){
+  if ($anyNative) {
+    IteratorPrototype = getPrototypeOf($anyNative.call(new Base()));
+    if (IteratorPrototype !== Object.prototype && IteratorPrototype.next) {
       // Set @@toStringTag to native iterators
       setToStringTag(IteratorPrototype, TAG, true);
       // fix for some old engines
-      if(!LIBRARY && !has(IteratorPrototype, ITERATOR))hide(IteratorPrototype, ITERATOR, returnThis);
+      if (!LIBRARY && typeof IteratorPrototype[ITERATOR] != 'function') hide(IteratorPrototype, ITERATOR, returnThis);
     }
   }
   // fix Array#{values, @@iterator}.name in V8 / FF
-  if(DEF_VALUES && $native && $native.name !== VALUES){
+  if (DEF_VALUES && $native && $native.name !== VALUES) {
     VALUES_BUG = true;
-    $default = function values(){ return $native.call(this); };
+    $default = function values() { return $native.call(this); };
   }
   // Define iterator
-  if((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])){
+  if ((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
     hide(proto, ITERATOR, $default);
   }
   // Plug for library
   Iterators[NAME] = $default;
-  Iterators[TAG]  = returnThis;
-  if(DEFAULT){
+  Iterators[TAG] = returnThis;
+  if (DEFAULT) {
     methods = {
-      values:  DEF_VALUES ? $default : getMethod(VALUES),
-      keys:    IS_SET     ? $default : getMethod(KEYS),
+      values: DEF_VALUES ? $default : getMethod(VALUES),
+      keys: IS_SET ? $default : getMethod(KEYS),
       entries: $entries
     };
-    if(FORCED)for(key in methods){
-      if(!(key in proto))redefine(proto, key, methods[key]);
+    if (FORCED) for (key in methods) {
+      if (!(key in proto)) redefine(proto, key, methods[key]);
     } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
   }
   return methods;
 };
-},{"./_export":58,"./_has":62,"./_hide":63,"./_iter-create":72,"./_iterators":76,"./_library":78,"./_object-gpo":89,"./_redefine":96,"./_set-to-string-tag":99,"./_wks":114}],74:[function(require,module,exports){
-var ITERATOR     = require('./_wks')('iterator')
-  , SAFE_CLOSING = false;
+
+},{"./_export":61,"./_hide":66,"./_iter-create":75,"./_iterators":79,"./_library":80,"./_object-gpo":92,"./_redefine":101,"./_set-to-string-tag":106,"./_wks":123}],77:[function(require,module,exports){
+var ITERATOR = require('./_wks')('iterator');
+var SAFE_CLOSING = false;
 
 try {
   var riter = [7][ITERATOR]();
-  riter['return'] = function(){ SAFE_CLOSING = true; };
-  Array.from(riter, function(){ throw 2; });
-} catch(e){ /* empty */ }
+  riter['return'] = function () { SAFE_CLOSING = true; };
+  // eslint-disable-next-line no-throw-literal
+  Array.from(riter, function () { throw 2; });
+} catch (e) { /* empty */ }
 
-module.exports = function(exec, skipClosing){
-  if(!skipClosing && !SAFE_CLOSING)return false;
+module.exports = function (exec, skipClosing) {
+  if (!skipClosing && !SAFE_CLOSING) return false;
   var safe = false;
   try {
-    var arr  = [7]
-      , iter = arr[ITERATOR]();
-    iter.next = function(){ return {done: safe = true}; };
-    arr[ITERATOR] = function(){ return iter; };
+    var arr = [7];
+    var iter = arr[ITERATOR]();
+    iter.next = function () { return { done: safe = true }; };
+    arr[ITERATOR] = function () { return iter; };
     exec(arr);
-  } catch(e){ /* empty */ }
+  } catch (e) { /* empty */ }
   return safe;
 };
-},{"./_wks":114}],75:[function(require,module,exports){
-module.exports = function(done, value){
-  return {value: value, done: !!done};
+
+},{"./_wks":123}],78:[function(require,module,exports){
+module.exports = function (done, value) {
+  return { value: value, done: !!done };
 };
-},{}],76:[function(require,module,exports){
-module.exports = {};
-},{}],77:[function(require,module,exports){
-var getKeys   = require('./_object-keys')
-  , toIObject = require('./_to-iobject');
-module.exports = function(object, el){
-  var O      = toIObject(object)
-    , keys   = getKeys(O)
-    , length = keys.length
-    , index  = 0
-    , key;
-  while(length > index)if(O[key = keys[index++]] === el)return key;
-};
-},{"./_object-keys":91,"./_to-iobject":107}],78:[function(require,module,exports){
-module.exports = true;
+
 },{}],79:[function(require,module,exports){
-var META     = require('./_uid')('meta')
-  , isObject = require('./_is-object')
-  , has      = require('./_has')
-  , setDesc  = require('./_object-dp').f
-  , id       = 0;
-var isExtensible = Object.isExtensible || function(){
+module.exports = {};
+
+},{}],80:[function(require,module,exports){
+module.exports = true;
+
+},{}],81:[function(require,module,exports){
+var META = require('./_uid')('meta');
+var isObject = require('./_is-object');
+var has = require('./_has');
+var setDesc = require('./_object-dp').f;
+var id = 0;
+var isExtensible = Object.isExtensible || function () {
   return true;
 };
-var FREEZE = !require('./_fails')(function(){
+var FREEZE = !require('./_fails')(function () {
   return isExtensible(Object.preventExtensions({}));
 });
-var setMeta = function(it){
-  setDesc(it, META, {value: {
+var setMeta = function (it) {
+  setDesc(it, META, { value: {
     i: 'O' + ++id, // object ID
     w: {}          // weak collections IDs
-  }});
+  } });
 };
-var fastKey = function(it, create){
+var fastKey = function (it, create) {
   // return primitive with prefix
-  if(!isObject(it))return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-  if(!has(it, META)){
+  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if (!has(it, META)) {
     // can't set metadata to uncaught frozen object
-    if(!isExtensible(it))return 'F';
+    if (!isExtensible(it)) return 'F';
     // not necessary to add metadata
-    if(!create)return 'E';
+    if (!create) return 'E';
     // add missing metadata
     setMeta(it);
   // return object ID
   } return it[META].i;
 };
-var getWeak = function(it, create){
-  if(!has(it, META)){
+var getWeak = function (it, create) {
+  if (!has(it, META)) {
     // can't set metadata to uncaught frozen object
-    if(!isExtensible(it))return true;
+    if (!isExtensible(it)) return true;
     // not necessary to add metadata
-    if(!create)return false;
+    if (!create) return false;
     // add missing metadata
     setMeta(it);
   // return hash weak collections IDs
   } return it[META].w;
 };
 // add metadata on freeze-family methods calling
-var onFreeze = function(it){
-  if(FREEZE && meta.NEED && isExtensible(it) && !has(it, META))setMeta(it);
+var onFreeze = function (it) {
+  if (FREEZE && meta.NEED && isExtensible(it) && !has(it, META)) setMeta(it);
   return it;
 };
 var meta = module.exports = {
-  KEY:      META,
-  NEED:     false,
-  fastKey:  fastKey,
-  getWeak:  getWeak,
+  KEY: META,
+  NEED: false,
+  fastKey: fastKey,
+  getWeak: getWeak,
   onFreeze: onFreeze
 };
-},{"./_fails":59,"./_has":62,"./_is-object":70,"./_object-dp":83,"./_uid":111}],80:[function(require,module,exports){
-var global    = require('./_global')
-  , macrotask = require('./_task').set
-  , Observer  = global.MutationObserver || global.WebKitMutationObserver
-  , process   = global.process
-  , Promise   = global.Promise
-  , isNode    = require('./_cof')(process) == 'process';
 
-module.exports = function(){
+},{"./_fails":62,"./_has":65,"./_is-object":73,"./_object-dp":86,"./_uid":118}],82:[function(require,module,exports){
+var global = require('./_global');
+var macrotask = require('./_task').set;
+var Observer = global.MutationObserver || global.WebKitMutationObserver;
+var process = global.process;
+var Promise = global.Promise;
+var isNode = require('./_cof')(process) == 'process';
+
+module.exports = function () {
   var head, last, notify;
 
-  var flush = function(){
+  var flush = function () {
     var parent, fn;
-    if(isNode && (parent = process.domain))parent.exit();
-    while(head){
-      fn   = head.fn;
+    if (isNode && (parent = process.domain)) parent.exit();
+    while (head) {
+      fn = head.fn;
       head = head.next;
       try {
         fn();
-      } catch(e){
-        if(head)notify();
+      } catch (e) {
+        if (head) notify();
         else last = undefined;
         throw e;
       }
     } last = undefined;
-    if(parent)parent.enter();
+    if (parent) parent.enter();
   };
 
   // Node.js
-  if(isNode){
-    notify = function(){
+  if (isNode) {
+    notify = function () {
       process.nextTick(flush);
     };
-  // browsers with MutationObserver
-  } else if(Observer){
-    var toggle = true
-      , node   = document.createTextNode('');
-    new Observer(flush).observe(node, {characterData: true}); // eslint-disable-line no-new
-    notify = function(){
+  // browsers with MutationObserver, except iOS Safari - https://github.com/zloirock/core-js/issues/339
+  } else if (Observer && !(global.navigator && global.navigator.standalone)) {
+    var toggle = true;
+    var node = document.createTextNode('');
+    new Observer(flush).observe(node, { characterData: true }); // eslint-disable-line no-new
+    notify = function () {
       node.data = toggle = !toggle;
     };
   // environments with maybe non-completely correct, but existent Promise
-  } else if(Promise && Promise.resolve){
-    var promise = Promise.resolve();
-    notify = function(){
+  } else if (Promise && Promise.resolve) {
+    // Promise.resolve without an argument throws an error in LG WebOS 2
+    var promise = Promise.resolve(undefined);
+    notify = function () {
       promise.then(flush);
     };
   // for other environments - macrotask based on:
@@ -8584,72 +15619,99 @@ module.exports = function(){
   // - onreadystatechange
   // - setTimeout
   } else {
-    notify = function(){
+    notify = function () {
       // strange IE + webpack dev server bug - use .call(global)
       macrotask.call(global, flush);
     };
   }
 
-  return function(fn){
-    var task = {fn: fn, next: undefined};
-    if(last)last.next = task;
-    if(!head){
+  return function (fn) {
+    var task = { fn: fn, next: undefined };
+    if (last) last.next = task;
+    if (!head) {
       head = task;
       notify();
     } last = task;
   };
 };
-},{"./_cof":47,"./_global":61,"./_task":104}],81:[function(require,module,exports){
+
+},{"./_cof":50,"./_global":64,"./_task":111}],83:[function(require,module,exports){
+'use strict';
+// 25.4.1.5 NewPromiseCapability(C)
+var aFunction = require('./_a-function');
+
+function PromiseCapability(C) {
+  var resolve, reject;
+  this.promise = new C(function ($$resolve, $$reject) {
+    if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
+    resolve = $$resolve;
+    reject = $$reject;
+  });
+  this.resolve = aFunction(resolve);
+  this.reject = aFunction(reject);
+}
+
+module.exports.f = function (C) {
+  return new PromiseCapability(C);
+};
+
+},{"./_a-function":40}],84:[function(require,module,exports){
 'use strict';
 // 19.1.2.1 Object.assign(target, source, ...)
-var getKeys  = require('./_object-keys')
-  , gOPS     = require('./_object-gops')
-  , pIE      = require('./_object-pie')
-  , toObject = require('./_to-object')
-  , IObject  = require('./_iobject')
-  , $assign  = Object.assign;
+var DESCRIPTORS = require('./_descriptors');
+var getKeys = require('./_object-keys');
+var gOPS = require('./_object-gops');
+var pIE = require('./_object-pie');
+var toObject = require('./_to-object');
+var IObject = require('./_iobject');
+var $assign = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
-module.exports = !$assign || require('./_fails')(function(){
-  var A = {}
-    , B = {}
-    , S = Symbol()
-    , K = 'abcdefghijklmnopqrst';
+module.exports = !$assign || require('./_fails')(function () {
+  var A = {};
+  var B = {};
+  // eslint-disable-next-line no-undef
+  var S = Symbol();
+  var K = 'abcdefghijklmnopqrst';
   A[S] = 7;
-  K.split('').forEach(function(k){ B[k] = k; });
+  K.split('').forEach(function (k) { B[k] = k; });
   return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
-}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
-  var T     = toObject(target)
-    , aLen  = arguments.length
-    , index = 1
-    , getSymbols = gOPS.f
-    , isEnum     = pIE.f;
-  while(aLen > index){
-    var S      = IObject(arguments[index++])
-      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
-      , length = keys.length
-      , j      = 0
-      , key;
-    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
+}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
+  var T = toObject(target);
+  var aLen = arguments.length;
+  var index = 1;
+  var getSymbols = gOPS.f;
+  var isEnum = pIE.f;
+  while (aLen > index) {
+    var S = IObject(arguments[index++]);
+    var keys = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S);
+    var length = keys.length;
+    var j = 0;
+    var key;
+    while (length > j) {
+      key = keys[j++];
+      if (!DESCRIPTORS || isEnum.call(S, key)) T[key] = S[key];
+    }
   } return T;
 } : $assign;
-},{"./_fails":59,"./_iobject":67,"./_object-gops":88,"./_object-keys":91,"./_object-pie":92,"./_to-object":109}],82:[function(require,module,exports){
+
+},{"./_descriptors":57,"./_fails":62,"./_iobject":70,"./_object-gops":91,"./_object-keys":94,"./_object-pie":95,"./_to-object":116}],85:[function(require,module,exports){
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-var anObject    = require('./_an-object')
-  , dPs         = require('./_object-dps')
-  , enumBugKeys = require('./_enum-bug-keys')
-  , IE_PROTO    = require('./_shared-key')('IE_PROTO')
-  , Empty       = function(){ /* empty */ }
-  , PROTOTYPE   = 'prototype';
+var anObject = require('./_an-object');
+var dPs = require('./_object-dps');
+var enumBugKeys = require('./_enum-bug-keys');
+var IE_PROTO = require('./_shared-key')('IE_PROTO');
+var Empty = function () { /* empty */ };
+var PROTOTYPE = 'prototype';
 
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
-var createDict = function(){
+var createDict = function () {
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = require('./_dom-create')('iframe')
-    , i      = enumBugKeys.length
-    , lt     = '<'
-    , gt     = '>'
-    , iframeDocument;
+  var iframe = require('./_dom-create')('iframe');
+  var i = enumBugKeys.length;
+  var lt = '<';
+  var gt = '>';
+  var iframeDocument;
   iframe.style.display = 'none';
   require('./_html').appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
@@ -8660,15 +15722,15 @@ var createDict = function(){
   iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
   iframeDocument.close();
   createDict = iframeDocument.F;
-  while(i--)delete createDict[PROTOTYPE][enumBugKeys[i]];
+  while (i--) delete createDict[PROTOTYPE][enumBugKeys[i]];
   return createDict();
 };
 
-module.exports = Object.create || function create(O, Properties){
+module.exports = Object.create || function create(O, Properties) {
   var result;
-  if(O !== null){
+  if (O !== null) {
     Empty[PROTOTYPE] = anObject(O);
-    result = new Empty;
+    result = new Empty();
     Empty[PROTOTYPE] = null;
     // add "__proto__" for Object.getPrototypeOf polyfill
     result[IE_PROTO] = O;
@@ -8676,453 +15738,584 @@ module.exports = Object.create || function create(O, Properties){
   return Properties === undefined ? result : dPs(result, Properties);
 };
 
-},{"./_an-object":40,"./_dom-create":55,"./_enum-bug-keys":56,"./_html":64,"./_object-dps":84,"./_shared-key":100}],83:[function(require,module,exports){
-var anObject       = require('./_an-object')
-  , IE8_DOM_DEFINE = require('./_ie8-dom-define')
-  , toPrimitive    = require('./_to-primitive')
-  , dP             = Object.defineProperty;
+},{"./_an-object":43,"./_dom-create":58,"./_enum-bug-keys":59,"./_html":67,"./_object-dps":87,"./_shared-key":107}],86:[function(require,module,exports){
+var anObject = require('./_an-object');
+var IE8_DOM_DEFINE = require('./_ie8-dom-define');
+var toPrimitive = require('./_to-primitive');
+var dP = Object.defineProperty;
 
-exports.f = require('./_descriptors') ? Object.defineProperty : function defineProperty(O, P, Attributes){
+exports.f = require('./_descriptors') ? Object.defineProperty : function defineProperty(O, P, Attributes) {
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
-  if(IE8_DOM_DEFINE)try {
+  if (IE8_DOM_DEFINE) try {
     return dP(O, P, Attributes);
-  } catch(e){ /* empty */ }
-  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
-  if('value' in Attributes)O[P] = Attributes.value;
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
   return O;
 };
-},{"./_an-object":40,"./_descriptors":54,"./_ie8-dom-define":65,"./_to-primitive":110}],84:[function(require,module,exports){
-var dP       = require('./_object-dp')
-  , anObject = require('./_an-object')
-  , getKeys  = require('./_object-keys');
 
-module.exports = require('./_descriptors') ? Object.defineProperties : function defineProperties(O, Properties){
+},{"./_an-object":43,"./_descriptors":57,"./_ie8-dom-define":68,"./_to-primitive":117}],87:[function(require,module,exports){
+var dP = require('./_object-dp');
+var anObject = require('./_an-object');
+var getKeys = require('./_object-keys');
+
+module.exports = require('./_descriptors') ? Object.defineProperties : function defineProperties(O, Properties) {
   anObject(O);
-  var keys   = getKeys(Properties)
-    , length = keys.length
-    , i = 0
-    , P;
-  while(length > i)dP.f(O, P = keys[i++], Properties[P]);
+  var keys = getKeys(Properties);
+  var length = keys.length;
+  var i = 0;
+  var P;
+  while (length > i) dP.f(O, P = keys[i++], Properties[P]);
   return O;
 };
-},{"./_an-object":40,"./_descriptors":54,"./_object-dp":83,"./_object-keys":91}],85:[function(require,module,exports){
-var pIE            = require('./_object-pie')
-  , createDesc     = require('./_property-desc')
-  , toIObject      = require('./_to-iobject')
-  , toPrimitive    = require('./_to-primitive')
-  , has            = require('./_has')
-  , IE8_DOM_DEFINE = require('./_ie8-dom-define')
-  , gOPD           = Object.getOwnPropertyDescriptor;
 
-exports.f = require('./_descriptors') ? gOPD : function getOwnPropertyDescriptor(O, P){
+},{"./_an-object":43,"./_descriptors":57,"./_object-dp":86,"./_object-keys":94}],88:[function(require,module,exports){
+var pIE = require('./_object-pie');
+var createDesc = require('./_property-desc');
+var toIObject = require('./_to-iobject');
+var toPrimitive = require('./_to-primitive');
+var has = require('./_has');
+var IE8_DOM_DEFINE = require('./_ie8-dom-define');
+var gOPD = Object.getOwnPropertyDescriptor;
+
+exports.f = require('./_descriptors') ? gOPD : function getOwnPropertyDescriptor(O, P) {
   O = toIObject(O);
   P = toPrimitive(P, true);
-  if(IE8_DOM_DEFINE)try {
+  if (IE8_DOM_DEFINE) try {
     return gOPD(O, P);
-  } catch(e){ /* empty */ }
-  if(has(O, P))return createDesc(!pIE.f.call(O, P), O[P]);
+  } catch (e) { /* empty */ }
+  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
 };
-},{"./_descriptors":54,"./_has":62,"./_ie8-dom-define":65,"./_object-pie":92,"./_property-desc":94,"./_to-iobject":107,"./_to-primitive":110}],86:[function(require,module,exports){
+
+},{"./_descriptors":57,"./_has":65,"./_ie8-dom-define":68,"./_object-pie":95,"./_property-desc":99,"./_to-iobject":114,"./_to-primitive":117}],89:[function(require,module,exports){
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-var toIObject = require('./_to-iobject')
-  , gOPN      = require('./_object-gopn').f
-  , toString  = {}.toString;
+var toIObject = require('./_to-iobject');
+var gOPN = require('./_object-gopn').f;
+var toString = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
   ? Object.getOwnPropertyNames(window) : [];
 
-var getWindowNames = function(it){
+var getWindowNames = function (it) {
   try {
     return gOPN(it);
-  } catch(e){
+  } catch (e) {
     return windowNames.slice();
   }
 };
 
-module.exports.f = function getOwnPropertyNames(it){
+module.exports.f = function getOwnPropertyNames(it) {
   return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
 };
 
-},{"./_object-gopn":87,"./_to-iobject":107}],87:[function(require,module,exports){
+},{"./_object-gopn":90,"./_to-iobject":114}],90:[function(require,module,exports){
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys      = require('./_object-keys-internal')
-  , hiddenKeys = require('./_enum-bug-keys').concat('length', 'prototype');
+var $keys = require('./_object-keys-internal');
+var hiddenKeys = require('./_enum-bug-keys').concat('length', 'prototype');
 
-exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
   return $keys(O, hiddenKeys);
 };
-},{"./_enum-bug-keys":56,"./_object-keys-internal":90}],88:[function(require,module,exports){
-exports.f = Object.getOwnPropertySymbols;
-},{}],89:[function(require,module,exports){
-// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-var has         = require('./_has')
-  , toObject    = require('./_to-object')
-  , IE_PROTO    = require('./_shared-key')('IE_PROTO')
-  , ObjectProto = Object.prototype;
 
-module.exports = Object.getPrototypeOf || function(O){
+},{"./_enum-bug-keys":59,"./_object-keys-internal":93}],91:[function(require,module,exports){
+exports.f = Object.getOwnPropertySymbols;
+
+},{}],92:[function(require,module,exports){
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var has = require('./_has');
+var toObject = require('./_to-object');
+var IE_PROTO = require('./_shared-key')('IE_PROTO');
+var ObjectProto = Object.prototype;
+
+module.exports = Object.getPrototypeOf || function (O) {
   O = toObject(O);
-  if(has(O, IE_PROTO))return O[IE_PROTO];
-  if(typeof O.constructor == 'function' && O instanceof O.constructor){
+  if (has(O, IE_PROTO)) return O[IE_PROTO];
+  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
     return O.constructor.prototype;
   } return O instanceof Object ? ObjectProto : null;
 };
-},{"./_has":62,"./_shared-key":100,"./_to-object":109}],90:[function(require,module,exports){
-var has          = require('./_has')
-  , toIObject    = require('./_to-iobject')
-  , arrayIndexOf = require('./_array-includes')(false)
-  , IE_PROTO     = require('./_shared-key')('IE_PROTO');
 
-module.exports = function(object, names){
-  var O      = toIObject(object)
-    , i      = 0
-    , result = []
-    , key;
-  for(key in O)if(key != IE_PROTO)has(O, key) && result.push(key);
+},{"./_has":65,"./_shared-key":107,"./_to-object":116}],93:[function(require,module,exports){
+var has = require('./_has');
+var toIObject = require('./_to-iobject');
+var arrayIndexOf = require('./_array-includes')(false);
+var IE_PROTO = require('./_shared-key')('IE_PROTO');
+
+module.exports = function (object, names) {
+  var O = toIObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
   // Don't enum bug & hidden keys
-  while(names.length > i)if(has(O, key = names[i++])){
+  while (names.length > i) if (has(O, key = names[i++])) {
     ~arrayIndexOf(result, key) || result.push(key);
   }
   return result;
 };
-},{"./_array-includes":42,"./_has":62,"./_shared-key":100,"./_to-iobject":107}],91:[function(require,module,exports){
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys       = require('./_object-keys-internal')
-  , enumBugKeys = require('./_enum-bug-keys');
 
-module.exports = Object.keys || function keys(O){
+},{"./_array-includes":45,"./_has":65,"./_shared-key":107,"./_to-iobject":114}],94:[function(require,module,exports){
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = require('./_object-keys-internal');
+var enumBugKeys = require('./_enum-bug-keys');
+
+module.exports = Object.keys || function keys(O) {
   return $keys(O, enumBugKeys);
 };
-},{"./_enum-bug-keys":56,"./_object-keys-internal":90}],92:[function(require,module,exports){
+
+},{"./_enum-bug-keys":59,"./_object-keys-internal":93}],95:[function(require,module,exports){
 exports.f = {}.propertyIsEnumerable;
-},{}],93:[function(require,module,exports){
+
+},{}],96:[function(require,module,exports){
 // most Object methods by ES6 should accept primitives
-var $export = require('./_export')
-  , core    = require('./_core')
-  , fails   = require('./_fails');
-module.exports = function(KEY, exec){
-  var fn  = (core.Object || {})[KEY] || Object[KEY]
-    , exp = {};
+var $export = require('./_export');
+var core = require('./_core');
+var fails = require('./_fails');
+module.exports = function (KEY, exec) {
+  var fn = (core.Object || {})[KEY] || Object[KEY];
+  var exp = {};
   exp[KEY] = exec(fn);
-  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
+  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
 };
-},{"./_core":51,"./_export":58,"./_fails":59}],94:[function(require,module,exports){
-module.exports = function(bitmap, value){
+
+},{"./_core":54,"./_export":61,"./_fails":62}],97:[function(require,module,exports){
+module.exports = function (exec) {
+  try {
+    return { e: false, v: exec() };
+  } catch (e) {
+    return { e: true, v: e };
+  }
+};
+
+},{}],98:[function(require,module,exports){
+var anObject = require('./_an-object');
+var isObject = require('./_is-object');
+var newPromiseCapability = require('./_new-promise-capability');
+
+module.exports = function (C, x) {
+  anObject(C);
+  if (isObject(x) && x.constructor === C) return x;
+  var promiseCapability = newPromiseCapability.f(C);
+  var resolve = promiseCapability.resolve;
+  resolve(x);
+  return promiseCapability.promise;
+};
+
+},{"./_an-object":43,"./_is-object":73,"./_new-promise-capability":83}],99:[function(require,module,exports){
+module.exports = function (bitmap, value) {
   return {
-    enumerable  : !(bitmap & 1),
+    enumerable: !(bitmap & 1),
     configurable: !(bitmap & 2),
-    writable    : !(bitmap & 4),
-    value       : value
+    writable: !(bitmap & 4),
+    value: value
   };
 };
-},{}],95:[function(require,module,exports){
+
+},{}],100:[function(require,module,exports){
 var hide = require('./_hide');
-module.exports = function(target, src, safe){
-  for(var key in src){
-    if(safe && target[key])target[key] = src[key];
+module.exports = function (target, src, safe) {
+  for (var key in src) {
+    if (safe && target[key]) target[key] = src[key];
     else hide(target, key, src[key]);
   } return target;
 };
-},{"./_hide":63}],96:[function(require,module,exports){
+
+},{"./_hide":66}],101:[function(require,module,exports){
 module.exports = require('./_hide');
-},{"./_hide":63}],97:[function(require,module,exports){
+
+},{"./_hide":66}],102:[function(require,module,exports){
+'use strict';
+// https://tc39.github.io/proposal-setmap-offrom/
+var $export = require('./_export');
+var aFunction = require('./_a-function');
+var ctx = require('./_ctx');
+var forOf = require('./_for-of');
+
+module.exports = function (COLLECTION) {
+  $export($export.S, COLLECTION, { from: function from(source /* , mapFn, thisArg */) {
+    var mapFn = arguments[1];
+    var mapping, A, n, cb;
+    aFunction(this);
+    mapping = mapFn !== undefined;
+    if (mapping) aFunction(mapFn);
+    if (source == undefined) return new this();
+    A = [];
+    if (mapping) {
+      n = 0;
+      cb = ctx(mapFn, arguments[2], 2);
+      forOf(source, false, function (nextItem) {
+        A.push(cb(nextItem, n++));
+      });
+    } else {
+      forOf(source, false, A.push, A);
+    }
+    return new this(A);
+  } });
+};
+
+},{"./_a-function":40,"./_ctx":55,"./_export":61,"./_for-of":63}],103:[function(require,module,exports){
+'use strict';
+// https://tc39.github.io/proposal-setmap-offrom/
+var $export = require('./_export');
+
+module.exports = function (COLLECTION) {
+  $export($export.S, COLLECTION, { of: function of() {
+    var length = arguments.length;
+    var A = new Array(length);
+    while (length--) A[length] = arguments[length];
+    return new this(A);
+  } });
+};
+
+},{"./_export":61}],104:[function(require,module,exports){
 // Works with __proto__ only. Old v8 can't work with null proto objects.
 /* eslint-disable no-proto */
-var isObject = require('./_is-object')
-  , anObject = require('./_an-object');
-var check = function(O, proto){
+var isObject = require('./_is-object');
+var anObject = require('./_an-object');
+var check = function (O, proto) {
   anObject(O);
-  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
+  if (!isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
 };
 module.exports = {
   set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
-    function(test, buggy, set){
+    function (test, buggy, set) {
       try {
         set = require('./_ctx')(Function.call, require('./_object-gopd').f(Object.prototype, '__proto__').set, 2);
         set(test, []);
         buggy = !(test instanceof Array);
-      } catch(e){ buggy = true; }
-      return function setPrototypeOf(O, proto){
+      } catch (e) { buggy = true; }
+      return function setPrototypeOf(O, proto) {
         check(O, proto);
-        if(buggy)O.__proto__ = proto;
+        if (buggy) O.__proto__ = proto;
         else set(O, proto);
         return O;
       };
     }({}, false) : undefined),
   check: check
 };
-},{"./_an-object":40,"./_ctx":52,"./_is-object":70,"./_object-gopd":85}],98:[function(require,module,exports){
-'use strict';
-var global      = require('./_global')
-  , core        = require('./_core')
-  , dP          = require('./_object-dp')
-  , DESCRIPTORS = require('./_descriptors')
-  , SPECIES     = require('./_wks')('species');
 
-module.exports = function(KEY){
+},{"./_an-object":43,"./_ctx":55,"./_is-object":73,"./_object-gopd":88}],105:[function(require,module,exports){
+'use strict';
+var global = require('./_global');
+var core = require('./_core');
+var dP = require('./_object-dp');
+var DESCRIPTORS = require('./_descriptors');
+var SPECIES = require('./_wks')('species');
+
+module.exports = function (KEY) {
   var C = typeof core[KEY] == 'function' ? core[KEY] : global[KEY];
-  if(DESCRIPTORS && C && !C[SPECIES])dP.f(C, SPECIES, {
+  if (DESCRIPTORS && C && !C[SPECIES]) dP.f(C, SPECIES, {
     configurable: true,
-    get: function(){ return this; }
+    get: function () { return this; }
   });
 };
-},{"./_core":51,"./_descriptors":54,"./_global":61,"./_object-dp":83,"./_wks":114}],99:[function(require,module,exports){
-var def = require('./_object-dp').f
-  , has = require('./_has')
-  , TAG = require('./_wks')('toStringTag');
 
-module.exports = function(it, tag, stat){
-  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+},{"./_core":54,"./_descriptors":57,"./_global":64,"./_object-dp":86,"./_wks":123}],106:[function(require,module,exports){
+var def = require('./_object-dp').f;
+var has = require('./_has');
+var TAG = require('./_wks')('toStringTag');
+
+module.exports = function (it, tag, stat) {
+  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
 };
-},{"./_has":62,"./_object-dp":83,"./_wks":114}],100:[function(require,module,exports){
-var shared = require('./_shared')('keys')
-  , uid    = require('./_uid');
-module.exports = function(key){
+
+},{"./_has":65,"./_object-dp":86,"./_wks":123}],107:[function(require,module,exports){
+var shared = require('./_shared')('keys');
+var uid = require('./_uid');
+module.exports = function (key) {
   return shared[key] || (shared[key] = uid(key));
 };
-},{"./_shared":101,"./_uid":111}],101:[function(require,module,exports){
-var global = require('./_global')
-  , SHARED = '__core-js_shared__'
-  , store  = global[SHARED] || (global[SHARED] = {});
-module.exports = function(key){
-  return store[key] || (store[key] = {});
-};
-},{"./_global":61}],102:[function(require,module,exports){
+
+},{"./_shared":108,"./_uid":118}],108:[function(require,module,exports){
+var core = require('./_core');
+var global = require('./_global');
+var SHARED = '__core-js_shared__';
+var store = global[SHARED] || (global[SHARED] = {});
+
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: core.version,
+  mode: require('./_library') ? 'pure' : 'global',
+  copyright: '© 2020 Denis Pushkarev (zloirock.ru)'
+});
+
+},{"./_core":54,"./_global":64,"./_library":80}],109:[function(require,module,exports){
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
-var anObject  = require('./_an-object')
-  , aFunction = require('./_a-function')
-  , SPECIES   = require('./_wks')('species');
-module.exports = function(O, D){
-  var C = anObject(O).constructor, S;
+var anObject = require('./_an-object');
+var aFunction = require('./_a-function');
+var SPECIES = require('./_wks')('species');
+module.exports = function (O, D) {
+  var C = anObject(O).constructor;
+  var S;
   return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
 };
-},{"./_a-function":37,"./_an-object":40,"./_wks":114}],103:[function(require,module,exports){
-var toInteger = require('./_to-integer')
-  , defined   = require('./_defined');
+
+},{"./_a-function":40,"./_an-object":43,"./_wks":123}],110:[function(require,module,exports){
+var toInteger = require('./_to-integer');
+var defined = require('./_defined');
 // true  -> String#at
 // false -> String#codePointAt
-module.exports = function(TO_STRING){
-  return function(that, pos){
-    var s = String(defined(that))
-      , i = toInteger(pos)
-      , l = s.length
-      , a, b;
-    if(i < 0 || i >= l)return TO_STRING ? '' : undefined;
+module.exports = function (TO_STRING) {
+  return function (that, pos) {
+    var s = String(defined(that));
+    var i = toInteger(pos);
+    var l = s.length;
+    var a, b;
+    if (i < 0 || i >= l) return TO_STRING ? '' : undefined;
     a = s.charCodeAt(i);
     return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
       ? TO_STRING ? s.charAt(i) : a
       : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
   };
 };
-},{"./_defined":53,"./_to-integer":106}],104:[function(require,module,exports){
-var ctx                = require('./_ctx')
-  , invoke             = require('./_invoke')
-  , html               = require('./_html')
-  , cel                = require('./_dom-create')
-  , global             = require('./_global')
-  , process            = global.process
-  , setTask            = global.setImmediate
-  , clearTask          = global.clearImmediate
-  , MessageChannel     = global.MessageChannel
-  , counter            = 0
-  , queue              = {}
-  , ONREADYSTATECHANGE = 'onreadystatechange'
-  , defer, channel, port;
-var run = function(){
+
+},{"./_defined":56,"./_to-integer":113}],111:[function(require,module,exports){
+var ctx = require('./_ctx');
+var invoke = require('./_invoke');
+var html = require('./_html');
+var cel = require('./_dom-create');
+var global = require('./_global');
+var process = global.process;
+var setTask = global.setImmediate;
+var clearTask = global.clearImmediate;
+var MessageChannel = global.MessageChannel;
+var Dispatch = global.Dispatch;
+var counter = 0;
+var queue = {};
+var ONREADYSTATECHANGE = 'onreadystatechange';
+var defer, channel, port;
+var run = function () {
   var id = +this;
-  if(queue.hasOwnProperty(id)){
+  // eslint-disable-next-line no-prototype-builtins
+  if (queue.hasOwnProperty(id)) {
     var fn = queue[id];
     delete queue[id];
     fn();
   }
 };
-var listener = function(event){
+var listener = function (event) {
   run.call(event.data);
 };
 // Node.js 0.9+ & IE10+ has setImmediate, otherwise:
-if(!setTask || !clearTask){
-  setTask = function setImmediate(fn){
-    var args = [], i = 1;
-    while(arguments.length > i)args.push(arguments[i++]);
-    queue[++counter] = function(){
+if (!setTask || !clearTask) {
+  setTask = function setImmediate(fn) {
+    var args = [];
+    var i = 1;
+    while (arguments.length > i) args.push(arguments[i++]);
+    queue[++counter] = function () {
+      // eslint-disable-next-line no-new-func
       invoke(typeof fn == 'function' ? fn : Function(fn), args);
     };
     defer(counter);
     return counter;
   };
-  clearTask = function clearImmediate(id){
+  clearTask = function clearImmediate(id) {
     delete queue[id];
   };
   // Node.js 0.8-
-  if(require('./_cof')(process) == 'process'){
-    defer = function(id){
+  if (require('./_cof')(process) == 'process') {
+    defer = function (id) {
       process.nextTick(ctx(run, id, 1));
     };
+  // Sphere (JS game engine) Dispatch API
+  } else if (Dispatch && Dispatch.now) {
+    defer = function (id) {
+      Dispatch.now(ctx(run, id, 1));
+    };
   // Browsers with MessageChannel, includes WebWorkers
-  } else if(MessageChannel){
-    channel = new MessageChannel;
-    port    = channel.port2;
+  } else if (MessageChannel) {
+    channel = new MessageChannel();
+    port = channel.port2;
     channel.port1.onmessage = listener;
     defer = ctx(port.postMessage, port, 1);
   // Browsers with postMessage, skip WebWorkers
   // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
-  } else if(global.addEventListener && typeof postMessage == 'function' && !global.importScripts){
-    defer = function(id){
+  } else if (global.addEventListener && typeof postMessage == 'function' && !global.importScripts) {
+    defer = function (id) {
       global.postMessage(id + '', '*');
     };
     global.addEventListener('message', listener, false);
   // IE8-
-  } else if(ONREADYSTATECHANGE in cel('script')){
-    defer = function(id){
-      html.appendChild(cel('script'))[ONREADYSTATECHANGE] = function(){
+  } else if (ONREADYSTATECHANGE in cel('script')) {
+    defer = function (id) {
+      html.appendChild(cel('script'))[ONREADYSTATECHANGE] = function () {
         html.removeChild(this);
         run.call(id);
       };
     };
   // Rest old browsers
   } else {
-    defer = function(id){
+    defer = function (id) {
       setTimeout(ctx(run, id, 1), 0);
     };
   }
 }
 module.exports = {
-  set:   setTask,
+  set: setTask,
   clear: clearTask
 };
-},{"./_cof":47,"./_ctx":52,"./_dom-create":55,"./_global":61,"./_html":64,"./_invoke":66}],105:[function(require,module,exports){
-var toInteger = require('./_to-integer')
-  , max       = Math.max
-  , min       = Math.min;
-module.exports = function(index, length){
+
+},{"./_cof":50,"./_ctx":55,"./_dom-create":58,"./_global":64,"./_html":67,"./_invoke":69}],112:[function(require,module,exports){
+var toInteger = require('./_to-integer');
+var max = Math.max;
+var min = Math.min;
+module.exports = function (index, length) {
   index = toInteger(index);
   return index < 0 ? max(index + length, 0) : min(index, length);
 };
-},{"./_to-integer":106}],106:[function(require,module,exports){
+
+},{"./_to-integer":113}],113:[function(require,module,exports){
 // 7.1.4 ToInteger
-var ceil  = Math.ceil
-  , floor = Math.floor;
-module.exports = function(it){
+var ceil = Math.ceil;
+var floor = Math.floor;
+module.exports = function (it) {
   return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
 };
-},{}],107:[function(require,module,exports){
+
+},{}],114:[function(require,module,exports){
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = require('./_iobject')
-  , defined = require('./_defined');
-module.exports = function(it){
+var IObject = require('./_iobject');
+var defined = require('./_defined');
+module.exports = function (it) {
   return IObject(defined(it));
 };
-},{"./_defined":53,"./_iobject":67}],108:[function(require,module,exports){
+
+},{"./_defined":56,"./_iobject":70}],115:[function(require,module,exports){
 // 7.1.15 ToLength
-var toInteger = require('./_to-integer')
-  , min       = Math.min;
-module.exports = function(it){
+var toInteger = require('./_to-integer');
+var min = Math.min;
+module.exports = function (it) {
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 };
-},{"./_to-integer":106}],109:[function(require,module,exports){
+
+},{"./_to-integer":113}],116:[function(require,module,exports){
 // 7.1.13 ToObject(argument)
 var defined = require('./_defined');
-module.exports = function(it){
+module.exports = function (it) {
   return Object(defined(it));
 };
-},{"./_defined":53}],110:[function(require,module,exports){
+
+},{"./_defined":56}],117:[function(require,module,exports){
 // 7.1.1 ToPrimitive(input [, PreferredType])
 var isObject = require('./_is-object');
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
-module.exports = function(it, S){
-  if(!isObject(it))return it;
+module.exports = function (it, S) {
+  if (!isObject(it)) return it;
   var fn, val;
-  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
-  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
   throw TypeError("Can't convert object to primitive value");
 };
-},{"./_is-object":70}],111:[function(require,module,exports){
-var id = 0
-  , px = Math.random();
-module.exports = function(key){
+
+},{"./_is-object":73}],118:[function(require,module,exports){
+var id = 0;
+var px = Math.random();
+module.exports = function (key) {
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
-},{}],112:[function(require,module,exports){
-var global         = require('./_global')
-  , core           = require('./_core')
-  , LIBRARY        = require('./_library')
-  , wksExt         = require('./_wks-ext')
-  , defineProperty = require('./_object-dp').f;
-module.exports = function(name){
-  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
-  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
-};
-},{"./_core":51,"./_global":61,"./_library":78,"./_object-dp":83,"./_wks-ext":113}],113:[function(require,module,exports){
-exports.f = require('./_wks');
-},{"./_wks":114}],114:[function(require,module,exports){
-var store      = require('./_shared')('wks')
-  , uid        = require('./_uid')
-  , Symbol     = require('./_global').Symbol
-  , USE_SYMBOL = typeof Symbol == 'function';
 
-var $exports = module.exports = function(name){
+},{}],119:[function(require,module,exports){
+var global = require('./_global');
+var navigator = global.navigator;
+
+module.exports = navigator && navigator.userAgent || '';
+
+},{"./_global":64}],120:[function(require,module,exports){
+var isObject = require('./_is-object');
+module.exports = function (it, TYPE) {
+  if (!isObject(it) || it._t !== TYPE) throw TypeError('Incompatible receiver, ' + TYPE + ' required!');
+  return it;
+};
+
+},{"./_is-object":73}],121:[function(require,module,exports){
+var global = require('./_global');
+var core = require('./_core');
+var LIBRARY = require('./_library');
+var wksExt = require('./_wks-ext');
+var defineProperty = require('./_object-dp').f;
+module.exports = function (name) {
+  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
+  if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
+};
+
+},{"./_core":54,"./_global":64,"./_library":80,"./_object-dp":86,"./_wks-ext":122}],122:[function(require,module,exports){
+exports.f = require('./_wks');
+
+},{"./_wks":123}],123:[function(require,module,exports){
+var store = require('./_shared')('wks');
+var uid = require('./_uid');
+var Symbol = require('./_global').Symbol;
+var USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function (name) {
   return store[name] || (store[name] =
     USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
 };
 
 $exports.store = store;
-},{"./_global":61,"./_shared":101,"./_uid":111}],115:[function(require,module,exports){
-var classof   = require('./_classof')
-  , ITERATOR  = require('./_wks')('iterator')
-  , Iterators = require('./_iterators');
-module.exports = require('./_core').getIteratorMethod = function(it){
-  if(it != undefined)return it[ITERATOR]
+
+},{"./_global":64,"./_shared":108,"./_uid":118}],124:[function(require,module,exports){
+var classof = require('./_classof');
+var ITERATOR = require('./_wks')('iterator');
+var Iterators = require('./_iterators');
+module.exports = require('./_core').getIteratorMethod = function (it) {
+  if (it != undefined) return it[ITERATOR]
     || it['@@iterator']
     || Iterators[classof(it)];
 };
-},{"./_classof":46,"./_core":51,"./_iterators":76,"./_wks":114}],116:[function(require,module,exports){
-var anObject = require('./_an-object')
-  , get      = require('./core.get-iterator-method');
-module.exports = require('./_core').getIterator = function(it){
+
+},{"./_classof":49,"./_core":54,"./_iterators":79,"./_wks":123}],125:[function(require,module,exports){
+var anObject = require('./_an-object');
+var get = require('./core.get-iterator-method');
+module.exports = require('./_core').getIterator = function (it) {
   var iterFn = get(it);
-  if(typeof iterFn != 'function')throw TypeError(it + ' is not iterable!');
+  if (typeof iterFn != 'function') throw TypeError(it + ' is not iterable!');
   return anObject(iterFn.call(it));
 };
-},{"./_an-object":40,"./_core":51,"./core.get-iterator-method":115}],117:[function(require,module,exports){
-var classof   = require('./_classof')
-  , ITERATOR  = require('./_wks')('iterator')
-  , Iterators = require('./_iterators');
-module.exports = require('./_core').isIterable = function(it){
+
+},{"./_an-object":43,"./_core":54,"./core.get-iterator-method":124}],126:[function(require,module,exports){
+var classof = require('./_classof');
+var ITERATOR = require('./_wks')('iterator');
+var Iterators = require('./_iterators');
+module.exports = require('./_core').isIterable = function (it) {
   var O = Object(it);
   return O[ITERATOR] !== undefined
     || '@@iterator' in O
+    // eslint-disable-next-line no-prototype-builtins
     || Iterators.hasOwnProperty(classof(O));
 };
-},{"./_classof":46,"./_core":51,"./_iterators":76,"./_wks":114}],118:[function(require,module,exports){
+
+},{"./_classof":49,"./_core":54,"./_iterators":79,"./_wks":123}],127:[function(require,module,exports){
 'use strict';
-var addToUnscopables = require('./_add-to-unscopables')
-  , step             = require('./_iter-step')
-  , Iterators        = require('./_iterators')
-  , toIObject        = require('./_to-iobject');
+var addToUnscopables = require('./_add-to-unscopables');
+var step = require('./_iter-step');
+var Iterators = require('./_iterators');
+var toIObject = require('./_to-iobject');
 
 // 22.1.3.4 Array.prototype.entries()
 // 22.1.3.13 Array.prototype.keys()
 // 22.1.3.29 Array.prototype.values()
 // 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = require('./_iter-define')(Array, 'Array', function(iterated, kind){
+module.exports = require('./_iter-define')(Array, 'Array', function (iterated, kind) {
   this._t = toIObject(iterated); // target
   this._i = 0;                   // next index
   this._k = kind;                // kind
 // 22.1.5.2.1 %ArrayIteratorPrototype%.next()
-}, function(){
-  var O     = this._t
-    , kind  = this._k
-    , index = this._i++;
-  if(!O || index >= O.length){
+}, function () {
+  var O = this._t;
+  var kind = this._k;
+  var index = this._i++;
+  if (!O || index >= O.length) {
     this._t = undefined;
     return step(1);
   }
-  if(kind == 'keys'  )return step(0, index);
-  if(kind == 'values')return step(0, O[index]);
+  if (kind == 'keys') return step(0, index);
+  if (kind == 'values') return step(0, O[index]);
   return step(0, [index, O[index]]);
 }, 'values');
 
@@ -9132,215 +16325,208 @@ Iterators.Arguments = Iterators.Array;
 addToUnscopables('keys');
 addToUnscopables('values');
 addToUnscopables('entries');
-},{"./_add-to-unscopables":38,"./_iter-define":73,"./_iter-step":75,"./_iterators":76,"./_to-iobject":107}],119:[function(require,module,exports){
+
+},{"./_add-to-unscopables":41,"./_iter-define":76,"./_iter-step":78,"./_iterators":79,"./_to-iobject":114}],128:[function(require,module,exports){
 // 19.1.3.1 Object.assign(target, source)
 var $export = require('./_export');
 
-$export($export.S + $export.F, 'Object', {assign: require('./_object-assign')});
-},{"./_export":58,"./_object-assign":81}],120:[function(require,module,exports){
-var $export = require('./_export')
+$export($export.S + $export.F, 'Object', { assign: require('./_object-assign') });
+
+},{"./_export":61,"./_object-assign":84}],129:[function(require,module,exports){
+var $export = require('./_export');
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-$export($export.S, 'Object', {create: require('./_object-create')});
-},{"./_export":58,"./_object-create":82}],121:[function(require,module,exports){
+$export($export.S, 'Object', { create: require('./_object-create') });
+
+},{"./_export":61,"./_object-create":85}],130:[function(require,module,exports){
 var $export = require('./_export');
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !require('./_descriptors'), 'Object', {defineProperty: require('./_object-dp').f});
-},{"./_descriptors":54,"./_export":58,"./_object-dp":83}],122:[function(require,module,exports){
-// 19.1.2.9 Object.getPrototypeOf(O)
-var toObject        = require('./_to-object')
-  , $getPrototypeOf = require('./_object-gpo');
+$export($export.S + $export.F * !require('./_descriptors'), 'Object', { defineProperty: require('./_object-dp').f });
 
-require('./_object-sap')('getPrototypeOf', function(){
-  return function getPrototypeOf(it){
+},{"./_descriptors":57,"./_export":61,"./_object-dp":86}],131:[function(require,module,exports){
+// 19.1.2.9 Object.getPrototypeOf(O)
+var toObject = require('./_to-object');
+var $getPrototypeOf = require('./_object-gpo');
+
+require('./_object-sap')('getPrototypeOf', function () {
+  return function getPrototypeOf(it) {
     return $getPrototypeOf(toObject(it));
   };
 });
-},{"./_object-gpo":89,"./_object-sap":93,"./_to-object":109}],123:[function(require,module,exports){
-// 19.1.2.14 Object.keys(O)
-var toObject = require('./_to-object')
-  , $keys    = require('./_object-keys');
 
-require('./_object-sap')('keys', function(){
-  return function keys(it){
+},{"./_object-gpo":92,"./_object-sap":96,"./_to-object":116}],132:[function(require,module,exports){
+// 19.1.2.14 Object.keys(O)
+var toObject = require('./_to-object');
+var $keys = require('./_object-keys');
+
+require('./_object-sap')('keys', function () {
+  return function keys(it) {
     return $keys(toObject(it));
   };
 });
-},{"./_object-keys":91,"./_object-sap":93,"./_to-object":109}],124:[function(require,module,exports){
+
+},{"./_object-keys":94,"./_object-sap":96,"./_to-object":116}],133:[function(require,module,exports){
 // 19.1.3.19 Object.setPrototypeOf(O, proto)
 var $export = require('./_export');
-$export($export.S, 'Object', {setPrototypeOf: require('./_set-proto').set});
-},{"./_export":58,"./_set-proto":97}],125:[function(require,module,exports){
+$export($export.S, 'Object', { setPrototypeOf: require('./_set-proto').set });
 
-},{}],126:[function(require,module,exports){
+},{"./_export":61,"./_set-proto":104}],134:[function(require,module,exports){
+
+},{}],135:[function(require,module,exports){
 'use strict';
-var LIBRARY            = require('./_library')
-  , global             = require('./_global')
-  , ctx                = require('./_ctx')
-  , classof            = require('./_classof')
-  , $export            = require('./_export')
-  , isObject           = require('./_is-object')
-  , aFunction          = require('./_a-function')
-  , anInstance         = require('./_an-instance')
-  , forOf              = require('./_for-of')
-  , speciesConstructor = require('./_species-constructor')
-  , task               = require('./_task').set
-  , microtask          = require('./_microtask')()
-  , PROMISE            = 'Promise'
-  , TypeError          = global.TypeError
-  , process            = global.process
-  , $Promise           = global[PROMISE]
-  , process            = global.process
-  , isNode             = classof(process) == 'process'
-  , empty              = function(){ /* empty */ }
-  , Internal, GenericPromiseCapability, Wrapper;
+var LIBRARY = require('./_library');
+var global = require('./_global');
+var ctx = require('./_ctx');
+var classof = require('./_classof');
+var $export = require('./_export');
+var isObject = require('./_is-object');
+var aFunction = require('./_a-function');
+var anInstance = require('./_an-instance');
+var forOf = require('./_for-of');
+var speciesConstructor = require('./_species-constructor');
+var task = require('./_task').set;
+var microtask = require('./_microtask')();
+var newPromiseCapabilityModule = require('./_new-promise-capability');
+var perform = require('./_perform');
+var userAgent = require('./_user-agent');
+var promiseResolve = require('./_promise-resolve');
+var PROMISE = 'Promise';
+var TypeError = global.TypeError;
+var process = global.process;
+var versions = process && process.versions;
+var v8 = versions && versions.v8 || '';
+var $Promise = global[PROMISE];
+var isNode = classof(process) == 'process';
+var empty = function () { /* empty */ };
+var Internal, newGenericPromiseCapability, OwnPromiseCapability, Wrapper;
+var newPromiseCapability = newGenericPromiseCapability = newPromiseCapabilityModule.f;
 
-var USE_NATIVE = !!function(){
+var USE_NATIVE = !!function () {
   try {
     // correct subclassing with @@species support
-    var promise     = $Promise.resolve(1)
-      , FakePromise = (promise.constructor = {})[require('./_wks')('species')] = function(exec){ exec(empty, empty); };
+    var promise = $Promise.resolve(1);
+    var FakePromise = (promise.constructor = {})[require('./_wks')('species')] = function (exec) {
+      exec(empty, empty);
+    };
     // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-    return (isNode || typeof PromiseRejectionEvent == 'function') && promise.then(empty) instanceof FakePromise;
-  } catch(e){ /* empty */ }
+    return (isNode || typeof PromiseRejectionEvent == 'function')
+      && promise.then(empty) instanceof FakePromise
+      // v8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
+      // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
+      // we can't detect it synchronously, so just check versions
+      && v8.indexOf('6.6') !== 0
+      && userAgent.indexOf('Chrome/66') === -1;
+  } catch (e) { /* empty */ }
 }();
 
 // helpers
-var sameConstructor = function(a, b){
-  // with library wrapper special case
-  return a === b || a === $Promise && b === Wrapper;
-};
-var isThenable = function(it){
+var isThenable = function (it) {
   var then;
   return isObject(it) && typeof (then = it.then) == 'function' ? then : false;
 };
-var newPromiseCapability = function(C){
-  return sameConstructor($Promise, C)
-    ? new PromiseCapability(C)
-    : new GenericPromiseCapability(C);
-};
-var PromiseCapability = GenericPromiseCapability = function(C){
-  var resolve, reject;
-  this.promise = new C(function($$resolve, $$reject){
-    if(resolve !== undefined || reject !== undefined)throw TypeError('Bad Promise constructor');
-    resolve = $$resolve;
-    reject  = $$reject;
-  });
-  this.resolve = aFunction(resolve);
-  this.reject  = aFunction(reject);
-};
-var perform = function(exec){
-  try {
-    exec();
-  } catch(e){
-    return {error: e};
-  }
-};
-var notify = function(promise, isReject){
-  if(promise._n)return;
+var notify = function (promise, isReject) {
+  if (promise._n) return;
   promise._n = true;
   var chain = promise._c;
-  microtask(function(){
-    var value = promise._v
-      , ok    = promise._s == 1
-      , i     = 0;
-    var run = function(reaction){
-      var handler = ok ? reaction.ok : reaction.fail
-        , resolve = reaction.resolve
-        , reject  = reaction.reject
-        , domain  = reaction.domain
-        , result, then;
+  microtask(function () {
+    var value = promise._v;
+    var ok = promise._s == 1;
+    var i = 0;
+    var run = function (reaction) {
+      var handler = ok ? reaction.ok : reaction.fail;
+      var resolve = reaction.resolve;
+      var reject = reaction.reject;
+      var domain = reaction.domain;
+      var result, then, exited;
       try {
-        if(handler){
-          if(!ok){
-            if(promise._h == 2)onHandleUnhandled(promise);
+        if (handler) {
+          if (!ok) {
+            if (promise._h == 2) onHandleUnhandled(promise);
             promise._h = 1;
           }
-          if(handler === true)result = value;
+          if (handler === true) result = value;
           else {
-            if(domain)domain.enter();
-            result = handler(value);
-            if(domain)domain.exit();
+            if (domain) domain.enter();
+            result = handler(value); // may throw
+            if (domain) {
+              domain.exit();
+              exited = true;
+            }
           }
-          if(result === reaction.promise){
+          if (result === reaction.promise) {
             reject(TypeError('Promise-chain cycle'));
-          } else if(then = isThenable(result)){
+          } else if (then = isThenable(result)) {
             then.call(result, resolve, reject);
           } else resolve(result);
         } else reject(value);
-      } catch(e){
+      } catch (e) {
+        if (domain && !exited) domain.exit();
         reject(e);
       }
     };
-    while(chain.length > i)run(chain[i++]); // variable length - can't use forEach
+    while (chain.length > i) run(chain[i++]); // variable length - can't use forEach
     promise._c = [];
     promise._n = false;
-    if(isReject && !promise._h)onUnhandled(promise);
+    if (isReject && !promise._h) onUnhandled(promise);
   });
 };
-var onUnhandled = function(promise){
-  task.call(global, function(){
-    var value = promise._v
-      , abrupt, handler, console;
-    if(isUnhandled(promise)){
-      abrupt = perform(function(){
-        if(isNode){
+var onUnhandled = function (promise) {
+  task.call(global, function () {
+    var value = promise._v;
+    var unhandled = isUnhandled(promise);
+    var result, handler, console;
+    if (unhandled) {
+      result = perform(function () {
+        if (isNode) {
           process.emit('unhandledRejection', value, promise);
-        } else if(handler = global.onunhandledrejection){
-          handler({promise: promise, reason: value});
-        } else if((console = global.console) && console.error){
+        } else if (handler = global.onunhandledrejection) {
+          handler({ promise: promise, reason: value });
+        } else if ((console = global.console) && console.error) {
           console.error('Unhandled promise rejection', value);
         }
       });
       // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
       promise._h = isNode || isUnhandled(promise) ? 2 : 1;
     } promise._a = undefined;
-    if(abrupt)throw abrupt.error;
+    if (unhandled && result.e) throw result.v;
   });
 };
-var isUnhandled = function(promise){
-  if(promise._h == 1)return false;
-  var chain = promise._a || promise._c
-    , i     = 0
-    , reaction;
-  while(chain.length > i){
-    reaction = chain[i++];
-    if(reaction.fail || !isUnhandled(reaction.promise))return false;
-  } return true;
+var isUnhandled = function (promise) {
+  return promise._h !== 1 && (promise._a || promise._c).length === 0;
 };
-var onHandleUnhandled = function(promise){
-  task.call(global, function(){
+var onHandleUnhandled = function (promise) {
+  task.call(global, function () {
     var handler;
-    if(isNode){
+    if (isNode) {
       process.emit('rejectionHandled', promise);
-    } else if(handler = global.onrejectionhandled){
-      handler({promise: promise, reason: promise._v});
+    } else if (handler = global.onrejectionhandled) {
+      handler({ promise: promise, reason: promise._v });
     }
   });
 };
-var $reject = function(value){
+var $reject = function (value) {
   var promise = this;
-  if(promise._d)return;
+  if (promise._d) return;
   promise._d = true;
   promise = promise._w || promise; // unwrap
   promise._v = value;
   promise._s = 2;
-  if(!promise._a)promise._a = promise._c.slice();
+  if (!promise._a) promise._a = promise._c.slice();
   notify(promise, true);
 };
-var $resolve = function(value){
-  var promise = this
-    , then;
-  if(promise._d)return;
+var $resolve = function (value) {
+  var promise = this;
+  var then;
+  if (promise._d) return;
   promise._d = true;
   promise = promise._w || promise; // unwrap
   try {
-    if(promise === value)throw TypeError("Promise can't be resolved itself");
-    if(then = isThenable(value)){
-      microtask(function(){
-        var wrapper = {_w: promise, _d: false}; // wrap
+    if (promise === value) throw TypeError("Promise can't be resolved itself");
+    if (then = isThenable(value)) {
+      microtask(function () {
+        var wrapper = { _w: promise, _d: false }; // wrap
         try {
           then.call(value, ctx($resolve, wrapper, 1), ctx($reject, wrapper, 1));
-        } catch(e){
+        } catch (e) {
           $reject.call(wrapper, e);
         }
       });
@@ -9349,25 +16535,26 @@ var $resolve = function(value){
       promise._s = 1;
       notify(promise, false);
     }
-  } catch(e){
-    $reject.call({_w: promise, _d: false}, e); // wrap
+  } catch (e) {
+    $reject.call({ _w: promise, _d: false }, e); // wrap
   }
 };
 
 // constructor polyfill
-if(!USE_NATIVE){
+if (!USE_NATIVE) {
   // 25.4.3.1 Promise(executor)
-  $Promise = function Promise(executor){
+  $Promise = function Promise(executor) {
     anInstance(this, $Promise, PROMISE, '_h');
     aFunction(executor);
     Internal.call(this);
     try {
       executor(ctx($resolve, this, 1), ctx($reject, this, 1));
-    } catch(err){
+    } catch (err) {
       $reject.call(this, err);
     }
   };
-  Internal = function Promise(executor){
+  // eslint-disable-next-line no-unused-vars
+  Internal = function Promise(executor) {
     this._c = [];             // <- awaiting reactions
     this._a = undefined;      // <- checked in isUnhandled reactions
     this._s = 0;              // <- state
@@ -9378,30 +16565,35 @@ if(!USE_NATIVE){
   };
   Internal.prototype = require('./_redefine-all')($Promise.prototype, {
     // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
-    then: function then(onFulfilled, onRejected){
-      var reaction    = newPromiseCapability(speciesConstructor(this, $Promise));
-      reaction.ok     = typeof onFulfilled == 'function' ? onFulfilled : true;
-      reaction.fail   = typeof onRejected == 'function' && onRejected;
+    then: function then(onFulfilled, onRejected) {
+      var reaction = newPromiseCapability(speciesConstructor(this, $Promise));
+      reaction.ok = typeof onFulfilled == 'function' ? onFulfilled : true;
+      reaction.fail = typeof onRejected == 'function' && onRejected;
       reaction.domain = isNode ? process.domain : undefined;
       this._c.push(reaction);
-      if(this._a)this._a.push(reaction);
-      if(this._s)notify(this, false);
+      if (this._a) this._a.push(reaction);
+      if (this._s) notify(this, false);
       return reaction.promise;
     },
     // 25.4.5.1 Promise.prototype.catch(onRejected)
-    'catch': function(onRejected){
+    'catch': function (onRejected) {
       return this.then(undefined, onRejected);
     }
   });
-  PromiseCapability = function(){
-    var promise  = new Internal;
+  OwnPromiseCapability = function () {
+    var promise = new Internal();
     this.promise = promise;
     this.resolve = ctx($resolve, promise, 1);
-    this.reject  = ctx($reject, promise, 1);
+    this.reject = ctx($reject, promise, 1);
+  };
+  newPromiseCapabilityModule.f = newPromiseCapability = function (C) {
+    return C === $Promise || C === Wrapper
+      ? new OwnPromiseCapability(C)
+      : newGenericPromiseCapability(C);
   };
 }
 
-$export($export.G + $export.W + $export.F * !USE_NATIVE, {Promise: $Promise});
+$export($export.G + $export.W + $export.F * !USE_NATIVE, { Promise: $Promise });
 require('./_set-to-string-tag')($Promise, PROMISE);
 require('./_set-species')(PROMISE);
 Wrapper = require('./_core')[PROMISE];
@@ -9409,285 +16601,287 @@ Wrapper = require('./_core')[PROMISE];
 // statics
 $export($export.S + $export.F * !USE_NATIVE, PROMISE, {
   // 25.4.4.5 Promise.reject(r)
-  reject: function reject(r){
-    var capability = newPromiseCapability(this)
-      , $$reject   = capability.reject;
+  reject: function reject(r) {
+    var capability = newPromiseCapability(this);
+    var $$reject = capability.reject;
     $$reject(r);
     return capability.promise;
   }
 });
 $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
   // 25.4.4.6 Promise.resolve(x)
-  resolve: function resolve(x){
-    // instanceof instead of internal slot check because we should fix it without replacement native Promise core
-    if(x instanceof $Promise && sameConstructor(x.constructor, this))return x;
-    var capability = newPromiseCapability(this)
-      , $$resolve  = capability.resolve;
-    $$resolve(x);
-    return capability.promise;
+  resolve: function resolve(x) {
+    return promiseResolve(LIBRARY && this === Wrapper ? $Promise : this, x);
   }
 });
-$export($export.S + $export.F * !(USE_NATIVE && require('./_iter-detect')(function(iter){
+$export($export.S + $export.F * !(USE_NATIVE && require('./_iter-detect')(function (iter) {
   $Promise.all(iter)['catch'](empty);
 })), PROMISE, {
   // 25.4.4.1 Promise.all(iterable)
-  all: function all(iterable){
-    var C          = this
-      , capability = newPromiseCapability(C)
-      , resolve    = capability.resolve
-      , reject     = capability.reject;
-    var abrupt = perform(function(){
-      var values    = []
-        , index     = 0
-        , remaining = 1;
-      forOf(iterable, false, function(promise){
-        var $index        = index++
-          , alreadyCalled = false;
+  all: function all(iterable) {
+    var C = this;
+    var capability = newPromiseCapability(C);
+    var resolve = capability.resolve;
+    var reject = capability.reject;
+    var result = perform(function () {
+      var values = [];
+      var index = 0;
+      var remaining = 1;
+      forOf(iterable, false, function (promise) {
+        var $index = index++;
+        var alreadyCalled = false;
         values.push(undefined);
         remaining++;
-        C.resolve(promise).then(function(value){
-          if(alreadyCalled)return;
-          alreadyCalled  = true;
+        C.resolve(promise).then(function (value) {
+          if (alreadyCalled) return;
+          alreadyCalled = true;
           values[$index] = value;
           --remaining || resolve(values);
         }, reject);
       });
       --remaining || resolve(values);
     });
-    if(abrupt)reject(abrupt.error);
+    if (result.e) reject(result.v);
     return capability.promise;
   },
   // 25.4.4.4 Promise.race(iterable)
-  race: function race(iterable){
-    var C          = this
-      , capability = newPromiseCapability(C)
-      , reject     = capability.reject;
-    var abrupt = perform(function(){
-      forOf(iterable, false, function(promise){
+  race: function race(iterable) {
+    var C = this;
+    var capability = newPromiseCapability(C);
+    var reject = capability.reject;
+    var result = perform(function () {
+      forOf(iterable, false, function (promise) {
         C.resolve(promise).then(capability.resolve, reject);
       });
     });
-    if(abrupt)reject(abrupt.error);
+    if (result.e) reject(result.v);
     return capability.promise;
   }
 });
-},{"./_a-function":37,"./_an-instance":39,"./_classof":46,"./_core":51,"./_ctx":52,"./_export":58,"./_for-of":60,"./_global":61,"./_is-object":70,"./_iter-detect":74,"./_library":78,"./_microtask":80,"./_redefine-all":95,"./_set-species":98,"./_set-to-string-tag":99,"./_species-constructor":102,"./_task":104,"./_wks":114}],127:[function(require,module,exports){
+
+},{"./_a-function":40,"./_an-instance":42,"./_classof":49,"./_core":54,"./_ctx":55,"./_export":61,"./_for-of":63,"./_global":64,"./_is-object":73,"./_iter-detect":77,"./_library":80,"./_microtask":82,"./_new-promise-capability":83,"./_perform":97,"./_promise-resolve":98,"./_redefine-all":100,"./_set-species":105,"./_set-to-string-tag":106,"./_species-constructor":109,"./_task":111,"./_user-agent":119,"./_wks":123}],136:[function(require,module,exports){
 'use strict';
 var strong = require('./_collection-strong');
+var validate = require('./_validate-collection');
+var SET = 'Set';
 
 // 23.2 Set Objects
-module.exports = require('./_collection')('Set', function(get){
-  return function Set(){ return get(this, arguments.length > 0 ? arguments[0] : undefined); };
+module.exports = require('./_collection')(SET, function (get) {
+  return function Set() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
 }, {
   // 23.2.3.1 Set.prototype.add(value)
-  add: function add(value){
-    return strong.def(this, value = value === 0 ? 0 : value, value);
+  add: function add(value) {
+    return strong.def(validate(this, SET), value = value === 0 ? 0 : value, value);
   }
 }, strong);
-},{"./_collection":50,"./_collection-strong":48}],128:[function(require,module,exports){
+
+},{"./_collection":53,"./_collection-strong":51,"./_validate-collection":120}],137:[function(require,module,exports){
 'use strict';
-var $at  = require('./_string-at')(true);
+var $at = require('./_string-at')(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
-require('./_iter-define')(String, 'String', function(iterated){
+require('./_iter-define')(String, 'String', function (iterated) {
   this._t = String(iterated); // target
   this._i = 0;                // next index
 // 21.1.5.2.1 %StringIteratorPrototype%.next()
-}, function(){
-  var O     = this._t
-    , index = this._i
-    , point;
-  if(index >= O.length)return {value: undefined, done: true};
+}, function () {
+  var O = this._t;
+  var index = this._i;
+  var point;
+  if (index >= O.length) return { value: undefined, done: true };
   point = $at(O, index);
   this._i += point.length;
-  return {value: point, done: false};
+  return { value: point, done: false };
 });
-},{"./_iter-define":73,"./_string-at":103}],129:[function(require,module,exports){
+
+},{"./_iter-define":76,"./_string-at":110}],138:[function(require,module,exports){
 'use strict';
 // ECMAScript 6 symbols shim
-var global         = require('./_global')
-  , has            = require('./_has')
-  , DESCRIPTORS    = require('./_descriptors')
-  , $export        = require('./_export')
-  , redefine       = require('./_redefine')
-  , META           = require('./_meta').KEY
-  , $fails         = require('./_fails')
-  , shared         = require('./_shared')
-  , setToStringTag = require('./_set-to-string-tag')
-  , uid            = require('./_uid')
-  , wks            = require('./_wks')
-  , wksExt         = require('./_wks-ext')
-  , wksDefine      = require('./_wks-define')
-  , keyOf          = require('./_keyof')
-  , enumKeys       = require('./_enum-keys')
-  , isArray        = require('./_is-array')
-  , anObject       = require('./_an-object')
-  , toIObject      = require('./_to-iobject')
-  , toPrimitive    = require('./_to-primitive')
-  , createDesc     = require('./_property-desc')
-  , _create        = require('./_object-create')
-  , gOPNExt        = require('./_object-gopn-ext')
-  , $GOPD          = require('./_object-gopd')
-  , $DP            = require('./_object-dp')
-  , $keys          = require('./_object-keys')
-  , gOPD           = $GOPD.f
-  , dP             = $DP.f
-  , gOPN           = gOPNExt.f
-  , $Symbol        = global.Symbol
-  , $JSON          = global.JSON
-  , _stringify     = $JSON && $JSON.stringify
-  , PROTOTYPE      = 'prototype'
-  , HIDDEN         = wks('_hidden')
-  , TO_PRIMITIVE   = wks('toPrimitive')
-  , isEnum         = {}.propertyIsEnumerable
-  , SymbolRegistry = shared('symbol-registry')
-  , AllSymbols     = shared('symbols')
-  , OPSymbols      = shared('op-symbols')
-  , ObjectProto    = Object[PROTOTYPE]
-  , USE_NATIVE     = typeof $Symbol == 'function'
-  , QObject        = global.QObject;
+var global = require('./_global');
+var has = require('./_has');
+var DESCRIPTORS = require('./_descriptors');
+var $export = require('./_export');
+var redefine = require('./_redefine');
+var META = require('./_meta').KEY;
+var $fails = require('./_fails');
+var shared = require('./_shared');
+var setToStringTag = require('./_set-to-string-tag');
+var uid = require('./_uid');
+var wks = require('./_wks');
+var wksExt = require('./_wks-ext');
+var wksDefine = require('./_wks-define');
+var enumKeys = require('./_enum-keys');
+var isArray = require('./_is-array');
+var anObject = require('./_an-object');
+var isObject = require('./_is-object');
+var toObject = require('./_to-object');
+var toIObject = require('./_to-iobject');
+var toPrimitive = require('./_to-primitive');
+var createDesc = require('./_property-desc');
+var _create = require('./_object-create');
+var gOPNExt = require('./_object-gopn-ext');
+var $GOPD = require('./_object-gopd');
+var $GOPS = require('./_object-gops');
+var $DP = require('./_object-dp');
+var $keys = require('./_object-keys');
+var gOPD = $GOPD.f;
+var dP = $DP.f;
+var gOPN = gOPNExt.f;
+var $Symbol = global.Symbol;
+var $JSON = global.JSON;
+var _stringify = $JSON && $JSON.stringify;
+var PROTOTYPE = 'prototype';
+var HIDDEN = wks('_hidden');
+var TO_PRIMITIVE = wks('toPrimitive');
+var isEnum = {}.propertyIsEnumerable;
+var SymbolRegistry = shared('symbol-registry');
+var AllSymbols = shared('symbols');
+var OPSymbols = shared('op-symbols');
+var ObjectProto = Object[PROTOTYPE];
+var USE_NATIVE = typeof $Symbol == 'function' && !!$GOPS.f;
+var QObject = global.QObject;
 // Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
 var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
 
 // fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-var setSymbolDesc = DESCRIPTORS && $fails(function(){
+var setSymbolDesc = DESCRIPTORS && $fails(function () {
   return _create(dP({}, 'a', {
-    get: function(){ return dP(this, 'a', {value: 7}).a; }
+    get: function () { return dP(this, 'a', { value: 7 }).a; }
   })).a != 7;
-}) ? function(it, key, D){
+}) ? function (it, key, D) {
   var protoDesc = gOPD(ObjectProto, key);
-  if(protoDesc)delete ObjectProto[key];
+  if (protoDesc) delete ObjectProto[key];
   dP(it, key, D);
-  if(protoDesc && it !== ObjectProto)dP(ObjectProto, key, protoDesc);
+  if (protoDesc && it !== ObjectProto) dP(ObjectProto, key, protoDesc);
 } : dP;
 
-var wrap = function(tag){
+var wrap = function (tag) {
   var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE]);
   sym._k = tag;
   return sym;
 };
 
-var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function(it){
+var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function (it) {
   return typeof it == 'symbol';
-} : function(it){
+} : function (it) {
   return it instanceof $Symbol;
 };
 
-var $defineProperty = function defineProperty(it, key, D){
-  if(it === ObjectProto)$defineProperty(OPSymbols, key, D);
+var $defineProperty = function defineProperty(it, key, D) {
+  if (it === ObjectProto) $defineProperty(OPSymbols, key, D);
   anObject(it);
   key = toPrimitive(key, true);
   anObject(D);
-  if(has(AllSymbols, key)){
-    if(!D.enumerable){
-      if(!has(it, HIDDEN))dP(it, HIDDEN, createDesc(1, {}));
+  if (has(AllSymbols, key)) {
+    if (!D.enumerable) {
+      if (!has(it, HIDDEN)) dP(it, HIDDEN, createDesc(1, {}));
       it[HIDDEN][key] = true;
     } else {
-      if(has(it, HIDDEN) && it[HIDDEN][key])it[HIDDEN][key] = false;
-      D = _create(D, {enumerable: createDesc(0, false)});
+      if (has(it, HIDDEN) && it[HIDDEN][key]) it[HIDDEN][key] = false;
+      D = _create(D, { enumerable: createDesc(0, false) });
     } return setSymbolDesc(it, key, D);
   } return dP(it, key, D);
 };
-var $defineProperties = function defineProperties(it, P){
+var $defineProperties = function defineProperties(it, P) {
   anObject(it);
-  var keys = enumKeys(P = toIObject(P))
-    , i    = 0
-    , l = keys.length
-    , key;
-  while(l > i)$defineProperty(it, key = keys[i++], P[key]);
+  var keys = enumKeys(P = toIObject(P));
+  var i = 0;
+  var l = keys.length;
+  var key;
+  while (l > i) $defineProperty(it, key = keys[i++], P[key]);
   return it;
 };
-var $create = function create(it, P){
+var $create = function create(it, P) {
   return P === undefined ? _create(it) : $defineProperties(_create(it), P);
 };
-var $propertyIsEnumerable = function propertyIsEnumerable(key){
+var $propertyIsEnumerable = function propertyIsEnumerable(key) {
   var E = isEnum.call(this, key = toPrimitive(key, true));
-  if(this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))return false;
+  if (this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key)) return false;
   return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
 };
-var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key){
-  it  = toIObject(it);
+var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key) {
+  it = toIObject(it);
   key = toPrimitive(key, true);
-  if(it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))return;
+  if (it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key)) return;
   var D = gOPD(it, key);
-  if(D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key]))D.enumerable = true;
+  if (D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key])) D.enumerable = true;
   return D;
 };
-var $getOwnPropertyNames = function getOwnPropertyNames(it){
-  var names  = gOPN(toIObject(it))
-    , result = []
-    , i      = 0
-    , key;
-  while(names.length > i){
-    if(!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META)result.push(key);
+var $getOwnPropertyNames = function getOwnPropertyNames(it) {
+  var names = gOPN(toIObject(it));
+  var result = [];
+  var i = 0;
+  var key;
+  while (names.length > i) {
+    if (!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META) result.push(key);
   } return result;
 };
-var $getOwnPropertySymbols = function getOwnPropertySymbols(it){
-  var IS_OP  = it === ObjectProto
-    , names  = gOPN(IS_OP ? OPSymbols : toIObject(it))
-    , result = []
-    , i      = 0
-    , key;
-  while(names.length > i){
-    if(has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true))result.push(AllSymbols[key]);
+var $getOwnPropertySymbols = function getOwnPropertySymbols(it) {
+  var IS_OP = it === ObjectProto;
+  var names = gOPN(IS_OP ? OPSymbols : toIObject(it));
+  var result = [];
+  var i = 0;
+  var key;
+  while (names.length > i) {
+    if (has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true)) result.push(AllSymbols[key]);
   } return result;
 };
 
 // 19.4.1.1 Symbol([description])
-if(!USE_NATIVE){
-  $Symbol = function Symbol(){
-    if(this instanceof $Symbol)throw TypeError('Symbol is not a constructor!');
+if (!USE_NATIVE) {
+  $Symbol = function Symbol() {
+    if (this instanceof $Symbol) throw TypeError('Symbol is not a constructor!');
     var tag = uid(arguments.length > 0 ? arguments[0] : undefined);
-    var $set = function(value){
-      if(this === ObjectProto)$set.call(OPSymbols, value);
-      if(has(this, HIDDEN) && has(this[HIDDEN], tag))this[HIDDEN][tag] = false;
+    var $set = function (value) {
+      if (this === ObjectProto) $set.call(OPSymbols, value);
+      if (has(this, HIDDEN) && has(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
       setSymbolDesc(this, tag, createDesc(1, value));
     };
-    if(DESCRIPTORS && setter)setSymbolDesc(ObjectProto, tag, {configurable: true, set: $set});
+    if (DESCRIPTORS && setter) setSymbolDesc(ObjectProto, tag, { configurable: true, set: $set });
     return wrap(tag);
   };
-  redefine($Symbol[PROTOTYPE], 'toString', function toString(){
+  redefine($Symbol[PROTOTYPE], 'toString', function toString() {
     return this._k;
   });
 
   $GOPD.f = $getOwnPropertyDescriptor;
-  $DP.f   = $defineProperty;
+  $DP.f = $defineProperty;
   require('./_object-gopn').f = gOPNExt.f = $getOwnPropertyNames;
-  require('./_object-pie').f  = $propertyIsEnumerable;
-  require('./_object-gops').f = $getOwnPropertySymbols;
+  require('./_object-pie').f = $propertyIsEnumerable;
+  $GOPS.f = $getOwnPropertySymbols;
 
-  if(DESCRIPTORS && !require('./_library')){
+  if (DESCRIPTORS && !require('./_library')) {
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
-  wksExt.f = function(name){
+  wksExt.f = function (name) {
     return wrap(wks(name));
-  }
+  };
 }
 
-$export($export.G + $export.W + $export.F * !USE_NATIVE, {Symbol: $Symbol});
+$export($export.G + $export.W + $export.F * !USE_NATIVE, { Symbol: $Symbol });
 
-for(var symbols = (
+for (var es6Symbols = (
   // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
   'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
-).split(','), i = 0; symbols.length > i; )wks(symbols[i++]);
+).split(','), j = 0; es6Symbols.length > j;)wks(es6Symbols[j++]);
 
-for(var symbols = $keys(wks.store), i = 0; symbols.length > i; )wksDefine(symbols[i++]);
+for (var wellKnownSymbols = $keys(wks.store), k = 0; wellKnownSymbols.length > k;) wksDefine(wellKnownSymbols[k++]);
 
 $export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
   // 19.4.2.1 Symbol.for(key)
-  'for': function(key){
+  'for': function (key) {
     return has(SymbolRegistry, key += '')
       ? SymbolRegistry[key]
       : SymbolRegistry[key] = $Symbol(key);
   },
   // 19.4.2.5 Symbol.keyFor(sym)
-  keyFor: function keyFor(key){
-    if(isSymbol(key))return keyOf(SymbolRegistry, key);
-    throw TypeError(key + ' is not a symbol!');
+  keyFor: function keyFor(sym) {
+    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol!');
+    for (var key in SymbolRegistry) if (SymbolRegistry[key] === sym) return key;
   },
-  useSetter: function(){ setter = true; },
-  useSimple: function(){ setter = false; }
+  useSetter: function () { setter = true; },
+  useSimple: function () { setter = false; }
 });
 
 $export($export.S + $export.F * !USE_NATIVE, 'Object', {
@@ -9705,25 +16899,34 @@ $export($export.S + $export.F * !USE_NATIVE, 'Object', {
   getOwnPropertySymbols: $getOwnPropertySymbols
 });
 
+// Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
+// https://bugs.chromium.org/p/v8/issues/detail?id=3443
+var FAILS_ON_PRIMITIVES = $fails(function () { $GOPS.f(1); });
+
+$export($export.S + $export.F * FAILS_ON_PRIMITIVES, 'Object', {
+  getOwnPropertySymbols: function getOwnPropertySymbols(it) {
+    return $GOPS.f(toObject(it));
+  }
+});
+
 // 24.3.2 JSON.stringify(value [, replacer [, space]])
-$JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function(){
+$JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
   var S = $Symbol();
   // MS Edge converts symbol values to JSON as {}
   // WebKit converts symbol values to JSON as null
   // V8 throws on boxed symbols
-  return _stringify([S]) != '[null]' || _stringify({a: S}) != '{}' || _stringify(Object(S)) != '{}';
+  return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
 })), 'JSON', {
-  stringify: function stringify(it){
-    if(it === undefined || isSymbol(it))return; // IE8 returns string on undefined
-    var args = [it]
-      , i    = 1
-      , replacer, $replacer;
-    while(arguments.length > i)args.push(arguments[i++]);
-    replacer = args[1];
-    if(typeof replacer == 'function')$replacer = replacer;
-    if($replacer || !isArray(replacer))replacer = function(key, value){
-      if($replacer)value = $replacer.call(this, key, value);
-      if(!isSymbol(value))return value;
+  stringify: function stringify(it) {
+    var args = [it];
+    var i = 1;
+    var replacer, $replacer;
+    while (arguments.length > i) args.push(arguments[i++]);
+    $replacer = replacer = args[1];
+    if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
+    if (!isArray(replacer)) replacer = function (key, value) {
+      if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
+      if (!isSymbol(value)) return value;
     };
     args[1] = replacer;
     return _stringify.apply($JSON, args);
@@ -9738,33 +16941,89 @@ setToStringTag($Symbol, 'Symbol');
 setToStringTag(Math, 'Math', true);
 // 24.3.3 JSON[@@toStringTag]
 setToStringTag(global.JSON, 'JSON', true);
-},{"./_an-object":40,"./_descriptors":54,"./_enum-keys":57,"./_export":58,"./_fails":59,"./_global":61,"./_has":62,"./_hide":63,"./_is-array":69,"./_keyof":77,"./_library":78,"./_meta":79,"./_object-create":82,"./_object-dp":83,"./_object-gopd":85,"./_object-gopn":87,"./_object-gopn-ext":86,"./_object-gops":88,"./_object-keys":91,"./_object-pie":92,"./_property-desc":94,"./_redefine":96,"./_set-to-string-tag":99,"./_shared":101,"./_to-iobject":107,"./_to-primitive":110,"./_uid":111,"./_wks":114,"./_wks-define":112,"./_wks-ext":113}],130:[function(require,module,exports){
+
+},{"./_an-object":43,"./_descriptors":57,"./_enum-keys":60,"./_export":61,"./_fails":62,"./_global":64,"./_has":65,"./_hide":66,"./_is-array":72,"./_is-object":73,"./_library":80,"./_meta":81,"./_object-create":85,"./_object-dp":86,"./_object-gopd":88,"./_object-gopn":90,"./_object-gopn-ext":89,"./_object-gops":91,"./_object-keys":94,"./_object-pie":95,"./_property-desc":99,"./_redefine":101,"./_set-to-string-tag":106,"./_shared":108,"./_to-iobject":114,"./_to-object":116,"./_to-primitive":117,"./_uid":118,"./_wks":123,"./_wks-define":121,"./_wks-ext":122}],139:[function(require,module,exports){
+// https://github.com/tc39/proposal-promise-finally
+'use strict';
+var $export = require('./_export');
+var core = require('./_core');
+var global = require('./_global');
+var speciesConstructor = require('./_species-constructor');
+var promiseResolve = require('./_promise-resolve');
+
+$export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
+  var C = speciesConstructor(this, core.Promise || global.Promise);
+  var isFunction = typeof onFinally == 'function';
+  return this.then(
+    isFunction ? function (x) {
+      return promiseResolve(C, onFinally()).then(function () { return x; });
+    } : onFinally,
+    isFunction ? function (e) {
+      return promiseResolve(C, onFinally()).then(function () { throw e; });
+    } : onFinally
+  );
+} });
+
+},{"./_core":54,"./_export":61,"./_global":64,"./_promise-resolve":98,"./_species-constructor":109}],140:[function(require,module,exports){
+'use strict';
+// https://github.com/tc39/proposal-promise-try
+var $export = require('./_export');
+var newPromiseCapability = require('./_new-promise-capability');
+var perform = require('./_perform');
+
+$export($export.S, 'Promise', { 'try': function (callbackfn) {
+  var promiseCapability = newPromiseCapability.f(this);
+  var result = perform(callbackfn);
+  (result.e ? promiseCapability.reject : promiseCapability.resolve)(result.v);
+  return promiseCapability.promise;
+} });
+
+},{"./_export":61,"./_new-promise-capability":83,"./_perform":97}],141:[function(require,module,exports){
+// https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
+require('./_set-collection-from')('Set');
+
+},{"./_set-collection-from":102}],142:[function(require,module,exports){
+// https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
+require('./_set-collection-of')('Set');
+
+},{"./_set-collection-of":103}],143:[function(require,module,exports){
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var $export  = require('./_export');
+var $export = require('./_export');
 
-$export($export.P + $export.R, 'Set', {toJSON: require('./_collection-to-json')('Set')});
-},{"./_collection-to-json":49,"./_export":58}],131:[function(require,module,exports){
+$export($export.P + $export.R, 'Set', { toJSON: require('./_collection-to-json')('Set') });
+
+},{"./_collection-to-json":52,"./_export":61}],144:[function(require,module,exports){
 require('./_wks-define')('asyncIterator');
-},{"./_wks-define":112}],132:[function(require,module,exports){
-require('./_wks-define')('observable');
-},{"./_wks-define":112}],133:[function(require,module,exports){
-require('./es6.array.iterator');
-var global        = require('./_global')
-  , hide          = require('./_hide')
-  , Iterators     = require('./_iterators')
-  , TO_STRING_TAG = require('./_wks')('toStringTag');
 
-for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
-  var NAME       = collections[i]
-    , Collection = global[NAME]
-    , proto      = Collection && Collection.prototype;
-  if(proto && !proto[TO_STRING_TAG])hide(proto, TO_STRING_TAG, NAME);
+},{"./_wks-define":121}],145:[function(require,module,exports){
+require('./_wks-define')('observable');
+
+},{"./_wks-define":121}],146:[function(require,module,exports){
+require('./es6.array.iterator');
+var global = require('./_global');
+var hide = require('./_hide');
+var Iterators = require('./_iterators');
+var TO_STRING_TAG = require('./_wks')('toStringTag');
+
+var DOMIterables = ('CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,' +
+  'DOMTokenList,DataTransferItemList,FileList,HTMLAllCollection,HTMLCollection,HTMLFormElement,HTMLSelectElement,' +
+  'MediaList,MimeTypeArray,NamedNodeMap,NodeList,PaintRequestList,Plugin,PluginArray,SVGLengthList,SVGNumberList,' +
+  'SVGPathSegList,SVGPointList,SVGStringList,SVGTransformList,SourceBufferList,StyleSheetList,TextTrackCueList,' +
+  'TextTrackList,TouchList').split(',');
+
+for (var i = 0; i < DOMIterables.length; i++) {
+  var NAME = DOMIterables[i];
+  var Collection = global[NAME];
+  var proto = Collection && Collection.prototype;
+  if (proto && !proto[TO_STRING_TAG]) hide(proto, TO_STRING_TAG, NAME);
   Iterators[NAME] = Iterators.Array;
 }
-},{"./_global":61,"./_hide":63,"./_iterators":76,"./_wks":114,"./es6.array.iterator":118}],134:[function(require,module,exports){
+
+},{"./_global":64,"./_hide":66,"./_iterators":79,"./_wks":123,"./es6.array.iterator":127}],147:[function(require,module,exports){
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
-  var eLen = nBytes * 8 - mLen - 1
+  var eLen = (nBytes * 8) - mLen - 1
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var nBits = -7
@@ -9777,12 +17036,12 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   e = s & ((1 << (-nBits)) - 1)
   s >>= (-nBits)
   nBits += eLen
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
 
   m = e & ((1 << (-nBits)) - 1)
   e >>= (-nBits)
   nBits += mLen
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
 
   if (e === 0) {
     e = 1 - eBias
@@ -9797,7 +17056,7 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
 
 exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   var e, m, c
-  var eLen = nBytes * 8 - mLen - 1
+  var eLen = (nBytes * 8) - mLen - 1
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
@@ -9830,7 +17089,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
       m = 0
       e = eMax
     } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen)
+      m = ((value * c) - 1) * Math.pow(2, mLen)
       e = e + eBias
     } else {
       m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
@@ -9847,958 +17106,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],135:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],136:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],137:[function(require,module,exports){
-(function (global){
-// This method of obtaining a reference to the global object needs to be
-// kept identical to the way it is obtained in runtime.js
-var g =
-  typeof global === "object" ? global :
-  typeof window === "object" ? window :
-  typeof self === "object" ? self : this;
-
-// Use `getOwnPropertyNames` because not all browsers support calling
-// `hasOwnProperty` on the global `self` object in a worker. See #183.
-var hadRuntime = g.regeneratorRuntime &&
-  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
-
-// Save the old regeneratorRuntime in case it needs to be restored later.
-var oldRuntime = hadRuntime && g.regeneratorRuntime;
-
-// Force reevalutation of runtime.js.
-g.regeneratorRuntime = undefined;
-
-module.exports = require("./runtime");
-
-if (hadRuntime) {
-  // Restore the original runtime.
-  g.regeneratorRuntime = oldRuntime;
-} else {
-  // Remove the global property added by runtime.js.
-  try {
-    delete g.regeneratorRuntime;
-  } catch(e) {
-    g.regeneratorRuntime = undefined;
-  }
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./runtime":138}],138:[function(require,module,exports){
-(function (process,global){
-/**
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * https://raw.github.com/facebook/regenerator/master/LICENSE file. An
- * additional grant of patent rights can be found in the PATENTS file in
- * the same directory.
- */
-
-!(function(global) {
-  "use strict";
-
-  var Op = Object.prototype;
-  var hasOwn = Op.hasOwnProperty;
-  var undefined; // More compressible than void 0.
-  var $Symbol = typeof Symbol === "function" ? Symbol : {};
-  var iteratorSymbol = $Symbol.iterator || "@@iterator";
-  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-
-  var inModule = typeof module === "object";
-  var runtime = global.regeneratorRuntime;
-  if (runtime) {
-    if (inModule) {
-      // If regeneratorRuntime is defined globally and we're in a module,
-      // make the exports object identical to regeneratorRuntime.
-      module.exports = runtime;
-    }
-    // Don't bother evaluating the rest of this file if the runtime was
-    // already defined globally.
-    return;
-  }
-
-  // Define the runtime globally (as expected by generated code) as either
-  // module.exports (if we're in a module) or a new, empty object.
-  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
-
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
-    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
-    var generator = Object.create(protoGenerator.prototype);
-    var context = new Context(tryLocsList || []);
-
-    // The ._invoke method unifies the implementations of the .next,
-    // .throw, and .return methods.
-    generator._invoke = makeInvokeMethod(innerFn, self, context);
-
-    return generator;
-  }
-  runtime.wrap = wrap;
-
-  // Try/catch helper to minimize deoptimizations. Returns a completion
-  // record like context.tryEntries[i].completion. This interface could
-  // have been (and was previously) designed to take a closure to be
-  // invoked without arguments, but in all the cases we care about we
-  // already have an existing method we want to call, so there's no need
-  // to create a new function object. We can even get away with assuming
-  // the method takes exactly one argument, since that happens to be true
-  // in every case, so we don't have to touch the arguments object. The
-  // only additional allocation required is the completion record, which
-  // has a stable shape and so hopefully should be cheap to allocate.
-  function tryCatch(fn, obj, arg) {
-    try {
-      return { type: "normal", arg: fn.call(obj, arg) };
-    } catch (err) {
-      return { type: "throw", arg: err };
-    }
-  }
-
-  var GenStateSuspendedStart = "suspendedStart";
-  var GenStateSuspendedYield = "suspendedYield";
-  var GenStateExecuting = "executing";
-  var GenStateCompleted = "completed";
-
-  // Returning this object from the innerFn has the same effect as
-  // breaking out of the dispatch switch statement.
-  var ContinueSentinel = {};
-
-  // Dummy constructor functions that we use as the .constructor and
-  // .constructor.prototype properties for functions that return Generator
-  // objects. For full spec compliance, you may wish to configure your
-  // minifier not to mangle the names of these two functions.
-  function Generator() {}
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-
-  // This is a polyfill for %IteratorPrototype% for environments that
-  // don't natively support it.
-  var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
-    return this;
-  };
-
-  var getProto = Object.getPrototypeOf;
-  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-  if (NativeIteratorPrototype &&
-      NativeIteratorPrototype !== Op &&
-      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
-    // This environment has a native %IteratorPrototype%; use it instead
-    // of the polyfill.
-    IteratorPrototype = NativeIteratorPrototype;
-  }
-
-  var Gp = GeneratorFunctionPrototype.prototype =
-    Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunctionPrototype[toStringTagSymbol] =
-    GeneratorFunction.displayName = "GeneratorFunction";
-
-  // Helper for defining the .next, .throw, and .return methods of the
-  // Iterator interface in terms of a single ._invoke method.
-  function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function(method) {
-      prototype[method] = function(arg) {
-        return this._invoke(method, arg);
-      };
-    });
-  }
-
-  runtime.isGeneratorFunction = function(genFun) {
-    var ctor = typeof genFun === "function" && genFun.constructor;
-    return ctor
-      ? ctor === GeneratorFunction ||
-        // For the native GeneratorFunction constructor, the best we can
-        // do is to check its .name property.
-        (ctor.displayName || ctor.name) === "GeneratorFunction"
-      : false;
-  };
-
-  runtime.mark = function(genFun) {
-    if (Object.setPrototypeOf) {
-      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-    } else {
-      genFun.__proto__ = GeneratorFunctionPrototype;
-      if (!(toStringTagSymbol in genFun)) {
-        genFun[toStringTagSymbol] = "GeneratorFunction";
-      }
-    }
-    genFun.prototype = Object.create(Gp);
-    return genFun;
-  };
-
-  // Within the body of any async function, `await x` is transformed to
-  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
-  // `hasOwn.call(value, "__await")` to determine if the yielded value is
-  // meant to be awaited.
-  runtime.awrap = function(arg) {
-    return { __await: arg };
-  };
-
-  function AsyncIterator(generator) {
-    function invoke(method, arg, resolve, reject) {
-      var record = tryCatch(generator[method], generator, arg);
-      if (record.type === "throw") {
-        reject(record.arg);
-      } else {
-        var result = record.arg;
-        var value = result.value;
-        if (value &&
-            typeof value === "object" &&
-            hasOwn.call(value, "__await")) {
-          return Promise.resolve(value.__await).then(function(value) {
-            invoke("next", value, resolve, reject);
-          }, function(err) {
-            invoke("throw", err, resolve, reject);
-          });
-        }
-
-        return Promise.resolve(value).then(function(unwrapped) {
-          // When a yielded Promise is resolved, its final value becomes
-          // the .value of the Promise<{value,done}> result for the
-          // current iteration. If the Promise is rejected, however, the
-          // result for this iteration will be rejected with the same
-          // reason. Note that rejections of yielded Promises are not
-          // thrown back into the generator function, as is the case
-          // when an awaited Promise is rejected. This difference in
-          // behavior between yield and await is important, because it
-          // allows the consumer to decide what to do with the yielded
-          // rejection (swallow it and continue, manually .throw it back
-          // into the generator, abandon iteration, whatever). With
-          // await, by contrast, there is no opportunity to examine the
-          // rejection reason outside the generator function, so the
-          // only option is to throw it from the await expression, and
-          // let the generator function handle the exception.
-          result.value = unwrapped;
-          resolve(result);
-        }, reject);
-      }
-    }
-
-    if (typeof process === "object" && process.domain) {
-      invoke = process.domain.bind(invoke);
-    }
-
-    var previousPromise;
-
-    function enqueue(method, arg) {
-      function callInvokeWithMethodAndArg() {
-        return new Promise(function(resolve, reject) {
-          invoke(method, arg, resolve, reject);
-        });
-      }
-
-      return previousPromise =
-        // If enqueue has been called before, then we want to wait until
-        // all previous Promises have been resolved before calling invoke,
-        // so that results are always delivered in the correct order. If
-        // enqueue has not been called before, then it is important to
-        // call invoke immediately, without waiting on a callback to fire,
-        // so that the async generator function has the opportunity to do
-        // any necessary setup in a predictable way. This predictability
-        // is why the Promise constructor synchronously invokes its
-        // executor callback, and why async functions synchronously
-        // execute code before the first await. Since we implement simple
-        // async functions in terms of async generators, it is especially
-        // important to get this right, even though it requires care.
-        previousPromise ? previousPromise.then(
-          callInvokeWithMethodAndArg,
-          // Avoid propagating failures to Promises returned by later
-          // invocations of the iterator.
-          callInvokeWithMethodAndArg
-        ) : callInvokeWithMethodAndArg();
-    }
-
-    // Define the unified helper method that is used to implement .next,
-    // .throw, and .return (see defineIteratorMethods).
-    this._invoke = enqueue;
-  }
-
-  defineIteratorMethods(AsyncIterator.prototype);
-  runtime.AsyncIterator = AsyncIterator;
-
-  // Note that simple async functions are implemented on top of
-  // AsyncIterator objects; they just return a Promise for the value of
-  // the final result produced by the iterator.
-  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
-    var iter = new AsyncIterator(
-      wrap(innerFn, outerFn, self, tryLocsList)
-    );
-
-    return runtime.isGeneratorFunction(outerFn)
-      ? iter // If outerFn is a generator, return the full iterator.
-      : iter.next().then(function(result) {
-          return result.done ? result.value : iter.next();
-        });
-  };
-
-  function makeInvokeMethod(innerFn, self, context) {
-    var state = GenStateSuspendedStart;
-
-    return function invoke(method, arg) {
-      if (state === GenStateExecuting) {
-        throw new Error("Generator is already running");
-      }
-
-      if (state === GenStateCompleted) {
-        if (method === "throw") {
-          throw arg;
-        }
-
-        // Be forgiving, per 25.3.3.3.3 of the spec:
-        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
-        return doneResult();
-      }
-
-      context.method = method;
-      context.arg = arg;
-
-      while (true) {
-        var delegate = context.delegate;
-        if (delegate) {
-          var delegateResult = maybeInvokeDelegate(delegate, context);
-          if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
-            return delegateResult;
-          }
-        }
-
-        if (context.method === "next") {
-          // Setting context._sent for legacy support of Babel's
-          // function.sent implementation.
-          context.sent = context._sent = context.arg;
-
-        } else if (context.method === "throw") {
-          if (state === GenStateSuspendedStart) {
-            state = GenStateCompleted;
-            throw context.arg;
-          }
-
-          context.dispatchException(context.arg);
-
-        } else if (context.method === "return") {
-          context.abrupt("return", context.arg);
-        }
-
-        state = GenStateExecuting;
-
-        var record = tryCatch(innerFn, self, context);
-        if (record.type === "normal") {
-          // If an exception is thrown from innerFn, we leave state ===
-          // GenStateExecuting and loop back for another invocation.
-          state = context.done
-            ? GenStateCompleted
-            : GenStateSuspendedYield;
-
-          if (record.arg === ContinueSentinel) {
-            continue;
-          }
-
-          return {
-            value: record.arg,
-            done: context.done
-          };
-
-        } else if (record.type === "throw") {
-          state = GenStateCompleted;
-          // Dispatch the exception by looping back around to the
-          // context.dispatchException(context.arg) call above.
-          context.method = "throw";
-          context.arg = record.arg;
-        }
-      }
-    };
-  }
-
-  // Call delegate.iterator[context.method](context.arg) and handle the
-  // result, either by returning a { value, done } result from the
-  // delegate iterator, or by modifying context.method and context.arg,
-  // setting context.delegate to null, and returning the ContinueSentinel.
-  function maybeInvokeDelegate(delegate, context) {
-    var method = delegate.iterator[context.method];
-    if (method === undefined) {
-      // A .throw or .return when the delegate iterator has no .throw
-      // method always terminates the yield* loop.
-      context.delegate = null;
-
-      if (context.method === "throw") {
-        if (delegate.iterator.return) {
-          // If the delegate iterator has a return method, give it a
-          // chance to clean up.
-          context.method = "return";
-          context.arg = undefined;
-          maybeInvokeDelegate(delegate, context);
-
-          if (context.method === "throw") {
-            // If maybeInvokeDelegate(context) changed context.method from
-            // "return" to "throw", let that override the TypeError below.
-            return ContinueSentinel;
-          }
-        }
-
-        context.method = "throw";
-        context.arg = new TypeError(
-          "The iterator does not provide a 'throw' method");
-      }
-
-      return ContinueSentinel;
-    }
-
-    var record = tryCatch(method, delegate.iterator, context.arg);
-
-    if (record.type === "throw") {
-      context.method = "throw";
-      context.arg = record.arg;
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    var info = record.arg;
-
-    if (! info) {
-      context.method = "throw";
-      context.arg = new TypeError("iterator result is not an object");
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    if (info.done) {
-      // Assign the result of the finished delegate to the temporary
-      // variable specified by delegate.resultName (see delegateYield).
-      context[delegate.resultName] = info.value;
-
-      // Resume execution at the desired location (see delegateYield).
-      context.next = delegate.nextLoc;
-
-      // If context.method was "throw" but the delegate handled the
-      // exception, let the outer generator proceed normally. If
-      // context.method was "next", forget context.arg since it has been
-      // "consumed" by the delegate iterator. If context.method was
-      // "return", allow the original .return call to continue in the
-      // outer generator.
-      if (context.method !== "return") {
-        context.method = "next";
-        context.arg = undefined;
-      }
-
-    } else {
-      // Re-yield the result returned by the delegate method.
-      return info;
-    }
-
-    // The delegate iterator is finished, so forget it and continue with
-    // the outer generator.
-    context.delegate = null;
-    return ContinueSentinel;
-  }
-
-  // Define Generator.prototype.{next,throw,return} in terms of the
-  // unified ._invoke helper method.
-  defineIteratorMethods(Gp);
-
-  Gp[toStringTagSymbol] = "Generator";
-
-  Gp.toString = function() {
-    return "[object Generator]";
-  };
-
-  function pushTryEntry(locs) {
-    var entry = { tryLoc: locs[0] };
-
-    if (1 in locs) {
-      entry.catchLoc = locs[1];
-    }
-
-    if (2 in locs) {
-      entry.finallyLoc = locs[2];
-      entry.afterLoc = locs[3];
-    }
-
-    this.tryEntries.push(entry);
-  }
-
-  function resetTryEntry(entry) {
-    var record = entry.completion || {};
-    record.type = "normal";
-    delete record.arg;
-    entry.completion = record;
-  }
-
-  function Context(tryLocsList) {
-    // The root entry object (effectively a try statement without a catch
-    // or a finally block) gives us a place to store values thrown from
-    // locations where there is no enclosing try statement.
-    this.tryEntries = [{ tryLoc: "root" }];
-    tryLocsList.forEach(pushTryEntry, this);
-    this.reset(true);
-  }
-
-  runtime.keys = function(object) {
-    var keys = [];
-    for (var key in object) {
-      keys.push(key);
-    }
-    keys.reverse();
-
-    // Rather than returning an object with a next method, we keep
-    // things simple and return the next function itself.
-    return function next() {
-      while (keys.length) {
-        var key = keys.pop();
-        if (key in object) {
-          next.value = key;
-          next.done = false;
-          return next;
-        }
-      }
-
-      // To avoid creating an additional object, we just hang the .value
-      // and .done properties off the next function object itself. This
-      // also ensures that the minifier will not anonymize the function.
-      next.done = true;
-      return next;
-    };
-  };
-
-  function values(iterable) {
-    if (iterable) {
-      var iteratorMethod = iterable[iteratorSymbol];
-      if (iteratorMethod) {
-        return iteratorMethod.call(iterable);
-      }
-
-      if (typeof iterable.next === "function") {
-        return iterable;
-      }
-
-      if (!isNaN(iterable.length)) {
-        var i = -1, next = function next() {
-          while (++i < iterable.length) {
-            if (hasOwn.call(iterable, i)) {
-              next.value = iterable[i];
-              next.done = false;
-              return next;
-            }
-          }
-
-          next.value = undefined;
-          next.done = true;
-
-          return next;
-        };
-
-        return next.next = next;
-      }
-    }
-
-    // Return an iterator with no values.
-    return { next: doneResult };
-  }
-  runtime.values = values;
-
-  function doneResult() {
-    return { value: undefined, done: true };
-  }
-
-  Context.prototype = {
-    constructor: Context,
-
-    reset: function(skipTempReset) {
-      this.prev = 0;
-      this.next = 0;
-      // Resetting context._sent for legacy support of Babel's
-      // function.sent implementation.
-      this.sent = this._sent = undefined;
-      this.done = false;
-      this.delegate = null;
-
-      this.method = "next";
-      this.arg = undefined;
-
-      this.tryEntries.forEach(resetTryEntry);
-
-      if (!skipTempReset) {
-        for (var name in this) {
-          // Not sure about the optimal order of these conditions:
-          if (name.charAt(0) === "t" &&
-              hasOwn.call(this, name) &&
-              !isNaN(+name.slice(1))) {
-            this[name] = undefined;
-          }
-        }
-      }
-    },
-
-    stop: function() {
-      this.done = true;
-
-      var rootEntry = this.tryEntries[0];
-      var rootRecord = rootEntry.completion;
-      if (rootRecord.type === "throw") {
-        throw rootRecord.arg;
-      }
-
-      return this.rval;
-    },
-
-    dispatchException: function(exception) {
-      if (this.done) {
-        throw exception;
-      }
-
-      var context = this;
-      function handle(loc, caught) {
-        record.type = "throw";
-        record.arg = exception;
-        context.next = loc;
-
-        if (caught) {
-          // If the dispatched exception was caught by a catch block,
-          // then let that catch block handle the exception normally.
-          context.method = "next";
-          context.arg = undefined;
-        }
-
-        return !! caught;
-      }
-
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        var record = entry.completion;
-
-        if (entry.tryLoc === "root") {
-          // Exception thrown outside of any try block that could handle
-          // it, so set the completion value of the entire function to
-          // throw the exception.
-          return handle("end");
-        }
-
-        if (entry.tryLoc <= this.prev) {
-          var hasCatch = hasOwn.call(entry, "catchLoc");
-          var hasFinally = hasOwn.call(entry, "finallyLoc");
-
-          if (hasCatch && hasFinally) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            } else if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else if (hasCatch) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            }
-
-          } else if (hasFinally) {
-            if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else {
-            throw new Error("try statement without catch or finally");
-          }
-        }
-      }
-    },
-
-    abrupt: function(type, arg) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev &&
-            hasOwn.call(entry, "finallyLoc") &&
-            this.prev < entry.finallyLoc) {
-          var finallyEntry = entry;
-          break;
-        }
-      }
-
-      if (finallyEntry &&
-          (type === "break" ||
-           type === "continue") &&
-          finallyEntry.tryLoc <= arg &&
-          arg <= finallyEntry.finallyLoc) {
-        // Ignore the finally entry if control is not jumping to a
-        // location outside the try/catch block.
-        finallyEntry = null;
-      }
-
-      var record = finallyEntry ? finallyEntry.completion : {};
-      record.type = type;
-      record.arg = arg;
-
-      if (finallyEntry) {
-        this.method = "next";
-        this.next = finallyEntry.finallyLoc;
-        return ContinueSentinel;
-      }
-
-      return this.complete(record);
-    },
-
-    complete: function(record, afterLoc) {
-      if (record.type === "throw") {
-        throw record.arg;
-      }
-
-      if (record.type === "break" ||
-          record.type === "continue") {
-        this.next = record.arg;
-      } else if (record.type === "return") {
-        this.rval = this.arg = record.arg;
-        this.method = "return";
-        this.next = "end";
-      } else if (record.type === "normal" && afterLoc) {
-        this.next = afterLoc;
-      }
-
-      return ContinueSentinel;
-    },
-
-    finish: function(finallyLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.finallyLoc === finallyLoc) {
-          this.complete(entry.completion, entry.afterLoc);
-          resetTryEntry(entry);
-          return ContinueSentinel;
-        }
-      }
-    },
-
-    "catch": function(tryLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc === tryLoc) {
-          var record = entry.completion;
-          if (record.type === "throw") {
-            var thrown = record.arg;
-            resetTryEntry(entry);
-          }
-          return thrown;
-        }
-      }
-
-      // The context.catch method must only be called with a location
-      // argument that corresponds to a known catch block.
-      throw new Error("illegal catch attempt");
-    },
-
-    delegateYield: function(iterable, resultName, nextLoc) {
-      this.delegate = {
-        iterator: values(iterable),
-        resultName: resultName,
-        nextLoc: nextLoc
-      };
-
-      if (this.method === "next") {
-        // Deliberately forget the last sent value so that we don't
-        // accidentally pass it on to the delegate.
-        this.arg = undefined;
-      }
-
-      return ContinueSentinel;
-    }
-  };
-})(
-  // Among the various tricks for obtaining a reference to the global
-  // object, this seems to be the most reliable technique that does not
-  // use indirect eval (which violates Content Security Policy).
-  typeof global === "object" ? global :
-  typeof window === "object" ? window :
-  typeof self === "object" ? self : this
-);
-
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":136}],139:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10880,7 +17188,7 @@ var Factory = function () {
   }, {
     key: 'attrs',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var extraAttrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         var buildOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         var factoryAttrs, modelAttrs, filteredAttrs;
@@ -10925,7 +17233,7 @@ var Factory = function () {
   }, {
     key: 'build',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(adapter) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(adapter) {
         var extraAttrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         var buildOptions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
         var modelAttrs, model;
@@ -10958,7 +17266,7 @@ var Factory = function () {
   }, {
     key: 'create',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(adapter) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(adapter) {
         var _this = this;
 
         var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -11027,7 +17335,7 @@ var Factory = function () {
   }, {
     key: 'buildMany',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(adapter, num) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(adapter, num) {
         var attrsArray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
         var _this2 = this;
@@ -11070,7 +17378,7 @@ var Factory = function () {
   }, {
     key: 'createMany',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(adapter, num) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(adapter, num) {
         var _this3 = this;
 
         var attrsArray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -11119,7 +17427,7 @@ var Factory = function () {
 
 exports.default = Factory;
 
-},{"./utils/asyncPopulate":156,"babel-runtime/core-js/object/keys":7,"babel-runtime/core-js/promise":9,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/extends":16,"babel-runtime/helpers/typeof":20,"babel-runtime/regenerator":21}],140:[function(require,module,exports){
+},{"./utils/asyncPopulate":165,"babel-runtime/core-js/object/keys":7,"babel-runtime/core-js/promise":9,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/extends":16,"babel-runtime/helpers/typeof":20,"babel-runtime/regenerator":23}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11279,7 +17587,7 @@ var FactoryGirl = function () {
   }, {
     key: 'attrs',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(name, _attrs) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(name, _attrs) {
         var buildOptions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -11304,7 +17612,7 @@ var FactoryGirl = function () {
   }, {
     key: 'build',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(name) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(name) {
         var _this2 = this;
 
         var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -11336,7 +17644,7 @@ var FactoryGirl = function () {
   }, {
     key: 'create',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(name, attrs) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(name, attrs) {
         var _this3 = this;
 
         var buildOptions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
@@ -11376,7 +17684,7 @@ var FactoryGirl = function () {
   }, {
     key: 'buildMany',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(name, num, attrs) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(name, num, attrs) {
         var _this4 = this;
 
         var buildOptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -11409,7 +17717,7 @@ var FactoryGirl = function () {
   }, {
     key: 'createMany',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(name, num, attrs) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(name, num, attrs) {
         var _this5 = this;
 
         var buildOptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -11579,7 +17887,7 @@ function deprecate(method, see) {
   };
 }
 
-},{"./Factory":139,"./adapters/DefaultAdapter":142,"./generators/Assoc":147,"./generators/AssocAttrs":148,"./generators/AssocAttrsMany":149,"./generators/AssocMany":150,"./generators/ChanceGenerator":151,"./generators/OneOf":153,"./generators/Sequence":154,"babel-runtime/core-js/get-iterator":1,"babel-runtime/core-js/object/assign":3,"babel-runtime/core-js/promise":9,"babel-runtime/core-js/set":10,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/extends":16,"babel-runtime/helpers/slicedToArray":19,"babel-runtime/regenerator":21}],141:[function(require,module,exports){
+},{"./Factory":148,"./adapters/DefaultAdapter":151,"./generators/Assoc":156,"./generators/AssocAttrs":157,"./generators/AssocAttrsMany":158,"./generators/AssocMany":159,"./generators/ChanceGenerator":160,"./generators/OneOf":162,"./generators/Sequence":163,"babel-runtime/core-js/get-iterator":1,"babel-runtime/core-js/object/assign":3,"babel-runtime/core-js/promise":9,"babel-runtime/core-js/set":10,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/extends":16,"babel-runtime/helpers/slicedToArray":19,"babel-runtime/regenerator":23}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11632,7 +17940,7 @@ var BookshelfAdapter = function (_DefaultAdapter) {
 
 exports.default = BookshelfAdapter;
 
-},{"./DefaultAdapter":142,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18}],142:[function(require,module,exports){
+},{"./DefaultAdapter":151,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18}],151:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11675,7 +17983,7 @@ var DefaultAdapter = function () {
   }, {
     key: "save",
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(model, Model) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(model, Model) {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -11701,7 +18009,7 @@ var DefaultAdapter = function () {
   }, {
     key: "destroy",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(model, Model) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(model, Model) {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -11740,7 +18048,7 @@ var DefaultAdapter = function () {
 
 exports.default = DefaultAdapter;
 
-},{"babel-runtime/core-js/promise":9,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/regenerator":21}],143:[function(require,module,exports){
+},{"babel-runtime/core-js/promise":9,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/regenerator":23}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11793,7 +18101,7 @@ var MongooseAdapter = function (_DefaultAdapter) {
   (0, _createClass3.default)(MongooseAdapter, [{
     key: 'destroy',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(model, Model) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(model, Model) {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -11820,7 +18128,7 @@ var MongooseAdapter = function (_DefaultAdapter) {
 
 exports.default = MongooseAdapter;
 
-},{"./DefaultAdapter":142,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":21}],144:[function(require,module,exports){
+},{"./DefaultAdapter":151,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":23}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11884,7 +18192,7 @@ var ObjectAdapter = function (_DefaultAdapter) {
   }, {
     key: 'save',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(model, Model) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(model, Model) {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -11908,7 +18216,7 @@ var ObjectAdapter = function (_DefaultAdapter) {
   }, {
     key: 'destroy',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(model, Model) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(model, Model) {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -11945,7 +18253,7 @@ var ObjectAdapter = function (_DefaultAdapter) {
 
 exports.default = ObjectAdapter;
 
-},{"./DefaultAdapter":142,"babel-runtime/core-js/object/assign":3,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":21}],145:[function(require,module,exports){
+},{"./DefaultAdapter":151,"babel-runtime/core-js/object/assign":3,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":23}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12016,7 +18324,7 @@ var ReduxORMAdapter = function (_DefaultAdapter) {
   }, {
     key: 'save',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(model, Model) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(model, Model) {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -12040,7 +18348,7 @@ var ReduxORMAdapter = function (_DefaultAdapter) {
   }, {
     key: 'destroy',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(model, Model) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(model, Model) {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -12069,7 +18377,7 @@ var ReduxORMAdapter = function (_DefaultAdapter) {
 
 exports.default = ReduxORMAdapter;
 
-},{"./DefaultAdapter":142,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/core-js/promise":9,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":21}],146:[function(require,module,exports){
+},{"./DefaultAdapter":151,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/core-js/promise":9,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":23}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12122,7 +18430,7 @@ var SequelizeAdapter = function (_DefaultAdapter) {
 
 exports.default = SequelizeAdapter;
 
-},{"./DefaultAdapter":142,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18}],147:[function(require,module,exports){
+},{"./DefaultAdapter":151,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12174,7 +18482,7 @@ var Assoc = function (_Generator) {
   (0, _createClass3.default)(Assoc, [{
     key: 'generate',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(name) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(name) {
         var key = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
         var attrs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
         var buildOptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -12210,7 +18518,7 @@ var Assoc = function (_Generator) {
 
 exports.default = Assoc;
 
-},{"./Generator":152,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":21}],148:[function(require,module,exports){
+},{"./Generator":161,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":23}],157:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12262,7 +18570,7 @@ var AssocAttrs = function (_Generator) {
   (0, _createClass3.default)(AssocAttrs, [{
     key: 'generate',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(name) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(name) {
         var key = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
         var attrs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
         var buildOptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -12298,7 +18606,7 @@ var AssocAttrs = function (_Generator) {
 
 exports.default = AssocAttrs;
 
-},{"./Generator":152,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":21}],149:[function(require,module,exports){
+},{"./Generator":161,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":23}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12350,7 +18658,7 @@ var AssocAttrsMany = function (_Generator) {
   (0, _createClass3.default)(AssocAttrsMany, [{
     key: 'generate',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(name, num) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(name, num) {
         var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
         var _this2 = this;
@@ -12399,7 +18707,7 @@ var AssocAttrsMany = function (_Generator) {
 
 exports.default = AssocAttrsMany;
 
-},{"./Generator":152,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":21}],150:[function(require,module,exports){
+},{"./Generator":161,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":23}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12451,7 +18759,7 @@ var AssocMany = function (_Generator) {
   (0, _createClass3.default)(AssocMany, [{
     key: 'generate',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(name, num) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(name, num) {
         var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
         var _this2 = this;
@@ -12492,7 +18800,7 @@ var AssocMany = function (_Generator) {
 
 exports.default = AssocMany;
 
-},{"./Generator":152,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":21}],151:[function(require,module,exports){
+},{"./Generator":161,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":23}],160:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12558,7 +18866,7 @@ var ChanceGenerator = function (_Generator) {
 
 exports.default = ChanceGenerator;
 
-},{"./Generator":152,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"chance":24}],152:[function(require,module,exports){
+},{"./Generator":161,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"chance":27}],161:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12601,7 +18909,7 @@ var Generator = function () {
 
 exports.default = Generator;
 
-},{"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15}],153:[function(require,module,exports){
+},{"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12653,7 +18961,7 @@ var OneOf = function (_Generator) {
   (0, _createClass3.default)(OneOf, [{
     key: 'generate',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(possibleValues) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(possibleValues) {
         var size, randomIndex, value;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -12700,7 +19008,7 @@ var OneOf = function (_Generator) {
 
 exports.default = OneOf;
 
-},{"./Generator":152,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":21}],154:[function(require,module,exports){
+},{"./Generator":161,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/asyncToGenerator":13,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18,"babel-runtime/regenerator":23}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12784,7 +19092,7 @@ function generateId() {
   return id;
 }
 
-},{"./Generator":152,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18}],155:[function(require,module,exports){
+},{"./Generator":161,"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/helpers/classCallCheck":14,"babel-runtime/helpers/createClass":15,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/possibleConstructorReturn":18}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12836,7 +19144,7 @@ factory.FactoryGirl = _FactoryGirl2.default;
 exports.factory = factory;
 exports.default = factory;
 
-},{"./FactoryGirl":140,"./adapters/BookshelfAdapter":141,"./adapters/DefaultAdapter":142,"./adapters/MongooseAdapter":143,"./adapters/ObjectAdapter":144,"./adapters/ReduxORMAdapter":145,"./adapters/SequelizeAdapter":146}],156:[function(require,module,exports){
+},{"./FactoryGirl":149,"./adapters/BookshelfAdapter":150,"./adapters/DefaultAdapter":151,"./adapters/MongooseAdapter":152,"./adapters/ObjectAdapter":153,"./adapters/ReduxORMAdapter":154,"./adapters/SequelizeAdapter":155}],165:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12877,8 +19185,8 @@ function asyncPopulate(target, source) {
     if (Array.isArray(source[attr])) {
       target[attr] = [];
       promise = asyncPopulate(target[attr], source[attr]);
-    } else if (source[attr] === null) {
-      target[attr] = null;
+    } else if (source[attr] === null || source[attr] === undefined) {
+      target[attr] = source[attr];
     } else if (isPlainObject(source[attr])) {
       target[attr] = target[attr] || {};
       promise = asyncPopulate(target[attr], source[attr]);
@@ -12902,5 +19210,5 @@ function isPlainObject(o) {
   return (0, _getPrototypeOf2.default)(o) === objectProto;
 }
 
-},{"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/core-js/object/keys":7,"babel-runtime/core-js/promise":9,"babel-runtime/helpers/typeof":20}]},{},[155])(155)
+},{"babel-runtime/core-js/object/get-prototype-of":6,"babel-runtime/core-js/object/keys":7,"babel-runtime/core-js/promise":9,"babel-runtime/helpers/typeof":20}]},{},[164])(164)
 });

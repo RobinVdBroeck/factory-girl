@@ -16,37 +16,40 @@ describe('ReduxORMAdapter', function () {
   });
 
   describe('#build', function () {
-    it('builds the model', asyncFunction(async function () {
-      const model = adapter.build('DummyReduxORMModel', {
-        id: 1,
-        type: 'City',
-        name: 'Vic',
-        country: 'ES',
-
-      });
-      expect(model).to.be.an.instanceof(DummyReduxORMModel);
-    }));
+    it(
+      'builds the model',
+      asyncFunction(async function () {
+        const model = adapter.build('DummyReduxORMModel', {
+          id: 1,
+          type: 'City',
+          name: 'Vic',
+          country: 'ES',
+        });
+        expect(model).to.be.an.instanceof(DummyReduxORMModel);
+      }),
+    );
   });
 
   describe('#save', function () {
-    it('resolves to the object itself', asyncFunction(async function () {
-      const model = adapter.build('DummyReduxORMModel', {
-        id: 1,
-        type: 'City',
-        name: 'Vic',
-        country: 'ES',
-
-      });
-      const savedModel = adapter.save(model, DummyReduxORMModel);
-      return expect(savedModel).to.eventually.equal(model);
-    }));
+    it(
+      'resolves to the object itself',
+      asyncFunction(async function () {
+        const model = adapter.build('DummyReduxORMModel', {
+          id: 1,
+          type: 'City',
+          name: 'Vic',
+          country: 'ES',
+        });
+        const savedModel = adapter.save(model, DummyReduxORMModel);
+        return expect(savedModel).to.eventually.equal(model);
+      }),
+    );
     it('returns a promise', function () {
       const model = adapter.build('DummyReduxORMModel', {
         id: 1,
         type: 'City',
         name: 'Vic',
         country: 'ES',
-
       });
       const savedModelP = adapter.save(model, DummyReduxORMModel);
       expect(savedModelP.then).to.be.a('function');
@@ -55,17 +58,19 @@ describe('ReduxORMAdapter', function () {
   });
   //
   describe('#destroy', function () {
-    it('calls remove on the model', asyncFunction(async function () {
-      const model = adapter.build('DummyReduxORMModel', {
-        id: 1,
-        type: 'City',
-        name: 'Vic',
-        country: 'ES',
-
-      });
-      const destroyedModel = await adapter.destroy(model, DummyReduxORMModel);
-      expect(destroyedModel).to.be.equal(true);
-    }));
+    it(
+      'calls remove on the model',
+      asyncFunction(async function () {
+        const model = adapter.build('DummyReduxORMModel', {
+          id: 1,
+          type: 'City',
+          name: 'Vic',
+          country: 'ES',
+        });
+        const destroyedModel = await adapter.destroy(model, DummyReduxORMModel);
+        expect(destroyedModel).to.be.equal(true);
+      }),
+    );
 
     it('returns a promise', function () {
       const model = adapter.build('DummyReduxORMModel', {
@@ -73,7 +78,6 @@ describe('ReduxORMAdapter', function () {
         type: 'City',
         name: 'Vic',
         country: 'ES',
-
       });
       const destroyedModelP = adapter.destroy(model, DummyReduxORMModel);
       expect(destroyedModelP.then).to.be.a('function');

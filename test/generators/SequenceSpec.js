@@ -1,5 +1,3 @@
-
-
 import '../test-helper/testUtils';
 import Sequence from '../../src/generators/Sequence';
 import { expect } from 'chai';
@@ -58,16 +56,20 @@ describe('Sequence', function () {
       expect(Sequence.sequences['some.id.2']).to.be.equal(3);
     });
 
-    it('generates numbers sequentially', asyncFunction(async function () {
-      const sequence = new Sequence({});
-      const seq1 = await sequence.generate();
-      const seq2 = await sequence.generate();
-      const seq3 = await sequence.generate();
-      expect(seq2 - seq1).to.be.equal(1);
-      expect(seq3 - seq2).to.be.equal(1);
-    }));
+    it(
+      'generates numbers sequentially',
+      asyncFunction(async function () {
+        const sequence = new Sequence({});
+        const seq1 = await sequence.generate();
+        const seq2 = await sequence.generate();
+        const seq3 = await sequence.generate();
+        expect(seq2 - seq1).to.be.equal(1);
+        expect(seq3 - seq2).to.be.equal(1);
+      }),
+    );
 
-    it('generates numbers sequentially and calls callback',
+    it(
+      'generates numbers sequentially and calls callback',
       asyncFunction(async function () {
         const callback = sinon.spy(function (n) {
           return `value${n}`;
@@ -78,7 +80,7 @@ describe('Sequence', function () {
         expect(seq1).to.be.equal('value1');
         expect(seq2).to.be.equal('value2');
         expect(callback).to.be.calledTwice;
-      })
+      }),
     );
   });
 });
