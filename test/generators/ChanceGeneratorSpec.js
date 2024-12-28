@@ -9,7 +9,6 @@ import asyncFunction from '../test-helper/asyncFunction.js';
 describe('ChanceGenerator', function () {
   describe('#constructor', function () {
     it('validates the passed chance method', function () {
-      /* eslint-disable no-new */
       function invalidMethod() {
         new ChanceGenerator({}).generate('invalidMethodName');
       }
@@ -17,7 +16,6 @@ describe('ChanceGenerator', function () {
       function validMethod() {
         new ChanceGenerator({}).generate('bool');
       }
-      /* eslint-enable no-new */
 
       expect(invalidMethod).to.throw(Error);
       expect(validMethod).to.not.throw(Error);

@@ -14,7 +14,6 @@ describe('Generator', function () {
 
     it('throws an error if factoryGirl is not passed', function () {
       function noFactoryGirl() {
-        // eslint-disable-next-line no-new
         new Generator();
       }
 

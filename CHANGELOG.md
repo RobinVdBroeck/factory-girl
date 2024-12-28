@@ -20,6 +20,7 @@ And the following internal changes:
 - Added prettier for formatting.
 - Use .js imports inside in the original source code to be spec compliant. Tests
   are not affected.
+- Updated eslint to v9
 
 ## v4.0.0
 

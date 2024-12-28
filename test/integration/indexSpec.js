@@ -6,6 +6,7 @@ import '../test-helper/dummyFactories';
 
 describe('indexIntegration', function () {
   Factory.setAdapter(new ObjectAdapter());
+
   beforeEach(function () {
     Factory.cleanUp();
   });

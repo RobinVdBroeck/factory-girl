@@ -12,6 +12,7 @@ import sinon from 'sinon';
 describe('FactoryGirl', function () {
   describe('#constructor', function () {
     const factoryGirl = new FactoryGirl();
+
     it('can be created', function () {
       expect(factoryGirl).to.be.an.instanceof(FactoryGirl);
     });
@@ -36,6 +37,7 @@ describe('FactoryGirl', function () {
 
   describe('deprecated methods', function () {
     const factoryGirl = new FactoryGirl();
+
     it('throws error on calling deprecated methods', function () {
       function assocBuild() {
         factoryGirl.assocBuild('whatever');
@@ -52,6 +54,7 @@ describe('FactoryGirl', function () {
 
   describe('#define', function () {
     const factoryGirl = new FactoryGirl();
+
     it('can define factory', function () {
       factoryGirl.define('factory1', DummyModel, {});
       expect(factoryGirl.getFactory('factory1', false)).to.exist;
@@ -71,6 +74,7 @@ describe('FactoryGirl', function () {
 
   describe('#extend', function () {
     let factoryGirl;
+
     beforeEach(function () {
       factoryGirl = new FactoryGirl();
       factoryGirl.define('parent', DummyModel, {
