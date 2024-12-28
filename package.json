@@ -85,7 +85,6 @@
     "lint": "eslint src test tools",
     "test": "NODE_ENV=test mocha",
     "test:cover": "NODE_ENV=test babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
-    "build": "node tools/build",
-    "prepublish": "npm run test && npm run build"
+    "build": "node tools/build"
   }
 }
