@@ -6,4 +6,3 @@ export default class BookshelfAdapter extends DefaultAdapter {
     return doc.save(null, { method: 'insert' });
   }
 }
-

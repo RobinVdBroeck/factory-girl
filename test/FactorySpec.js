@@ -1,5 +1,3 @@
-
-
 import './test-helper/testUtils';
 import Factory from '../src/Factory';
 import { expect } from 'chai';
@@ -60,8 +58,7 @@ describe('Factory', function () {
       }
 
       function functionInitializer() {
-        new Factory(DummyModel, function () {
-        });
+        new Factory(DummyModel, function () {});
       }
 
       /* eslint-enable no-new */
@@ -87,7 +84,7 @@ describe('Factory', function () {
   };
 
   const objFactory = new Factory(DummyModel, simpleObjInit);
-  const dummyAdapter = new DummyAdapter;
+  const dummyAdapter = new DummyAdapter();
 
   describe('#getFactoryAttrs', function () {
     it('returns a promise', function () {
@@ -97,23 +94,28 @@ describe('Factory', function () {
       return expect(factoryAttrsP).to.be.eventually.fulfilled;
     });
 
-    it('resolves to a copy of factoryAttrs', asyncFunction(async function () {
-      const factory = new Factory(DummyModel, simpleObjInit);
-      const attrs = await factory.getFactoryAttrs();
-      expect(attrs).to.be.eql(simpleObjInit);
-      expect(attrs).to.be.not.equal(simpleObjInit);
-    }));
+    it(
+      'resolves to a copy of factoryAttrs',
+      asyncFunction(async function () {
+        const factory = new Factory(DummyModel, simpleObjInit);
+        const attrs = await factory.getFactoryAttrs();
+        expect(attrs).to.be.eql(simpleObjInit);
+        expect(attrs).to.be.not.equal(simpleObjInit);
+      }),
+    );
 
-    it('resolves to return value of initializer function',
+    it(
+      'resolves to return value of initializer function',
       asyncFunction(async function () {
         const factory = new Factory(DummyModel, simpleFuncInit);
         const attrs = await factory.getFactoryAttrs();
         expect(attrs).to.be.eql(simpleObjInit);
         expect(attrs).to.be.not.equal(simpleObjInit);
-      })
+      }),
     );
 
-    it('calls initializer function with buildOptions',
+    it(
+      'calls initializer function with buildOptions',
       asyncFunction(async function () {
         const spy = sinon.spy(simpleFuncInit);
         const dummyBuildOptions = {};
@@ -121,7 +123,7 @@ describe('Factory', function () {
         await factory.getFactoryAttrs(dummyBuildOptions);
         expect(spy).to.have.been.calledOnce;
         expect(spy).to.have.been.calledWith(dummyBuildOptions);
-      })
+      }),
     );
   });
 
@@ -132,51 +134,61 @@ describe('Factory', function () {
       return expect(attrsP).to.be.eventually.fulfilled;
     });
 
-    it('calls #getFactoryAttrs with buildOptions',
+    it(
+      'calls #getFactoryAttrs with buildOptions',
       asyncFunction(async function () {
         const spy = sinon.spy(objFactory, 'getFactoryAttrs');
         const dummyBuildOptions = {};
         await objFactory.attrs({}, dummyBuildOptions);
         expect(spy).to.have.been.calledWith(dummyBuildOptions);
         objFactory.getFactoryAttrs.restore();
-      })
+      }),
     );
 
-    it('populates with factoryAttrs', asyncFunction(async function () {
-      const attrs = await objFactory.attrs();
-      expect(attrs).to.be.eql(simpleObjInit);
-    }));
+    it(
+      'populates with factoryAttrs',
+      asyncFunction(async function () {
+        const attrs = await objFactory.attrs();
+        expect(attrs).to.be.eql(simpleObjInit);
+      }),
+    );
 
-    it('overrides with passed attrs', asyncFunction(async function () {
-      const overrides = {
-        age: 24,
-        address: {
-          address1: 'Some Address Override',
-        },
-      };
-      const attrs = await objFactory.attrs(overrides);
-      expect(attrs).to.be.eql({
-        name: 'Bruce',
-        age: 24,
-        address: {
-          address1: 'Some Address Override',
-        },
-      });
-    }));
+    it(
+      'overrides with passed attrs',
+      asyncFunction(async function () {
+        const overrides = {
+          age: 24,
+          address: {
+            address1: 'Some Address Override',
+          },
+        };
+        const attrs = await objFactory.attrs(overrides);
+        expect(attrs).to.be.eql({
+          name: 'Bruce',
+          age: 24,
+          address: {
+            address1: 'Some Address Override',
+          },
+        });
+      }),
+    );
 
-    it('preserves Dates and other object types', asyncFunction(async function () {
-      function Foo() {}
-      const init = {
-        date: new Date,
-        foo: new Foo,
-        function: () => new Foo,
-      };
-      const factory = new Factory(DummyModel, init);
-      const attrs = await factory.attrs();
-      expect(attrs.date).to.be.eql(init.date);
-      expect(attrs.foo).to.be.eql(init.foo);
-      expect(attrs.function).to.be.instanceOf(Foo);
-    }));
+    it(
+      'preserves Dates and other object types',
+      asyncFunction(async function () {
+        function Foo() {}
+        const init = {
+          date: new Date(),
+          foo: new Foo(),
+          function: () => new Foo(),
+        };
+        const factory = new Factory(DummyModel, init);
+        const attrs = await factory.attrs();
+        expect(attrs.date).to.be.eql(init.date);
+        expect(attrs.foo).to.be.eql(init.foo);
+        expect(attrs.function).to.be.instanceOf(Foo);
+      }),
+    );
   });
 
   describe('#build', function () {
@@ -186,58 +198,71 @@ describe('Factory', function () {
       return expect(modelP).to.be.eventually.fulfilled;
     });
 
-    it('calls attrs to get attributes', asyncFunction(async function () {
-      const spy = sinon.spy(objFactory, 'attrs');
-      const dummyAttrs = {};
-      const dummyBuildOptions = {};
-      await objFactory.build(dummyAdapter, dummyAttrs, dummyBuildOptions);
-      expect(spy).to.have.been.calledWith(dummyAttrs, dummyBuildOptions);
-      objFactory.attrs.restore();
-    }));
+    it(
+      'calls attrs to get attributes',
+      asyncFunction(async function () {
+        const spy = sinon.spy(objFactory, 'attrs');
+        const dummyAttrs = {};
+        const dummyBuildOptions = {};
+        await objFactory.build(dummyAdapter, dummyAttrs, dummyBuildOptions);
+        expect(spy).to.have.been.calledWith(dummyAttrs, dummyBuildOptions);
+        objFactory.attrs.restore();
+      }),
+    );
 
-    it('calls build on adapter with Model and attrs',
+    it(
+      'calls build on adapter with Model and attrs',
       asyncFunction(async function () {
         const spy = sinon.spy(dummyAdapter, 'build');
         await objFactory.build(dummyAdapter);
         expect(spy).to.have.been.calledWith(
-          DummyModel, sinon.match(simpleObjInit)
+          DummyModel,
+          sinon.match(simpleObjInit),
         );
         dummyAdapter.build.restore();
-      })
+      }),
     );
 
-    it('resolves to a Model instance', asyncFunction(async function () {
-      const model = await objFactory.build(dummyAdapter);
-      expect(model).to.be.an.instanceof(DummyModel);
-    }));
-
-    it('invokes afterBuild callback option if any',
+    it(
+      'resolves to a Model instance',
       asyncFunction(async function () {
-        const spy = sinon.spy(model => model);
-        const factoryWithOptions
-          = new Factory(DummyModel, simpleObjInit, { afterBuild: spy });
+        const model = await objFactory.build(dummyAdapter);
+        expect(model).to.be.an.instanceof(DummyModel);
+      }),
+    );
+
+    it(
+      'invokes afterBuild callback option if any',
+      asyncFunction(async function () {
+        const spy = sinon.spy((model) => model);
+        const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
+          afterBuild: spy,
+        });
         const dummyAttrs = {};
         const dummyBuildOptions = {};
         const model = await factoryWithOptions.build(
-          dummyAdapter, dummyAttrs, dummyBuildOptions
+          dummyAdapter,
+          dummyAttrs,
+          dummyBuildOptions,
         );
         expect(spy).to.have.been.calledWith(
-          model, dummyAttrs, dummyBuildOptions
+          model,
+          dummyAttrs,
+          dummyBuildOptions,
         );
-      })
+      }),
     );
 
-    it('accepts afterBuild callback returning a promise',
+    it(
+      'accepts afterBuild callback returning a promise',
       asyncFunction(async function () {
-        const factoryWithOptions = new Factory(
-          DummyModel,
-          simpleObjInit,
-          { afterBuild: model => Promise.resolve(model) }
-        );
+        const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
+          afterBuild: (model) => Promise.resolve(model),
+        });
 
         const model = await factoryWithOptions.build(dummyAdapter);
         expect(model).to.be.an.instanceof(DummyModel);
-      })
+      }),
     );
   });
 
@@ -248,68 +273,87 @@ describe('Factory', function () {
       return expect(modelP).to.be.eventually.fulfilled;
     });
 
-    it('calls build to build the model', asyncFunction(async function () {
-      const spy = sinon.spy(objFactory, 'build');
-      const dummyAttrs = {};
-      const dummyBuildOptions = {};
-      await objFactory.create(dummyAdapter, dummyAttrs, dummyBuildOptions);
-      expect(spy).to.have.been.calledWith(dummyAdapter, dummyAttrs, dummyBuildOptions);
-      objFactory.build.restore();
-    }));
+    it(
+      'calls build to build the model',
+      asyncFunction(async function () {
+        const spy = sinon.spy(objFactory, 'build');
+        const dummyAttrs = {};
+        const dummyBuildOptions = {};
+        await objFactory.create(dummyAdapter, dummyAttrs, dummyBuildOptions);
+        expect(spy).to.have.been.calledWith(
+          dummyAdapter,
+          dummyAttrs,
+          dummyBuildOptions,
+        );
+        objFactory.build.restore();
+      }),
+    );
 
-    it('calls save on adapter with Model and model',
+    it(
+      'calls save on adapter with Model and model',
       asyncFunction(async function () {
         const spy = sinon.spy(dummyAdapter, 'save');
         await objFactory.create(dummyAdapter);
         expect(spy).to.have.been.calledWith(
-          sinon.match(new DummyModel(simpleObjInit)), DummyModel
+          sinon.match(new DummyModel(simpleObjInit)),
+          DummyModel,
         );
         dummyAdapter.save.restore();
-      })
+      }),
     );
 
-    it('resolves to a Model instance', asyncFunction(async function () {
-      const model = await objFactory.create(dummyAdapter);
-      expect(model).to.be.an.instanceof(DummyModel);
-    }));
-
-    it('invokes afterCreate callback option if any',
+    it(
+      'resolves to a Model instance',
       asyncFunction(async function () {
-        const spy = sinon.spy(model => model);
-        const factoryWithOptions
-          = new Factory(DummyModel, simpleObjInit, { afterCreate: spy });
+        const model = await objFactory.create(dummyAdapter);
+        expect(model).to.be.an.instanceof(DummyModel);
+      }),
+    );
+
+    it(
+      'invokes afterCreate callback option if any',
+      asyncFunction(async function () {
+        const spy = sinon.spy((model) => model);
+        const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
+          afterCreate: spy,
+        });
         const dummyAttrs = {};
         const dummyBuildOptions = {};
         const model = await factoryWithOptions.create(
-          dummyAdapter, dummyAttrs, dummyBuildOptions
+          dummyAdapter,
+          dummyAttrs,
+          dummyBuildOptions,
         );
         expect(spy).to.have.been.calledWith(
-          model, dummyAttrs, dummyBuildOptions
+          model,
+          dummyAttrs,
+          dummyBuildOptions,
         );
-      })
+      }),
     );
 
-    it('accepts afterCreate callback returning a promise',
+    it(
+      'accepts afterCreate callback returning a promise',
       asyncFunction(async function () {
-        const factoryWithOptions = new Factory(
-          DummyModel,
-          simpleObjInit,
-          { afterCreate: model => Promise.resolve(model) }
-        );
+        const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
+          afterCreate: (model) => Promise.resolve(model),
+        });
 
         const model = await factoryWithOptions.create(dummyAdapter);
         expect(model).to.be.an.instanceof(DummyModel);
-      })
+      }),
     );
 
-    it('invokes afterBuild callback on create',
+    it(
+      'invokes afterBuild callback on create',
       asyncFunction(async function () {
-        const spy = sinon.spy(model => model);
-        const factoryWithOptions
-          = new Factory(DummyModel, simpleObjInit, { afterBuild: spy });
+        const spy = sinon.spy((model) => model);
+        const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
+          afterBuild: spy,
+        });
         await factoryWithOptions.create(dummyAdapter);
         expect(spy).to.have.callCount(1);
-      })
+      }),
     );
   });
 
@@ -320,30 +364,39 @@ describe('Factory', function () {
       return expect(modelsP).to.be.eventually.fulfilled;
     });
 
-    it('calls attrsMany to get model attrs', asyncFunction(async function () {
-      const spy = sinon.spy(objFactory, 'attrsMany');
-      const dummyAttrs = {};
-      const dummyBuildOptions = {};
-      await objFactory.buildMany(
-        dummyAdapter, 5, dummyAttrs, dummyBuildOptions
-      );
-      expect(spy).to.have.been.calledWith(5, dummyAttrs, dummyBuildOptions);
-      objFactory.attrsMany.restore();
-    }));
+    it(
+      'calls attrsMany to get model attrs',
+      asyncFunction(async function () {
+        const spy = sinon.spy(objFactory, 'attrsMany');
+        const dummyAttrs = {};
+        const dummyBuildOptions = {};
+        await objFactory.buildMany(
+          dummyAdapter,
+          5,
+          dummyAttrs,
+          dummyBuildOptions,
+        );
+        expect(spy).to.have.been.calledWith(5, dummyAttrs, dummyBuildOptions);
+        objFactory.attrsMany.restore();
+      }),
+    );
 
-    it('calls build on adapter with Model and each model attrs',
+    it(
+      'calls build on adapter with Model and each model attrs',
       asyncFunction(async function () {
         const spy = sinon.spy(dummyAdapter, 'build');
         await objFactory.buildMany(dummyAdapter, 5);
         expect(spy).to.have.callCount(5);
         expect(spy).to.have.been.calledWith(
-          DummyModel, sinon.match(simpleObjInit)
+          DummyModel,
+          sinon.match(simpleObjInit),
         );
         dummyAdapter.build.restore();
-      })
+      }),
     );
 
-    it('resolves to an array of Model instances',
+    it(
+      'resolves to an array of Model instances',
       asyncFunction(async function () {
         const models = await objFactory.buildMany(dummyAdapter, 5);
         expect(models).to.be.an('array');
@@ -351,42 +404,48 @@ describe('Factory', function () {
         models.forEach(function (model) {
           expect(model).to.be.an.instanceof(DummyModel);
         });
-      })
+      }),
     );
 
-    it('invokes afterBuild callback option if any for each model',
+    it(
+      'invokes afterBuild callback option if any for each model',
       asyncFunction(async function () {
-        const spy = sinon.spy(model => model);
-        const factoryWithOptions
-          = new Factory(DummyModel, simpleObjInit, { afterBuild: spy });
+        const spy = sinon.spy((model) => model);
+        const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
+          afterBuild: spy,
+        });
         const dummyAttrs = {};
         const dummyBuildOptions = {};
         const models = await factoryWithOptions.buildMany(
-          dummyAdapter, 5, dummyAttrs, dummyBuildOptions
+          dummyAdapter,
+          5,
+          dummyAttrs,
+          dummyBuildOptions,
         );
         expect(spy).to.have.callCount(5);
         for (let i = 0; i < 5; i++) {
           expect(spy.getCall(i)).to.have.been.calledWith(
-            models[i], dummyAttrs, dummyBuildOptions
+            models[i],
+            dummyAttrs,
+            dummyBuildOptions,
           );
         }
-      })
+      }),
     );
 
-    it('accepts afterBuild callback returning a promise',
+    it(
+      'accepts afterBuild callback returning a promise',
       asyncFunction(async function () {
-        const factoryWithOptions = new Factory(
-          DummyModel,
-          simpleObjInit,
-          { afterBuild: model => Promise.resolve(model) }
-        );
+        const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
+          afterBuild: (model) => Promise.resolve(model),
+        });
 
         const models = await factoryWithOptions.buildMany(dummyAdapter, 5);
         expect(models).to.be.an('array');
         models.forEach(function (model) {
           expect(model).to.be.an.instanceof(DummyModel);
         });
-      })
+      }),
     );
   });
 
@@ -397,32 +456,44 @@ describe('Factory', function () {
       return expect(modelsP).to.be.eventually.fulfilled;
     });
 
-    it('calls buildMany to build models', asyncFunction(async function () {
-      const spy = sinon.spy(objFactory, 'buildMany');
-      const dummyAttrs = {};
-      const dummyBuildOptions = {};
-      await objFactory.createMany(
-        dummyAdapter, 5, dummyAttrs, dummyBuildOptions
-      );
-      expect(spy).to.have.been.calledWith(
-        dummyAdapter, 5, dummyAttrs, dummyBuildOptions
-      );
-      objFactory.buildMany.restore();
-    }));
+    it(
+      'calls buildMany to build models',
+      asyncFunction(async function () {
+        const spy = sinon.spy(objFactory, 'buildMany');
+        const dummyAttrs = {};
+        const dummyBuildOptions = {};
+        await objFactory.createMany(
+          dummyAdapter,
+          5,
+          dummyAttrs,
+          dummyBuildOptions,
+        );
+        expect(spy).to.have.been.calledWith(
+          dummyAdapter,
+          5,
+          dummyAttrs,
+          dummyBuildOptions,
+        );
+        objFactory.buildMany.restore();
+      }),
+    );
 
-    it('calls save on adapter with Model and each model',
+    it(
+      'calls save on adapter with Model and each model',
       asyncFunction(async function () {
         const spy = sinon.spy(dummyAdapter, 'save');
         await objFactory.createMany(dummyAdapter, 5);
         expect(spy).to.have.callCount(5);
         expect(spy).to.have.been.calledWith(
-          sinon.match(new DummyModel(simpleObjInit)), DummyModel
+          sinon.match(new DummyModel(simpleObjInit)),
+          DummyModel,
         );
         dummyAdapter.save.restore();
-      })
+      }),
     );
 
-    it('resolves to an array of Model instances',
+    it(
+      'resolves to an array of Model instances',
       asyncFunction(async function () {
         const models = await objFactory.createMany(dummyAdapter, 5);
         expect(models).to.be.an('array');
@@ -430,62 +501,73 @@ describe('Factory', function () {
         models.forEach(function (model) {
           expect(model).to.be.an.instanceof(DummyModel);
         });
-      })
+      }),
     );
 
-    it('invokes afterCreate callback option if any for each model',
+    it(
+      'invokes afterCreate callback option if any for each model',
       asyncFunction(async function () {
-        const spy = sinon.spy(model => model);
-        const factoryWithOptions
-          = new Factory(DummyModel, simpleObjInit, { afterCreate: spy });
+        const spy = sinon.spy((model) => model);
+        const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
+          afterCreate: spy,
+        });
         const dummyAttrs = {};
         const dummyBuildOptions = {};
         const models = await factoryWithOptions.createMany(
-          dummyAdapter, 5, dummyAttrs, dummyBuildOptions
+          dummyAdapter,
+          5,
+          dummyAttrs,
+          dummyBuildOptions,
         );
         expect(spy).to.have.callCount(5);
         for (let i = 0; i < 5; i++) {
           expect(spy.getCall(i)).to.have.been.calledWith(
-            models[i], dummyAttrs, dummyBuildOptions
+            models[i],
+            dummyAttrs,
+            dummyBuildOptions,
           );
         }
-      })
+      }),
     );
 
-    it('accepts afterCreate callback returning a promise',
+    it(
+      'accepts afterCreate callback returning a promise',
       asyncFunction(async function () {
-        const factoryWithOptions = new Factory(
-          DummyModel,
-          simpleObjInit,
-          { afterCreate: model => Promise.resolve(model) }
-        );
+        const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
+          afterCreate: (model) => Promise.resolve(model),
+        });
 
         const models = await factoryWithOptions.createMany(dummyAdapter, 5);
         expect(models).to.be.an('array');
         models.forEach(function (model) {
           expect(model).to.be.an.instanceof(DummyModel);
         });
-      })
+      }),
     );
 
-    it('invokes afterBuild callback on createMany',
+    it(
+      'invokes afterBuild callback on createMany',
       asyncFunction(async function () {
-        const spy = sinon.spy(model => model);
-        const factoryWithOptions
-          = new Factory(DummyModel, simpleObjInit, { afterBuild: spy });
+        const spy = sinon.spy((model) => model);
+        const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
+          afterBuild: spy,
+        });
         await factoryWithOptions.createMany(dummyAdapter, 2);
         expect(spy).to.have.callCount(2);
-      })
+      }),
     );
 
-    it('accepts an array of attrs', asyncFunction(async function () {
-      const models = await objFactory.createMany(dummyAdapter, [
-        { name: 'One' },
-        { name: 'Two' },
-      ]);
-      expect(models[0].get('name')).to.equal('One');
-      expect(models[1].get('name')).to.equal('Two');
-    }));
+    it(
+      'accepts an array of attrs',
+      asyncFunction(async function () {
+        const models = await objFactory.createMany(dummyAdapter, [
+          { name: 'One' },
+          { name: 'Two' },
+        ]);
+        expect(models[0].get('name')).to.equal('One');
+        expect(models[1].get('name')).to.equal('Two');
+      }),
+    );
   });
 
   describe('#attrsMany', function () {
@@ -531,14 +613,18 @@ describe('Factory', function () {
       ]);
     });
 
-    it('calls attrs for each model attr', asyncFunction(async function () {
-      const spy = sinon.spy(objFactory, 'attrs');
-      await objFactory.attrsMany(10);
-      expect(spy).to.have.callCount(10);
-      objFactory.attrs.restore();
-    }));
+    it(
+      'calls attrs for each model attr',
+      asyncFunction(async function () {
+        const spy = sinon.spy(objFactory, 'attrs');
+        await objFactory.attrsMany(10);
+        expect(spy).to.have.callCount(10);
+        objFactory.attrs.restore();
+      }),
+    );
 
-    it('passes same attrObject and buildOptionsObject for each model attr',
+    it(
+      'passes same attrObject and buildOptionsObject for each model attr',
       asyncFunction(async function () {
         const spy = sinon.spy(objFactory, 'attrs');
 
@@ -546,7 +632,9 @@ describe('Factory', function () {
         const dummyBuildOptionsObject = {};
 
         await objFactory.attrsMany(
-          10, dummyAttrObject, dummyBuildOptionsObject
+          10,
+          dummyAttrObject,
+          dummyBuildOptionsObject,
         );
 
         expect(spy).to.have.callCount(10);
@@ -557,10 +645,11 @@ describe('Factory', function () {
         });
 
         objFactory.attrs.restore();
-      })
+      }),
     );
 
-    it('passes attrObject and buildOptions object from arrays to attrs',
+    it(
+      'passes attrObject and buildOptions object from arrays to attrs',
       asyncFunction(async function () {
         const spy = sinon.spy(objFactory, 'attrs');
 
@@ -580,7 +669,7 @@ describe('Factory', function () {
           expect(argsArray[1]).to.be.eql({ b: i });
         });
         objFactory.attrs.restore();
-      })
+      }),
     );
 
     it('returns a promise', function () {

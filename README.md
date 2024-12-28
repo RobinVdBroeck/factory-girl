@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/aexmachina/factory-girl.png)](https://travis-ci.org/aexmachina/factory-girl)
 
-`factory-girl` is a factory library for [Node.js](http://nodejs.org/) and the browser that is inspired by [Factory\_girl](http://github.com/thoughtbot/factory_girl). It works asynchronously and supports associations and the use of functions for generating attributes.
+`factory-girl` is a factory library for [Node.js](http://nodejs.org/) and the browser that is inspired by [Factory_girl](http://github.com/thoughtbot/factory_girl). It works asynchronously and supports associations and the use of functions for generating attributes.
 
 ## Installation
 
@@ -24,14 +24,14 @@ Here's the crash course:
 
 ```javascript
 const factory = require('factory-girl').factory;
-const User    = require('../models/user');
+const User = require('../models/user');
 
 factory.define('user', User, {
   username: 'Bob',
   score: 50,
 });
 
-factory.build('user').then(user => {
+factory.build('user').then((user) => {
   console.log(user); // => User {username: 'Bob', score: 50}
 });
 ```
@@ -66,7 +66,9 @@ factory.define('user', User, {
   addresses: factory.assocMany('address', 2, '_id'),
 
   // use assocAttrs to embed models that are not persisted
-  creditCardNumber: factory.assocAttrs('credit_card', 'number', {type: 'masterCard'}),
+  creditCardNumber: factory.assocAttrs('credit_card', 'number', {
+    type: 'masterCard',
+  }),
 
   // use assocAttrs or assocAttrsMany to embed plain json objects
   twitterDetails: factory.assocAttrs('twitter_details'),
@@ -75,10 +77,10 @@ factory.define('user', User, {
 
 ```javascript
 // Using functions as initializer
-factory.define('account', Account, buildOptions => {
+factory.define('account', Account, (buildOptions) => {
   let attrs = {
     confirmed: false,
-    confirmedAt: null
+    confirmedAt: null,
   };
 
   // use build options to modify the returned object
@@ -90,7 +92,7 @@ factory.define('account', Account, buildOptions => {
 });
 
 // buildOptions can be passed while requesting an object
-factory.build('account', {}, {confirmed: true});
+factory.build('account', {}, { confirmed: true });
 ```
 
 ### Options
@@ -121,22 +123,27 @@ should return the instance or throw an error. For asynchronous functions, it sho
 a promise that resolves with the instance or rejects with the error.
 
 ```javascript
-factory.define('user', User, {foo: 'bar'}, {
-  afterBuild: (model, attrs, buildOptions) => {
-    return doSomethingAsync(model).then(() => {
-      doWhateverElse(model);
+factory.define(
+  'user',
+  User,
+  { foo: 'bar' },
+  {
+    afterBuild: (model, attrs, buildOptions) => {
+      return doSomethingAsync(model).then(() => {
+        doWhateverElse(model);
+        return model;
+      });
+    },
+    afterCreate: (model, attrs, buildOptions) => {
+      modify(model);
+      if ('something' === 'wrong') {
+        throw new Error();
+      }
+      maybeLog('something');
       return model;
-    });
+    },
   },
-  afterCreate: (model, attrs, buildOptions) => {
-    modify(model);
-    if ('something' === 'wrong') {
-      throw new Error;
-    }
-    maybeLog('something');
-    return model;
-  }
-});
+);
 ```
 
 ### Extending Factories
@@ -146,14 +153,14 @@ You can extend a factory using `#extend`:
 ```js
 factory.define('user', User, { username: 'Bob', expired: false });
 factory.extend('user', 'expiredUser', { expired: true });
-factory.build('expiredUser').then(user => {
+factory.build('expiredUser').then((user) => {
   console.log(user); // => User { username: 'Bob', expired: true });
 });
 ```
 
 ### `#extend(parent, name, initializer, options = {})`
 
-The `#extend` method takes the same options as `#define` except you 
+The `#extend` method takes the same options as `#define` except you
 can provide a different `Model` using `options.model`.
 
 ## Using Factories
@@ -165,28 +172,32 @@ This may be useful where you need a JSON representation of the model e.g. mockin
 response.
 
 ```javascript
-factory.attrs('post').then(postAttrs => {
+factory.attrs('post').then((postAttrs) => {
   // postAttrs is a json representation of the Post model
 });
 
-factory.attrs('post', {title: 'Foo', content: 'Bar'}).then(postAttrs => {
+factory.attrs('post', { title: 'Foo', content: 'Bar' }).then((postAttrs) => {
   // builds post json object and overrides title and content
 });
 
-factory.attrs('post', {title: 'Foo'}, {hasComments: true}).then(postAttrs => {
-  // builds post json object
-  // overrides title
-  // invokes the initializer function with buildOptions of {hasComments: true}
-});
+factory
+  .attrs('post', { title: 'Foo' }, { hasComments: true })
+  .then((postAttrs) => {
+    // builds post json object
+    // overrides title
+    // invokes the initializer function with buildOptions of {hasComments: true}
+  });
 ```
 
 You can use `Factory#attrsMany` to generate a set of model attributes
 
 ```javascript
-factory.attrsMany('post', 5, [{title: 'foo1'}, {title: 'foo2'}]).then(postAttrsArray => {
-  // postAttrsArray is an array of 5 post json objects
-  debug(postAttrsArray);
-});
+factory
+  .attrsMany('post', 5, [{ title: 'foo1' }, { title: 'foo2' }])
+  .then((postAttrsArray) => {
+    // postAttrsArray is an array of 5 post json objects
+    debug(postAttrsArray);
+  });
 ```
 
 ### Factory#build
@@ -194,7 +205,7 @@ factory.attrsMany('post', 5, [{title: 'foo1'}, {title: 'foo2'}]).then(postAttrsA
 Builds a new model instance that is not persisted.
 
 ```javascript
-factory.build('post').then(post => {
+factory.build('post').then((post) => {
   // post is a Post instance that is not persisted
 });
 ```
@@ -202,7 +213,7 @@ factory.build('post').then(post => {
 The `buildMany` version builds an array of model instances.
 
 ```javascript
-factory.buildMany('post', 5).then(postsArray => {
+factory.buildMany('post', 5).then((postsArray) => {
   // postsArray is an array of 5 Post instances
 });
 ```
@@ -214,7 +225,7 @@ Similar to `Factory#attrs`, you can pass attributes to override or buildOptions.
 Builds a new model instance that is persisted.
 
 ```js
-factory.create('post').then(post => {
+factory.create('post').then((post) => {
   // post is a saved Post instance
 });
 ```
@@ -224,7 +235,7 @@ factory.create('post').then(post => {
 The createMany version creates an array of model instances.
 
 ```javascript
-factory.createMany('post', 5).then(postsArray => {
+factory.createMany('post', 5).then((postsArray) => {
   // postsArray is an array of 5 Post saved instances
 });
 ```
@@ -305,7 +316,7 @@ Version 4.0 is a complete rewrite with thanks to @chetanism.
 
 Copyright (c) 2016 Chetan Verma.  
 Copyright (c) 2014 Simon Wade.
-Copyright (c) 2011 Peter Jihoon Kim.  
+Copyright (c) 2011 Peter Jihoon Kim.
 
 This software is licensed under the [MIT
 License](http://github.com/aexmachina/factory-girl/raw/master/LICENSE.txt).

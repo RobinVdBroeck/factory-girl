@@ -3,7 +3,7 @@ import DefaultAdapter from './DefaultAdapter';
 /* eslint-disable no-unused-vars */
 export default class ObjectAdapter extends DefaultAdapter {
   build(Model, props) {
-    const model = new Model;
+    const model = new Model();
     this.set(props, model, Model);
     return model;
   }

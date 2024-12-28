@@ -3,19 +3,8 @@
   "main": "index.js",
   "version": "5.0.3",
   "homepage": "https://github.com/aexmachina/factory-girl",
-  "authors": [
-    "aexmachina"
-  ],
-  "keywords": [
-    "factory-girl",
-    "factory"
-  ],
+  "authors": ["aexmachina"],
+  "keywords": ["factory-girl", "factory"],
   "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+  "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"]
 }

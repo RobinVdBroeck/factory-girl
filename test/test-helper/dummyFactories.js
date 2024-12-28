@@ -9,7 +9,7 @@ Factory.define('PhoneNumber', PhoneNumber, {
 Factory.define('PhoneNumber2', PhoneNumber, function (buildOptions) {
   const attrs = {
     type: 'mobile',
-    number: Factory.seq('PhoneNumber2.number', n => `1234567890-${n}`),
+    number: Factory.seq('PhoneNumber2.number', (n) => `1234567890-${n}`),
   };
 
   if (buildOptions.landline) {
@@ -20,17 +20,17 @@ Factory.define('PhoneNumber2', PhoneNumber, function (buildOptions) {
 });
 
 Factory.define('Address', Address, {
-  id: Factory.seq('Address.id', n => `address_${n}_id`),
-  street: Factory.seq('Address.street', n => `street-${n}`),
+  id: Factory.seq('Address.id', (n) => `address_${n}_id`),
+  street: Factory.seq('Address.street', (n) => `street-${n}`),
   laneNo: Factory.sequence('Address.laneNo'),
   landlineNumber: Factory.assocAttrs('PhoneNumber2', {}, { landline: true }),
 });
 
 Factory.define('User', User, {
   name: Factory.chance('name'),
-  email: Factory.seq('User.email', n => `user${n}@email.com`),
+  email: Factory.seq('User.email', (n) => `user${n}@email.com`),
   mobile: Factory.assocAttrsMany('PhoneNumber', 2, null, {
-    number: Factory.seq('User.mobile', n => `123456-${n}`),
+    number: Factory.seq('User.mobile', (n) => `123456-${n}`),
   }),
   address: Factory.assocMany('Address', 3, 'id'),
   bio: Factory.chance('paragraph', { sentences: 2 }),

@@ -1,4 +1,3 @@
-
 import Generator from './Generator';
 import Chance from 'chance';
 

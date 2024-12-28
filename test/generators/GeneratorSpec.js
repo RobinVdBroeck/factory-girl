@@ -1,4 +1,3 @@
-
 import '../test-helper/testUtils';
 import Generator from '../../src/generators/Generator';
 import { expect } from 'chai';

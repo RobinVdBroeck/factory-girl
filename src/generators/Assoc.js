@@ -1,4 +1,3 @@
-
 import Generator from './Generator';
 
 export default class Assoc extends Generator {

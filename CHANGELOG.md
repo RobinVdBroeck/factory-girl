@@ -1,6 +1,6 @@
 ## v6.0.0
 
-Fork from the original https://github.com/simonexmachina/factory-girl.
+Forked from https://github.com/simonexmachina/factory-girl.
 
 Contains the following public changes:
 
@@ -10,7 +10,8 @@ And the following internal changes:
 
 - Add CI
 - Bump serveral dev dependencies
-
+- Move from a custom build script to rollup
+- Added prettier for formatting
 
 ## v4.0.0
 

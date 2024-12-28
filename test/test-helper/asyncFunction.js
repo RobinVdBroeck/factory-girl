@@ -1,5 +1,4 @@
-
-const asyncFunction = func => async done => {
+const asyncFunction = (func) => async (done) => {
   try {
     await func();
     done();
