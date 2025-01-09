@@ -1,8 +1,8 @@
 import '../test-helper/testUtils.js';
-import Assoc from '../../src/generators/Assoc.js';
 import { expect } from 'chai';
-import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
 import sinon from 'sinon';
+import Assoc from '../../src/generators/Assoc.js';
+import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
 // import _debug from 'debug';
 
 // const debug = _debug('AssocSpec');

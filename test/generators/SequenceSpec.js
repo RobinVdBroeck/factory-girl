@@ -1,7 +1,7 @@
 import '../test-helper/testUtils.js';
-import Sequence from '../../src/generators/Sequence.js';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import Sequence from '../../src/generators/Sequence.js';
 
 describe('Sequence', function () {
   describe('#constructor', function () {

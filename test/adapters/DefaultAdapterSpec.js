@@ -1,6 +1,6 @@
 import '../test-helper/testUtils.js';
-import DefaultAdapter from '../../src/adapters/DefaultAdapter.js';
 import { expect } from 'chai';
+import DefaultAdapter from '../../src/adapters/DefaultAdapter.js';
 import DummyModel from '../test-helper/DummyModel.js';
 
 describe('DefaultAdapter', function () {

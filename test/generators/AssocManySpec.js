@@ -1,8 +1,8 @@
 import '../test-helper/testUtils.js';
-import AssocMany from '../../src/generators/AssocMany.js';
 import { expect } from 'chai';
-import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
 import sinon from 'sinon';
+import AssocMany from '../../src/generators/AssocMany.js';
+import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
 // import _debug from 'debug';
 
 // const debug = _debug('AssocManySpec');

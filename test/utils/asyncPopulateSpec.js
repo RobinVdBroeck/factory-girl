@@ -1,6 +1,6 @@
 import '../test-helper/testUtils.js';
-import asyncPopulate from '../../src/utils/asyncPopulate.js';
 import { expect } from 'chai';
+import asyncPopulate from '../../src/utils/asyncPopulate.js';
 
 describe('asyncPopulate', function () {
   it('returns a promise', function () {

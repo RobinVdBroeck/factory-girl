@@ -1,9 +1,9 @@
 import '../test-helper/testUtils.js';
-import { generatorThunk } from '../../src/FactoryGirl.js';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { generatorThunk } from '../../src/FactoryGirl.js';
 import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
 import DummyGenerator from '../test-helper/DummyGenerator.js';
-import sinon from 'sinon';
 
 describe('generatorThunk', function () {
   it('returns a function', function () {

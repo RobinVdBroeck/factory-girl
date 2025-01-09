@@ -1,5 +1,5 @@
-import OneOf from '../../src/generators/OneOf.js';
 import { expect } from 'chai';
+import OneOf from '../../src/generators/OneOf.js';
 
 describe('OneOf', function () {
   describe('#constructor', function () {

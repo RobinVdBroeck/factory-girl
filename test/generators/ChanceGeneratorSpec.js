@@ -1,6 +1,6 @@
 import '../test-helper/testUtils.js';
-import ChanceGenerator from '../../src/generators/ChanceGenerator.js';
 import { expect } from 'chai';
+import ChanceGenerator from '../../src/generators/ChanceGenerator.js';
 // import _debug from 'debug';
 
 // const debug = _debug('ChanceGeneratorSpec');

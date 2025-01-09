@@ -51,6 +51,7 @@
     "eslint": "~9.19.0",
     "eslint-config-prettier": "~10.0.0",
     "eslint-plugin-mocha": "~10.5.0",
+    "eslint-plugin-import": "~2.31.0",
     "mocha": "^11.0.0",
     "pkgroll": "^2.6.0",
     "prettier": "^3.4.2",

@@ -1,9 +1,9 @@
 import './test-helper/testUtils.js';
-import Factory from '../src/Factory.js';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import Factory from '../src/Factory.js';
 import DummyModel from './test-helper/DummyModel.js';
 import DummyAdapter from './test-helper/DummyAdapter.js';
-import sinon from 'sinon';
 
 describe('Factory', function () {
   describe('#constructor', function () {
