@@ -1,5 +1,4 @@
-import '../test-helper/testUtils.js';
-import { expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 import DefaultAdapter from '../../src/adapters/DefaultAdapter.js';
 import DummyModel from '../test-helper/DummyModel.js';
 

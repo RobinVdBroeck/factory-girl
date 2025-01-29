@@ -46,23 +46,19 @@
   },
   "devDependencies": {
     "@eslint/js": "~9.19.0",
-    "chai": "^5.1.0",
-    "chai-as-promised": "^8.0.0",
+    "chai-as-promised": "~8.0.0",
     "eslint": "~9.19.0",
     "eslint-config-prettier": "~10.0.0",
-    "eslint-plugin-mocha": "~10.5.0",
     "eslint-plugin-import": "~2.31.0",
-    "mocha": "^11.0.0",
     "pkgroll": "^2.6.0",
     "prettier": "^3.4.2",
-    "sinon": "^19.0.2",
-    "sinon-chai": "^4.0.0"
+    "vitest": "^3.0.4"
   },
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint src test",
-    "test": "NODE_ENV=test mocha",
+    "test": "NODE_ENV=test vitest --globals",
     "build": "pkgroll --target=node18 --sourcemap"
   }
 }

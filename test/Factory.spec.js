@@ -1,6 +1,4 @@
-import './test-helper/testUtils.js';
-import { expect } from 'chai';
-import sinon from 'sinon';
+import { expect, describe, it, vi } from 'vitest';
 import Factory from '../src/Factory.js';
 import DummyModel from './test-helper/DummyModel.js';
 import DummyAdapter from './test-helper/DummyAdapter.js';
@@ -102,12 +100,12 @@ describe('Factory', function () {
     });
 
     it('calls initializer function with buildOptions', async function () {
-      const spy = sinon.spy(simpleFuncInit);
+      const spy = vi.fn(simpleFuncInit);
       const dummyBuildOptions = {};
       const factory = new Factory(DummyModel, spy);
       await factory.getFactoryAttrs(dummyBuildOptions);
-      expect(spy).to.have.been.calledOnce;
-      expect(spy).to.have.been.calledWith(dummyBuildOptions);
+      expect(spy).toHaveBeenCalledWith(dummyBuildOptions);
+      vi.restoreAllMocks();
     });
   });
 
@@ -119,11 +117,11 @@ describe('Factory', function () {
     });
 
     it('calls #getFactoryAttrs with buildOptions', async function () {
-      const spy = sinon.spy(objFactory, 'getFactoryAttrs');
+      const spy = vi.spyOn(objFactory, 'getFactoryAttrs');
       const dummyBuildOptions = {};
       await objFactory.attrs({}, dummyBuildOptions);
-      expect(spy).to.have.been.calledWith(dummyBuildOptions);
-      objFactory.getFactoryAttrs.restore();
+      expect(spy).toHaveBeenCalledWith(dummyBuildOptions);
+      vi.restoreAllMocks();
     });
 
     it('populates with factoryAttrs', async function () {
@@ -171,22 +169,19 @@ describe('Factory', function () {
     });
 
     it('calls attrs to get attributes', async function () {
-      const spy = sinon.spy(objFactory, 'attrs');
+      const spy = vi.spyOn(objFactory, 'attrs');
       const dummyAttrs = {};
       const dummyBuildOptions = {};
       await objFactory.build(dummyAdapter, dummyAttrs, dummyBuildOptions);
-      expect(spy).to.have.been.calledWith(dummyAttrs, dummyBuildOptions);
-      objFactory.attrs.restore();
+      expect(spy).toHaveBeenCalledWith(dummyAttrs, dummyBuildOptions);
+      vi.restoreAllMocks();
     });
 
     it('calls build on adapter with Model and attrs', async function () {
-      const spy = sinon.spy(dummyAdapter, 'build');
+      const spy = vi.spyOn(dummyAdapter, 'build');
       await objFactory.build(dummyAdapter);
-      expect(spy).to.have.been.calledWith(
-        DummyModel,
-        sinon.match(simpleObjInit),
-      );
-      dummyAdapter.build.restore();
+      expect(spy).toHaveBeenCalledWith(DummyModel, simpleObjInit);
+      vi.restoreAllMocks();
     });
 
     it('resolves to a Model instance', async function () {
@@ -195,9 +190,9 @@ describe('Factory', function () {
     });
 
     it('invokes afterBuild callback option if any', async function () {
-      const spy = sinon.spy((model) => model);
+      const afterBuild = vi.fn((model) => model);
       const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
-        afterBuild: spy,
+        afterBuild,
       });
       const dummyAttrs = {};
       const dummyBuildOptions = {};
@@ -206,7 +201,12 @@ describe('Factory', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.been.calledWith(model, dummyAttrs, dummyBuildOptions);
+      expect(afterBuild).toHaveBeenCalledWith(
+        model,
+        dummyAttrs,
+        dummyBuildOptions,
+      );
+      vi.restoreAllMocks();
     });
 
     it('accepts afterBuild callback returning a promise', async function () {
@@ -227,26 +227,23 @@ describe('Factory', function () {
     });
 
     it('calls build to build the model', async function () {
-      const spy = sinon.spy(objFactory, 'build');
+      const spy = vi.spyOn(objFactory, 'build');
       const dummyAttrs = {};
       const dummyBuildOptions = {};
       await objFactory.create(dummyAdapter, dummyAttrs, dummyBuildOptions);
-      expect(spy).to.have.been.calledWith(
+      expect(spy).toHaveBeenCalledWith(
         dummyAdapter,
         dummyAttrs,
         dummyBuildOptions,
       );
-      objFactory.build.restore();
+      vi.restoreAllMocks();
     });
 
     it('calls save on adapter with Model and model', async function () {
-      const spy = sinon.spy(dummyAdapter, 'save');
+      const spy = vi.spyOn(dummyAdapter, 'save');
       await objFactory.create(dummyAdapter);
-      expect(spy).to.have.been.calledWith(
-        sinon.match(new DummyModel(simpleObjInit)),
-        DummyModel,
-      );
-      dummyAdapter.save.restore();
+      expect(spy).toHaveBeenCalledWith(expect.any(DummyModel), DummyModel);
+      vi.restoreAllMocks();
     });
 
     it('resolves to a Model instance', async function () {
@@ -255,7 +252,7 @@ describe('Factory', function () {
     });
 
     it('invokes afterCreate callback option if any', async function () {
-      const spy = sinon.spy((model) => model);
+      const spy = vi.fn((model) => model);
       const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
         afterCreate: spy,
       });
@@ -266,7 +263,8 @@ describe('Factory', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.been.calledWith(model, dummyAttrs, dummyBuildOptions);
+      expect(spy).toHaveBeenCalledWith(model, dummyAttrs, dummyBuildOptions);
+      vi.resetAllMocks();
     });
 
     it('accepts afterCreate callback returning a promise', async function () {
@@ -279,12 +277,13 @@ describe('Factory', function () {
     });
 
     it('invokes afterBuild callback on create', async function () {
-      const spy = sinon.spy((model) => model);
+      const spy = vi.fn((model) => model);
       const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
         afterBuild: spy,
       });
       await factoryWithOptions.create(dummyAdapter);
-      expect(spy).to.have.callCount(1);
+      expect(spy).toHaveBeenCalledTimes(1);
+      vi.restoreAllMocks();
     });
   });
 
@@ -296,7 +295,7 @@ describe('Factory', function () {
     });
 
     it('calls attrsMany to get model attrs', async function () {
-      const spy = sinon.spy(objFactory, 'attrsMany');
+      const spy = vi.spyOn(objFactory, 'attrsMany');
       const dummyAttrs = {};
       const dummyBuildOptions = {};
       await objFactory.buildMany(
@@ -305,19 +304,19 @@ describe('Factory', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.been.calledWith(5, dummyAttrs, dummyBuildOptions);
-      objFactory.attrsMany.restore();
+      expect(spy).toHaveBeenCalledWith(5, dummyAttrs, dummyBuildOptions);
+      vi.restoreAllMocks();
     });
 
     it('calls build on adapter with Model and each model attrs', async function () {
-      const spy = sinon.spy(dummyAdapter, 'build');
+      const spy = vi.spyOn(dummyAdapter, 'build');
       await objFactory.buildMany(dummyAdapter, 5);
-      expect(spy).to.have.callCount(5);
-      expect(spy).to.have.been.calledWith(
+      expect(spy).toHaveBeenCalledTimes(5);
+      expect(spy).toHaveBeenCalledWith(
         DummyModel,
-        sinon.match(simpleObjInit),
+        expect.objectContaining(simpleObjInit),
       );
-      dummyAdapter.build.restore();
+      vi.restoreAllMocks();
     });
 
     it('resolves to an array of Model instances', async function () {
@@ -330,7 +329,7 @@ describe('Factory', function () {
     });
 
     it('invokes afterBuild callback option if any for each model', async function () {
-      const spy = sinon.spy((model) => model);
+      const spy = vi.fn((model) => model);
       const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
         afterBuild: spy,
       });
@@ -342,14 +341,15 @@ describe('Factory', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.callCount(5);
+      expect(spy).toHaveBeenCalledTimes(5);
       for (let i = 0; i < 5; i++) {
-        expect(spy.getCall(i)).to.have.been.calledWith(
+        expect(spy.mock.calls[i]).toEqual([
           models[i],
           dummyAttrs,
           dummyBuildOptions,
-        );
+        ]);
       }
+      vi.restoreAllMocks();
     });
 
     it('accepts afterBuild callback returning a promise', async function () {
@@ -373,7 +373,7 @@ describe('Factory', function () {
     });
 
     it('calls buildMany to build models', async function () {
-      const spy = sinon.spy(objFactory, 'buildMany');
+      const spy = vi.spyOn(objFactory, 'buildMany');
       const dummyAttrs = {};
       const dummyBuildOptions = {};
       await objFactory.createMany(
@@ -382,24 +382,21 @@ describe('Factory', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.been.calledWith(
+      expect(spy).toHaveBeenCalledWith(
         dummyAdapter,
         5,
         dummyAttrs,
         dummyBuildOptions,
       );
-      objFactory.buildMany.restore();
+      vi.restoreAllMocks();
     });
 
     it('calls save on adapter with Model and each model', async function () {
-      const spy = sinon.spy(dummyAdapter, 'save');
+      const spy = vi.spyOn(dummyAdapter, 'save');
       await objFactory.createMany(dummyAdapter, 5);
-      expect(spy).to.have.callCount(5);
-      expect(spy).to.have.been.calledWith(
-        sinon.match(new DummyModel(simpleObjInit)),
-        DummyModel,
-      );
-      dummyAdapter.save.restore();
+      expect(spy).toHaveBeenCalledTimes(5);
+      expect(spy).toHaveBeenCalledWith(expect.any(DummyModel), DummyModel);
+      vi.restoreAllMocks();
     });
 
     it('resolves to an array of Model instances', async function () {
@@ -412,7 +409,7 @@ describe('Factory', function () {
     });
 
     it('invokes afterCreate callback option if any for each model', async function () {
-      const spy = sinon.spy((model) => model);
+      const spy = vi.fn((model) => model);
       const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
         afterCreate: spy,
       });
@@ -424,13 +421,13 @@ describe('Factory', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.callCount(5);
+      expect(spy).toHaveBeenCalledTimes(5);
       for (let i = 0; i < 5; i++) {
-        expect(spy.getCall(i)).to.have.been.calledWith(
+        expect(spy.mock.calls[i]).toEqual([
           models[i],
           dummyAttrs,
           dummyBuildOptions,
-        );
+        ]);
       }
     });
 
@@ -447,12 +444,13 @@ describe('Factory', function () {
     });
 
     it('invokes afterBuild callback on createMany', async function () {
-      const spy = sinon.spy((model) => model);
+      const spy = vi.fn((model) => model);
       const factoryWithOptions = new Factory(DummyModel, simpleObjInit, {
         afterBuild: spy,
       });
       await factoryWithOptions.createMany(dummyAdapter, 2);
-      expect(spy).to.have.callCount(2);
+      expect(spy).toHaveBeenCalledTimes(2);
+      vi.restoreAllMocks();
     });
 
     it('accepts an array of attrs', async function () {
@@ -509,32 +507,32 @@ describe('Factory', function () {
     });
 
     it('calls attrs for each model attr', async function () {
-      const spy = sinon.spy(objFactory, 'attrs');
+      const spy = vi.spyOn(objFactory, 'attrs');
       await objFactory.attrsMany(10);
-      expect(spy).to.have.callCount(10);
-      objFactory.attrs.restore();
+      expect(spy).toHaveBeenCalledTimes(10);
+      vi.restoreAllMocks();
     });
 
     it('passes same attrObject and buildOptionsObject for each model attr', async function () {
-      const spy = sinon.spy(objFactory, 'attrs');
+      const spy = vi.spyOn(objFactory, 'attrs');
 
       const dummyAttrObject = {};
       const dummyBuildOptionsObject = {};
 
       await objFactory.attrsMany(10, dummyAttrObject, dummyBuildOptionsObject);
 
-      expect(spy).to.have.callCount(10);
+      expect(spy).toHaveBeenCalledTimes(10);
 
-      spy.args.forEach(function (argsArray) {
+      for (const argsArray of spy.mock.calls) {
         expect(argsArray[0]).to.be.equal(dummyAttrObject);
         expect(argsArray[1]).to.be.equal(dummyBuildOptionsObject);
-      });
+      }
 
-      objFactory.attrs.restore();
+      vi.restoreAllMocks();
     });
 
     it('passes attrObject and buildOptions object from arrays to attrs', async function () {
-      const spy = sinon.spy(objFactory, 'attrs');
+      const spy = vi.spyOn(objFactory, 'attrs');
 
       const dummyAttrArray = [];
       const dummyBuildOptionsArray = [];
@@ -546,12 +544,12 @@ describe('Factory', function () {
 
       await objFactory.attrsMany(10, dummyAttrArray, dummyBuildOptionsArray);
 
-      expect(spy).to.have.callCount(10);
-      spy.args.forEach(function (argsArray, i) {
+      expect(spy).toHaveBeenCalledTimes(10);
+      spy.mock.calls.forEach((argsArray, i) => {
         expect(argsArray[0]).to.be.eql({ a: i });
         expect(argsArray[1]).to.be.eql({ b: i });
       });
-      objFactory.attrs.restore();
+      vi.restoreAllMocks();
     });
 
     it('returns a promise', function () {

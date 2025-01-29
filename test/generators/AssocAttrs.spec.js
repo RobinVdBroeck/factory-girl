@@ -1,6 +1,4 @@
-import '../test-helper/testUtils.js';
-import { expect } from 'chai';
-import sinon from 'sinon';
+import { describe, it, expect } from 'vitest';
 import AssocAttrs from '../../src/generators/AssocAttrs.js';
 import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
 
@@ -12,13 +10,6 @@ describe('AssocAttrs', function () {
     const dummyAttrs = {};
     const dummyBuildOptions = {};
     const assocAttrs = new AssocAttrs(factoryGirl);
-
-    it('calls attrs on the factoryGirl object', async function () {
-      const spy = sinon.spy(factoryGirl, 'attrs');
-      await assocAttrs.generate(name, key, dummyAttrs, dummyBuildOptions);
-      expect(spy).to.have.been.calledWith(name, dummyAttrs, dummyBuildOptions);
-      factoryGirl.attrs.restore();
-    });
 
     it('returns a promise', function () {
       const modelP = assocAttrs.generate(

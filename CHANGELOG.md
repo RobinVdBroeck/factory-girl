@@ -20,8 +20,8 @@ And the following internal changes:
 - Added prettier for formatting.
 - Use .js imports inside in the original source code to be spec compliant. Tests
   are not affected.
-- Updated eslint to v9
-- Update mocha and other test dependencies to latest version and don't use babel to run tests
+- Updated eslint to v9.
+- Use vitest instead of mocha to run tests.
 
 ## v4.0.0
 

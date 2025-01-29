@@ -1,6 +1,4 @@
-import './test-helper/testUtils.js';
-import { expect } from 'chai';
-import sinon from 'sinon';
+import { vi, beforeEach, expect, describe, it } from 'vitest';
 import FactoryGirl from '../src/FactoryGirl.js';
 import Factory from '../src/Factory.js';
 import DefaultAdapter from '../src/adapters/DefaultAdapter.js';
@@ -270,20 +268,20 @@ describe('FactoryGirl', function () {
     factoryGirl.define('factory1', DummyModel, { name: 'Mark', age: 40 });
 
     it('requests correct factory', async function () {
-      const spy = sinon.spy(factoryGirl, 'getFactory');
+      const spy = vi.spyOn(factoryGirl, 'getFactory');
       await factoryGirl.attrs('factory1');
-      expect(spy).to.have.been.calledWith('factory1');
-      factoryGirl.getFactory.restore();
+      expect(spy).toHaveBeenCalledWith('factory1');
+      vi.restoreAllMocks();
     });
 
     it('calls attrs on the factory with attrs and buildOptions', async function () {
       const factory = factoryGirl.getFactory('factory1');
-      const spy = sinon.spy(factory, 'attrs');
+      const spy = vi.spyOn(factory, 'attrs');
       const dummyAttrs = {};
       const dummyBuildOptions = {};
       await factoryGirl.attrs('factory1', dummyAttrs, dummyBuildOptions);
-      expect(spy).to.have.been.calledWith(dummyAttrs, dummyBuildOptions);
-      factory.attrs.restore();
+      expect(spy).toHaveBeenCalledWith(dummyAttrs, dummyBuildOptions);
+      vi.restoreAllMocks();
     });
 
     it('returns a promise', function () {
@@ -306,28 +304,23 @@ describe('FactoryGirl', function () {
     factoryGirl.define('factory1', DummyModel, { name: 'Mark', age: 40 });
 
     it('requests correct factory and adapter', async function () {
-      const spy1 = sinon.spy(factoryGirl, 'getFactory');
-      const spy2 = sinon.spy(factoryGirl, 'getAdapter');
+      const spy1 = vi.spyOn(factoryGirl, 'getFactory');
+      const spy2 = vi.spyOn(factoryGirl, 'getAdapter');
       await factoryGirl.build('factory1');
-      expect(spy1).to.have.been.calledWith('factory1');
-      expect(spy2).to.have.been.calledWith('factory1');
-      factoryGirl.getFactory.restore();
-      factoryGirl.getAdapter.restore();
+      expect(spy1).toHaveBeenCalledWith('factory1');
+      expect(spy2).toHaveBeenCalledWith('factory1');
+      vi.restoreAllMocks();
     });
 
     it('calls build on the factory with adapter, attrs and buildOptions', async function () {
       const factory = factoryGirl.getFactory('factory1');
-      const spy = sinon.spy(factory, 'build');
+      const spy = vi.spyOn(factory, 'build');
       const dummyAttrs = {};
       const dummyBuildOptions = {};
       const adapter = factoryGirl.getAdapter('factory1');
       await factoryGirl.build('factory1', dummyAttrs, dummyBuildOptions);
-      expect(spy).to.have.been.calledWith(
-        adapter,
-        dummyAttrs,
-        dummyBuildOptions,
-      );
-      factory.build.restore();
+      expect(spy).toHaveBeenCalledWith(adapter, dummyAttrs, dummyBuildOptions);
+      vi.restoreAllMocks();
     });
 
     it('returns a promise', function () {
@@ -344,7 +337,7 @@ describe('FactoryGirl', function () {
     });
 
     it('invokes afterBuild callback option if any', async function () {
-      const spy = sinon.spy((model) => model);
+      const spy = vi.fn((model) => model);
       factoryGirl.withOptions({ afterBuild: spy });
       const dummyAttrs = {};
       const dummyBuildOptions = {};
@@ -353,7 +346,8 @@ describe('FactoryGirl', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.been.calledWith(model, dummyAttrs, dummyBuildOptions);
+      expect(spy).toHaveBeenCalledWith(model, dummyAttrs, dummyBuildOptions);
+      vi.restoreAllMocks();
     });
 
     it('accepts afterBuild callback returning a promise', async function () {
@@ -370,28 +364,23 @@ describe('FactoryGirl', function () {
     factoryGirl.define('factory1', DummyModel, { name: 'Mark', age: 40 });
 
     it('requests correct factory and adapter', async function () {
-      const spy1 = sinon.spy(factoryGirl, 'getFactory');
-      const spy2 = sinon.spy(factoryGirl, 'getAdapter');
+      const spy1 = vi.spyOn(factoryGirl, 'getFactory');
+      const spy2 = vi.spyOn(factoryGirl, 'getAdapter');
       await factoryGirl.create('factory1');
-      expect(spy1).to.have.been.calledWith('factory1');
-      expect(spy2).to.have.been.calledWith('factory1');
-      factoryGirl.getFactory.restore();
-      factoryGirl.getAdapter.restore();
+      expect(spy1).toHaveBeenCalledWith('factory1');
+      expect(spy2).toHaveBeenCalledWith('factory1');
+      vi.restoreAllMocks();
     });
 
     it('calls create on the factory with adapter, attrs and buildOptions', async function () {
       const factory = factoryGirl.getFactory('factory1');
-      const spy = sinon.spy(factory, 'create');
+      const spy = vi.spyOn(factory, 'create');
       const dummyAttrs = {};
       const dummyBuildOptions = {};
       const adapter = factoryGirl.getAdapter('factory1');
       await factoryGirl.create('factory1', dummyAttrs, dummyBuildOptions);
-      expect(spy).to.have.been.calledWith(
-        adapter,
-        dummyAttrs,
-        dummyBuildOptions,
-      );
-      factory.create.restore();
+      expect(spy).toHaveBeenCalledWith(adapter, dummyAttrs, dummyBuildOptions);
+      vi.restoreAllMocks();
     });
 
     it('returns a promise', function () {
@@ -408,7 +397,7 @@ describe('FactoryGirl', function () {
     });
 
     it('invokes afterCreate callback option if any', async function () {
-      const spy = sinon.spy((model) => model);
+      const spy = vi.fn((model) => model);
       factoryGirl.withOptions({ afterCreate: spy });
       const dummyAttrs = {};
       const dummyBuildOptions = {};
@@ -417,7 +406,8 @@ describe('FactoryGirl', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.been.calledWith(model, dummyAttrs, dummyBuildOptions);
+      expect(spy).toHaveBeenCalledWith(model, dummyAttrs, dummyBuildOptions);
+      vi.restoreAllMocks();
     });
 
     it('accepts afterCreate callback returning a promise', async function () {
@@ -434,15 +424,15 @@ describe('FactoryGirl', function () {
     factoryGirl.define('factory1', DummyModel, { name: 'Mark', age: 40 });
 
     it('requests correct factory', async function () {
-      const spy = sinon.spy(factoryGirl, 'getFactory');
+      const spy = vi.spyOn(factoryGirl, 'getFactory');
       await factoryGirl.attrsMany('factory1', 10);
-      expect(spy).to.have.been.calledWith('factory1');
-      factoryGirl.getFactory.restore();
+      expect(spy).toHaveBeenCalledWith('factory1');
+      vi.restoreAllMocks();
     });
 
     it('calls attrsMany on the factory with num, attrs and buildOptions', async function () {
       const factory = factoryGirl.getFactory('factory1');
-      const spy = sinon.spy(factory, 'attrsMany');
+      const spy = vi.spyOn(factory, 'attrsMany');
       const dummyAttrs = {};
       const dummyBuildOptions = {};
       await factoryGirl.attrsMany(
@@ -451,8 +441,8 @@ describe('FactoryGirl', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.been.calledWith(10, dummyAttrs, dummyBuildOptions);
-      factory.attrsMany.restore();
+      expect(spy).toHaveBeenCalledWith(10, dummyAttrs, dummyBuildOptions);
+      vi.restoreAllMocks();
     });
 
     it('returns a promise', function () {
@@ -479,29 +469,28 @@ describe('FactoryGirl', function () {
     factoryGirl.define('factory1', DummyModel, { name: 'Mark', age: 40 });
 
     it('requests correct factory and adapter', async function () {
-      const spy1 = sinon.spy(factoryGirl, 'getFactory');
-      const spy2 = sinon.spy(factoryGirl, 'getAdapter');
+      const spy1 = vi.spyOn(factoryGirl, 'getFactory');
+      const spy2 = vi.spyOn(factoryGirl, 'getAdapter');
       await factoryGirl.buildMany('factory1', 2);
-      expect(spy1).to.have.been.calledWith('factory1');
-      expect(spy2).to.have.been.calledWith('factory1');
-      factoryGirl.getFactory.restore();
-      factoryGirl.getAdapter.restore();
+      expect(spy1).toHaveBeenCalledWith('factory1');
+      expect(spy2).toHaveBeenCalledWith('factory1');
+      vi.restoreAllMocks();
     });
 
     it('calls factory#buildMany with adapter, num, attrs and buildOptions', async function () {
       const factory = factoryGirl.getFactory('factory1');
-      const spy = sinon.spy(factory, 'buildMany');
+      const spy = vi.spyOn(factory, 'buildMany');
       const dummyAttrs = {};
       const dummyBuildOptions = {};
       const adapter = factoryGirl.getAdapter('factory1');
       await factoryGirl.buildMany('factory1', 5, dummyAttrs, dummyBuildOptions);
-      expect(spy).to.have.been.calledWith(
+      expect(spy).toHaveBeenCalledWith(
         adapter,
         5,
         dummyAttrs,
         dummyBuildOptions,
       );
-      factory.buildMany.restore();
+      vi.restoreAllMocks();
     });
 
     it('returns a promise', function () {
@@ -521,7 +510,7 @@ describe('FactoryGirl', function () {
     });
 
     it('invokes afterBuild callback option if any for each model', async function () {
-      const spy = sinon.spy((model) => model);
+      const spy = vi.fn((model) => model);
       factoryGirl.withOptions({ afterBuild: spy });
       const dummyAttrs = {};
       const dummyBuildOptions = {};
@@ -531,13 +520,13 @@ describe('FactoryGirl', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.callCount(5);
+      expect(spy).toHaveBeenCalledTimes(5);
       for (let i = 0; i < 5; i++) {
-        expect(spy.getCall(i)).to.have.been.calledWith(
+        expect(spy.mock.calls[i]).toEqual([
           models[i],
           dummyAttrs,
           dummyBuildOptions,
-        );
+        ]);
       }
     });
 
@@ -558,18 +547,17 @@ describe('FactoryGirl', function () {
     factoryGirl.define('factory1', DummyModel, { name: 'Mark', age: 40 });
 
     it('requests correct factory and adapter', async function () {
-      const spy1 = sinon.spy(factoryGirl, 'getFactory');
-      const spy2 = sinon.spy(factoryGirl, 'getAdapter');
+      const spy1 = vi.spyOn(factoryGirl, 'getFactory');
+      const spy2 = vi.spyOn(factoryGirl, 'getAdapter');
       await factoryGirl.createMany('factory1', 2);
-      expect(spy1).to.have.been.calledWith('factory1');
-      expect(spy2).to.have.been.calledWith('factory1');
-      factoryGirl.getFactory.restore();
-      factoryGirl.getAdapter.restore();
+      expect(spy1).toHaveBeenCalledWith('factory1');
+      expect(spy2).toHaveBeenCalledWith('factory1');
+      vi.restoreAllMocks();
     });
 
     it('calls factory#createMany with adapter, num, attrs and buildOptions', async function () {
       const factory = factoryGirl.getFactory('factory1');
-      const spy = sinon.spy(factory, 'createMany');
+      const spy = vi.spyOn(factory, 'createMany');
       const dummyAttrs = {};
       const dummyBuildOptions = {};
       const adapter = factoryGirl.getAdapter('factory1');
@@ -579,13 +567,13 @@ describe('FactoryGirl', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.been.calledWith(
+      expect(spy).toHaveBeenCalledWith(
         adapter,
         5,
         dummyAttrs,
         dummyBuildOptions,
       );
-      factory.createMany.restore();
+      vi.restoreAllMocks();
     });
 
     it('returns a promise', function () {
@@ -605,7 +593,7 @@ describe('FactoryGirl', function () {
     });
 
     it('invokes afterCreate callback option if any for each model', async function () {
-      const spy = sinon.spy((model) => model);
+      const spy = vi.fn((model) => model);
       factoryGirl.withOptions({ afterCreate: spy });
       const dummyAttrs = {};
       const dummyBuildOptions = {};
@@ -615,14 +603,15 @@ describe('FactoryGirl', function () {
         dummyAttrs,
         dummyBuildOptions,
       );
-      expect(spy).to.have.callCount(5);
+      expect(spy).toHaveBeenCalledTimes(5);
       for (let i = 0; i < 5; i++) {
-        expect(spy.getCall(i)).to.have.been.calledWith(
+        expect(spy.mock.calls[i]).toEqual([
           models[i],
           dummyAttrs,
           dummyBuildOptions,
-        );
+        ]);
       }
+      vi.restoreAllMocks();
     });
 
     it('accepts afterCreate callback returning a promise', async function () {
@@ -662,31 +651,31 @@ describe('FactoryGirl', function () {
     const dummyAdapter = new DummyAdapter();
 
     it('adds one model to the list', function () {
-      const spy = sinon.spy(factoryGirl.created, 'add');
+      const spy = vi.spyOn(factoryGirl.created, 'add');
       const dummyModel = new DummyModel();
       factoryGirl.addToCreatedList(dummyAdapter, dummyModel);
-      expect(spy).to.have.been.calledWith([dummyAdapter, dummyModel]);
-      factoryGirl.created.add.restore();
+      expect(spy).toHaveBeenCalledWith([dummyAdapter, dummyModel]);
+      vi.restoreAllMocks();
     });
 
     it('adds multiple models to the list', function () {
-      const spy = sinon.spy(factoryGirl.created, 'add');
+      const spy = vi.spyOn(factoryGirl.created, 'add');
       const dummyModels = [
         new DummyModel(),
         new DummyModel(),
         new DummyModel(),
       ];
       factoryGirl.addToCreatedList(dummyAdapter, dummyModels);
-      expect(spy).to.have.callCount(3);
-      spy.args.forEach(function (arg, index) {
-        expect(arg[0]).to.be.eql([dummyAdapter, dummyModels[index]]);
+      expect(spy).toHaveBeenCalledTimes(3);
+      spy.mock.calls.forEach((args, index) => {
+        expect(args[0]).to.be.eql([dummyAdapter, dummyModels[index]]);
       });
-      factoryGirl.created.add.restore();
+      vi.restoreAllMocks();
     });
   });
 
   describe('#cleanup', function () {
-    it('cleans up the factory', function () {
+    it('cleans up the factory', async function () {
       const factoryGirl = new FactoryGirl();
       const dummyAdapter = new DummyAdapter();
       const dummyAdapter2 = new DummyAdapter();
@@ -697,9 +686,9 @@ describe('FactoryGirl', function () {
       ];
       const dummyModel1 = new DummyModel();
       const dummyModel2 = new DummyModel();
-      const spy1 = sinon.spy(dummyAdapter, 'destroy');
-      const spy2 = sinon.spy(dummyAdapter2, 'destroy');
-      const spy3 = sinon.spy(factoryGirl.created, 'clear');
+      const spy1 = vi.spyOn(dummyAdapter, 'destroy');
+      const spy2 = vi.spyOn(dummyAdapter2, 'destroy');
+      const spy3 = vi.spyOn(factoryGirl.created, 'clear');
 
       expect(factoryGirl.created.size).to.be.equal(0);
       factoryGirl.addToCreatedList(dummyAdapter, dummyModels);
@@ -710,15 +699,16 @@ describe('FactoryGirl', function () {
       Sequence.sequences['some.id.1'] = 2;
       expect(Sequence.sequences['some.id.1']).to.exist;
 
-      return factoryGirl.cleanUp().then(() => {
-        expect(spy1).to.have.callCount(4);
-        expect(spy2).to.have.callCount(1);
-        expect(spy2).to.have.been.calledWith(dummyModel2, DummyModel);
-        expect(spy3).to.have.callCount(1);
+      await factoryGirl.cleanUp();
+      expect(spy1).toHaveBeenCalledTimes(4);
+      expect(spy2).toHaveBeenCalledTimes(1);
+      expect(spy2).toHaveBeenCalledWith(dummyModel2, DummyModel);
+      expect(spy3).toHaveBeenCalledTimes(1);
 
-        expect(factoryGirl.created.size).to.be.equal(0);
-        expect(Sequence.sequences['some.id.1']).to.not.exist;
-      });
+      expect(factoryGirl.created.size).to.be.equal(0);
+      expect(Sequence.sequences['some.id.1']).to.not.exist;
+
+      vi.restoreAllMocks();
     });
   });
 });

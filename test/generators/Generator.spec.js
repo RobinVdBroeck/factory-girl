@@ -1,9 +1,5 @@
-import '../test-helper/testUtils.js';
-import { expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 import Generator from '../../src/generators/Generator.js';
-// import _debug from 'debug';
-
-// const debug = _debug('GeneratorSpec');
 
 describe('Generator', function () {
   describe('#constructor', function () {

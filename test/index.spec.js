@@ -1,6 +1,5 @@
-import './test-helper/testUtils.js';
-import { expect } from 'chai';
-import Factory, { DefaultAdapter } from '../src/index';
+import { expect, describe, it } from 'vitest';
+import Factory, { DefaultAdapter } from '../src/index.js';
 
 import FactoryGirl from '../src/FactoryGirl';
 import DA from '../src/adapters/DefaultAdapter';

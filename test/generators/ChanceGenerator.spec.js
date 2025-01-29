@@ -1,9 +1,5 @@
-import '../test-helper/testUtils.js';
-import { expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 import ChanceGenerator from '../../src/generators/ChanceGenerator.js';
-// import _debug from 'debug';
-
-// const debug = _debug('ChanceGeneratorSpec');
 
 describe('ChanceGenerator', function () {
   describe('#constructor', function () {

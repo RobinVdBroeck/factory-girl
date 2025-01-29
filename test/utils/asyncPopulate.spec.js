@@ -1,5 +1,4 @@
-import '../test-helper/testUtils.js';
-import { expect } from 'chai';
+import { expect, describe, it } from 'vitest';
 import asyncPopulate from '../../src/utils/asyncPopulate.js';
 
 describe('asyncPopulate', function () {

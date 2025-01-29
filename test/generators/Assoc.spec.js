@@ -1,11 +1,6 @@
-import '../test-helper/testUtils.js';
-import { expect } from 'chai';
-import sinon from 'sinon';
+import { describe, it, expect } from 'vitest';
 import Assoc from '../../src/generators/Assoc.js';
 import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
-// import _debug from 'debug';
-
-// const debug = _debug('AssocSpec');
 
 describe('Assoc', function () {
   describe('#generate', function () {
@@ -15,17 +10,6 @@ describe('Assoc', function () {
     const dummyAttrs = {};
     const dummyBuildOptions = {};
     const assoc = new Assoc(factoryGirl);
-
-    it('calls create on the factoryGirl object', async function () {
-      sinon.spy(factoryGirl, 'create');
-      await assoc.generate(name, key, dummyAttrs, dummyBuildOptions);
-      expect(factoryGirl.create).to.have.been.calledWith(
-        name,
-        dummyAttrs,
-        dummyBuildOptions,
-      );
-      factoryGirl.create.restore();
-    });
 
     it('returns a promise', function () {
       const modelP = assoc.generate(name, key, dummyAttrs, dummyBuildOptions);

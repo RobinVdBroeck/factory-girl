@@ -1,7 +1,8 @@
-import { expect } from 'chai';
-import Factory from '../../src/index';
-import ObjectAdapter from '../test-helper/ObjectAdapter';
-import '../test-helper/dummyFactories';
+import { beforeEach, describe, it, expect } from 'vitest';
+import Factory from '../../src/index.js';
+import ObjectAdapter from '../test-helper/ObjectAdapter.js';
+
+import '../test-helper/dummyFactories.js';
 
 describe('indexIntegration', function () {
   Factory.setAdapter(new ObjectAdapter());
