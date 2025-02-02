@@ -1,5 +1,4 @@
-
-import Generator from './Generator';
+import Generator from './Generator.js';
 
 export default class OneOf extends Generator {
   async generate(possibleValues) {
@@ -14,6 +13,6 @@ export default class OneOf extends Generator {
     const size = possibleValues.length;
     const randomIndex = Math.floor(Math.random() * size);
     const value = possibleValues[randomIndex];
-    return (typeof value === 'function') ? value() : value;
+    return typeof value === 'function' ? value() : value;
   }
 }

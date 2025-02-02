@@ -1,6 +1,5 @@
-
-import Generator from './Generator';
 import Chance from 'chance';
+import Generator from './Generator.js';
 
 const chance = new Chance();
 
