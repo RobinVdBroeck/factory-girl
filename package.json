@@ -1,4 +1,5 @@
 {
+  "packageManager": "pnpm@10.1.0",
   "name": "factory-girl",
   "description": "A factory library for Node.js and JavaScript inspired by factory_girl",
   "type": "module",
@@ -24,6 +25,11 @@
     "tdd",
     "fixture"
   ],
+  "files": [
+    "package.json",
+    "README.md",
+    "dist/"
+  ],
   "repository": {
     "type": "git",
     "url": "http://github.com/aexmachina/factory-girl.git"
@@ -46,6 +52,7 @@
   },
   "devDependencies": {
     "@eslint/js": "~9.19.0",
+    "chai": "^5.1.2",
     "chai-as-promised": "~8.0.0",
     "eslint": "~9.19.0",
     "eslint-config-prettier": "~10.0.0",
@@ -60,5 +67,10 @@
     "lint": "eslint src test",
     "test": "NODE_ENV=test vitest --globals",
     "build": "pkgroll --target=node18 --sourcemap"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

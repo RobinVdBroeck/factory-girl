@@ -22,6 +22,7 @@ And the following internal changes:
   are not affected.
 - Updated eslint to v9.
 - Use vitest instead of mocha to run tests.
+- Use pnpm instead of npm.
 
 ## v4.0.0
 
