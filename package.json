@@ -1,6 +1,6 @@
 {
   "packageManager": "pnpm@10.1.0",
-  "name": "factory-girl",
+  "name": "@robinvdbroeck/factory-girl",
   "description": "A factory library for Node.js and JavaScript inspired by factory_girl",
   "type": "module",
   "main": "./dist/index.cjs",
