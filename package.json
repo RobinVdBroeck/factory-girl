@@ -7,8 +7,14 @@
   "module": "./dist/index.mjs",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./package.json": "./package.json"
   },
@@ -59,12 +65,14 @@
     "eslint-plugin-import": "~2.31.0",
     "pkgroll": "^2.6.0",
     "prettier": "^3.4.2",
-    "vitest": "^3.0.4"
+    "vitest": "^3.0.4",
+    "typescript": "~5.7.2"
   },
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint src test",
+    "typecheck": "tsc",
     "test": "NODE_ENV=test vitest --globals",
     "build": "pkgroll --target=node18 --sourcemap"
   },

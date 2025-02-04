@@ -31,10 +31,13 @@ importers:
         version: 2.31.0(eslint@9.19.0)
       pkgroll:
         specifier: ^2.6.0
-        version: 2.6.1
+        version: 2.6.1(typescript@5.7.3)
       prettier:
         specifier: ^3.4.2
         version: 3.4.2
+      typescript:
+        specifier: ~5.7.2
+        version: 5.7.3
       vitest:
         specifier: ^3.0.4
         version: 3.0.4
@@ -2278,6 +2281,14 @@ packages:
       }
     engines: { node: '>= 0.4' }
 
+  typescript@5.7.3:
+    resolution:
+      {
+        integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==,
+      }
+    engines: { node: '>=14.17' }
+    hasBin: true
+
   unbox-primitive@1.1.0:
     resolution:
       {
@@ -3568,7 +3579,7 @@ snapshots:
 
   picomatch@4.0.2: {}
 
-  pkgroll@2.6.1:
+  pkgroll@2.6.1(typescript@5.7.3):
     dependencies:
       '@rollup/plugin-alias': 5.1.1(rollup@4.34.0)
       '@rollup/plugin-commonjs': 28.0.2(rollup@4.34.0)
@@ -3581,6 +3592,8 @@ snapshots:
       esbuild: 0.24.2
       magic-string: 0.30.17
       rollup: 4.34.0
+    optionalDependencies:
+      typescript: 5.7.3
 
   possible-typed-array-names@1.0.0: {}
 
@@ -3832,6 +3845,8 @@ snapshots:
       is-typed-array: 1.1.15
       possible-typed-array-names: 1.0.0
       reflect.getprototypeof: 1.0.10
+
+  typescript@5.7.3: {}
 
   unbox-primitive@1.1.0:
     dependencies:

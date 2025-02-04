@@ -1,3 +1,11 @@
+## v6.0.0-beta.2
+
+Rewriten in typescript.
+
+- OneOf not returns a Promise anymore, but the value directly
+- The default export does not have a reference to the original class anymore,
+  import it instead.
+
 ## v6.0.0-beta.1
 
 - Fixed the URLS in package.json to correctly link to the forked repository.
