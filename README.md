@@ -1,4 +1,4 @@
-# @robinvdb/factory-girl
+# @robinvdbroeck/factory-girl
 
 [![Build Status](https://travis-ci.org/aexmachina/factory-girl.png)](https://travis-ci.org/aexmachina/factory-girl)
 

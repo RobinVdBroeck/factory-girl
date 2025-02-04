@@ -11,7 +11,7 @@ Contains the following public changes:
 - Removed all but the default and object adapter. If you are using on the previous existing
   onces, just implement a class extending DefaultAdapter yourself, which is
   trivial.
-- Renamed to `robinvdbroeck/factory-girl`
+- Renamed to `@robinvdbroeck/factory-girl`
 
 And the following internal changes:
 
