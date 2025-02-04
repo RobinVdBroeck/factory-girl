@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import Factory, { DefaultAdapter } from '../src/index.js';
+import Factory, { DefaultAdapter } from '../src/index.ts';
 
 import FactoryGirl from '../src/FactoryGirl';
 import DA from '../src/adapters/DefaultAdapter';

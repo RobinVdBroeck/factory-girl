@@ -2,9 +2,17 @@
 
 Rewriten in typescript.
 
-- OneOf not returns a Promise anymore, but the value directly
-- The default export does not have a reference to the original class anymore,
-  import it instead.
+- The default export does not have a reference to the `FactoryGirl` anymore,
+  import it instead. 
+  For example, the following code:
+  ```typescript
+  import factory from "@robinvdbroeck/factory-girl";
+  const FactoryGirl = factory.FactoryGirl; // reference to FactoryGirl class
+  ```
+  becomes:
+  ```typescript
+  import { FactoryGirl } from "@robinvdbroeck/factory-girl"
+  ```
 
 ## v6.0.0-beta.1
 

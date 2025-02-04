@@ -1,5 +1,5 @@
 import { beforeEach, describe, it, expect } from 'vitest';
-import Factory from '../../src/index.js';
+import Factory from '../../src/index.ts';
 import ObjectAdapter from '../test-helper/ObjectAdapter.js';
 
 import '../test-helper/dummyFactories.js';

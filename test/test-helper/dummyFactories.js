@@ -1,4 +1,4 @@
-import Factory from '../../src/index.js';
+import Factory from '../../src/index.ts';
 import { User, Address, PhoneNumber, DummyModel } from './dummyModels.js';
 
 Factory.define('PhoneNumber', PhoneNumber, {
