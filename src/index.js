@@ -1,11 +1,6 @@
-import FactoryGirl from './FactoryGirl';
+import FactoryGirl from './FactoryGirl.js';
 
-export ObjectAdapter from './adapters/ObjectAdapter';
-export BookshelfAdapter from './adapters/BookshelfAdapter';
-export DefaultAdapter from './adapters/DefaultAdapter';
-export MongooseAdapter from './adapters/MongooseAdapter';
-export SequelizeAdapter from './adapters/SequelizeAdapter';
-export ReduxORMAdapter from './adapters/ReduxORMAdapter';
+export { default as DefaultAdapter } from './adapters/DefaultAdapter.js';
 
 const factory = new FactoryGirl();
 factory.FactoryGirl = FactoryGirl;

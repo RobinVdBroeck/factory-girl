@@ -1,5 +1,4 @@
-
-import Generator from './Generator';
+import Generator from './Generator.js';
 
 export default class Assoc extends Generator {
   async generate(name, key = null, attrs = {}, buildOptions = {}) {

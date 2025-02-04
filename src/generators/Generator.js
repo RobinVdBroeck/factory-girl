@@ -1,4 +1,3 @@
-
 export default class Generator {
   constructor(factoryGirl) {
     if (!factoryGirl) {

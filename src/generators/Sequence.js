@@ -1,5 +1,4 @@
-
-import Generator from './Generator';
+import Generator from './Generator.js';
 
 export default class Sequence extends Generator {
   static sequences = {};
