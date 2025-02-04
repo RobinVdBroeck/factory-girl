@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { generatorThunk } from '../../src/FactoryGirl.js';
+import { generatorThunk } from '../../src/FactoryGirl.ts';
 import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
 import DummyGenerator from '../test-helper/DummyGenerator.js';
 

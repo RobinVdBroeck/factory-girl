@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import asyncPopulate from '../../src/utils/asyncPopulate.js';
+import asyncPopulate from '../../src/utils/asyncPopulate.ts';
 
 describe('asyncPopulate', function () {
   it('returns a promise', function () {

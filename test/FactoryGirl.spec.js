@@ -1,8 +1,8 @@
 import { vi, beforeEach, expect, describe, it } from 'vitest';
-import FactoryGirl from '../src/FactoryGirl.js';
-import Factory from '../src/Factory.js';
-import DefaultAdapter from '../src/adapters/DefaultAdapter.js';
-import Sequence from '../src/generators/Sequence.js';
+import FactoryGirl from '../src/FactoryGirl.ts';
+import Factory from '../src/Factory.ts';
+import DefaultAdapter from '../src/DefaultAdapter.ts';
+import Sequence from '../src/generators/Sequence.ts';
 import DummyModel from './test-helper/DummyModel.js';
 import DummyAdapter from './test-helper/DummyAdapter.js';
 

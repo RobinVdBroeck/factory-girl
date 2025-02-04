@@ -6,34 +6,45 @@ import AssocMany from './generators/AssocMany.js';
 import AssocAttrsMany from './generators/AssocAttrsMany.js';
 import ChanceGenerator from './generators/ChanceGenerator.js';
 import OneOf from './generators/OneOf.js';
-import DefaultAdapter from './adapters/DefaultAdapter.js';
+import DefaultAdapter from './DefaultAdapter';
+import type { Generator, Initializer } from './types.js';
 
 export default class FactoryGirl {
-  factories = {};
-  options = {};
-  adapters = {};
-  created = new Set();
+  private factories = {};
+  private options = {};
+  private adapters = {};
+  private created = new Set();
+
+  assoc = generatorThunk(this, Assoc);
+  assocMany = generatorThunk(this, AssocMany);
+
+  assocBuild = deprecate('assocBuild', 'assocAttrs');
+  assocBuildMany = deprecate('assocBuildMany', 'assocAttrsMany');
+
+  assocAttrs = generatorThunk(this, AssocAttrs);
+  assocAttrsMany = generatorThunk(this, AssocAttrsMany);
+
+  chance = generatorThunk(this, ChanceGenerator);
+  oneOf = generatorThunk(this, OneOf);
+
+  private defaultAdapter = new DefaultAdapter();
 
   constructor(options = {}) {
-    this.assoc = generatorThunk(this, Assoc);
-    this.assocMany = generatorThunk(this, AssocMany);
-    this.assocBuild = deprecate('assocBuild', 'assocAttrs');
-    this.assocBuildMany = deprecate('assocBuildMany', 'assocAttrsMany');
-    this.assocAttrs = generatorThunk(this, AssocAttrs);
-    this.assocAttrsMany = generatorThunk(this, AssocAttrsMany);
     this.seq = this.sequence = (...args) =>
       generatorThunk(this, Sequence)(...args);
     this.resetSeq = this.resetSequence = (id) => {
       Sequence.reset(id);
     };
-    this.chance = generatorThunk(this, ChanceGenerator);
-    this.oneOf = generatorThunk(this, OneOf);
 
-    this.defaultAdapter = new DefaultAdapter();
     this.options = options;
   }
 
-  define(name, Model, initializer, options = {}) {
+  define<T>(
+    name: string,
+    Model: any,
+    initializer: Initializer<T>,
+    options = {},
+  ) {
     if (this.getFactory(name, false)) {
       throw new Error(`Factory ${name} already defined`);
     }
@@ -45,7 +56,12 @@ export default class FactoryGirl {
     return factory;
   }
 
-  extend(parent, name, childInitializer, options = {}) {
+  extend(
+    parent: string,
+    name: string,
+    childInitializer: Initializer,
+    options: Options<any> = {},
+  ) {
     if (this.getFactory(name, false)) {
       throw new Error(`Factory ${name} already defined`);
     }
@@ -206,14 +222,21 @@ export default class FactoryGirl {
   }
 }
 
-export function generatorThunk(factoryGirl, SomeGenerator) {
+type GeneratorConstructor<TArgs extends unknown[], TResult> = new (
+  factoryGirl: FactoryGirl,
+) => Generator<TArgs, TResult>;
+
+export function generatorThunk<TArgs extends any[], TResult>(
+  factoryGirl: FactoryGirl,
+  SomeGenerator: GeneratorConstructor<TArgs, TResult>,
+): (...args: TArgs) => () => TResult {
   const generator = new SomeGenerator(factoryGirl);
-  return (...args) =>
+  return (...args: TArgs) =>
     () =>
       generator.generate(...args);
 }
 
-function deprecate(method, see) {
+function deprecate(method: string, see: string): () => never {
   return () => {
     throw new Error(
       `The ${method} method has been deprecated, use ${see} instead`,

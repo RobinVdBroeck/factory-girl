@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import DefaultAdapter from '../../src/adapters/DefaultAdapter.js';
+import DefaultAdapter from '../../src/DefaultAdapter.ts';
 import DummyModel from '../test-helper/DummyModel.js';
 
 describe('DefaultAdapter', function () {

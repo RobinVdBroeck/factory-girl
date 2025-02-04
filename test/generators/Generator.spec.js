@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import Generator from '../../src/generators/Generator.js';
+import Generator from '../../src/generators/Generator.ts';
 
 describe('Generator', function () {
   describe('#constructor', function () {

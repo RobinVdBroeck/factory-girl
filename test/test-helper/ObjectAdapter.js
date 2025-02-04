@@ -1,4 +1,4 @@
-import DefaultAdapter from '../../src/adapters/DefaultAdapter';
+import DefaultAdapter from '../../src/DefaultAdapter.ts';
 
 /**
  * Adapter that writes to an object

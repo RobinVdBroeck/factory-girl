@@ -1,3 +1,3 @@
-import DefaultAdapter from '../../src/adapters/DefaultAdapter.js';
+import DefaultAdapter from '../../src/DefaultAdapter.ts';
 
 export default class DummyAdapter extends DefaultAdapter {}

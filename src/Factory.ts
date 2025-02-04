@@ -1,12 +1,17 @@
+import type { Adapter, BuildOptions, Initializer, Options } from './types.js';
 import asyncPopulate from './utils/asyncPopulate.js';
 
-export default class Factory {
-  name = null;
-  Model = null;
-  initializer = null;
-  options = {};
+export default class Factory<T> {
+  name: any;
+  Model: any;
+  initializer: Initializer<T>;
+  options: Options<T>;
 
-  constructor(Model, initializer, options = {}) {
+  constructor(
+    Model: any,
+    initializer: Initializer<T>,
+    options: Options<T> = {},
+  ) {
     if (!Model) {
       throw new Error('Invalid Model constructor passed to the factory');
     }
@@ -19,10 +24,10 @@ export default class Factory {
 
     this.Model = Model;
     this.initializer = initializer;
-    this.options = { ...this.options, ...options };
+    this.options = { ...options };
   }
 
-  getFactoryAttrs(buildOptions = {}) {
+  getFactoryAttrs(buildOptions: BuildOptions = {}) {
     let attrs;
     if (typeof this.initializer === 'function') {
       attrs = this.initializer(buildOptions);
@@ -32,7 +37,7 @@ export default class Factory {
     return Promise.resolve(attrs);
   }
 
-  async attrs(extraAttrs = {}, buildOptions = {}) {
+  async attrs(extraAttrs = {}, buildOptions: BuildOptions = {}) {
     const factoryAttrs = await this.getFactoryAttrs(buildOptions);
     const modelAttrs = {};
 
@@ -47,7 +52,7 @@ export default class Factory {
     return modelAttrs;
   }
 
-  async build(adapter, extraAttrs = {}, buildOptions = {}) {
+  async build<T>(adapter: Adapter, extraAttrs = {}, buildOptions = {}) {
     const modelAttrs = await this.attrs(extraAttrs, buildOptions);
     const model = adapter.build(this.Model, modelAttrs);
     return this.options.afterBuild
@@ -55,10 +60,10 @@ export default class Factory {
       : model;
   }
 
-  async create(adapter, attrs = {}, buildOptions = {}) {
+  async create(adapter: Adapter, attrs = {}, buildOptions = {}) {
     const model = await this.build(adapter, attrs, buildOptions);
     return adapter
-      .save(model, this.Model)
+      .save(model)
       .then((savedModel) =>
         this.options.afterCreate
           ? this.options.afterCreate(savedModel, attrs, buildOptions)
@@ -102,7 +107,7 @@ export default class Factory {
   }
 
   async buildMany(
-    adapter,
+    adapter: Adapter,
     num,
     attrsArray = [],
     buildOptionsArray = [],
@@ -125,7 +130,12 @@ export default class Factory {
     );
   }
 
-  async createMany(adapter, num, attrsArray = [], buildOptionsArray = []) {
+  async createMany(
+    adapter: Adapter,
+    num,
+    attrsArray = [],
+    buildOptionsArray = [],
+  ) {
     if (Array.isArray(num)) {
       buildOptionsArray = attrsArray;
       attrsArray = num;

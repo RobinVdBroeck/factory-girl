@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import AssocAttrsMany from '../../src/generators/AssocAttrsMany.js';
+import AssocAttrsMany from '../../src/generators/AssocAttrsMany.ts';
 import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
 
 describe('AssocAttrsMany', function () {

@@ -1,7 +1,5 @@
-import Generator from './Generator.js';
-
-export default class OneOf extends Generator {
-  async generate(possibleValues) {
+export default class OneOf {
+  generate<T extends unknown>(possibleValues: T[]): T {
     if (!Array.isArray(possibleValues)) {
       throw new Error('Expected an array of possible values');
     }

@@ -1,5 +1,5 @@
 import { expect, describe, it, vi } from 'vitest';
-import Factory from '../src/Factory.js';
+import Factory from '../src/Factory.ts';
 import DummyModel from './test-helper/DummyModel.js';
 import DummyAdapter from './test-helper/DummyAdapter.js';
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import OneOf from '../../src/generators/OneOf.js';
+import OneOf from '../../src/generators/OneOf.ts';
 
 describe('OneOf', function () {
   describe('#constructor', function () {

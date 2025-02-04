@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import Assoc from '../../src/generators/Assoc.js';
+import Assoc from '../../src/generators/Assoc.ts';
 import DummyFactoryGirl from '../test-helper/DummyFactoryGirl.js';
 
 describe('Assoc', function () {

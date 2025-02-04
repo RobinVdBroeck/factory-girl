@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import ChanceGenerator from '../../src/generators/ChanceGenerator.js';
+import { expect } from 'chai';
+import ChanceGenerator from '../../src/generators/ChanceGenerator.ts';
 
 describe('ChanceGenerator', function () {
   describe('#constructor', function () {

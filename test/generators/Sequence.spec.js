@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import Sequence from '../../src/generators/Sequence.js';
+import Sequence from '../../src/generators/Sequence.ts';
 
 describe('Sequence', function () {
   describe('#constructor', function () {
