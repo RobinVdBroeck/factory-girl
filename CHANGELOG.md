@@ -1,3 +1,7 @@
+## v6.0.0-beta.1
+
+- Fixed the URLS in package.json to correctly link to the forked repository.
+
 ## v6.0.0-beta.0
 
 Forked from https://github.com/simonexmachina/factory-girl.

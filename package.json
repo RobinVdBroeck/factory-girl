@@ -17,7 +17,7 @@
     "@chetanism",
     "Robin Van den Broeck <robin.broeck@gmail.com> (https://github.com/robinvdbroeck)"
   ],
-  "version": "6.0.0-beta.0",
+  "version": "6.0.0-beta.1",
   "keywords": [
     "factory",
     "test",
@@ -32,16 +32,16 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/aexmachina/factory-girl.git"
+    "url": "http://github.com/robinvdbroeck/factory-girl.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "http://github.com/aexmachina/factory-girl/issues"
+    "url": "http://github.com/robinvdbroeck/factory-girl/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/aexmachina/factory-girl/raw/master/LICENSE"
+      "url": "http://github.com/robinvdbroeck/factory-girl/raw/master/LICENSE"
     }
   ],
   "engines": {
