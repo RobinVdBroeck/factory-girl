@@ -1,7 +1,28 @@
 import { expect } from 'chai';
-import Factory, { ObjectAdapter } from '../../src';
+import Factory, { DefaultAdapter } from '../../src';
 import '../test-helper/dummyFactories';
 import asyncFunction from '../test-helper/asyncFunction';
+
+/* eslint-disable no-unused-vars */
+class ObjectAdapter extends DefaultAdapter {
+  build(Model, props) {
+    const model = new Model;
+    this.set(props, model, Model);
+    return model;
+  }
+  async save(model, Model) {
+    return model;
+  }
+  async destroy(model, Model) {
+    return model;
+  }
+  get(model, attr, Model) {
+    return model[attr];
+  }
+  set(props, model, Model) {
+    return Object.assign(model, props);
+  }
+}
 
 describe('indexIntegration', function () {
   Factory.setAdapter(new ObjectAdapter);

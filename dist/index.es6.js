@@ -29,8 +29,8 @@ function asyncPopulate(target, source) {
     if (Array.isArray(source[attr])) {
       target[attr] = [];
       promise = asyncPopulate(target[attr], source[attr]);
-    } else if (source[attr] === null) {
-      target[attr] = null;
+    } else if (source[attr] === null || source[attr] === undefined) {
+      target[attr] = source[attr];
     } else if (isPlainObject(source[attr])) {
       target[attr] = target[attr] || {};
       promise = asyncPopulate(target[attr], source[attr]);
@@ -93,7 +93,7 @@ var Factory = function () {
   }, {
     key: 'attrs',
     value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee() {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee() {
         var extraAttrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         var buildOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         var factoryAttrs, modelAttrs, filteredAttrs;
@@ -138,7 +138,7 @@ var Factory = function () {
   }, {
     key: 'build',
     value: function () {
-      var _ref2 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee2(adapter) {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee2(adapter) {
         var extraAttrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         var buildOptions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
         var modelAttrs, model;
@@ -171,7 +171,7 @@ var Factory = function () {
   }, {
     key: 'create',
     value: function () {
-      var _ref3 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee3(adapter) {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee3(adapter) {
         var _this = this;
 
         var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -240,7 +240,7 @@ var Factory = function () {
   }, {
     key: 'buildMany',
     value: function () {
-      var _ref4 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee4(adapter, num) {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee4(adapter, num) {
         var attrsArray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
         var _this2 = this;
@@ -283,7 +283,7 @@ var Factory = function () {
   }, {
     key: 'createMany',
     value: function () {
-      var _ref5 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee5(adapter, num) {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee5(adapter, num) {
         var _this3 = this;
 
         var attrsArray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -418,7 +418,7 @@ var Assoc = function (_Generator) {
   _createClass(Assoc, [{
     key: 'generate',
     value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee(name) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(name) {
         var key = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
         var attrs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
         var buildOptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -465,7 +465,7 @@ var AssocAttrs = function (_Generator) {
   _createClass(AssocAttrs, [{
     key: 'generate',
     value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee(name) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(name) {
         var key = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
         var attrs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
         var buildOptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -512,7 +512,7 @@ var AssocMany = function (_Generator) {
   _createClass(AssocMany, [{
     key: 'generate',
     value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee(name, num) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(name, num) {
         var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
         var _this2 = this;
@@ -564,7 +564,7 @@ var AssocAttrsMany = function (_Generator) {
   _createClass(AssocAttrsMany, [{
     key: 'generate',
     value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee(name, num) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(name, num) {
         var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
         var _this2 = this;
@@ -653,7 +653,7 @@ var OneOf = function (_Generator) {
   _createClass(OneOf, [{
     key: 'generate',
     value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee(possibleValues) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(possibleValues) {
         var size, randomIndex, value;
         return _regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -713,7 +713,7 @@ var DefaultAdapter = function () {
   }, {
     key: "save",
     value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee(model, Model) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(model, Model) {
         return _regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -739,7 +739,7 @@ var DefaultAdapter = function () {
   }, {
     key: "destroy",
     value: function () {
-      var _ref2 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee2(model, Model) {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee2(model, Model) {
         return _regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -852,7 +852,7 @@ var FactoryGirl = function () {
   }, {
     key: 'attrs',
     value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee(name, _attrs) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(name, _attrs) {
         var buildOptions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
         return _regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -877,7 +877,7 @@ var FactoryGirl = function () {
   }, {
     key: 'build',
     value: function () {
-      var _ref2 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee2(name) {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee2(name) {
         var _this2 = this;
 
         var attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -909,7 +909,7 @@ var FactoryGirl = function () {
   }, {
     key: 'create',
     value: function () {
-      var _ref3 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee3(name, attrs) {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee3(name, attrs) {
         var _this3 = this;
 
         var buildOptions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
@@ -949,7 +949,7 @@ var FactoryGirl = function () {
   }, {
     key: 'buildMany',
     value: function () {
-      var _ref4 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee4(name, num, attrs) {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee4(name, num, attrs) {
         var _this4 = this;
 
         var buildOptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -982,7 +982,7 @@ var FactoryGirl = function () {
   }, {
     key: 'createMany',
     value: function () {
-      var _ref5 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee5(name, num, attrs) {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee5(name, num, attrs) {
         var _this5 = this;
 
         var buildOptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -1152,250 +1152,8 @@ function deprecate(method, see) {
   };
 }
 
-/* eslint-disable no-unused-vars */
-
-var ObjectAdapter = function (_DefaultAdapter) {
-  _inherits(ObjectAdapter, _DefaultAdapter);
-
-  function ObjectAdapter() {
-    _classCallCheck(this, ObjectAdapter);
-
-    return _possibleConstructorReturn(this, (ObjectAdapter.__proto__ || _Object$getPrototypeOf(ObjectAdapter)).apply(this, arguments));
-  }
-
-  _createClass(ObjectAdapter, [{
-    key: 'build',
-    value: function build(Model, props) {
-      var model = new Model();
-      this.set(props, model, Model);
-      return model;
-    }
-  }, {
-    key: 'save',
-    value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee(model, Model) {
-        return _regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                return _context.abrupt('return', model);
-
-              case 1:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function save(_x, _x2) {
-        return _ref.apply(this, arguments);
-      }
-
-      return save;
-    }()
-  }, {
-    key: 'destroy',
-    value: function () {
-      var _ref2 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee2(model, Model) {
-        return _regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                return _context2.abrupt('return', model);
-
-              case 1:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function destroy(_x3, _x4) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return destroy;
-    }()
-  }, {
-    key: 'get',
-    value: function get(model, attr, Model) {
-      return model[attr];
-    }
-  }, {
-    key: 'set',
-    value: function set(props, model, Model) {
-      return _Object$assign(model, props);
-    }
-  }]);
-
-  return ObjectAdapter;
-}(DefaultAdapter);
-
-/* eslint-disable no-unused-vars */
-
-var BookshelfAdapter = function (_DefaultAdapter) {
-  _inherits(BookshelfAdapter, _DefaultAdapter);
-
-  function BookshelfAdapter() {
-    _classCallCheck(this, BookshelfAdapter);
-
-    return _possibleConstructorReturn(this, (BookshelfAdapter.__proto__ || _Object$getPrototypeOf(BookshelfAdapter)).apply(this, arguments));
-  }
-
-  _createClass(BookshelfAdapter, [{
-    key: 'save',
-    value: function save(doc, Model) {
-      return doc.save(null, { method: 'insert' });
-    }
-  }]);
-
-  return BookshelfAdapter;
-}(DefaultAdapter);
-
-/* eslint-disable no-unused-vars */
-
-var MongooseAdapter = function (_DefaultAdapter) {
-  _inherits(MongooseAdapter, _DefaultAdapter);
-
-  function MongooseAdapter() {
-    _classCallCheck(this, MongooseAdapter);
-
-    return _possibleConstructorReturn(this, (MongooseAdapter.__proto__ || _Object$getPrototypeOf(MongooseAdapter)).apply(this, arguments));
-  }
-
-  _createClass(MongooseAdapter, [{
-    key: 'destroy',
-    value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee(model, Model) {
-        return _regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                return _context.abrupt('return', model.remove());
-
-              case 1:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function destroy(_x, _x2) {
-        return _ref.apply(this, arguments);
-      }
-
-      return destroy;
-    }()
-  }]);
-
-  return MongooseAdapter;
-}(DefaultAdapter);
-
-/* eslint-disable no-unused-vars */
-
-var SequelizeAdapter = function (_DefaultAdapter) {
-  _inherits(SequelizeAdapter, _DefaultAdapter);
-
-  function SequelizeAdapter() {
-    _classCallCheck(this, SequelizeAdapter);
-
-    return _possibleConstructorReturn(this, (SequelizeAdapter.__proto__ || _Object$getPrototypeOf(SequelizeAdapter)).apply(this, arguments));
-  }
-
-  _createClass(SequelizeAdapter, [{
-    key: 'build',
-    value: function build(Model, props) {
-      return Model.build(props);
-    }
-  }]);
-
-  return SequelizeAdapter;
-}(DefaultAdapter);
-
-/* eslint-disable no-unused-vars */
-
-var ReduxORMAdapter = function (_DefaultAdapter) {
-  _inherits(ReduxORMAdapter, _DefaultAdapter);
-
-  function ReduxORMAdapter(session) {
-    _classCallCheck(this, ReduxORMAdapter);
-
-    var _this = _possibleConstructorReturn(this, (ReduxORMAdapter.__proto__ || _Object$getPrototypeOf(ReduxORMAdapter)).call(this));
-
-    _this.session = session;
-    return _this;
-  }
-
-  _createClass(ReduxORMAdapter, [{
-    key: 'build',
-    value: function build(modelName, props) {
-      return this.session[modelName].create(props);
-    }
-  }, {
-    key: 'get',
-    value: function get(model, attr) {
-      return model[attr];
-    }
-  }, {
-    key: 'save',
-    value: function () {
-      var _ref = _asyncToGenerator(_regeneratorRuntime.mark(function _callee(model, Model) {
-        return _regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                return _context.abrupt('return', model);
-
-              case 1:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function save(_x, _x2) {
-        return _ref.apply(this, arguments);
-      }
-
-      return save;
-    }()
-  }, {
-    key: 'destroy',
-    value: function () {
-      var _ref2 = _asyncToGenerator(_regeneratorRuntime.mark(function _callee2(model, Model) {
-        return _regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                return _context2.abrupt('return', _Promise.resolve(model.delete()).then(function () {
-                  return true;
-                }));
-
-              case 1:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function destroy(_x3, _x4) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return destroy;
-    }()
-  }]);
-
-  return ReduxORMAdapter;
-}(DefaultAdapter);
-
 var factory = new FactoryGirl();
 factory.FactoryGirl = FactoryGirl;
 
-export { ObjectAdapter, BookshelfAdapter, DefaultAdapter, MongooseAdapter, SequelizeAdapter, ReduxORMAdapter, factory };export default factory;
+export { DefaultAdapter, factory };export default factory;
 //# sourceMappingURL=index.es6.js.map
