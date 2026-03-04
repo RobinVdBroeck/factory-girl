@@ -1,19 +1,14 @@
 # factory-girl
 
-[![Build Status](https://travis-ci.org/aexmachina/factory-girl.png)](https://travis-ci.org/aexmachina/factory-girl)
-
-`factory-girl` is a factory library for [Node.js](http://nodejs.org/) and the browser that is inspired by [Factory\_girl](http://github.com/thoughtbot/factory_girl). It works asynchronously and supports associations and the use of functions for generating attributes.
+`factory-girl` is a factory library for [Node.js](http://nodejs.org/) inspired by [Factory\_girl](http://github.com/thoughtbot/factory_girl). It works asynchronously and supports associations and the use of functions for generating attributes.
 
 ## Installation
 
-Node.js:
-
 ```bash
-npm install factory-girl
+npm install @robinvdbroeck/factory-girl
 ```
 
-To use `factory-girl` in the browser or other JavaScript environments, there are
-builds for numerous module systems in the `dist/` directory.
+Requires Node.js >= 22.12.
 
 ## Usage
 
@@ -23,8 +18,8 @@ user factory.
 Here's the crash course:
 
 ```javascript
-const factory = require('factory-girl').factory;
-const User    = require('../models/user');
+import { factory } from '@robinvdbroeck/factory-girl';
+import User from '../models/user';
 
 factory.define('user', User, {
   username: 'Bob',
@@ -245,61 +240,109 @@ It might be useful to clear all created models before each test or testSuite.
 
 ## Adapters
 
-Adapters provide support for different databases and ORMs. Adapters can be registered for
-specific models, or as the 'default adapter', which is used for any models for which an
-adapter has not been specified. See the adapter docs for usage, but typical usage is:
+Adapters handle model construction, persistence, and destruction. An adapter can be
+registered as the default (used for all models) or scoped to specific factory names.
 
 ```javascript
-const FactoryGirl = require('factory-girl');
-const factory = FactoryGirl.factory;
-const adapter = new FactoryGirl.MongooseAdapter();
+import { factory, DefaultAdapter } from '@robinvdbroeck/factory-girl';
 
-// use the mongoose adapter as the default adapter
-factory.setAdapter(adapter);
+// set as the default adapter
+factory.setAdapter(new DefaultAdapter());
 
-// Or use it only for one model-factory
-factory.setAdapter(adapter, 'factory-name');
+// or only for one model-factory
+factory.setAdapter(new DefaultAdapter(), 'factory-name');
 ```
 
-### ObjectAdapter
+### Custom Adapters
 
-`ObjectAdapter` is a simple adapter that uses `const model = new MyModel()`,
-`model.save()` and `model.destroy()`.
+You can write a custom adapter to integrate with any ORM. An adapter is a plain class
+implementing five methods:
+
+| Method | Signature | Description |
+|---|---|---|
+| `build` | `(Model, props)` | Construct a new (unsaved) model instance |
+| `save` | `(model, Model)` | Persist the instance, return a Promise resolving to the model |
+| `destroy` | `(model, Model)` | Delete the instance, return a Promise |
+| `get` | `(model, attr, Model)` | Read a single attribute from the instance |
+| `set` | `(props, model, Model)` | Write attributes onto the instance |
+
+Example adapter for a Sequelize-style ORM where `Model.build(props)` constructs instances
+and attribute access is via plain properties:
 
 ```js
-factory.setAdapter(new factory.ObjectAdapter());
-class MyModel {
-  save() {
-    // save the model
-  },
-  destroy() {
-    // destroy the model
+class SequelizeAdapter {
+  build(Model, props) {
+    return Model.build(props);
+  }
+  async save(model) {
+    return model.save();
+  }
+  async destroy(model) {
+    return model.destroy();
+  }
+  get(model, attr) {
+    return model[attr];
+  }
+  set(props, model) {
+    return model.set(props);
   }
 }
-factory.define('model', MyModel);
+
+factory.setAdapter(new SequelizeAdapter());
+```
+
+### DefaultAdapter
+
+`DefaultAdapter` is the built-in adapter. It expects your model class to follow this
+interface:
+
+- `new Model(props)` — constructor receives the attributes object
+- `model.save()` — persists the instance, may return a Promise
+- `model.destroy()` — deletes the instance, may return a Promise
+- `model.get(attr)` — returns the value of an attribute
+- `model.set(props)` — sets attributes on the instance
+
+```js
+import { factory, DefaultAdapter } from '@robinvdbroeck/factory-girl';
+
+class User {
+  constructor(attrs) {
+    Object.assign(this, attrs);
+  }
+  save() {
+    // persist the model, return a Promise if async
+  }
+  destroy() {
+    // delete the model, return a Promise if async
+  }
+  get(attr) {
+    return this[attr];
+  }
+  set(props) {
+    Object.assign(this, props);
+  }
+}
+
+factory.setAdapter(new DefaultAdapter());
+factory.define('user', User, { username: 'Bob' });
 ```
 
 ## Creating new Factories
 
-You can create multiple factories which have different settings:
+You can create multiple independent factory instances with different settings:
 
 ```javascript
-let anotherFactory = new factory.FactoryGirl();
-anotherFactory.setAdapter(new MongooseAdapter()); // use the Mongoose adapter
+import { factory } from '@robinvdbroeck/factory-girl';
+
+const anotherFactory = new factory.FactoryGirl();
+anotherFactory.setAdapter(new DefaultAdapter());
 ```
 
 ## History
 
 This module started out as a fork of
 [factory-lady](https://github.com/petejkim/factory-lady), but the fork deviated quite a
-bit. This module uses an adapter to talk to your models so it can support different ORMs
-such as [Bookshelf](https://github.com/aexmachina/factory-girl-bookshelf),
-[Sequelize](https://github.com/aexmachina/factory-girl-sequelize),
-[JugglingDB](https://github.com/rehanift/factory-girl-jugglingdb), and
-[Mongoose](https://github.com/jesseclark/factory-girl-mongoose) (and doesn't use `throw`
-for errors that might occur during save).
-
-Version 4.0 is a complete rewrite with thanks to @chetanism.
+bit. Version 4.0 was a complete rewrite with thanks to @chetanism.
 
 ## License
 
