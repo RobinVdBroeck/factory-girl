@@ -1,5 +1,21 @@
 # Migrating to v6
 
+## Node.js requirement
+
+The minimum supported Node.js version is now **22.12**.
+
+## CJS support dropped
+
+This package is now ESM-only. No CJS build is shipped.
+
+On Node 22.12+, `require()` of ESM works natively for synchronous modules, so existing `require()` calls will continue to work without changes.
+
+If you are on an older Node.js version, upgrade to 22.12+ or use a dynamic `import()`.
+
+## dist/ no longer in the repository
+
+The `dist/` folder is no longer committed to git. It is still built and published to npm. If you were referencing files inside `dist/` directly, switch to the package's public exports instead.
+
 ## Removed adapters
 
 The following built-in adapters have been removed:
