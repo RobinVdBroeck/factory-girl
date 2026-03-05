@@ -1,6 +1,6 @@
 
-import DummyModel from './DummyModel';
-import DummyAdapter from './DummyAdapter';
+import DummyModel from './DummyModel.js';
+import DummyAdapter from './DummyAdapter.js';
 
 export default class DummyFactoryGirl {
 

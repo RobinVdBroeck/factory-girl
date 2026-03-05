@@ -1,4 +1,4 @@
-import asyncPopulate from './utils/asyncPopulate';
+import asyncPopulate from './utils/asyncPopulate.js';
 
 export default class Factory {
   name = null;

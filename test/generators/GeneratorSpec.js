@@ -1,6 +1,6 @@
 
-import '../test-helper/testUtils';
-import Generator from '../../src/generators/Generator';
+import '../test-helper/testUtils.js';
+import Generator from '../../src/generators/Generator.js';
 import { expect } from 'chai';
 // import _debug from 'debug';
 

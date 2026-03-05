@@ -1,11 +1,11 @@
-import './test-helper/testUtils';
+import './test-helper/testUtils.js';
 import { expect } from 'chai';
 import Factory, {
   DefaultAdapter,
-} from '../src';
+} from '../src/index.js';
 
-import FactoryGirl from '../src/FactoryGirl';
-import DA from '../src/adapters/DefaultAdapter';
+import FactoryGirl from '../src/FactoryGirl.js';
+import DA from '../src/adapters/DefaultAdapter.js';
 
 describe('index', function () {
   it('exports correctly', function () {

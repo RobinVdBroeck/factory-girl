@@ -1,9 +1,8 @@
 
 
-import '../test-helper/testUtils';
-import asyncPopulate from '../../src/utils/asyncPopulate';
+import '../test-helper/testUtils.js';
+import asyncPopulate from '../../src/utils/asyncPopulate.js';
 import { expect } from 'chai';
-import asyncFunction from '../test-helper/asyncFunction';
 
 describe('asyncPopulate', function () {
   it('returns a promise', function () {
@@ -22,7 +21,7 @@ describe('asyncPopulate', function () {
     ]);
   });
 
-  it('populates objects correctly', asyncFunction(async function () {
+  it('populates objects correctly', async function () {
     function Foo() {}
     const source = {
       num: 1,
@@ -88,9 +87,9 @@ describe('asyncPopulate', function () {
         ],
       },
     });
-  }));
+  });
 
-  it('overrides only provided data', asyncFunction(async function () {
+  it('overrides only provided data', async function () {
     const target = {
       x: {
         y: 1,
@@ -114,5 +113,5 @@ describe('asyncPopulate', function () {
       },
       p: [4],
     });
-  }));
+  });
 });

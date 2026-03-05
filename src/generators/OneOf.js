@@ -1,5 +1,5 @@
 
-import Generator from './Generator';
+import Generator from './Generator.js';
 
 export default class OneOf extends Generator {
   async generate(possibleValues) {

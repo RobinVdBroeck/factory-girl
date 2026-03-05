@@ -1,6 +1,6 @@
-import FactoryGirl from './FactoryGirl';
+import FactoryGirl from './FactoryGirl.js';
 
-export { default as DefaultAdapter } from './adapters/DefaultAdapter';
+export { default as DefaultAdapter } from './adapters/DefaultAdapter.js';
 
 const factory = new FactoryGirl();
 factory.FactoryGirl = FactoryGirl;
