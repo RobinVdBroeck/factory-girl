@@ -1,4 +1,3 @@
-
 import Generator from './Generator.js';
 
 export default class AssocAttrs extends Generator {

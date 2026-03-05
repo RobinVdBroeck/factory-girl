@@ -1,4 +1,3 @@
-
 import '../test-helper/testUtils.js';
 import ChanceGenerator from '../../src/generators/ChanceGenerator.js';
 import { expect } from 'chai';

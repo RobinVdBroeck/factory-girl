@@ -1,5 +1,3 @@
-
-
 import '../test-helper/testUtils.js';
 import AssocMany from '../../src/generators/AssocMany.js';
 import { expect } from 'chai';
@@ -10,7 +8,7 @@ import sinon from 'sinon';
 // const debug = _debug('AssocManySpec');
 
 describe('AssocMany', function () {
-  const factoryGirl = new DummyFactoryGirl;
+  const factoryGirl = new DummyFactoryGirl();
 
   describe('#generate', function () {
     it('calls createMany on factoryGirl', async function () {
@@ -21,18 +19,20 @@ describe('AssocMany', function () {
       factoryGirl.createMany.restore();
     });
 
-    it('passes arguments to createMany correctly',
-      async function () {
-        sinon.spy(factoryGirl, 'createMany');
-        const dummyAttrs = {};
-        const dummyBuildOptions = {};
-        const assocMany = new AssocMany(factoryGirl);
-        await assocMany.generate('model', 10, dummyAttrs, dummyBuildOptions);
-        expect(factoryGirl.createMany).to.have.been.calledWith(
-          'model', 10, dummyAttrs, dummyBuildOptions
-        );
-        factoryGirl.createMany.restore();
-      });
+    it('passes arguments to createMany correctly', async function () {
+      sinon.spy(factoryGirl, 'createMany');
+      const dummyAttrs = {};
+      const dummyBuildOptions = {};
+      const assocMany = new AssocMany(factoryGirl);
+      await assocMany.generate('model', 10, dummyAttrs, dummyBuildOptions);
+      expect(factoryGirl.createMany).to.have.been.calledWith(
+        'model',
+        10,
+        dummyAttrs,
+        dummyBuildOptions
+      );
+      factoryGirl.createMany.restore();
+    });
 
     it('returns a promise', function () {
       const assocMany = new AssocMany(factoryGirl);
@@ -41,23 +41,21 @@ describe('AssocMany', function () {
       return expect(modelsP).to.be.eventually.fulfilled;
     });
 
-    it('resolves to array returned by createMany',
-      async function () {
-        const assocMany = new AssocMany(factoryGirl);
-        const models = await assocMany.generate('model', 10);
-        expect(models).to.be.an('array');
-        expect(models).to.have.lengthOf(2);
-        expect(models[0].attrs.name).to.be.equal('Wayne');
-        expect(models[1].attrs.age).to.be.equal(21);
-      });
+    it('resolves to array returned by createMany', async function () {
+      const assocMany = new AssocMany(factoryGirl);
+      const models = await assocMany.generate('model', 10);
+      expect(models).to.be.an('array');
+      expect(models).to.have.lengthOf(2);
+      expect(models[0].attrs.name).to.be.equal('Wayne');
+      expect(models[1].attrs.age).to.be.equal(21);
+    });
 
-    it('resolves to array of keys if key is set',
-      async function () {
-        const assocMany = new AssocMany(factoryGirl);
-        const models = await assocMany.generate('model', 10, 'name');
-        expect(models).to.have.lengthOf(2);
-        expect(models[0]).to.equal('Wayne');
-        expect(models[1]).to.equal('Jane');
-      });
+    it('resolves to array of keys if key is set', async function () {
+      const assocMany = new AssocMany(factoryGirl);
+      const models = await assocMany.generate('model', 10, 'name');
+      expect(models).to.have.lengthOf(2);
+      expect(models[0]).to.equal('Wayne');
+      expect(models[1]).to.equal('Jane');
+    });
   });
 });

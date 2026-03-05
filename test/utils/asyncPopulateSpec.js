@@ -1,5 +1,3 @@
-
-
 import '../test-helper/testUtils.js';
 import asyncPopulate from '../../src/utils/asyncPopulate.js';
 import { expect } from 'chai';
@@ -17,7 +15,7 @@ describe('asyncPopulate', function () {
 
     return Promise.all([
       expect(targetP).to.be.eventually.rejected,
-      expect(sourceP).to.be.eventually.rejected,
+      expect(sourceP).to.be.eventually.rejected
     ]);
   });
 
@@ -28,33 +26,26 @@ describe('asyncPopulate', function () {
       nullValue: null,
       undefinedValue: undefined,
       str: 'hello',
-      date: new Date,
-      foo: new Foo,
+      date: new Date(),
+      foo: new Foo(),
       funcs: {
         sync: () => 'shouldHaveThisValue',
         /* eslint-disable arrow-parens */
         async: async () => 'shouldHaveResolvedValue',
         /* eslint-enable arrow-parens */
-        promise: () => Promise.resolve('shouldWorkWithPromises'),
+        promise: () => Promise.resolve('shouldWorkWithPromises')
       },
       arrays: {
         simple: [1, 2, 3],
         funcs: [
           () => 1,
           /* eslint-disable arrow-parens */
-          async() => 2,
+          async () => 2,
           /* eslint-enable arrow-parens */
-          () => Promise.resolve(3),
+          () => Promise.resolve(3)
         ],
-        nested: [
-          1,
-          [
-            { a: 1, b: 2 },
-            { c: 3, d: 4 },
-            [{ p: () => 20, q: [6, 7] }],
-          ],
-        ],
-      },
+        nested: [1, [{ a: 1, b: 2 }, { c: 3, d: 4 }, [{ p: () => 20, q: [6, 7] }]]]
+      }
     };
 
     const target = {};
@@ -70,22 +61,25 @@ describe('asyncPopulate', function () {
       funcs: {
         sync: 'shouldHaveThisValue',
         async: 'shouldHaveResolvedValue',
-        promise: 'shouldWorkWithPromises',
+        promise: 'shouldWorkWithPromises'
       },
       arrays: {
         simple: [1, 2, 3],
         funcs: [1, 2, 3],
         nested: [
-          1, [
+          1,
+          [
             { a: 1, b: 2 },
             { c: 3, d: 4 },
-            [{
-              p: 20,
-              q: [6, 7],
-            }],
-          ],
-        ],
-      },
+            [
+              {
+                p: 20,
+                q: [6, 7]
+              }
+            ]
+          ]
+        ]
+      }
     });
   });
 
@@ -93,15 +87,15 @@ describe('asyncPopulate', function () {
     const target = {
       x: {
         y: 1,
-        z: 3,
+        z: 3
       },
-      p: [1, 2, 3],
+      p: [1, 2, 3]
     };
     const source = {
       x: {
-        y: () => 'yo',
+        y: () => 'yo'
       },
-      p: [4],
+      p: [4]
     };
 
     await asyncPopulate(target, source);
@@ -109,9 +103,9 @@ describe('asyncPopulate', function () {
     expect(target).to.be.eql({
       x: {
         y: 'yo',
-        z: 3,
+        z: 3
       },
-      p: [4],
+      p: [4]
     });
   });
 });

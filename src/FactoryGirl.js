@@ -21,13 +21,14 @@ export default class FactoryGirl {
     this.assocBuildMany = deprecate('assocBuildMany', 'assocAttrsMany');
     this.assocAttrs = generatorThunk(this, AssocAttrs);
     this.assocAttrsMany = generatorThunk(this, AssocAttrsMany);
-    this.seq = this.sequence =
-      (...args) => generatorThunk(this, Sequence)(...args);
-    this.resetSeq = this.resetSequence = id => { Sequence.reset(id); };
+    this.seq = this.sequence = (...args) => generatorThunk(this, Sequence)(...args);
+    this.resetSeq = this.resetSequence = (id) => {
+      Sequence.reset(id);
+    };
     this.chance = generatorThunk(this, ChanceGenerator);
     this.oneOf = generatorThunk(this, OneOf);
 
-    this.defaultAdapter = new DefaultAdapter;
+    this.defaultAdapter = new DefaultAdapter();
     this.options = options;
   }
 
@@ -35,7 +36,7 @@ export default class FactoryGirl {
     if (this.getFactory(name, false)) {
       throw new Error(`Factory ${name} already defined`);
     }
-    const factory = this.factories[name] = new Factory(Model, initializer, options);
+    const factory = (this.factories[name] = new Factory(Model, initializer, options));
     return factory;
   }
 
@@ -51,10 +52,7 @@ export default class FactoryGirl {
       return typeof initializer === 'function' ? initializer(buildOptions) : initializer;
     }
 
-    if (
-      typeof parentFactory.initializer === 'function' ||
-      typeof childInitializer === 'function'
-    ) {
+    if (typeof parentFactory.initializer === 'function' || typeof childInitializer === 'function') {
       jointInitializer = function initializer(buildOptions = {}) {
         return Object.assign(
           {},
@@ -66,7 +64,7 @@ export default class FactoryGirl {
       jointInitializer = Object.assign({}, parentFactory.initializer, childInitializer);
     }
 
-    const factory = this.factories[name] = new Factory(Model, jointInitializer, options);
+    const factory = (this.factories[name] = new Factory(Model, jointInitializer, options));
     return factory;
   }
 
@@ -78,21 +76,19 @@ export default class FactoryGirl {
     const adapter = this.getAdapter(name);
     return this.getFactory(name)
       .build(adapter, attrs, buildOptions)
-      .then(model => (this.options.afterBuild ?
-          this.options.afterBuild(model, attrs, buildOptions) :
-          model
-      ));
+      .then((model) =>
+        this.options.afterBuild ? this.options.afterBuild(model, attrs, buildOptions) : model
+      );
   }
 
   async create(name, attrs, buildOptions = {}) {
     const adapter = this.getAdapter(name);
     return this.getFactory(name)
       .create(adapter, attrs, buildOptions)
-      .then(createdModel => this.addToCreatedList(adapter, createdModel))
-      .then(model => (this.options.afterCreate ?
-          this.options.afterCreate(model, attrs, buildOptions) :
-          model
-      ));
+      .then((createdModel) => this.addToCreatedList(adapter, createdModel))
+      .then((model) =>
+        this.options.afterCreate ? this.options.afterCreate(model, attrs, buildOptions) : model
+      );
   }
 
   attrsMany(name, num, attrs, buildOptions = {}) {
@@ -103,25 +99,23 @@ export default class FactoryGirl {
     const adapter = this.getAdapter(name);
     return this.getFactory(name)
       .buildMany(adapter, num, attrs, buildOptions)
-      .then(models => (this.options.afterBuild ?
-          Promise.all(models.map(
-            model => this.options.afterBuild(model, attrs, buildOptions)
-          )) :
-          models
-      ));
+      .then((models) =>
+        this.options.afterBuild
+          ? Promise.all(models.map((model) => this.options.afterBuild(model, attrs, buildOptions)))
+          : models
+      );
   }
 
   async createMany(name, num, attrs, buildOptions = {}) {
     const adapter = this.getAdapter(name);
     return this.getFactory(name)
       .createMany(adapter, num, attrs, buildOptions)
-      .then(models => this.addToCreatedList(adapter, models))
-      .then(models => (this.options.afterCreate ?
-          Promise.all(models.map(
-            model => this.options.afterCreate(model, attrs, buildOptions)
-          )) :
-          models
-      ));
+      .then((models) => this.addToCreatedList(adapter, models))
+      .then((models) =>
+        this.options.afterCreate
+          ? Promise.all(models.map((model) => this.options.afterCreate(model, attrs, buildOptions)))
+          : models
+      );
   }
 
   getFactory(name, throwError = true) {
@@ -136,9 +130,7 @@ export default class FactoryGirl {
   }
 
   getAdapter(factory) {
-    return factory ?
-      (this.adapters[factory] || this.defaultAdapter) :
-      this.defaultAdapter;
+    return factory ? this.adapters[factory] || this.defaultAdapter : this.defaultAdapter;
   }
 
   addToCreatedList(adapter, models) {
@@ -158,8 +150,7 @@ export default class FactoryGirl {
       createdArray.push(c);
     }
     const promise = createdArray.reduce(
-      (prev, [adapter, model]) =>
-        prev.then(() => adapter.destroy(model, model.constructor)),
+      (prev, [adapter, model]) => prev.then(() => adapter.destroy(model, model.constructor)),
       Promise.resolve()
     );
     this.created.clear();
@@ -172,7 +163,7 @@ export default class FactoryGirl {
       this.defaultAdapter = adapter;
     } else {
       factoryNames = Array.isArray(factoryNames) ? factoryNames : [factoryNames];
-      factoryNames.forEach(name => {
+      factoryNames.forEach((name) => {
         this.adapters[name] = adapter;
       });
     }
@@ -182,7 +173,9 @@ export default class FactoryGirl {
 
 export function generatorThunk(factoryGirl, SomeGenerator) {
   const generator = new SomeGenerator(factoryGirl);
-  return (...args) => () => generator.generate(...args);
+  return (...args) =>
+    () =>
+      generator.generate(...args);
 }
 
 function deprecate(method, see) {

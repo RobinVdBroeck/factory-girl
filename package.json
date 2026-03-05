@@ -1,31 +1,53 @@
 {
   "name": "@robinvdbroeck/factory-girl",
-  "description": "A factory library for Node.js and JavaScript inspired by factory_girl",
   "version": "5.0.4",
-  "type": "module",
-  "exports": "./dist/index.js",
-  "engines": {
-    "node": ">=22.12"
+  "description": "A factory library for Node.js and JavaScript inspired by factory_girl",
+  "keywords": [
+    "bdd",
+    "factory",
+    "fixture",
+    "tdd",
+    "test"
+  ],
+  "bugs": {
+    "url": "http://github.com/robinvdbroeck/factory-girl/issues"
   },
+  "license": "MIT",
   "author": [
     "@aexmachina",
     "@chetanism",
     "@robinvdbroeck"
   ],
-  "keywords": [
-    "factory",
-    "test",
-    "bdd",
-    "tdd",
-    "fixture"
-  ],
   "repository": {
     "type": "git",
     "url": "http://github.com/robinvdbroeck/factory-girl.git"
   },
-  "license": "MIT",
-  "bugs": {
-    "url": "http://github.com/robinvdbroeck/factory-girl/issues"
+  "type": "module",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "fmt": "oxfmt --write .",
+    "fmt:check": "oxfmt --check .",
+    "lint": "oxlint src test",
+    "test": "NODE_ENV=test mocha",
+    "build": "tsdown",
+    "prepublish": "npm run test && npm run build"
+  },
+  "dependencies": {
+    "chance": "^1.0.4"
+  },
+  "devDependencies": {
+    "bluebird": "^2.9.25",
+    "chai": "^5.3.3",
+    "chai-as-promised": "^8.0.2",
+    "mocha": "^11.7.5",
+    "oxfmt": "^0.36.0",
+    "oxlint": "^1.51.0",
+    "sinon": "^7.1.1",
+    "sinon-chai": "^4.0.1",
+    "tsdown": "^0.21.0"
+  },
+  "engines": {
+    "node": ">=22.12"
   },
   "licenses": [
     {
@@ -36,24 +58,5 @@
       "type": "MIT",
       "url": "http://github.com/robinvdbroeck/factory-girl/raw/master/LICENSE"
     }
-  ],
-  "dependencies": {
-    "chance": "^1.0.4"
-  },
-  "devDependencies": {
-    "bluebird": "^2.9.25",
-    "chai": "^5.3.3",
-    "chai-as-promised": "^8.0.2",
-    "oxlint": "^1.51.0",
-    "mocha": "^11.7.5",
-    "sinon": "^7.1.1",
-    "sinon-chai": "^4.0.1",
-    "tsdown": "^0.21.0"
-  },
-  "scripts": {
-    "lint": "oxlint src test",
-    "test": "NODE_ENV=test mocha",
-    "build": "tsdown",
-    "prepublish": "npm run test && npm run build"
-  }
+  ]
 }

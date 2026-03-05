@@ -1,5 +1,5 @@
 ---
-"@robinvdbroeck/factory-girl": major
+'@robinvdbroeck/factory-girl': major
 ---
 
 **Remove all built-in adapters except `DefaultAdapter`.**

@@ -1,27 +1,25 @@
-
 import DummyModel from './DummyModel.js';
 import DummyAdapter from './DummyAdapter.js';
 
 export default class DummyFactoryGirl {
-
   async create(/* name, attrs, buildOptions */) {
     return new DummyModel({
       name: 'Wayne',
-      age: 23,
+      age: 23
     });
   }
 
   async build(/* name, attrs, buildOptions */) {
     return new DummyModel({
       name: 'Jane',
-      age: 21,
+      age: 21
     });
   }
 
   async attrs(/* name, attrs, buildOptions */) {
     return new DummyModel({
       name: 'Bill',
-      age: 32,
+      age: 32
     });
   }
 
@@ -29,12 +27,12 @@ export default class DummyFactoryGirl {
     return [
       new DummyModel({
         name: 'Wayne',
-        age: 23,
+        age: 23
       }),
       new DummyModel({
         name: 'Jane',
-        age: 21,
-      }),
+        age: 21
+      })
     ];
   }
 
@@ -42,12 +40,12 @@ export default class DummyFactoryGirl {
     return [
       new DummyModel({
         name: 'Andrew',
-        age: 21,
+        age: 21
       }),
       new DummyModel({
         name: 'Isaac',
-        age: 25,
-      }),
+        age: 25
+      })
     ];
   }
 
@@ -55,16 +53,16 @@ export default class DummyFactoryGirl {
     return [
       new DummyModel({
         name: 'Wayne',
-        age: 32,
+        age: 32
       }),
       new DummyModel({
         name: 'Jane',
-        age: 22,
-      }),
+        age: 22
+      })
     ];
   }
 
   getAdapter(/* name */) {
-    return new DummyAdapter;
+    return new DummyAdapter();
   }
 }

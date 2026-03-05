@@ -1,4 +1,3 @@
-
 import Generator from './Generator.js';
 import Chance from 'chance';
 

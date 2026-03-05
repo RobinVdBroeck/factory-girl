@@ -1,5 +1,3 @@
-
-
 import '../test-helper/testUtils.js';
 import Sequence from '../../src/generators/Sequence.js';
 import { expect } from 'chai';
@@ -66,17 +64,16 @@ describe('Sequence', function () {
       expect(seq3 - seq2).to.be.equal(1);
     });
 
-    it('generates numbers sequentially and calls callback',
-      async function () {
-        const callback = sinon.spy(function (n) {
-          return `value${n}`;
-        });
-        const sequence = new Sequence({});
-        const seq1 = await sequence.generate(callback);
-        const seq2 = await sequence.generate(callback);
-        expect(seq1).to.be.equal('value1');
-        expect(seq2).to.be.equal('value2');
-        expect(callback).to.be.calledTwice;
+    it('generates numbers sequentially and calls callback', async function () {
+      const callback = sinon.spy(function (n) {
+        return `value${n}`;
       });
+      const sequence = new Sequence({});
+      const seq1 = await sequence.generate(callback);
+      const seq2 = await sequence.generate(callback);
+      expect(seq1).to.be.equal('value1');
+      expect(seq2).to.be.equal('value2');
+      expect(callback).to.be.calledTwice;
+    });
   });
 });

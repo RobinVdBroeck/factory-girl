@@ -1,5 +1,3 @@
-
-
 import '../test-helper/testUtils.js';
 import { generatorThunk } from '../../src/FactoryGirl.js';
 import { expect } from 'chai';
@@ -14,7 +12,7 @@ describe('generatorThunk', function () {
   });
 
   describe('returned function', function () {
-    const factory = new DummyFactoryGirl;
+    const factory = new DummyFactoryGirl();
     const generatorFunc = sinon.spy(generatorThunk(factory, DummyGenerator));
 
     it('passes arguments to Generator', async function () {
@@ -27,6 +25,5 @@ describe('generatorThunk', function () {
       const value = valueFunction();
       expect(value).to.be.equal('hello');
     });
-
   });
 });

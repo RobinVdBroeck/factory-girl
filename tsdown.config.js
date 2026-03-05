@@ -6,5 +6,5 @@ export default defineConfig({
   target: 'node22',
   clean: true,
   sourcemap: true,
-  outDir: 'dist',
+  outDir: 'dist'
 });

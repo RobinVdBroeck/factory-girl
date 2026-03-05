@@ -1,5 +1,5 @@
 ---
-"@robinvdbroeck/factory-girl": major
+'@robinvdbroeck/factory-girl': major
 ---
 
 **ESM-only package, requires Node.js >= 22.12.**

@@ -5,7 +5,7 @@ import '../test-helper/dummyFactories.js';
 /* eslint-disable no-unused-vars */
 class ObjectAdapter extends DefaultAdapter {
   build(Model, props) {
-    const model = new Model;
+    const model = new Model();
     this.set(props, model, Model);
     return model;
   }
@@ -24,7 +24,7 @@ class ObjectAdapter extends DefaultAdapter {
 }
 
 describe('indexIntegration', function () {
-  Factory.setAdapter(new ObjectAdapter);
+  Factory.setAdapter(new ObjectAdapter());
   beforeEach(function () {
     Factory.cleanUp();
   });
@@ -34,7 +34,7 @@ describe('indexIntegration', function () {
       const attrs = await Factory.attrs('PhoneNumber');
       expect(attrs).to.be.eql({
         type: 'mobile',
-        number: '1234567890',
+        number: '1234567890'
       });
     });
 
@@ -42,29 +42,24 @@ describe('indexIntegration', function () {
       const attrs = await Factory.attrs('PhoneNumber', { number: '0987654321' });
       expect(attrs).to.be.eql({
         type: 'mobile',
-        number: '0987654321',
+        number: '0987654321'
       });
     });
 
-    it('can override attrs with generators as well',
-      async function () {
-        const attrs = await Factory.attrs(
-          'PhoneNumber', {
-            alternate: Factory.assocAttrs('PhoneNumber'),
-          }
-        );
-        expect(attrs.alternate).to.be.eql({
-          type: 'mobile',
-          number: '1234567890',
-        });
+    it('can override attrs with generators as well', async function () {
+      const attrs = await Factory.attrs('PhoneNumber', {
+        alternate: Factory.assocAttrs('PhoneNumber')
       });
+      expect(attrs.alternate).to.be.eql({
+        type: 'mobile',
+        number: '1234567890'
+      });
+    });
 
     it('can get multiple attrs', async function () {
-      const attrs = await Factory.attrsMany(
-        'PhoneNumber', 3, {
-          number: Factory.seq('PhoneNumber.override', n => `123-${n}`),
-        }
-      );
+      const attrs = await Factory.attrsMany('PhoneNumber', 3, {
+        number: Factory.seq('PhoneNumber.override', (n) => `123-${n}`)
+      });
       expect(attrs).to.be.an('array');
       expect(attrs).to.have.lengthOf(3);
     });

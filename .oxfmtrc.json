@@ -1,0 +1,5 @@
+{
+  "ignorePatterns": ["CHANGELOG.md", ".release-please-manifest.json"],
+  "singleQuote": true,
+  "trailingComma": "none"
+}
