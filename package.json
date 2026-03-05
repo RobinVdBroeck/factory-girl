@@ -37,12 +37,12 @@
   },
   "devDependencies": {
     "bluebird": "^2.9.25",
-    "chai": "^5.3.3",
+    "chai": "^6.2.2",
     "chai-as-promised": "^8.0.2",
     "mocha": "^11.7.5",
     "oxfmt": "^0.36.0",
     "oxlint": "^1.51.0",
-    "sinon": "^7.1.1",
+    "sinon": "^21.0.2",
     "sinon-chai": "^4.0.1",
     "tsdown": "^0.21.0"
   },
