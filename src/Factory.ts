@@ -1,12 +1,17 @@
-import asyncPopulate from './utils/asyncPopulate.js';
+import asyncPopulate from './utils/asyncPopulate.ts';
+import type { Adapter, BuildOptions, Initializer, Options } from './FactoryGirl.ts';
+
+export interface FactoryOptions extends Options {
+  model?: any;
+}
 
 export default class Factory {
-  name = null;
-  Model = null;
-  initializer = null;
-  options = {};
+  name: string | null = null;
+  Model: any;
+  initializer: Initializer;
+  options: FactoryOptions = {};
 
-  constructor(Model, initializer, options = {}) {
+  constructor(Model: any, initializer: Initializer, options: FactoryOptions = {}) {
     if (!Model) {
       throw new Error('Invalid Model constructor passed to the factory');
     }
@@ -19,7 +24,7 @@ export default class Factory {
     this.options = { ...this.options, ...options };
   }
 
-  getFactoryAttrs(buildOptions = {}) {
+  getFactoryAttrs(buildOptions: BuildOptions = {}): Promise<Record<string, any>> {
     let attrs;
     if (typeof this.initializer === 'function') {
       attrs = this.initializer(buildOptions);
@@ -29,14 +34,20 @@ export default class Factory {
     return Promise.resolve(attrs);
   }
 
-  async attrs(extraAttrs = {}, buildOptions = {}) {
+  async attrs(
+    extraAttrs: Record<string, any> = {},
+    buildOptions: BuildOptions = {}
+  ): Promise<Record<string, any>> {
     const factoryAttrs = await this.getFactoryAttrs(buildOptions);
-    const modelAttrs = {};
+    const modelAttrs: Record<string, any> = {};
 
-    const filteredAttrs = Object.keys(factoryAttrs).reduce((attrs, name) => {
-      if (!extraAttrs.hasOwnProperty(name)) attrs[name] = factoryAttrs[name];
-      return attrs;
-    }, {});
+    const filteredAttrs = Object.keys(factoryAttrs).reduce(
+      (attrs: Record<string, any>, name: string) => {
+        if (!extraAttrs.hasOwnProperty(name)) attrs[name] = factoryAttrs[name];
+        return attrs;
+      },
+      {}
+    );
 
     await asyncPopulate(modelAttrs, filteredAttrs);
     await asyncPopulate(modelAttrs, extraAttrs);
@@ -44,7 +55,11 @@ export default class Factory {
     return modelAttrs;
   }
 
-  async build(adapter, extraAttrs = {}, buildOptions = {}) {
+  async build(
+    adapter: Adapter,
+    extraAttrs: Record<string, any> = {},
+    buildOptions: BuildOptions = {}
+  ): Promise<any> {
     const modelAttrs = await this.attrs(extraAttrs, buildOptions);
     const model = adapter.build(this.Model, modelAttrs);
     return this.options.afterBuild
@@ -52,20 +67,28 @@ export default class Factory {
       : model;
   }
 
-  async create(adapter, attrs = {}, buildOptions = {}) {
+  async create(
+    adapter: Adapter,
+    attrs: Record<string, any> = {},
+    buildOptions: BuildOptions = {}
+  ): Promise<any> {
     const model = await this.build(adapter, attrs, buildOptions);
     return adapter
       .save(model, this.Model)
-      .then((savedModel) =>
+      .then((savedModel: any) =>
         this.options.afterCreate
           ? this.options.afterCreate(savedModel, attrs, buildOptions)
           : savedModel
       );
   }
 
-  attrsMany(num, attrsArray = [], buildOptionsArray = []) {
-    let attrObject = null;
-    let buildOptionsObject = null;
+  attrsMany(
+    num: number,
+    attrsArray: readonly Record<string, any>[] | Record<string, any> = [],
+    buildOptionsArray: readonly BuildOptions[] | BuildOptions = []
+  ): Promise<Record<string, any>[]> {
+    let attrObject: Record<string, any> | null = null;
+    let buildOptionsObject: BuildOptions | null = null;
 
     if (typeof attrsArray === 'object' && !Array.isArray(attrsArray)) {
       attrObject = attrsArray;
@@ -84,44 +107,56 @@ export default class Factory {
     if (!Array.isArray(buildOptionsArray)) {
       return Promise.reject(new Error('Invalid buildOptionsArray passed'));
     }
-    attrsArray.length = buildOptionsArray.length = num;
-    const models = [];
+    const models: Promise<Record<string, any>>[] = [];
     for (let i = 0; i < num; i++) {
       models[i] = this.attrs(
-        attrObject || attrsArray[i] || {},
-        buildOptionsObject || buildOptionsArray[i] || {}
+        attrObject || (i < attrsArray.length ? attrsArray[i] : undefined) || {},
+        buildOptionsObject ||
+          (i < buildOptionsArray.length ? buildOptionsArray[i] : undefined) ||
+          {}
       );
     }
     return Promise.all(models);
   }
 
-  async buildMany(adapter, num, attrsArray = [], buildOptionsArray = [], buildCallbacks = true) {
+  async buildMany(
+    adapter: Adapter,
+    num: number,
+    attrsArray: readonly Record<string, any>[] | Record<string, any> = [],
+    buildOptionsArray: readonly BuildOptions[] | BuildOptions = [],
+    buildCallbacks = true
+  ): Promise<any[]> {
     const attrs = await this.attrsMany(num, attrsArray, buildOptionsArray);
     const models = attrs.map((attr) => adapter.build(this.Model, attr));
     return Promise.all(models).then((builtModels) =>
       this.options.afterBuild && buildCallbacks
         ? Promise.all(
             builtModels.map((builtModel) =>
-              this.options.afterBuild(builtModel, attrsArray, buildOptionsArray)
+              this.options.afterBuild!(builtModel, attrsArray, buildOptionsArray)
             )
           )
         : builtModels
     );
   }
 
-  async createMany(adapter, num, attrsArray = [], buildOptionsArray = []) {
+  async createMany(
+    adapter: Adapter,
+    num: number | readonly Record<string, any>[],
+    attrsArray: readonly Record<string, any>[] | Record<string, any> = [],
+    buildOptionsArray: readonly BuildOptions[] | BuildOptions = []
+  ): Promise<any[]> {
     if (Array.isArray(num)) {
-      buildOptionsArray = attrsArray;
+      buildOptionsArray = attrsArray as BuildOptions[];
       attrsArray = num;
       num = attrsArray.length;
     }
-    const models = await this.buildMany(adapter, num, attrsArray, buildOptionsArray);
+    const models = await this.buildMany(adapter, num as number, attrsArray, buildOptionsArray);
     const savedModels = models.map((model) => adapter.save(model, this.Model));
     return Promise.all(savedModels).then((createdModels) =>
       this.options.afterCreate
         ? Promise.all(
             createdModels.map((createdModel) =>
-              this.options.afterCreate(createdModel, attrsArray, buildOptionsArray)
+              this.options.afterCreate!(createdModel, attrsArray, buildOptionsArray)
             )
           )
         : createdModels

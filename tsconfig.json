@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "node18",
+    "target": "es2022",
+    "strict": true,
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "rewriteRelativeImportExtensions": true
+  },
+  "include": ["src/**/*", "tsdown.config.ts"]
+}

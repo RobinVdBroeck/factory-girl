@@ -1,5 +1,10 @@
 export default class DummyModel {
-  constructor(attrs = {}) {
+  attrs: Record<string, any>;
+  constructorCalled: boolean;
+  declare saveCalled: boolean;
+  declare destroyCalled: boolean;
+
+  constructor(attrs: Record<string, any> = {}) {
     this.attrs = Object.assign(
       {
         name: attrs.name || 'George',
@@ -17,10 +22,10 @@ export default class DummyModel {
     this.destroyCalled = true;
     return this;
   }
-  get(attr) {
+  get(attr: string) {
     return this.attrs[attr];
   }
-  set(attrs) {
+  set(attrs: Record<string, any>) {
     return Object.assign(this.attrs, attrs);
   }
 }

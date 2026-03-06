@@ -1,5 +1,7 @@
-/* eslint-disable no-underscore-dangle */
-export default function asyncPopulate(target, source) {
+export default function asyncPopulate(
+  target: Record<string | number, any>,
+  source: Record<string | number, any>
+): Promise<any[]> {
   if (typeof target !== 'object') {
     return Promise.reject(new Error('Invalid target passed'));
   }
@@ -18,11 +20,11 @@ export default function asyncPopulate(target, source) {
       target[attr] = target[attr] || {};
       promise = asyncPopulate(target[attr], source[attr]);
     } else if (typeof source[attr] === 'function') {
-      promise = Promise.resolve(source[attr]()).then((v) => {
+      promise = Promise.resolve(source[attr]()).then((v: any) => {
         target[attr] = v;
       });
     } else {
-      promise = Promise.resolve(source[attr]).then((v) => {
+      promise = Promise.resolve(source[attr]).then((v: any) => {
         target[attr] = v;
       });
     }
@@ -30,9 +32,8 @@ export default function asyncPopulate(target, source) {
   });
   return Promise.all(promises);
 }
-/* eslint-enable no-underscore-dangle */
 
 const objectProto = Object.getPrototypeOf({});
-function isPlainObject(o) {
+function isPlainObject(o: object): boolean {
   return Object.getPrototypeOf(o) === objectProto;
 }

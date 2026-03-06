@@ -1,5 +1,31 @@
 # Migrating to v6
 
+## TypeScript
+
+The source code has been converted to TypeScript. The package now ships its own type definitions.
+
+- If you were using `@types/factory-girl`, you can remove it — types are now included in the package.
+- The following types are exported: `Adapter`, `Attributes`, `BuildOptions`, `Definition`, `Generator`, `Hook`, `Initializer`, `MaybeReadonlyArray`, `Options`.
+- `FactoryGirl` is now a named export in addition to being the default export's constructor.
+- `cleanUp()` now returns `Promise<void>` (previously untyped).
+
+## Adapter types
+
+Public fields and methods on `FactoryGirl` now use the `Adapter` interface instead of the `DefaultAdapter` concrete class:
+
+- `adapters`, `created`, `defaultAdapter` fields
+- `getAdapter()`, `setAdapter()`, `addToCreatedList()` signatures
+
+If you were referencing `DefaultAdapter` in type annotations for these, switch to `Adapter`.
+
+## Generator methods
+
+The generator methods (`assoc`, `assocMany`, `assocAttrs`, `assocAttrsMany`, `seq`, `sequence`, `chance`, `oneOf`) are now proper class methods instead of constructor-assigned properties. Behavior is unchanged.
+
+The `generatorThunk` export has been removed. If you were importing it, inline the generator logic instead.
+
+The `assocAttrs` and `assocAttrsMany` methods with a `key` parameter now use direct property access (`attrs[key]`) instead of `adapter.get()`. This only affects you if you relied on adapter-specific `get()` behavior for attribute lookups.
+
 ## Node.js requirement
 
 The minimum supported Node.js version is now **22.12**.

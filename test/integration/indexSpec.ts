@@ -1,24 +1,23 @@
 import { expect } from 'chai';
-import Factory, { DefaultAdapter } from '../../src/index.js';
-import '../test-helper/dummyFactories.js';
+import Factory, { DefaultAdapter } from '../../src/index.ts';
+import '../test-helper/dummyFactories.ts';
 
-/* eslint-disable no-unused-vars */
 class ObjectAdapter extends DefaultAdapter {
-  build(Model, props) {
+  build(Model: any, props: Record<string, any>) {
     const model = new Model();
     this.set(props, model, Model);
     return model;
   }
-  async save(model, Model) {
+  async save(model: any, Model: any) {
     return model;
   }
-  async destroy(model, Model) {
+  async destroy(model: any, Model: any) {
     return model;
   }
-  get(model, attr, Model) {
+  get(model: any, attr: string, Model?: any) {
     return model[attr];
   }
-  set(props, model, Model) {
+  set(props: Record<string, any>, model: any, Model?: any) {
     return Object.assign(model, props);
   }
 }
@@ -72,11 +71,11 @@ describe('indexIntegration', function () {
 
   describe('sequences', function () {
     it('generates sequences correctly', async function () {
-      const objSeq1 = await Factory.build('ObjSeq');
-      const objSeq2 = await Factory.build('ObjSeq');
+      const objSeq1: any = await Factory.build('ObjSeq');
+      const objSeq2: any = await Factory.build('ObjSeq');
 
-      const funcSeq1 = await Factory.build('FuncSeq');
-      const funcSeq2 = await Factory.build('FuncSeq');
+      const funcSeq1: any = await Factory.build('FuncSeq');
+      const funcSeq2: any = await Factory.build('FuncSeq');
 
       expect(objSeq1.s1).to.be.equal(1);
       expect(objSeq1.s2).to.be.equal(1);

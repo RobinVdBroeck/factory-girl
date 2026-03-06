@@ -1,5 +1,5 @@
-import '../test-helper/testUtils.js';
-import asyncPopulate from '../../src/utils/asyncPopulate.js';
+import '../test-helper/testUtils.ts';
+import asyncPopulate from '../../src/utils/asyncPopulate.ts';
 import { expect } from 'chai';
 
 describe('asyncPopulate', function () {
@@ -10,8 +10,8 @@ describe('asyncPopulate', function () {
   });
 
   it('throws error if target or source is not an object', function () {
-    const targetP = asyncPopulate(undefined, {});
-    const sourceP = asyncPopulate({});
+    const targetP = asyncPopulate(undefined as any, {});
+    const sourceP = asyncPopulate({} as any);
 
     return Promise.all([
       expect(targetP).to.be.eventually.rejected,
@@ -21,34 +21,26 @@ describe('asyncPopulate', function () {
 
   it('populates objects correctly', async function () {
     function Foo() {}
-    const source = {
+    const source: Record<string, any> = {
       num: 1,
       nullValue: null,
       undefinedValue: undefined,
       str: 'hello',
       date: new Date(),
-      foo: new Foo(),
+      foo: new (Foo as any)(),
       funcs: {
         sync: () => 'shouldHaveThisValue',
-        /* eslint-disable arrow-parens */
         async: async () => 'shouldHaveResolvedValue',
-        /* eslint-enable arrow-parens */
         promise: () => Promise.resolve('shouldWorkWithPromises')
       },
       arrays: {
         simple: [1, 2, 3],
-        funcs: [
-          () => 1,
-          /* eslint-disable arrow-parens */
-          async () => 2,
-          /* eslint-enable arrow-parens */
-          () => Promise.resolve(3)
-        ],
+        funcs: [() => 1, async () => 2, () => Promise.resolve(3)],
         nested: [1, [{ a: 1, b: 2 }, { c: 3, d: 4 }, [{ p: () => 20, q: [6, 7] }]]]
       }
     };
 
-    const target = {};
+    const target: Record<string, any> = {};
     await asyncPopulate(target, source);
 
     expect(target).to.be.eql({
@@ -84,7 +76,7 @@ describe('asyncPopulate', function () {
   });
 
   it('overrides only provided data', async function () {
-    const target = {
+    const target: Record<string, any> = {
       x: {
         y: 1,
         z: 3

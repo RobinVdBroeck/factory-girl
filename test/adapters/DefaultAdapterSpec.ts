@@ -1,7 +1,7 @@
-import '../test-helper/testUtils.js';
-import DefaultAdapter from '../../src/adapters/DefaultAdapter.js';
+import '../test-helper/testUtils.ts';
+import DefaultAdapter from '../../src/adapters/DefaultAdapter.ts';
 import { expect } from 'chai';
-import DummyModel from '../test-helper/DummyModel.js';
+import DummyModel from '../test-helper/DummyModel.ts';
 
 describe('DefaultAdapter', function () {
   it('can be created', function () {

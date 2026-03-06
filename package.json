@@ -23,6 +23,7 @@
     "url": "http://github.com/robinvdbroeck/factory-girl.git"
   },
   "type": "module",
+  "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
   "scripts": {
     "fmt": "oxfmt --write .",
@@ -30,13 +31,17 @@
     "lint": "oxlint src test",
     "test": "NODE_ENV=test mocha",
     "build": "tsdown",
-    "prepublish": "npm run test && npm run build"
+    "prepublish": "npm run test && npm run build",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "chance": "^1.0.4"
   },
   "devDependencies": {
-    "bluebird": "^2.9.25",
+    "@types/chai": "^5.2.3",
+    "@types/chai-as-promised": "^8.0.2",
+    "@types/chance": "^1.1.7",
+    "@types/sinon-chai": "^4.0.0",
     "chai": "^6.2.2",
     "chai-as-promised": "^8.0.2",
     "mocha": "^11.7.5",
@@ -44,7 +49,8 @@
     "oxlint": "^1.51.0",
     "sinon": "^21.0.2",
     "sinon-chai": "^4.0.1",
-    "tsdown": "^0.21.0"
+    "tsdown": "^0.21.0",
+    "typescript": "~5.9.2"
   },
   "engines": {
     "node": ">=22.12"

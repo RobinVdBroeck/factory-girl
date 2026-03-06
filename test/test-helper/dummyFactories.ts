@@ -1,13 +1,13 @@
-import Factory from '../../src/index.js';
-import { User, Address, PhoneNumber, DummyModel } from './dummyModels.js';
+import Factory from '../../src/index.ts';
+import { User, Address, PhoneNumber, DummyModel } from './dummyModels.ts';
 
 Factory.define('PhoneNumber', PhoneNumber, {
   type: 'mobile',
   number: '1234567890'
 });
 
-Factory.define('PhoneNumber2', PhoneNumber, function (buildOptions) {
-  const attrs = {
+Factory.define('PhoneNumber2', PhoneNumber, function (buildOptions: any) {
+  const attrs: Record<string, any> = {
     type: 'mobile',
     number: Factory.seq('PhoneNumber2.number', (n) => `1234567890-${n}`)
   };
