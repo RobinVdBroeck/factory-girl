@@ -25,19 +25,23 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "fmt": "oxfmt --write .",
     "fmt:check": "oxfmt --check .",
     "lint": "oxlint src test",
     "test": "NODE_ENV=test mocha",
     "build": "tsdown",
-    "prepublish": "npm run test && npm run build",
+    "release": "npm run build && changeset publish",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "chance": "^1.0.4"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.30.0",
     "@types/chai": "^5.2.3",
     "@types/chai-as-promised": "^8.0.2",
     "@types/chance": "^1.1.7",
