@@ -4,5 +4,10 @@
   "initialVersions": {
     "@robinvdbroeck/factory-girl": "5.0.4"
   },
-  "changesets": []
+  "changesets": [
+    "migrate-tsdown-esm",
+    "remove-adapters",
+    "typescript-rewrite",
+    "update-documentation"
+  ]
 }
