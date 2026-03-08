@@ -7,6 +7,7 @@ export type {
   BuildOptions,
   Definition,
   FactoryGirlOptions,
+  FactoryRegistry,
   Generator,
   Hook,
   Initializer,

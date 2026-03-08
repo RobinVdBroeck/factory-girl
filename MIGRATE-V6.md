@@ -5,9 +5,27 @@
 The source code has been converted to TypeScript. The package now ships its own type definitions.
 
 - If you were using `@types/factory-girl`, you can remove it — types are now included in the package.
-- The following types are exported: `Adapter`, `Attributes`, `BuildOptions`, `Definition`, `Generator`, `Hook`, `Initializer`, `MaybeReadonlyArray`, `Options`.
+- The following types are exported: `Adapter`, `Attributes`, `BuildOptions`, `Definition`, `FactoryRegistry`, `Generator`, `Hook`, `Initializer`, `MaybeReadonlyArray`, `Options`.
 - `FactoryGirl` is now a named export in addition to being the default export's constructor.
 - `cleanUp()` now returns `Promise<void>` (previously untyped).
+
+### Type-safe factories via `FactoryRegistry`
+
+You can optionally augment the `FactoryRegistry` interface to get typed return values from `build`, `create`, `attrs`, and their `*Many` / `assoc*` variants. Unregistered names fall back to `any`, so no existing code breaks.
+
+```ts
+import type { FactoryRegistry } from '@robinvdbroeck/factory-girl';
+
+declare module '@robinvdbroeck/factory-girl' {
+  interface FactoryRegistry {
+    User: { attrs: { name: string; age: number }; model: UserModel };
+  }
+}
+
+// factory.build('User')  → Promise<UserModel>
+// factory.attrs('User')  → Promise<{ name: string; age: number }>
+// factory.build('Other') → Promise<any>  (unregistered, no error)
+```
 
 ## Adapter types
 

@@ -11,7 +11,7 @@ describe('asyncPopulate', function () {
 
   it('throws error if target or source is not an object', function () {
     const targetP = asyncPopulate(undefined as any, {});
-    const sourceP = asyncPopulate({} as any);
+    const sourceP = asyncPopulate({} as any, undefined as any);
 
     return Promise.all([
       expect(targetP).to.be.eventually.rejected,

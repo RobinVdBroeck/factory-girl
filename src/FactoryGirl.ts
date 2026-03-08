@@ -17,6 +17,21 @@ export type Initializer<T = any, BO = BuildOptions> =
   | ((buildOptions?: BO) => Promise<Attributes<T>>);
 export type Hook<T = any> = (model: any, attrs: T | T[], options: any) => any;
 
+// Registry — consumers augment this to get typed build/create/attrs return values
+export interface FactoryRegistry {}
+
+type AttrsFor<Name extends string> = Name extends keyof FactoryRegistry
+  ? FactoryRegistry[Name] extends { attrs: infer A }
+    ? A
+    : Record<string, any>
+  : Record<string, any>;
+
+type ModelFor<Name extends string> = Name extends keyof FactoryRegistry
+  ? FactoryRegistry[Name] extends { model: infer M }
+    ? M
+    : any
+  : any;
+
 export interface Options<T = any> {
   afterBuild?: Hook<T>;
   afterCreate?: Hook<T>;
@@ -62,25 +77,25 @@ export default class FactoryGirl {
     this.options = options;
   }
 
-  assoc(
-    name: string,
+  assoc<Name extends string>(
+    name: Name,
     key?: string,
-    attrs?: Attributes,
+    attrs?: Attributes<Partial<AttrsFor<Name>>>,
     buildOptions?: BuildOptions
-  ): () => Promise<any> {
+  ): () => Promise<ModelFor<Name>> {
     return async () => {
       const model = await this.create(name, attrs, buildOptions);
       return key ? this.getAdapter(name).get(model, key) : model;
     };
   }
 
-  assocMany(
-    name: string,
+  assocMany<Name extends string>(
+    name: Name,
     num: number,
     key?: string,
-    attrs?: Attributes,
+    attrs?: Attributes<Partial<AttrsFor<Name>>>,
     buildOptions?: BuildOptions
-  ): () => Promise<any[]> {
+  ): () => Promise<ModelFor<Name>[]> {
     return async () => {
       const models = await this.createMany(name, num, attrs, buildOptions);
       return key ? models.map((model) => this.getAdapter(name).get(model, key)) : models;
@@ -95,25 +110,25 @@ export default class FactoryGirl {
     throw new Error('The assocBuildMany method has been deprecated, use assocAttrsMany instead');
   }
 
-  assocAttrs(
-    name: string,
+  assocAttrs<Name extends string>(
+    name: Name,
     key?: string,
-    attrs?: Attributes,
+    attrs?: Attributes<Partial<AttrsFor<Name>>>,
     buildOptions?: BuildOptions
-  ): () => Promise<any> {
+  ): () => Promise<AttrsFor<Name>> {
     return async () => {
       const attrsResult = await this.attrs(name, attrs, buildOptions);
       return key ? (attrsResult as Record<string, any>)[key] : attrsResult;
     };
   }
 
-  assocAttrsMany(
-    name: string,
+  assocAttrsMany<Name extends string>(
+    name: Name,
     num: number,
     key?: string,
-    attrs?: Attributes,
+    attrs?: Attributes<Partial<AttrsFor<Name>>>,
     buildOptions?: BuildOptions
-  ): () => Promise<any[]> {
+  ): () => Promise<AttrsFor<Name>[]> {
     return async () => {
       if (typeof num !== 'number' || num < 1) {
         throw new Error('Invalid number of items requested');
@@ -180,11 +195,13 @@ export default class FactoryGirl {
     };
   }
 
-  define<T = any>(
-    name: string,
+  define<Name extends string>(
+    name: Name,
     Model: any,
-    initializer: Initializer<Partial<T>>,
-    options: Options<T> = {}
+    initializer: Name extends keyof FactoryRegistry
+      ? Initializer<AttrsFor<Name>>
+      : Initializer,
+    options: Options<ModelFor<Name>> = {}
   ): Factory {
     if (this.getFactory(name, false)) {
       throw new Error(`Factory ${name} already defined`);
@@ -193,10 +210,12 @@ export default class FactoryGirl {
     return factory;
   }
 
-  extend(
+  extend<ChildName extends string>(
     parent: string,
-    name: string,
-    childInitializer: Initializer,
+    name: ChildName,
+    childInitializer: ChildName extends keyof FactoryRegistry
+      ? Initializer<AttrsFor<ChildName>>
+      : Initializer,
     options: FactoryOptions = {}
   ): Factory {
     if (this.getFactory(name, false)) {
@@ -226,19 +245,19 @@ export default class FactoryGirl {
     return factory;
   }
 
-  async attrs<T = any>(
-    name: string,
-    attrs?: Attributes<Partial<T>>,
+  async attrs<Name extends string>(
+    name: Name,
+    attrs?: Attributes<Partial<AttrsFor<Name>>>,
     buildOptions?: BuildOptions
-  ): Promise<T> {
-    return this.getFactory(name)!.attrs(attrs, buildOptions) as Promise<T>;
+  ): Promise<AttrsFor<Name>> {
+    return this.getFactory(name)!.attrs(attrs, buildOptions) as Promise<AttrsFor<Name>>;
   }
 
-  async build<T = any>(
-    name: string,
-    attrs?: Attributes<Partial<T>>,
+  async build<Name extends string>(
+    name: Name,
+    attrs?: Attributes<Partial<AttrsFor<Name>>>,
     buildOptions: BuildOptions = {}
-  ): Promise<T> {
+  ): Promise<ModelFor<Name>> {
     const adapter = this.getAdapter(name);
     return this.getFactory(name)!
       .build(adapter, attrs || {}, buildOptions)
@@ -247,11 +266,11 @@ export default class FactoryGirl {
       );
   }
 
-  async create<T = any>(
-    name: string,
-    attrs?: Attributes<Partial<T>>,
+  async create<Name extends string>(
+    name: Name,
+    attrs?: Attributes<Partial<AttrsFor<Name>>>,
     buildOptions: BuildOptions = {}
-  ): Promise<T> {
+  ): Promise<ModelFor<Name>> {
     const adapter = this.getAdapter(name);
     return this.getFactory(name)!
       .create(adapter, attrs, buildOptions)
@@ -261,21 +280,21 @@ export default class FactoryGirl {
       );
   }
 
-  attrsMany<T = any>(
-    name: string,
+  attrsMany<Name extends string>(
+    name: Name,
     num: number,
-    attrs?: MaybeReadonlyArray<Attributes<Partial<T>>>,
+    attrs?: MaybeReadonlyArray<Attributes<Partial<AttrsFor<Name>>>>,
     buildOptions?: BuildOptions | readonly BuildOptions[]
-  ): Promise<T[]> {
-    return this.getFactory(name)!.attrsMany(num, attrs, buildOptions) as Promise<T[]>;
+  ): Promise<AttrsFor<Name>[]> {
+    return this.getFactory(name)!.attrsMany(num, attrs, buildOptions) as Promise<AttrsFor<Name>[]>;
   }
 
-  async buildMany<T = any>(
-    name: string,
+  async buildMany<Name extends string>(
+    name: Name,
     num: number,
-    attrs?: MaybeReadonlyArray<Attributes<Partial<T>>>,
+    attrs?: MaybeReadonlyArray<Attributes<Partial<AttrsFor<Name>>>>,
     buildOptions?: MaybeReadonlyArray<BuildOptions>
-  ): Promise<T[]> {
+  ): Promise<ModelFor<Name>[]> {
     const adapter = this.getAdapter(name);
     return this.getFactory(name)!
       .buildMany(adapter, num, attrs, buildOptions)
@@ -286,17 +305,17 @@ export default class FactoryGirl {
       );
   }
 
-  async createMany<T>(
-    name: string,
+  async createMany<Name extends string>(
+    name: Name,
     num: number,
-    attrs?: MaybeReadonlyArray<Attributes<Partial<T>>>,
+    attrs?: MaybeReadonlyArray<Attributes<Partial<AttrsFor<Name>>>>,
     buildOptions?: MaybeReadonlyArray<BuildOptions>
-  ): Promise<T[]>;
-  async createMany<T>(
-    name: string,
-    attrs?: ReadonlyArray<Attributes<Partial<T>>>,
+  ): Promise<ModelFor<Name>[]>;
+  async createMany<Name extends string>(
+    name: Name,
+    attrs?: ReadonlyArray<Attributes<Partial<AttrsFor<Name>>>>,
     buildOptions?: MaybeReadonlyArray<BuildOptions>
-  ): Promise<T[]>;
+  ): Promise<ModelFor<Name>[]>;
   async createMany(
     name: string,
     numOrAttrs?: number | readonly Record<string, any>[],

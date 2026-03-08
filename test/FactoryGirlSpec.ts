@@ -555,7 +555,6 @@ describe('FactoryGirl', function () {
 
     it('can merge options', function () {
       const originalOptions = { a: 1 } as any;
-      // @ts-expect-error testing with non-standard options
       const factoryGirl = new FactoryGirl(originalOptions);
       const newOptions = { hello: 'world' } as any;
       factoryGirl.withOptions(newOptions, true);

@@ -23,13 +23,13 @@ Factory.define('Address', Address, {
   id: Factory.seq('Address.id', (n) => `address_${n}_id`),
   street: Factory.seq('Address.street', (n) => `street-${n}`),
   laneNo: Factory.sequence('Address.laneNo'),
-  landlineNumber: Factory.assocAttrs('PhoneNumber2', {}, { landline: true })
+  landlineNumber: Factory.assocAttrs('PhoneNumber2', undefined, { landline: true })
 });
 
 Factory.define('User', User, {
   name: Factory.chance('name'),
   email: Factory.seq('User.email', (n) => `user${n}@email.com`),
-  mobile: Factory.assocAttrsMany('PhoneNumber', 2, null, {
+  mobile: Factory.assocAttrsMany('PhoneNumber', 2, undefined, {
     number: Factory.seq('User.mobile', (n) => `123456-${n}`)
   }),
   address: Factory.assocMany('Address', 3, 'id'),
