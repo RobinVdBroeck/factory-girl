@@ -55,27 +55,27 @@ export default class Factory {
     return modelAttrs;
   }
 
-  async build(
+  async build<M = any>(
     adapter: Adapter,
     extraAttrs: Record<string, any> = {},
     buildOptions: BuildOptions = {}
-  ): Promise<any> {
+  ): Promise<M> {
     const modelAttrs = await this.attrs(extraAttrs, buildOptions);
-    const model = adapter.build(this.Model, modelAttrs);
+    const model = adapter.build<M>(this.Model, modelAttrs);
     return this.options.afterBuild
       ? this.options.afterBuild(model, extraAttrs, buildOptions)
       : model;
   }
 
-  async create(
+  async create<M = any>(
     adapter: Adapter,
     attrs: Record<string, any> = {},
     buildOptions: BuildOptions = {}
-  ): Promise<any> {
-    const model = await this.build(adapter, attrs, buildOptions);
+  ): Promise<M> {
+    const model = await this.build<M>(adapter, attrs, buildOptions);
     return adapter
-      .save(model, this.Model)
-      .then((savedModel: any) =>
+      .save<M>(model, this.Model)
+      .then((savedModel) =>
         this.options.afterCreate
           ? this.options.afterCreate(savedModel, attrs, buildOptions)
           : savedModel
@@ -119,15 +119,15 @@ export default class Factory {
     return Promise.all(models);
   }
 
-  async buildMany(
+  async buildMany<M = any>(
     adapter: Adapter,
     num: number,
     attrsArray: readonly Record<string, any>[] | Record<string, any> = [],
     buildOptionsArray: readonly BuildOptions[] | BuildOptions = [],
     buildCallbacks = true
-  ): Promise<any[]> {
+  ): Promise<M[]> {
     const attrs = await this.attrsMany(num, attrsArray, buildOptionsArray);
-    const models = attrs.map((attr) => adapter.build(this.Model, attr));
+    const models = attrs.map((attr) => adapter.build<M>(this.Model, attr));
     return Promise.all(models).then((builtModels) =>
       this.options.afterBuild && buildCallbacks
         ? Promise.all(
@@ -139,19 +139,19 @@ export default class Factory {
     );
   }
 
-  async createMany(
+  async createMany<M = any>(
     adapter: Adapter,
     num: number | readonly Record<string, any>[],
     attrsArray: readonly Record<string, any>[] | Record<string, any> = [],
     buildOptionsArray: readonly BuildOptions[] | BuildOptions = []
-  ): Promise<any[]> {
+  ): Promise<M[]> {
     if (Array.isArray(num)) {
       buildOptionsArray = attrsArray as BuildOptions[];
       attrsArray = num;
       num = attrsArray.length;
     }
-    const models = await this.buildMany(adapter, num as number, attrsArray, buildOptionsArray);
-    const savedModels = models.map((model) => adapter.save(model, this.Model));
+    const models = await this.buildMany<M>(adapter, num as number, attrsArray, buildOptionsArray);
+    const savedModels = models.map((model) => adapter.save<M>(model, this.Model));
     return Promise.all(savedModels).then((createdModels) =>
       this.options.afterCreate
         ? Promise.all(

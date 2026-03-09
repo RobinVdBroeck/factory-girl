@@ -8,6 +8,7 @@ The source code has been converted to TypeScript. The package now ships its own 
 - The following types are exported: `Adapter`, `Attributes`, `BuildOptions`, `Definition`, `FactoryRegistry`, `Generator`, `Hook`, `Initializer`, `MaybeReadonlyArray`, `Options`.
 - `FactoryGirl` is now a named export in addition to being the default export's constructor.
 - `cleanUp()` now returns `Promise<void>` (previously untyped).
+- The `Hook` type's `options` parameter changed from `any` to `MaybeReadonlyArray<BuildOptions> | undefined`. If you have custom hooks that use the `options` parameter as a type other than `BuildOptions`, you may need to update them.
 
 ### Type-safe factories via `FactoryRegistry`
 
@@ -35,6 +36,24 @@ Public fields and methods on `FactoryGirl` now use the `Adapter` interface inste
 - `getAdapter()`, `setAdapter()`, `addToCreatedList()` signatures
 
 If you were referencing `DefaultAdapter` in type annotations for these, switch to `Adapter`.
+
+The `Adapter` interface methods `build`, `save`, and `destroy` are now generic over a model type `M` (defaults to `any`). Custom adapters written in TypeScript may need to add the generic parameter to their method signatures:
+
+```ts
+// Before
+class MyAdapter implements Adapter {
+  build(Model: any, props: Record<string, any>): any { ... }
+  save(model: any, Model: any): Promise<any> { ... }
+}
+
+// After
+class MyAdapter implements Adapter {
+  build<M = any>(Model: any, props: Record<string, any>): M { ... }
+  save<M = any>(model: M, Model: any): Promise<M> { ... }
+}
+```
+
+JavaScript adapters are unaffected.
 
 ## Generator methods
 

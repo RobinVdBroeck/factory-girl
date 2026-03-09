@@ -15,7 +15,7 @@ export type Initializer<T = any, BO = BuildOptions> =
   | Attributes<T>
   | ((buildOptions?: BO) => Attributes<T>)
   | ((buildOptions?: BO) => Promise<Attributes<T>>);
-export type Hook<T = any> = (model: any, attrs: T | T[], options: any) => any;
+export type Hook<T = any> = (model: any, attrs: T | T[], options?: MaybeReadonlyArray<BuildOptions>) => any;
 
 // Registry — consumers augment this to get typed build/create/attrs return values
 export interface FactoryRegistry {}
@@ -38,9 +38,9 @@ export interface Options<T = any> {
 }
 
 export interface Adapter {
-  build(Model: any, props: Record<string, any>): any;
-  save(model: any, Model: any): Promise<any>;
-  destroy(model: any, Model: any): Promise<any>;
+  build<M = any>(Model: any, props: Record<string, any>): M;
+  save<M = any>(model: M, Model: any): Promise<M>;
+  destroy<M = any>(model: M, Model: any): Promise<M>;
   get(model: any, attr: string, Model?: any): any;
   set(props: Record<string, any>, model: any, Model?: any): any;
 }

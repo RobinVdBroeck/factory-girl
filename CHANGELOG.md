@@ -30,6 +30,13 @@
   - `DefaultAdapter` is now an `Adapter` interface — code extending the concrete class must implement the interface instead
   - See [MIGRATE-V6.md](./MIGRATE-V6.md) for full migration guide
 
+### Minor Changes
+
+- Improved internal type safety:
+  - `Adapter` interface methods `build`, `save`, and `destroy` are now generic over the model type `M` (defaults to `any`), allowing type information to flow through adapter calls.
+  - `Hook` type narrows `options` parameter from `any` to `MaybeReadonlyArray<BuildOptions> | undefined`.
+  - `Factory` internal methods (`build`, `create`, `buildMany`, `createMany`) are now generic over the model type.
+
 ### Patch Changes
 
 - ffb9dae: Update README to reflect v6 API changes.
