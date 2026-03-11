@@ -7,7 +7,7 @@ const chance = new Chance();
 
 // Public type exports
 export type Generator<T = any> = () => T;
-export type Definition<T = any> = T | Generator<T> | Promise<T>;
+export type Definition<T = any> = T | Generator<T> | Promise<T> | (() => Promise<T>);
 export type Attributes<T = any> = { [P in keyof T]: Definition<T[P]> };
 export type MaybeReadonlyArray<T = any> = T | readonly T[];
 export type BuildOptions = Record<string, any>;
