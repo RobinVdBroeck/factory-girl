@@ -9,6 +9,7 @@
     "fix-publishing",
     "migrate-tsdown-esm",
     "remove-adapters",
+    "rich-wombats-wink",
     "typescript-rewrite",
     "update-documentation"
   ]

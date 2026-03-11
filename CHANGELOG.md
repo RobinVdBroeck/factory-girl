@@ -1,5 +1,11 @@
 # @robinvdbroeck/factory-girl
 
+## 6.0.0-beta.2
+
+### Patch Changes
+
+- 8953ec2: Remove CI pipeline trigger on master branch pushes
+
 ## 6.0.0-beta.1
 
 ### Patch Changes
