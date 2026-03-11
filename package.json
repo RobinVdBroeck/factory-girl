@@ -40,6 +40,7 @@
     "lint": "oxlint src test",
     "test": "NODE_ENV=test mocha",
     "build": "tsdown",
+    "changeset-version": "changeset version && npm install --package-lock-only",
     "release": "npm run build && changeset publish",
     "typecheck": "tsc --noEmit"
   },
