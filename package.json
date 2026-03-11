@@ -1,6 +1,6 @@
 {
   "name": "@robinvdbroeck/factory-girl",
-  "version": "6.0.0-beta.0",
+  "version": "6.0.0-beta.1",
   "description": "A factory library for Node.js and JavaScript inspired by factory_girl",
   "keywords": [
     "bdd",
