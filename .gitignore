@@ -42,3 +42,6 @@ jspm_packages
 
 # IDEs
 .idea
+
+# Created by changeset actions, should be ignored.
+.netrc
