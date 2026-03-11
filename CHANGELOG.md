@@ -1,5 +1,12 @@
 # @robinvdbroeck/factory-girl
 
+## 6.0.0-beta.1
+
+### Patch Changes
+
+- 94cf4fb: Add `(() => Promise<T>)` to the `Definition<T>` type to support async generators like `factory.assoc()`
+- 17cea58: Fix package.json exports and publishing configuration
+
 ## 6.0.0-beta.0
 
 ### Major Changes

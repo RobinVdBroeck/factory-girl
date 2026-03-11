@@ -5,6 +5,8 @@
     "@robinvdbroeck/factory-girl": "5.0.4"
   },
   "changesets": [
+    "fix-definition-type",
+    "fix-publishing",
     "migrate-tsdown-esm",
     "remove-adapters",
     "typescript-rewrite",
