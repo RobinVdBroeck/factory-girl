@@ -20,11 +20,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/robinvdbroeck/factory-girl.git"
+    "url": "git+ssh://git@github.com/robinvdbroeck/factory-girl.git"
   },
+  "files": [
+    "dist"
+  ],
   "type": "module",
-  "types": "./dist/index.d.ts",
-  "exports": "./dist/index.js",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -41,6 +47,7 @@
     "chance": "^1.0.4"
   },
   "devDependencies": {
+    "@arethetypeswrong/core": "^0.18.2",
     "@changesets/cli": "^2.30.0",
     "@types/chai": "^5.2.3",
     "@types/chai-as-promised": "^8.0.2",
@@ -51,6 +58,7 @@
     "mocha": "^11.7.5",
     "oxfmt": "^0.36.0",
     "oxlint": "^1.51.0",
+    "publint": "^0.3.18",
     "sinon": "^21.0.2",
     "sinon-chai": "^4.0.1",
     "tsdown": "^0.21.0",
