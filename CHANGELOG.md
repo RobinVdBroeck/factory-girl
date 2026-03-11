@@ -1,5 +1,11 @@
 # @robinvdbroeck/factory-girl
 
+## 6.0.1
+
+### Patch Changes
+
+- d97f656: Change CI to use trusted publishing.
+
 ## 6.0.0
 
 ### Major Changes
